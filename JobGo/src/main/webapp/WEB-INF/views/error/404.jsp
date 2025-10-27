@@ -1,0 +1,17 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8"  pageEncoding="UTF-8"%>
+<div class="error-area">
+	<div class="d-table">
+		<div class="d-table-cell">
+			<div class="container">
+				<div class="error-content">
+					<h1>Opps!</h1>
+					<h2>Here Is Some Problem</h2>
+					<p>The page you are looking for it maybe deleted</p>
+					<div class="button">
+						<a href="/" class="btn">Go To Home</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

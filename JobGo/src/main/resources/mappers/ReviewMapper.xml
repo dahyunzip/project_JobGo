@@ -36,7 +36,6 @@
      	  	member_id,
      	   	corp_id,
      	 	rev_title,
-     		rev_content,
         	rev_rate,
         	rev_regdate,
         	rev_updatedate
@@ -92,3 +91,4 @@
     	where corp_id = #{corp_id}
     	order by rev_regdate desc
  	</select>
+ 	</mapper>

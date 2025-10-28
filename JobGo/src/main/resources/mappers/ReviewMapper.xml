@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  <mapper namespace="com.itwillbs.mapper.ReviewMapper">
+  
+  <!-- 리뷰 작성 -->
+  	<insert id="insertReview" parameterType="com.itwillbs.domain.ReviewVO">
+  		insert into review
+  		(member_id, corp_id, job_code, work_months, rev_title, rev_content, rev_rate, rev_pros, rev_cons, rev_public, rev_regdate)
+  		values
+  		(#{member_id}, #{corp_id}, #{job_code}, #{work_months}, #{rev_title}, #{rev_content}, #{rev_rate}, #{rev_pros}, #{rev_cons}, #{rev_public}, #{rev_regdate})
+  	</insert>
+  
+  <!-- 리뷰 수정 -->
+  	<update id="updateReview" parameterType="com.itwillbs.domain.ReviewVO">
+  		update review
+  		set	rev_title = #{rev_title},
+  			rev_content = #{rev_content},
+  			rev_rate = #{rev_rate},
+  			rev_pros = #{rev_pros},
+  			rev_cons = #{rev_cons},
+  			rev_public = #{rev_public},
+  			rev_updatedate = now()
+  		where review_id = #{review_id}
+  	</update>
+  
+  	<!-- 리뷰 삭제 -->
+  	<delete id="deleteReview" parameterType="int">
+  		delete from review where review_id = #{review_id}
+ 	 </delete>
+  
+  	<!-- 리뷰 목록 조회 -->
+  	<select id="reviewList" resultType="com.itwillbs.domain.ReviewVO">
+  		select
+ 			review_id,
+     	  	member_id,
+     	   	corp_id,
+     	 	rev_title,
+     		rev_content,
+        	rev_rate,
+        	rev_regdate,
+        	rev_updatedate
+    	from review
+  	</select>
+  
+  	<!-- 리뷰 상세 조회 -->
+  	<select id="reviewDetail" parameterType="int" resultType="com.itwillbs.domain.ReviewVO">
+  		select
+  			review_id,
+        	member_id,
+        	corp_id,
+        	job_code,
+        	work_months,
+        	rev_title,
+        	rev_content,
+        	rev_rate,
+        	rev_pros,
+        	rev_cons,
+        	rev_public,
+        	rev_regdate,
+        	rev_updatedate
+    	from review
+    	where review_id = #{review_id}
+  	</select>
+  
+  	<!-- 회원별 리뷰 조회 -->
+  	<select id="selectReviewsByMember"  parameterType="int" resultType="com.itwillbs.domain.ReviewVO">
+  		select
+  			review_id,
+  			corp_id,
+  			rev_title,
+    	    rev_content,
+    	    rev_rate,
+    	    rev_regdate,
+    	    rev_updatedate
+    	from review
+    	where member_id = #{member_id}
+    	order by rev_regdate desc
+  	</select>
+  
+  	<!-- 기업별 리뷰 조회 -->
+  	<select id="selectReviewsByCorp" parameterType="int" resultType="com.itwillbs.domain.ReviewVO">
+  		select
+  			review_id,
+  			member_id,
+  			rev_title,
+        	rev_content,
+        	rev_rate,
+        	rev_regdate,
+        	rev_updatedate
+    	from review
+    	where corp_id = #{corp_id}
+    	order by rev_regdate desc
+ 	</select>

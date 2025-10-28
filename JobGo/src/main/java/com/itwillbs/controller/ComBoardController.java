@@ -24,6 +24,15 @@ public class ComBoardController {
 		logger.debug(" test() 실행! ");
 	}
 	
+	@GetMapping("/comListCri")
+	public void comListCriGET() {
+		logger.debug(" /comboard/comListCri -> comListCri() 실행! ");
+		
+		
+		
+		logger.debug(" /comboard/comListCri -> comListCri() 끝! ");		
+	}
+	
 	@GetMapping("/add")
 	public void addGET() {
 		logger.debug(" /comboard/add -> addGET() 실행! ");

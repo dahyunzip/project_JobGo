@@ -17,6 +17,10 @@ public class MemberServiceImpl implements MemberService{
 	public void memberJoin(MemberVO vo) {
 		mdao.insertMember(vo);
 	}
-	
+
+	@Override
+	public MemberVO memberLoginCheck(MemberVO loginVO) {
+		return mdao.loginCheck(loginVO);
+	}
 	
 }

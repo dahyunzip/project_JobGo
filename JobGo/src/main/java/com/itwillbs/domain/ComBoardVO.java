@@ -31,7 +31,7 @@ public class ComBoardVO {
 	private Timestamp com_regdate;          // 게시글 작성일
 	private String storedFileName;          // 게시글 업로드 파일명
 	
-	private String name;                    // 작성자
+	private String writer;                    // 작성자
 	
 
 	

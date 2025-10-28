@@ -5,4 +5,24 @@
 
 <mapper namespace="com.itwillbs.mapper.BoardMapper">
 
+	<!-- 게시판 글 목록 조회(페이징) -->
+	<select id="selectComBoardListPage" resultType="ComBoardVO">
+		select 
+			cb.com_bno, 
+			m.name as writer,
+			cb.com_title, 
+			cb.com_content, 
+			cb.com_viewcnt, 
+			cb.com_regdate, 
+			cb.storedFileName 
+		from com_board cb 
+		join member m on m.id = cb.member_id 
+		order by cb.com_bno desc 
+		limit #{pageStart}, #{pageSize} 
+	</select>
+	
+	<select id="selectTotalCount" resultType="int">
+		select count(com_bno) from com_board
+	</select>
+
 </mapper>

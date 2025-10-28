@@ -1,6 +1,7 @@
 package com.itwillbs.controller;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,4 +39,48 @@ public class MemberController {
 		
 		return "redirect:/member/login";
 	}
+	
+	// 로그인
+	// http://localhost:8088/member/login
+	@RequestMapping(value="/login", method=RequestMethod.GET)
+	public String memberLoginGET() {
+		logger.debug(" /login -> memberLoginGet() 실행! ");
+		logger.debug("/views/member/Login.jsp 페이지 이동");
+		
+		return "/member/login";
+	}
+	
+	// 로그인
+	// http://localhost:8088/member/login
+	@RequestMapping(value="/login", method=RequestMethod.POST)
+	public String memberLoginPOST(MemberVO loginVO, HttpSession session) {
+		logger.debug(" /login -> memberLoginPOST() 실행! ");
+		logger.debug(" loginVO : " + loginVO );
+		
+		MemberVO resultVO = mService.memberLoginCheck(loginVO);
+		logger.debug(" resultVO : " + resultVO );
+		
+		if(resultVO == null) {
+			logger.debug("로그인 실패");
+			return "redirect:/member/login";
+		}
+		logger.debug("@@@@ SUCCESS || 로그인 성공");
+		
+		session.setAttribute("id", resultVO.getUserid());
+		
+		return "redirect:/";
+	}
+	
+	// 로그아웃
+	// http://localhost:8088/member/logout
+	@RequestMapping(value="/logout", method = RequestMethod.GET)
+	public String memberLogoutGET(HttpSession session) {
+		logger.debug(" /member/logout -> memberLogoutGET() 실행 ");
+		
+		// 로그인 정보를 제거 => 세션 정보 초기화
+		session.invalidate();
+		logger.debug("세션 정보 초기화, 로그아웃 성공!");
+		return "redirect:/";
+	}
+	
 }

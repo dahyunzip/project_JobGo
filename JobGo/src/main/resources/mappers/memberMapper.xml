@@ -6,4 +6,8 @@
   		insert into member(userid, userpw, email, name, phone, addr)
   		values (#{userid}, #{userpw}, #{email}, #{name}, #{phone}, #{addr})
   	</insert>
+  	
+  	<select id="loginCheck" resultType="MemberVO">
+  		select * from member where userid=#{userid} and userpw=#{userpw}
+  	</select>
   </mapper>

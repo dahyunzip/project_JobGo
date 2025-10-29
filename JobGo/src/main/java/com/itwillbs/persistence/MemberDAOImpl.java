@@ -1,5 +1,6 @@
 package com.itwillbs.persistence;
 
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -26,4 +27,13 @@ public class MemberDAOImpl implements MemberDAO {
 		logger.debug(" DAO : 회원가입 성공!");
 	}
 
+	@Override
+	public MemberVO loginCheck(MemberVO vo) {
+		logger.debug(" DAO : loginCheck(vo) 실행 ");
+		MemberVO resultVO = sqlSession.selectOne(NAMESPACE + "loginCheck", vo);
+		
+		return resultVO;
+	}
+
+	
 }

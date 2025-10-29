@@ -5,7 +5,7 @@
 <head>
 <meta charset="UTF-8">
 <title>JobGo</title>
-
+	
 	<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath }/resources/images/favicon.svg" />
 	<!-- Web Font -->
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
@@ -22,6 +22,9 @@
 	<c:if test='${pageContext.request.requestURI != "/"}'>
 		<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/sub.css" />
 	</c:if>
+	
+	<!-- ========================= JS here ========================= -->
+	<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js" type="text/javascript"></script>
 </head>
 <body>
 	<c:set var="uri" value="${requestScope['javax.servlet.forward.request_uri']}" />
@@ -61,7 +64,7 @@
 						<div class="button">
 						    <c:choose>
 						        <c:when test="${not empty id}">
-						            <a href="/member/logout" class="login">
+						            <a href="/logout" class="login">
 						                <i class="lni lni-lock-alt"></i> 로그아웃
 						            </a>
 						        </c:when>

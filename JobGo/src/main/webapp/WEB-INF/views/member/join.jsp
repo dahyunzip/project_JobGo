@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../include/Header.jsp"%>
+<script>
+$(document).ready(function(){
+	alert("완료");
+})
+</script>
 <div id="sub-contents">
 	<section class="section">
 		<div class="container">
@@ -9,58 +14,64 @@
 					<div class="add-resume-inner box">
 						<div class="post-header align-items-center justify-content-center">
 							<div class="section-title">
-								<h2>회원가입</h2>
+								<h2>일반회원 회원가입</h2>
 								<p>
 									회원이신가요? <a href="/member/login" class="login"> 로그인 페이지로 이동</a>
 								</p>
 							</div>
 						</div>
-						<form class="form-ad" method="post">
+						<div id="tab-li">
+							<ul>
+								<li class="on"><a href="/member/join">일반회원</a></li>
+								<li><a href="/corp/join">기업회원</a></li>
+							</ul>
+						</div>
+						<form class="form-join" method="post">
 							<div class="row">
-								<div class="col-lg-6 col-12">
+								<div class="col-lg-6 col-12 mb-20">
 									<div class="form-group">
 										<label class="control-label">이름</label>
 										<input type="text" class="form-control" placeholder="이름을 입력하세요." name="name">
 									</div>
 								</div>
-								<div class="col-lg-6 col-12">
+								<div class="col-lg-6 col-12 mb-20">
 									<div class="form-group">
 										<label class="control-label">아이디</label>
-										<input type="text" class="form-control" placeholder="이메일을 입력하세요." name="userid">
+										<input type="text" class="form-control" placeholder="아이디를 입력하세요." name="userid">
 									</div>
 								</div>
-								<div class="col-lg-6 col-12">
+								<div class="col-lg-6 col-12 mb-20">
 									<div class="form-group">
 										<label class="control-label">비밀번호</label>
 										<input type="password" class="form-control" placeholder="비밀번호를 입력하세요." name="userpw">
 									</div>
 								</div>
-								<!-- <div class="col-lg-6 col-12">
+								<div class="col-lg-6 col-12 mb-20">
 									<div class="form-group">
 										<label class="control-label">비밀번호 확인</label>
 										<input type="password" class="form-control" placeholder="비밀번호를 입력하세요." name="userpw">
 									</div>
-								</div> -->
-								<div class="col-lg-6 col-12">
+								</div>
+								<div class="col-lg-6 col-12 mb-20">
 									<div class="form-group">
 										<label class="control-label">E-mail</label>
 										<input type="email" class="form-control" placeholder="이메일을 입력하세요." required name="email">
 									</div>
 								</div>
-								<div class="col-lg-6 col-12">
+								<div class="col-lg-6 col-12 mb-20">
 									<div class="form-group">
 										<label class="control-label">핸드폰 번호</label>
 										<input type="text" class="form-control" placeholder="'-' 빼고 작성하세요." name="phone">
 									</div>
 								</div>
-								<div class="col-lg-12 col-12">
+								<div class="col-lg-12 col-12 mb-20">
 									<div class="form-group">
 										<label class="control-label">주소</label>
 										<input type="text" class="form-control" placeholder="주소를 입력하세요." name="addr">
 									</div>
 								</div>
 								<div class="col-lg-12 col-12">
-									<div class="form-group mb20">
+									<div class="form-group mb-20">
 										개인정보 수집 및 이용 동의(필수) *
 										<div class="agree-box">
 											회사는 회원가입 및 서비스 제공을 위해 아래와 같이 개인정보를 수집하고 이용합니다.<br><br>
@@ -84,9 +95,9 @@
 											
 											위 필수 항목 수집 및 이용에 동의해야 서비스 이용이 가능합니다.
 										</div>
-										<label class="control-label"><input type="checkbox" class="form-check-input"  name="agree_essential"> 약관에 동의합니다.</label>
+										<label class="control-label"><input type="checkbox" class="form-check-input" id="agr_chbox" name="agree_essential"> 약관에 동의합니다.</label>
 									</div>
-									<div class="form-group mb20">
+									<div class="form-group mb-20">
 										위치기반서비스 이용약관 동의 (선택)
 										<div class="agree-box">
 											회사는 위치기반서비스 제공 시 아래 내용을 안내합니다.<br><br>
@@ -110,7 +121,7 @@
 										</div>
 										<label class="control-label"><input type="checkbox" class="form-check-input" name="agree_location" value="Y"> 약관에 동의합니다.</label>
 									</div>
-									<div class="form-group mb20">
+									<div class="form-group mb-20">
 										마케팅 정보 수신 동의 – 이메일 (선택)
 										<div class="agree-box">
 											이용 목적<br>
@@ -125,7 +136,7 @@
 										</div>
 										<label class="control-label"><input type="checkbox" class="form-check-input" name="agree_email" value="Y"> 약관에 동의합니다.</label>
 									</div>
-									<div class="form-group mb20">
+									<div class="form-group mb-20">
 										마케팅 정보 수신 동의 – SMS/MMS (선택)
 										<div class="agree-box">
 											이용 목적<br>
@@ -152,4 +163,5 @@
 		</div>
 	</section>
 </div>
+
 <%@ include file="../include/Footer.jsp"%>

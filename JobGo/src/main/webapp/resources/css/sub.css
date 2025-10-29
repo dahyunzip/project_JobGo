@@ -2,5 +2,11 @@
 
 #contents{padding-top:150px;}
 
+#tab-li{max-width:500px; margin:0 auto 50px auto;}
+#tab-li ul li{width:1%; display:table-cell;}
+#tab-li ul li.on a{background:red; color:#fff;}
+#tab-li ul li a{display: block; text-align:center; padding:16px 0; background:#e5e5e5;}
+
 /* 회원가입 /join */
+.form-join{ padding:0 30px; background:#fff;}
 .agree-box{border-radius: .25em; border:1px solid #ced4da; padding:.375rem .75rem; max-height:250px; overflow-y:scroll}

@@ -14,13 +14,18 @@ public class MemberServiceImpl implements MemberService{
 	private MemberDAO mdao;
 
 	@Override
-	public void memberJoin(MemberVO vo) {
+	public void registerMember(MemberVO vo) throws Exception {
 		mdao.insertMember(vo);
 	}
 
 	@Override
-	public MemberVO memberLoginCheck(MemberVO loginVO) {
-		return mdao.loginCheck(loginVO);
+	public MemberVO login(String userid, String userpw) throws Exception {
+		return mdao.loginCheck(userid, userpw);
 	}
+	
+	@Override
+    public MemberVO getMember(String userid) throws Exception {
+        return mdao.getMemberByUserid(userid);
+    }
 	
 }

@@ -4,8 +4,11 @@ import com.itwillbs.domain.MemberVO;
 
 public interface MemberService {
 	// 회원가입
-	public void memberJoin(MemberVO vo);
+	public void registerMember(MemberVO vo) throws Exception;
 	
 	// 로그인
-	public MemberVO memberLoginCheck(MemberVO loginVO);
+	public MemberVO login(String userid, String userpw) throws Exception;
+	
+	//아이디로 멤버 정보 가져오기
+	public MemberVO getMember(String userid) throws Exception;
 }

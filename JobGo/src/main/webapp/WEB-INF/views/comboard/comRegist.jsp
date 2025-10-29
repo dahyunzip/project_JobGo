@@ -82,7 +82,15 @@
 			                        <div class="button-group">
 			                            <div class="action-buttons">
 			                                <div class="upload-button button">
-			                                    <button class="btn"><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">커버 로고를 선택하세요</font></font></button>
+								                <div class="checkbox">
+											        <label>
+											        	<input type="checkbox" required> 내용을 한번 더 확인 해 주세요.
+											        </label>
+									            </div>	
+			                                    <hr>
+			                                    <label for="exampleInputFile">
+			                                    	<font dir="auto" style="vertical-align: inherit;">File input</font>
+			                                    </label>
 			                                    <input id="cover_img_file_3" type="file">
 			                                </div>
 			                            </div>
@@ -91,11 +99,7 @@
 			                </div>
 			                <div class="col-lg-6 col-md-7 col-12">
 			                    <div class="add-post-btn float-right">
-			                        <ul>
-			                            <li><a href="#" class="btn-added"><i class="lni lni-add-files"></i><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">새로운 교육 추가</font></font></a></li>
-			                            <li><a href="#" class="btn-delete"><i class="lni lni-remove-file"></i><font dir="auto" style="vertical-align: inherit;"><font dir="auto" style="vertical-align: inherit;">
-			                                    이것을 삭제하세요</font></font></a></li>
-			                        </ul>
+			                  		<button type="submit">글쓰기</button>
 			                    </div>
 			                </div>
 			            </div>

@@ -3,7 +3,7 @@ package com.itwillbs.controller;
 import java.util.List;
 
 import javax.inject.Inject;
-
+import com.itwillbs.service.ComBoardServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -15,7 +15,7 @@ import com.itwillbs.domain.ComBoardVO;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.service.ComBoardService;
- 
+
 @Controller
 @RequestMapping("/comboard/*")
 public class ComBoardController {
@@ -30,7 +30,17 @@ public class ComBoardController {
 		logger.debug(" test() 실행! ");
 	}
 	
+	// 게시판 글쓰기
+	@GetMapping("/comRegist")
+	public void comRegistGET() {
+		logger.debug(" /comboard/regist -> registGET() 실행! ");
+		
+		logger.debug(" /views/comboard/comRegist.jsp 페이지 이동 ");
+	}
+	
+	
 	// http://localhost:8088/comboard/comListCri
+	// 게시판 리스트(페이징)
 	@GetMapping("/comListCri")
 	public void comListCriGET(Criteria cri,
 			                  Model model) throws Exception {
@@ -49,11 +59,6 @@ public class ComBoardController {
 		model.addAttribute("cboardList",cboardList);
 		
 		logger.debug(" /comboard/comListCri -> comListCri() 끝! ");		
-	}
-	
-	@GetMapping("/add")
-	public void addGET() {
-		logger.debug(" /comboard/add -> addGET() 실행! ");
 	}
 	
 

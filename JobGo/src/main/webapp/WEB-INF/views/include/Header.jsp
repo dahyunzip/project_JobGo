@@ -66,7 +66,7 @@
 						<div class="button">
 						    <c:choose>
 						        <c:when test="${not empty id}">
-						            <a href="/logout" class="login">
+						            <a href="/member/logout" class="login">
 						                <i class="lni lni-lock-alt"></i> 로그아웃
 						            </a>
 						        </c:when>

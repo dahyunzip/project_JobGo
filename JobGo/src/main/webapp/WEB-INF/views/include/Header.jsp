@@ -36,8 +36,9 @@
 				<div class="row mt-10">
 					<div class="col-lg-8 col-xs-12">
 						<nav class="navbar navbar-expand-lg">
-							<a class="navbar-brand logo" href="/"> <img
-								class="logo1" src="${pageContext.request.contextPath }/resources/images/logo/logo.svg" alt="Logo" />
+							<a class="navbar-brand logo" href="/">
+								<h3>일반회원 페이지</h3>
+								<%-- <img class="logo1" src="${pageContext.request.contextPath }/resources/images/logo/logo.svg" alt="Logo" /> --%>
 							</a>
 						</nav>
 					</div>
@@ -50,14 +51,15 @@
 						<div class="collapse navbar-collapse sub-menu-bar"
 							id="navbarSupportedContent">
 							<ul id="nav" class="navbar-nav">
-								<li class="nav-item"><a href="#">채용공고</a>
-									<ul class="sub-menu">
-										<li><a href="about-us.html">About Us</a></li>
-									</ul>
-								</li>
+								<li class="nav-item"><a href="#">채용공고</a></li>
 								<li class="nav-item"><a href="#">커리어관리</a></li>
 								<li class="nav-item"><a href="#">기업리뷰</a></li>
-								<li class="nav-item"><a href="#">커뮤니티</a></li>
+								<li class="nav-item"><a href="#">커뮤니티</a>
+									<ul class="sub-menu">
+										<li><a href="#">공지사항</a></li>
+										<li><a href="#">커뮤니티</a></li>
+									</ul>
+								</li>
 							</ul>
 						</div>
 						<!-- navbar collapse -->

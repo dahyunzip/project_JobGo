@@ -2,9 +2,6 @@
 	pageEncoding="UTF-8"%>
 <%@ include file="../include/Header.jsp"%>
 <script>
-$(document).ready(function(){
-	alert("완료");
-})
 </script>
 <div id="sub-contents">
 	<section class="section">
@@ -16,7 +13,7 @@ $(document).ready(function(){
 							<div class="section-title">
 								<h2>일반회원 회원가입</h2>
 								<p>
-									회원이신가요? <a href="/member/login" class="login"> 로그인 페이지로 이동</a>
+									이미 회원이신가요? <a href="/member/login" class="login"> 로그인 페이지로 이동</a>
 								</p>
 							</div>
 						</div>

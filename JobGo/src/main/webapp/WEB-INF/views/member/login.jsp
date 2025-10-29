@@ -1,6 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../include/Header.jsp"%>
+<script>
+$(document).ready(function(){
+	if('${msg }' == 'joinSucess'){
+		alert('회원가입 성공!');
+	}
+})
+</script>
 <div id="sub-contents">
 	<section class="section">
 		<div class="container">

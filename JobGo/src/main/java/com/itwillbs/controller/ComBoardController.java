@@ -15,7 +15,7 @@ import com.itwillbs.domain.ComBoardVO;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.service.ComBoardService;
-
+ 
 @Controller
 @RequestMapping("/comboard/*")
 public class ComBoardController {

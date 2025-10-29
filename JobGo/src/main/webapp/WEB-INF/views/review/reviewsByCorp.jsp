@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../include/Header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -17,9 +19,9 @@
         <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
             <div>
                 <button type="button"
-                        onclick="location.href='${pageContext.request.contextPath}/review/reviewDetail?review_id=${review.review_id}'">
-                    ${review.rev_title}
-                </button>
+					onclick="location.href='${pageContext.request.contextPath}/review/reviewDetail?review_id=${review.review_id}&origin=corp&corp_id=${corp_id}'">
+					${review.rev_title}
+				</button>
             </div>
             <div>
                 <label>별점: </label>
@@ -39,3 +41,4 @@
     
 </body>
 </html>
+<%@ include file="../include/Footer.jsp"%>

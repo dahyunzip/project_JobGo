@@ -31,6 +31,7 @@ public class ReviewControllerExample {
     @RequestMapping(value="/insertReview", method = RequestMethod.POST)
     public String insertReview(ReviewVO review) {
         reviewService.insertReview(review);
+        System.out.println("⭐ 별점 값: " + review.getRev_rate());
         logger.debug("리뷰 작성 완료 (테스트용)");
         return "redirect:/review/reviewList";
     }

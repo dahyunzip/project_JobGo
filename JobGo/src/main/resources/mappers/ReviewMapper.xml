@@ -6,9 +6,9 @@
   <!-- 리뷰 작성 -->
   	<insert id="insertReview" parameterType="com.itwillbs.domain.ReviewVO">
   		insert into review
-  		(member_id, corp_id, job_code, work_months, rev_title, rev_content, rev_rate, rev_pros, rev_cons, rev_public, rev_regdate)
+  		(member_id, corp_id, job_code, work_months, rev_title, rev_content, rev_rate, rev_pros, rev_cons, rev_public)
   		values
-  		(#{member_id}, #{corp_id}, #{job_code}, #{work_months}, #{rev_title}, #{rev_content}, #{rev_rate}, #{rev_pros}, #{rev_cons}, #{rev_public}, #{rev_regdate})
+  		(#{member_id}, #{corp_id}, #{job_code}, #{work_months}, #{rev_title}, #{rev_content}, #{rev_rate}, #{rev_pros}, #{rev_cons}, #{rev_public})
   	</insert>
   
   <!-- 리뷰 수정 -->
@@ -19,8 +19,7 @@
   			rev_rate = #{rev_rate},
   			rev_pros = #{rev_pros},
   			rev_cons = #{rev_cons},
-  			rev_public = #{rev_public},
-  			rev_updatedate = now()
+  			rev_public = #{rev_public}
   		where review_id = #{review_id}
   	</update>
   
@@ -40,6 +39,8 @@
         	rev_regdate,
         	rev_updatedate
     	from review
+    	where rev_public ='y'
+    	order by rev_regdate desc
   	</select>
   
   	<!-- 리뷰 상세 조회 -->

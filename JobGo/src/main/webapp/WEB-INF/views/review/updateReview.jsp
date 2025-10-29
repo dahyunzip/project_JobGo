@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../include/Header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -87,9 +88,9 @@
         <div>
             <label>공개 여부</label>
             <select name="rev_public">
-                <option value="y" <c:if test="${review.rev_public == 'y'}">selected</c:if>>예</option>
-                <option value="n" <c:if test="${review.rev_public == 'n'}">selected</c:if>>아니오</option>
-            </select>
+                <option value="y" <c:if test="${review.rev_public eq 'y'}">selected</c:if>>예</option>
+				<option value="n" <c:if test="${review.rev_public eq 'n'}">selected</c:if>>아니오</option>
+			</select>
         </div>
 
         <div>
@@ -119,3 +120,4 @@
     </script>
 </body>
 </html>
+<%@ include file="../include/Footer.jsp"%>

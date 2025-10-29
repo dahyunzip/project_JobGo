@@ -36,7 +36,7 @@
     	            </td>
     	            <td>${review.rev_regdate}</td>
     	            <td>
-     	            	<a href="/review/updateReviewForm?review_id=${review.review_id}">수정</a>
+     	            	<button type="button" onclick="location.href='/review/updateReview?review_id=${review.review_id}'">수정</button>
       	            	<form action="/review/deleteReview" method="post" style="display:inline;">
                         	<input type="hidden" name="review_id" value="${review.review_id}">
                         	<button type="submit">삭제</button>
@@ -46,10 +46,13 @@
         	</c:forEach>
     	</tbody>
 	</table>
-	<button type="button" onclick="location.href='/review/reviewDetail?review_id=${review.review_id}'">
-    	리뷰 작성
+	<button type="button" onclick="location.href='/review/insertReview'">
+    리뷰 작성
 	</button>
+	<a href="/review/memberReviewList?member_id=${review.member_id}">회원 리뷰 보기</a>
+	<a href="/review/corpReviewList?corp_id=${review.corp_id}">기업 리뷰 보기</a>
 	
 
 </body>
 </html>
+<%@ include file="../include/Footer.jsp"%>

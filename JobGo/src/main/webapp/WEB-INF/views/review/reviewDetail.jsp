@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ include file="../include/Header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,8 +31,12 @@
 		</div>
 		<div>내용: ${reviewDetail.rev_content }</div>
 		<div>별점: 
-    		<c:forEach begin="1" end="${reviewDetail.rev_rate}" var="i">★</c:forEach>
-    		<c:forEach begin="1" end="${5 - reviewDetail.rev_rate}" var="i">☆</c:forEach>
+    		<c:forEach begin="1" end="5" var="i">
+				<c:choose>
+					<c:when test="${i <= reviewDetail.rev_rate}">★</c:when>
+					<c:otherwise>☆</c:otherwise>
+				</c:choose>
+			</c:forEach>
 		</div>
 		<div>장점: ${reviewDetail.rev_pros }</div>
 		<div>단점: ${reviewDetail.rev_cons }</div>
@@ -38,6 +44,31 @@
 		<div>작성 일자: ${reviewDetail.rev_regdate }</div>
 		<div>수정 일자: ${reviewDetail.rev_updatedate }</div>
 	</div>
+	<hr>
+		<div style="margin-top:15px;">
+			<c:choose>
+				<c:when test="${param.origin eq 'member'}">
+					<button type="button"
+						onclick="location.href='${pageContext.request.contextPath}/review/memberReviewList?member_id=${param.member_id}'">
+						회원별 리뷰 목록으로 돌아가기
+					</button>
+				</c:when>
+
+				<c:when test="${param.origin eq 'corp'}">
+					<button type="button"
+						onclick="location.href='${pageContext.request.contextPath}/review/corpReviewList?corp_id=${param.corp_id}'">
+						기업별 리뷰 목록으로 돌아가기
+					</button>
+				</c:when>
+
+				<c:otherwise>
+					<button type="button"
+						onclick="location.href='${pageContext.request.contextPath}/review/reviewList'">
+						전체 리뷰 목록으로 돌아가기
+					</button>
+				</c:otherwise>
+			</c:choose>
+		</div>
 	<hr>
 	<div>
 		<form action="reviewUpdateForm" method="get">
@@ -61,3 +92,4 @@
 
 </body>
 </html>
+<%@ include file="../include/Footer.jsp"%>

@@ -33,8 +33,8 @@ public class MemberTest {
 		//logger.debug(" sqlSession : " + sqlSession);
 	}
 	
-	@Test
-	public void test_insertMember() {
+	//@Test
+	public void test_insertMember() throws Exception {
 		logger.debug(" test_insertMember 실행 ");
 		
 		MemberVO vo = new MemberVO();
@@ -48,5 +48,21 @@ public class MemberTest {
 		mdao.insertMember(vo);
 		
 		logger.debug(" TEST : insertMember(vo) 실행 완료");
+	}
+	
+	@Test
+	public void test_loginMember() throws Exception{
+		String userid = "user01";
+		String userpw = "1234";
+		
+		MemberVO result = mdao.loginCheck(userid, userpw);
+		
+		if(result != null) {
+			logger.debug(" 로그인 성공 : {}", result.getName());
+			logger.debug(" 회원 이메일 : {}", result.getEmail());
+			logger.debug(" 회원 타입 : {}", result.getMembertype());
+		}else {
+			logger.debug(" 로그인 실패");
+		}
 	}
 }

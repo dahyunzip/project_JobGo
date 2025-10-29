@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ include file="../include/Header.jsp"%>
+<%@ include file="../include/corpHeader.jsp"%>
 <section class="hero-area">
 	<!-- Single Slider -->
 	<div class="hero-inner">
@@ -10,11 +10,11 @@
 						<div class="hero-text">
 							<h1 class="wow fadeInUp" data-wow-delay=".3s"
 								style="visibility: visible; animation-delay: 0.3s; animation-name: fadeInUp;">
-								JobGo 메인 페이지 
+								JobGo 기업회원 메인 페이지 
 							</h1>
 							<c:choose>
-						        <c:when test="${not empty id}">
-						            <h2>${memberName }님 안녕하세요.</h2>
+						        <c:when test="${not empty corpUserId}">
+						            <h2>${corpUserId }님 안녕하세요.</h2>
 						        </c:when>
 						        <c:otherwise>
 						            <h2>로그인 후 이용하세요</h2>

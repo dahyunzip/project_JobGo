@@ -57,14 +57,14 @@
 								</li>
 								<li class="nav-item"><a href="#">커리어관리</a></li>
 								<li class="nav-item"><a href="#">기업리뷰</a></li>
-								<li class="nav-item"><a href="#">커뮤니티</a></li>
+								<li class="nav-item"><a href="/comboard/comListCri">커뮤니티</a></li>
 							</ul>
 						</div>
 						<!-- navbar collapse -->
 						<div class="button">
 						    <c:choose>
 						        <c:when test="${not empty id}">
-						            <a href="/logout" class="login">
+						            <a href="/member/logout" class="login">
 						                <i class="lni lni-lock-alt"></i> 로그아웃
 						            </a>
 						        </c:when>

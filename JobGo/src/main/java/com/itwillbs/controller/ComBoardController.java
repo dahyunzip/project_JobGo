@@ -3,16 +3,20 @@ package com.itwillbs.controller;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
+
 import com.itwillbs.service.ComBoardServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.itwillbs.domain.ComBoardVO;
 import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.MemberVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.service.ComBoardService;
 
@@ -30,12 +34,27 @@ public class ComBoardController {
 		logger.debug(" test() 실행! ");
 	}
 	
-	// 게시판 글쓰기
+	// 게시판 글쓰기 - GET
 	@GetMapping("/comRegist")
-	public void comRegistGET() {
-		logger.debug(" /comboard/regist -> registGET() 실행! ");
+	public void comRegistGET(HttpSession session,
+			                 Model model) {
+		logger.debug(" /comboard/comRegist -> comRegistGET() 실행! ");
+		
+		MemberVO memberLoginInfo = (MemberVO) session.getAttribute("id");
+		
+		model.addAttribute("memberLoginInfo", memberLoginInfo);
 		
 		logger.debug(" /views/comboard/comRegist.jsp 페이지 이동 ");
+	}
+	
+	// 게시판 글쓰기 - POST
+	@PostMapping("/comRegist")
+	public String comRegistPOST() {
+		logger.debug(" /comboard/comRegist -> comRegistPOST() 실행! ");
+		
+		
+		logger.debug(" /comboard/comRegist -> comRegistPOST() 끝! ");
+		return null;
 	}
 	
 	

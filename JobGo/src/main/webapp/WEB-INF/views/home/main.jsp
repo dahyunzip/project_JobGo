@@ -14,7 +14,7 @@
 							</h1>
 							<c:choose>
 						        <c:when test="${not empty id}">
-						            <h2>${id }님 안녕하세요.</h2>
+						            <h2>${id.name }님 안녕하세요.</h2>
 						        </c:when>
 						        <c:otherwise>
 						            <h2>로그인 후 이용하세요</h2>

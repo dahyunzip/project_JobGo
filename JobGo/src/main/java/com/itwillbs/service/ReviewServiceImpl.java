@@ -1,0 +1,77 @@
+package com.itwillbs.service;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import com.itwillbs.domain.ReviewVO;
+import com.itwillbs.persistence.ReviewDAO;
+
+@Service
+public class ReviewServiceImpl implements ReviewService{
+	
+	@Inject
+	private ReviewDAO reviewDAO;
+	
+	private static final Logger logger = LoggerFactory.getLogger(ReviewServiceImpl.class);
+
+	@Override
+	public void insertReview(ReviewVO review) {
+		reviewDAO.insertReview(review);
+		logger.debug(" 리뷰 작성 완료 - 서비스");
+		
+	}
+
+	@Override
+	public void updateReview(ReviewVO review) {
+		reviewDAO.updateReview(review);
+		logger.debug(" 리뷰 수정 완료 - 서비스");
+		
+	}
+
+	@Override
+	public void deleteReview(int review_id) {
+		reviewDAO.deleteReview(review_id);
+		logger.debug(" 리뷰 삭제 완료 - 서비스");
+		
+	}
+
+	@Override
+	public List<ReviewVO> reviewList() {
+		List<ReviewVO> list = reviewDAO.reviewList();
+		logger.debug(" 리뷰 목록 조회 완료 - 서비스");
+		
+		return list;
+	}
+
+	@Override
+	public ReviewVO reviewDetail(int review_id) {
+		ReviewVO review = reviewDAO.reviewDetail(review_id);
+		logger.debug(" 리뷰 상세 조회 완료 - 서비스");
+		
+		return review;
+	}
+
+	@Override
+	public List<ReviewVO> selectReviewsByMember(int member_id) {
+		List<ReviewVO> list = reviewDAO.selectReviewsByMember(member_id);
+		logger.debug(" 회원별 리뷰 조회 완료 - 서비스 ");
+		
+		return list;
+	}
+
+	@Override
+	public List<ReviewVO> selectReviewsByCorp(int corp_id) {
+		List<ReviewVO> list = reviewDAO.selectReviewsByCorp(corp_id);
+		logger.debug(" 기업별 리뷰 조회 완료 - 서비스 ");
+		
+		return list;
+	}
+	
+	
+	
+}

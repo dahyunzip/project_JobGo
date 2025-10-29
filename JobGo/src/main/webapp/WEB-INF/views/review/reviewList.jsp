@@ -11,25 +11,44 @@
 	
 	<h2>리뷰 목록</h2>
 	
-	<c:forEach var="review" items="${reviewList }">
-		<div>
-			<div>제목: ${review.rev_title }</div>
-			<div>작성자: ${review.member_id }</div>
-			<div>별점: 
-				<c:forEach begin="1" end="${review.rev_rate }" var="i">
-					★
-				</c:forEach>
-				<c:forEach begin="1" end="${5 - review.rev_rate }" var="i">
-					☆
-				</c:forEach>
-			</div>
-			<div>작성일: ${review.rev_regdate }</div>
-			<div><a href="reviewDetail?review_id=${review.review_id }">상세보기</a></div>
-			<hr>
-		</div>
-	</c:forEach>
-	
-	<a href="insertReview.jsp">리뷰 작성</a>
+	<table border="1">
+    	<thead>
+        	<tr>
+        	    <th>리뷰 번호</th>
+        	    <th>제목</th>
+        	    <th>작성자</th>
+        	    <th>별점</th>
+        	    <th>작성일</th>
+        	    <th>수정/삭제</th>
+        	</tr>
+    	</thead>
+    	<tbody>
+    	    <c:forEach var="review" items="${reviewList}">
+    	        <tr>
+    	            <td>${review.review_id}</td>
+    	            <td>
+    	            	<a href="/review/reviewDetail?review_id=${review.review_id}">${review.rev_title}</a>
+    	            </td>
+    	            <td>${review.member_id}</td>
+    	            <td>
+    	                <c:forEach begin="1" end="${review.rev_rate}" var="i">★</c:forEach>
+    	                <c:forEach begin="1" end="${5 - review.rev_rate}" var="i">☆</c:forEach>
+    	            </td>
+    	            <td>${review.rev_regdate}</td>
+    	            <td>
+     	            	<a href="/review/updateReviewForm?review_id=${review.review_id}">수정</a>
+      	            	<form action="/review/deleteReview" method="post" style="display:inline;">
+                        	<input type="hidden" name="review_id" value="${review.review_id}">
+                        	<button type="submit">삭제</button>
+                    	</form>
+                	</td>
+            	</tr>
+        	</c:forEach>
+    	</tbody>
+	</table>
+	<button type="button" onclick="location.href='/review/reviewDetail?review_id=${review.review_id}'">
+    	리뷰 작성
+	</button>
 	
 
 </body>

@@ -7,8 +7,14 @@
 <title>리뷰 수정</title>
 </head>
 <body>
-	<form action="/review/insertReview" method="post">
+	<form action="${pageContext.request.contextPath}/review/updateReview" method="post">
+	<!-- <form action="/review/insertReview" method="post"> -->
 		<input type="hidden" name="review_id" value="${reviewDetail.review_id}"/>
+		<!-- <input type="hidden" name="member_id" value="${sessionScope.loginMember.id}" /> -->
+		<div>
+        	<label>회원 ID</label>
+        	<input type="text" name="member_id" value="${review.member_id}" readonly />
+    	</div>
 		<div>
 			<label>기업 ID</label>
 			<input type="text" name="corp_id" value="${reviewDetail.corp_id }"/>

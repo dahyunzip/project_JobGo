@@ -7,7 +7,7 @@ import javax.inject.Inject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-
+import com.itwillbs.controller.ComBoardController;
 import com.itwillbs.domain.ComBoardVO;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.persistence.ComBoardDAO;
@@ -40,6 +40,15 @@ public class ComBoardServiceImpl implements ComBoardService {
 		
 		logger.debug(" getTotalCount() 끝! ");
 		return result;
+	}
+
+	@Override
+	public void comReistBoard(ComBoardVO vo) throws Exception {
+		logger.debug(" comReistBoard() 실행! ");
+		
+		cbDAO.insertComBoard(vo);
+		
+		logger.debug(" comReistBoard() 끝! ");
 	}
 	
 	

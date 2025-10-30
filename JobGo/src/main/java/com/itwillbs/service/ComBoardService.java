@@ -12,4 +12,7 @@ public interface ComBoardService {
 
 	// 게시판 모든 글 개수를 가져오기
 	public int getTotalCount() throws Exception;
+	
+	// 게시글 등록
+	public void comReistBoard(ComBoardVO vo) throws Exception;
 }

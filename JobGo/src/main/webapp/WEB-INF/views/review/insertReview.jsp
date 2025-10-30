@@ -10,11 +10,6 @@
 <body>
 	<h2>리뷰 작성</h2>
 	<form action="${pageContext.request.contextPath}/review/insertReview" method="post">
-	<!-- <form action="/review/insertReview" method="post"> -->
-		<div> <!-- 테스트용 hidden->text -->
-    		<label>회원 ID</label>
-    		<input type="text" name="member_id" placeholder="회원 ID 입력" required />
-		</div>
 		<div>
 			<label>기업 ID</label>
 			<input type="text" name="corp_id"/>

@@ -68,6 +68,8 @@ public class MemberController {
 		
 		session.setAttribute("id", resultVO.getUserid());
 		
+		// 
+		
 		return "redirect:/";
 	}
 	

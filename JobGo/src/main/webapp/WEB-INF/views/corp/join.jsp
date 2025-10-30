@@ -1,7 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="../include/Header.jsp"%>
+<%@ include file="../include/corpHeader.jsp"%>
 <script>
+	
 </script>
 <div id="sub-contents">
 	<section class="section">
@@ -11,7 +12,7 @@
 					<div class="add-resume-inner box">
 						<div class="post-header align-items-center justify-content-center">
 							<div class="section-title">
-								<h2>일반회원 회원가입</h2>
+								<h2>기업회원 회원가입</h2>
 								<p>
 									이미 회원이신가요? <a href="/member/login" class="login"> 로그인 페이지로 이동</a>
 								</p>
@@ -19,52 +20,89 @@
 						</div>
 						<div id="tab-li">
 							<ul>
-								<li class="on"><a href="/member/join">일반회원</a></li>
-								<li><a href="/corp/join">기업회원</a></li>
+								<li><a href="/member/join">일반회원</a></li>
+								<li class="on"><a href="/corp/join">기업회원</a></li>
 							</ul>
 						</div>
 						<form class="form-join" method="post">
+							<input type="hidden" name="status" value="W">
 							<div class="row">
 								<div class="col-lg-6 col-12 mb-20">
 									<div class="form-group">
-										<label class="control-label">이름</label>
-										<input type="text" class="form-control" placeholder="이름을 입력하세요." name="name">
+										<label class="control-label">가입담당자 이름</label>
+										<input type="text" class="form-control" placeholder="담당자 이름을 입력하세요." name="managerName">
 									</div>
 								</div>
 								<div class="col-lg-6 col-12 mb-20">
 									<div class="form-group">
-										<label class="control-label">아이디</label>
-										<input type="text" class="form-control" placeholder="아이디를 입력하세요." name="userid">
+										<label class="control-label">기업회원 아이디</label>
+										<input type="text" class="form-control" placeholder="아이디를 입력하세요." name="corpUserId">
 									</div>
 								</div>
 								<div class="col-lg-6 col-12 mb-20">
 									<div class="form-group">
 										<label class="control-label">비밀번호</label>
-										<input type="password" class="form-control" placeholder="비밀번호를 입력하세요." name="userpw">
+										<input type="password" class="form-control" placeholder="비밀번호를 입력하세요." name="corpUserPw">
 									</div>
 								</div>
 								<div class="col-lg-6 col-12 mb-20">
 									<div class="form-group">
 										<label class="control-label">비밀번호 확인</label>
-										<input type="password" class="form-control" placeholder="비밀번호를 입력하세요." name="userpw">
+										<input type="password" class="form-control" placeholder="비밀번호를 입력하세요." name="">
 									</div>
 								</div>
 								<div class="col-lg-6 col-12 mb-20">
 									<div class="form-group">
 										<label class="control-label">E-mail</label>
-										<input type="email" class="form-control" placeholder="이메일을 입력하세요." required name="email">
+										<input type="email" class="form-control" placeholder="이메일을 입력하세요." required name="managerEmail">
 									</div>
 								</div>
 								<div class="col-lg-6 col-12 mb-20">
 									<div class="form-group">
-										<label class="control-label">핸드폰 번호</label>
-										<input type="text" class="form-control" placeholder="'-' 빼고 작성하세요." name="phone">
+										<label class="control-label">담당자 핸드폰 번호</label>
+										<input type="text" class="form-control" placeholder="'-' 빼고 작성하세요." name="managerTel">
+									</div>
+								</div>
+								<div class="col-lg-6 col-12 mb-20">
+									<div class="form-group">
+										<label class="control-label">회사명</label>
+										<input type="text" class="form-control" placeholder="회사명을 입력하세요." name="companyName">
+									</div>
+								</div>
+								<div class="col-lg-6 col-12 mb-20">
+									<div class="form-group">
+										<label class="control-label">사업자등록번호</label>
+										<input type="text" class="form-control" placeholder="사업자등록번호를 입력하세요." name="businessRno">
+									</div>
+								</div>
+								<div class="col-lg-6 col-12 mb-20">
+									<div class="form-group">
+										<label class="control-label">대표자명</label>
+										<input type="text" class="form-control" placeholder="대표자명을 입력하세요." name="ceoName">
+									</div>
+								</div>
+								<div class="col-lg-6 col-12 mb-20">
+									<div class="form-group">
+										<label class="control-label">업종</label>
+										<input type="text" class="form-control" placeholder="업종을 입력하세요." name="industryType">
+									</div>
+								</div>
+								<div class="col-lg-6 col-12 mb-20">
+									<div class="form-group">
+										<label class="control-label">업태</label>
+										<input type="text" class="form-control" placeholder="업태를 입력하세요." name="businessType">
+									</div>
+								</div>
+								<div class="col-lg-6 col-12 mb-20">
+									<div class="form-group">
+										<label class="control-label">사업자등록증 첨부</label>
+										<input type="file" class="form-control" placeholder="사업자등록증을 첨부해주세요." name="businessLicenseUrl">
 									</div>
 								</div>
 								<div class="col-lg-12 col-12 mb-20">
 									<div class="form-group">
-										<label class="control-label">주소</label>
-										<input type="text" class="form-control" placeholder="주소를 입력하세요." name="addr">
+										<label class="control-label">회사 주소</label>
+										<input type="text" class="form-control" placeholder="주소를 입력하세요." name="companyAddress">
 									</div>
 								</div>
 								<div class="col-lg-12 col-12">
@@ -116,7 +154,7 @@
 											• 동의하지 않아도 서비스 기본 기능 이용 가능<br>
 											• 단, 위치 기반 혜택 및 추천 서비스 제공이 제한됨
 										</div>
-										<label class="control-label"><input type="checkbox" class="form-check-input" name="agree_location" value="Y"> 약관에 동의합니다.</label>
+										<label class="control-label"><input type="checkbox" class="form-check-input" name=""> 약관에 동의합니다.</label>
 									</div>
 									<div class="form-group mb-20">
 										마케팅 정보 수신 동의 – 이메일 (선택)
@@ -131,7 +169,7 @@
 											수신 거부 안내<br>
 											• 이메일 내 하단의 수신 거부 링크 또는 서비스 내 알림 설정에서 변경 가능
 										</div>
-										<label class="control-label"><input type="checkbox" class="form-check-input" name="agree_email" value="Y"> 약관에 동의합니다.</label>
+										<label class="control-label"><input type="checkbox" class="form-check-input" name=""> 약관에 동의합니다.</label>
 									</div>
 									<div class="form-group mb-20">
 										마케팅 정보 수신 동의 – SMS/MMS (선택)
@@ -146,7 +184,7 @@
 											수신 거부 안내<br>
 											• 고객센터를 통한 철회 또는 서비스 내 설정에서 변경 가능
 										</div>
-										<label class="control-label"><input type="checkbox" class="form-check-input" name="agree_sms" value="Y"> 약관에 동의합니다.</label>
+										<label class="control-label"><input type="checkbox" class="form-check-input" name=""> 약관에 동의합니다.</label>
 									</div>
 									<div class="form-group mb-8 button">
 										<button type="submit" class="btn ">회원가입</button>

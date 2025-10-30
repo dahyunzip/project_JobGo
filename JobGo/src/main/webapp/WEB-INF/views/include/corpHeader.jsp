@@ -1,11 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>JobGo</title>
+<title>JobGo 기업회원 페이지</title>
 	
 	<link rel="shortcut icon" type="image/x-icon" href="${pageContext.request.contextPath }/resources/images/favicon.svg" />
 	<!-- Web Font -->
@@ -38,7 +37,7 @@
 					<div class="col-lg-8 col-xs-12">
 						<nav class="navbar navbar-expand-lg">
 							<a class="navbar-brand logo" href="/">
-								<h3>일반회원 페이지</h3>
+								<h3>기업회원 페이지</h3>
 								<%-- <img class="logo1" src="${pageContext.request.contextPath }/resources/images/logo/logo.svg" alt="Logo" /> --%>
 							</a>
 						</nav>
@@ -52,30 +51,25 @@
 						<div class="collapse navbar-collapse sub-menu-bar"
 							id="navbarSupportedContent">
 							<ul id="nav" class="navbar-nav">
-								<li class="nav-item"><a href="#">채용공고</a></li>
-								<li class="nav-item"><a href="#">커리어관리</a></li>
+								<li class="nav-item"><a href="#">채용 공고 관리</a></li>
+								<li class="nav-item"><a href="#">지원자 현황</a></li>
+								<li class="nav-item"><a href="#">공지사항</a></li>
 								<li class="nav-item"><a href="#">기업리뷰</a></li>
-								<li class="nav-item"><a href="#">커뮤니티</a>
-									<ul class="sub-menu">
-										<li><a href="#">공지사항</a></li>
-										<li><a href="#">커뮤니티</a></li>
-									</ul>
-								</li>
 							</ul>
 						</div>
 						<!-- navbar collapse -->
 						<div class="button">
 						    <c:choose>
-						        <c:when test="${not empty id}">
-						            <a href="/member/logout" class="login">
+						        <c:when test="${not empty corpUserId}">
+						            <a href="/corp/logout" class="login">
 						                <i class="lni lni-lock-alt"></i> 로그아웃
 						            </a>
 						        </c:when>
 						        <c:otherwise>
-						            <a href="/member/login" class="login">
+						            <a href="/corp/login" class="login">
 						                <i class="lni lni-lock-alt"></i> 로그인
 						            </a>
-						            <a href="/member/join" class="btn">
+						            <a href="/corp/join" class="btn">
 						                회원가입
 						            </a>
 						        </c:otherwise>

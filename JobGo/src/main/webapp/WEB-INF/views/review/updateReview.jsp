@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>리뷰 수정 (실전용)</title>
+<title>리뷰 수정 </title>
 </head>
 <body>
     <h2>리뷰 수정</h2>

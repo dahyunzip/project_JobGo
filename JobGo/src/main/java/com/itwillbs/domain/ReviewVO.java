@@ -6,25 +6,18 @@ import lombok.Data;
 
 @Data
 public class ReviewVO {
-	private int review_id;
-	private int member_id;
-	private int corp_id;
-	private String job_code;
-	private String work_months;
-	private String rev_title;
-	private String rev_content;
-	private int rev_rate;
-	private String rev_pros;
-	private String rev_cons;
-	private String rev_public = "y";
-	private LocalDateTime rev_regdate;
-	private LocalDateTime rev_updatedate;
-	
-	public int getRev_rate() {
-		return rev_rate;
-	}
-	public void setRev_rate(int rev_rate) {
-		this.rev_rate = rev_rate;
-	}
+	private int reviewId;
+	private int memberId;
+	private int corpId;
+	private String jobCode;
+	private String workMonths;
+	private String revTitle;
+	private String revContent;
+	private int revRate;
+	private String revPros;
+	private String revCons;
+	private String revPublic = "y";
+	private LocalDateTime revRegdate;
+	private LocalDateTime revUpdatedate;
 	
 }

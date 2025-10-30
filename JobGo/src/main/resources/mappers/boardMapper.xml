@@ -22,8 +22,14 @@
 		limit #{pageStart}, #{pageSize} 
 	</select>
 	
+	<!-- 게시판 모든 글 개수를 가져오기 -->
 	<select id="selectTotalCount" resultType="int">
 		select count(com_bno) from com_board
 	</select>
-
+	
+	<!-- 게시글 등록 -->
+	<insert id="insertComBoard">
+		insert into com_board (member_id,com_title,com_content,storedFileName) 
+		values (#{member_id},#{com_title},#{com_content},#{storedFileName})
+	</insert>
 </mapper>

@@ -23,7 +23,7 @@
 			            </h3>
 			        </div>
 			        <hr>
-			        <form class="form-ad" method="post">
+			        <form class="form-ad" method="post" enctype="multipart/form-data">
 			            <h3 class="single-section-title">
 			            	<font dir="auto" style="vertical-align: inherit;">
 			            		<font dir="auto" style="vertical-align: inherit;">글 작성</font>
@@ -51,7 +51,7 @@
 			                        	</font>
 			                        </label>
 			                        <input type="text" class="form-control"
-			                        	   value="${id.name }"
+			                        	   value="${memberLoginInfo.name }"
 			                               readonly>
 			                    </div>
 			                </div>
@@ -63,7 +63,7 @@
 			                	</font>
 			                </label>
 			                <input type="text" class="form-control" 
-			                       value="${id.email }"
+			                       value="${memberLoginInfo.email }"
 			                       readonly>
 			            </div>
 			            <div class="form-group">
@@ -73,6 +73,7 @@
 			                	</font>
 			                </label>
 			                <textarea class="form-control" rows="7"
+			                		  name="com_content"
 			                          placeholder="자유롭게 글을 작성하세요!" 
 			                          required></textarea>
 			            </div>
@@ -88,10 +89,12 @@
 											        </label>
 									            </div>	
 			                                    <hr>
-			                                    <label for="exampleInputFile">
-			                                    	<font dir="auto" style="vertical-align: inherit;">File input</font>
-			                                    </label>
-			                                    <input id="cover_img_file_3" type="file">
+			                                    <div>
+				                                    <input id="cover_img_file_3" type="file" name="storedFileName" accept="image/*"> 첨부파일 ➕ <input type="button" value=" 추가하기" id="addBtn">
+			                                    </div>
+			                                    <div id="fileDiv">
+			                                    
+			                                    </div>
 			                                </div>
 			                            </div>
 			                        </div>
@@ -109,4 +112,13 @@
 		</div>
 	</div>
 </section>
+<script type="text/javascript">
+	$(document).ready(function(){
+		var cnt = 1;
+		$("#addBtn").click(function(){
+			// alert("버튼 클릭");
+			$("#fileDiv").append("<div><br><input id='cover_img_file_3' type='file' name='storedFileName"+(cnt++)+"' accept='image/*' ></div>")
+		});
+	});
+</script>
 <%@ include file="../include/Footer.jsp" %>

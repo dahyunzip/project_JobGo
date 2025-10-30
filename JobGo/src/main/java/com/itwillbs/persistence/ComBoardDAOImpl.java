@@ -45,4 +45,13 @@ public class ComBoardDAOImpl implements ComBoardDAO {
 		return result;
 	}
 
+	@Override
+	public void insertComBoard(ComBoardVO vo) throws Exception {
+		logger.debug(" insertComBoard()실행! ");
+		
+		sqlSession.insert(NAMESPACE + "insertComBoard", vo);
+		
+		logger.debug(" insertComBoard()실행! ");
+	}
+
 }

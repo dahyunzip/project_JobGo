@@ -1,6 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ include file="../include/Header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,22 +7,24 @@
 <title>리뷰 작성</title>
 </head>
 <body>
+<%@ include file="../include/Header.jsp"%>
+
 	<h2>리뷰 작성</h2>
 	<form action="${pageContext.request.contextPath}/review/insertReview" method="post">
 		
-		<input type="hidden" name="userid" value="${sessionScope.userid}" />
+		<!-- <input type="hidden" name="memberId" value="${sessionScope.userid}" />-->
 		
 		<div>
 			<label>기업 ID</label>
-			<input type="text" name="corp_id"/>
+			<input type="text" name="corpId"/>
 		</div>
 		<div>
 			<label>직무 코드</label>
-			<input type="text" name="job_code"/>
+			<input type="text" name="jobCode"/>
 		</div>
 		<div>
 			<label>근무 기간</label>
-			<select name="work_months">
+			<select name="workMonths">
 				<option value="">선택하세요</option>
 				<option value="A">1개월 미만</option>
 				<option value="B">1~3개월</option>
@@ -37,11 +38,11 @@
 		</div>
 		<div>
 			<label>제목</label>
-			<input type="text" name="rev_title"/>
+			<input type="text" name="revTitle"/>
 		</div>
 		<div>
 			<label>내용</label>
-			<textarea name="rev_content"></textarea>
+			<textarea name="revContent"></textarea>
 		</div>
 		<div>
     		<label>별점: </label>
@@ -52,19 +53,19 @@
         		<span class="star" data-value="4">☆</span>
         		<span class="star" data-value="5">☆</span>
     		</div>
-    		<input type="hidden" name="rev_rate" id="rev_rate" value="0">
+    		<input type="hidden" name="revRate" id="revRate" value="0">
 		</div>
 		<div>
 			<label>장점</label>
-			<textarea name="rev_pros"></textarea>
+			<textarea name="revPros"></textarea>
 		</div>
 		<div>
 			<label>단점</label>
-			<textarea name="rev_cons"></textarea>
+			<textarea name="revCons"></textarea>
 		</div>
 		<div>
 			<label>공개여부</label>
-			<select name="rev_public">
+			<select name="revPublic">
 				<option value="y">예</option>
 				<option value="n">아니오</option>
 			</select>
@@ -76,7 +77,7 @@
 	
 	<script>
 			const stars = document.querySelectorAll('#star-rating .star');
-	    	const revRateInput = document.getElementById('rev_rate');
+	    	const revRateInput = document.getElementById('revRate');
 	
 		    stars.forEach(star => {
 		        star.addEventListener('click', () => {
@@ -98,5 +99,5 @@
 		</script>
 	
 </body>
-</html>
 <%@ include file="../include/Footer.jsp"%>
+</html>

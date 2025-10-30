@@ -24,12 +24,16 @@ public class ReviewController {
 
     @Inject
     private ReviewService reviewService;
+    
+    @Inject
     private MemberService memberService;
+    
     private static final Logger logger = LoggerFactory.getLogger(ReviewController.class);
 
     // 리뷰 작성 폼
     @RequestMapping(value="/insertReview", method = RequestMethod.GET)
     public String insertReviewForm(HttpSession session) {
+    	/*
     	String loginUserid = (String) session.getAttribute("userid");
 		if (loginUserid == null) {
 			return "redirect:/member/login";
@@ -46,13 +50,21 @@ public class ReviewController {
 		if (memberInfo == null) {
 			return "redirect:/member/login";
 		}
-
+		*/
+    	
+    	if (session.getAttribute("userid") == null) {
+            session.setAttribute("userid", "user01"); // DB의 userid
+            session.setAttribute("id", 1); // DB의 id값
+            System.out.println("테스트용 세션 자동생성됨 : user01 / id=1");
+        }
+    	
 		return "review/insertReview";
     }
 
     // 리뷰 작성 처리
     @RequestMapping(value="/insertReview", method = RequestMethod.POST)
     public String insertReview(ReviewVO review, HttpSession session) {
+    	/*
     	String loginUserid = (String) session.getAttribute("userid");
 		if (loginUserid == null) {
 			return "redirect:/member/login";
@@ -69,17 +81,26 @@ public class ReviewController {
 		if (memberInfo == null) {
 			return "redirect:/member/login";
 		}
-
 		review.setMember_id(memberInfo.getId());
 		reviewService.insertReview(review);
 		logger.debug("리뷰 작성 완료 - 작성자 ID: {}", memberInfo.getId());
+*/
+    	if (session.getAttribute("userid") == null) {
+            session.setAttribute("userid", "user01");
+            session.setAttribute("id", 1);
+        }
+        review.setMemberId(1);
 
+        reviewService.insertReview(review);
+        logger.debug("리뷰 작성 완료 (테스트) - 작성자 ID: 1");
+    	
 		return "redirect:/review/reviewList";
     }
 
     // 리뷰 수정 폼
     @RequestMapping(value="/updateReview", method = RequestMethod.GET)
-    public String updateReviewForm(@RequestParam("review_id") int review_id, HttpSession session, Model model) {
+	    public String updateReviewForm(@RequestParam("reviewId") int reviewId, HttpSession session, Model model) {
+	    	/*
     	String loginUserid = (String) session.getAttribute("userid");
 		if (loginUserid == null) {
 			return "redirect:/member/login";
@@ -97,7 +118,14 @@ public class ReviewController {
 		if (review == null || review.getMember_id() != memberInfo.getId()) {
 			return "error/403";
 		}
+*/
+    	if (session.getAttribute("userid") == null) {
+            session.setAttribute("userid", "user01");
+            session.setAttribute("id", 1);
+        }
 
+        ReviewVO review = reviewService.reviewDetail(reviewId);
+    	
 		model.addAttribute("review", review);
 		return "review/updateReview";
     }
@@ -105,6 +133,7 @@ public class ReviewController {
     // 리뷰 수정 처리
     @RequestMapping(value="/updateReview", method = RequestMethod.POST)
     public String updateReview(ReviewVO review, HttpSession session) {
+    	/*
     	String loginUserid = (String) session.getAttribute("userid");
 		if (loginUserid == null) {
 			return "redirect:/member/login";
@@ -127,14 +156,23 @@ public class ReviewController {
 		}
 
 		review.setMember_id(memberInfo.getId());
+		*/
+    	
+    	if (session.getAttribute("userid") == null) {
+            session.setAttribute("userid", "user01");
+            session.setAttribute("id", 1);
+        }
+        review.setMemberId(1);
+    	
 		reviewService.updateReview(review);
 
-		return "redirect:/review/reviewDetail?review_id=" + review.getReview_id();
+		return "redirect:/review/reviewDetail?review_id=" + review.getReviewId();
     }
 
     // 리뷰 삭제
     @RequestMapping(value="/deleteReview", method = RequestMethod.POST)
-    public String deleteReview(@RequestParam("review_id") int review_id, HttpSession session) {
+    public String deleteReview(@RequestParam("reviewId") int reviewId, HttpSession session) {
+    	/*
     	String loginUserid = (String) session.getAttribute("userid");
 		if (loginUserid == null) {
 			return "redirect:/member/login";
@@ -152,43 +190,49 @@ public class ReviewController {
 		if (review == null || review.getMember_id() != memberInfo.getId()) {
 			return "error/403";
 		}
-
-		reviewService.deleteReview(review_id);
-		logger.debug("리뷰 삭제 완료 - review_id: {}", review_id);
+*/
+    	if (session.getAttribute("userid") == null) {
+            session.setAttribute("userid", "user01");
+            session.setAttribute("id", 1);
+        }
+    	
+		reviewService.deleteReview(reviewId);
+		logger.debug("리뷰 삭제 완료 - review_id: {}", reviewId);
 		return "redirect:/review/reviewList";
     }
 
     // 리뷰 목록
     @RequestMapping(value="/reviewList", method = RequestMethod.GET)
-    public String reviewList(Model model) {
-        List<ReviewVO> list = reviewService.reviewList();
-        model.addAttribute("reviewList", list);
-        return "review/reviewList";
+    public String reviewList(@RequestParam("reviewId") int reviewId, Model model) {
+    	ReviewVO review = reviewService.reviewDetail(reviewId);
+        model.addAttribute("reviewDetail", review);
+        return "review/reviewDetail";
     }
 
     // 리뷰 상세
     @RequestMapping(value="/reviewDetail", method = RequestMethod.GET)
-    public String reviewDetail(@RequestParam("review_id") int review_id, Model model) {
-        ReviewVO review = reviewService.reviewDetail(review_id);
+    public String reviewDetail(@RequestParam("reviewId") int reviewId, Model model) {
+        ReviewVO review = reviewService.reviewDetail(reviewId);
         model.addAttribute("reviewDetail", review);
+        logger.debug("detail 동작");
         return "review/reviewDetail";
     }
 
     // 회원별 리뷰
     @RequestMapping(value="/memberReviewList", method = RequestMethod.GET)
-    public String selectReviewsByMember(@RequestParam("member_id") int member_id, Model model) {
-        List<ReviewVO> list = reviewService.selectReviewsByMember(member_id);
+    public String selectReviewsByMember(@RequestParam("memberId") int memberId, Model model) {
+        List<ReviewVO> list = reviewService.selectReviewsByMember(memberId);
         model.addAttribute("memberReviewList", list);
-        model.addAttribute("member_id", member_id);
+        model.addAttribute("member_id", memberId);
         return "review/reviewsByMember";
     }
 
     // 기업별 리뷰
     @RequestMapping(value="/corpReviewList", method = RequestMethod.GET)
-    public String selectReviewsByCorp(@RequestParam("corp_id") int corp_id, Model model) {
-        List<ReviewVO> list = reviewService.selectReviewsByCorp(corp_id);
+    public String selectReviewsByCorp(@RequestParam("corpId") int corpId, Model model) {
+        List<ReviewVO> list = reviewService.selectReviewsByCorp(corpId);
         model.addAttribute("corpReviewList", list);
-        model.addAttribute("corp_id", corp_id);
+        model.addAttribute("corp_id", corpId);
         return "review/reviewsByCorp";
     }
 }

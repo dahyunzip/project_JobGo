@@ -8,8 +8,14 @@
 <title>리뷰 목록</title>
 </head>
 <body>
+<%@ include file="../include/Header.jsp"%>
 	
 	<h2>리뷰 목록</h2>
+	
+	<h3>디버깅용 출력</h3>
+	<c:forEach var="r" items="${reviewList}">
+		<p>${r}</p>
+	</c:forEach>
 	
 	<table border="1">
     	<thead>
@@ -24,16 +30,17 @@
     	<tbody>
     	    <c:forEach var="review" items="${reviewList}">
     	        <tr>
-    	            <td>${review.review_id}</td>
+    	            <td>${review.reviewId}</td>
     	            <td>
-    	            	<a href="/review/reviewDetail?review_id=${review.review_id}">${review.rev_title}</a>
+    	            	<a href="/review/reviewDetail?reviewId=${review.reviewId}">${review.revTitle}</a>
+    	            	<!-- <input type="hidden" name="reviewId" value="${reviewDetail.reviewId}">-->
     	            </td>
-    	            <td>${review.member_id}</td>
+    	            <td>${review.memberId}</td>
     	            <td>
-    	                <c:forEach begin="1" end="${review.rev_rate}" var="i">★</c:forEach>
-    	                <c:forEach begin="1" end="${5 - review.rev_rate}" var="i">☆</c:forEach>
+    	                <c:forEach begin="1" end="${review.revRate}" var="i">★</c:forEach>
+    	                <c:forEach begin="1" end="${5 - review.revRate}" var="i">☆</c:forEach>
     	            </td>
-    	            <td>${review.rev_regdate}</td>
+    	            <td>${review.revRegdate}</td>
             	</tr>
         	</c:forEach>
     	</tbody>
@@ -48,7 +55,9 @@
 		<p>로그인 후 리뷰를 작성할 수 있습니다.</p>
 	</c:if>
 	
+	
+	
 
 </body>
-</html>
 <%@ include file="../include/Footer.jsp"%>
+</html>

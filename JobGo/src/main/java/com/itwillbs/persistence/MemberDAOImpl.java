@@ -1,6 +1,9 @@
 package com.itwillbs.persistence;
 
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.inject.Inject;
 
 import org.apache.ibatis.session.SqlSession;
@@ -23,17 +26,19 @@ public class MemberDAOImpl implements MemberDAO {
 	@Override
 	public void insertMember(MemberVO vo) {
 		sqlSession.insert(NAMESPACE+"insertMember", vo);
-		logger.debug(" DAO : SQL 실행 성공");
-		logger.debug(" DAO : 회원가입 성공!");
+	}
+	
+	@Override
+	public MemberVO loginCheck(String userid, String userpw) throws Exception {
+		Map<String, Object> param = new HashMap<>();
+		param.put("userid", userid);
+		param.put("userpw", userpw);
+		return sqlSession.selectOne(NAMESPACE+"loginMember", param);
 	}
 
 	@Override
-	public MemberVO loginCheck(MemberVO vo) {
-		logger.debug(" DAO : loginCheck(vo) 실행 ");
-		MemberVO resultVO = sqlSession.selectOne(NAMESPACE + "loginCheck", vo);
-		
-		return resultVO;
-	}
-
+    public MemberVO getMemberByUserid(String userid) throws Exception {
+        return sqlSession.selectOne(NAMESPACE + "getMemberByUserid", userid);
+    }
 	
 }

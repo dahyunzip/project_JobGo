@@ -63,8 +63,6 @@ public class MemberController {
 		}
 		// logger.debug("@@@@ SUCCESS || 로그인 성공");
 		
-		// session.setAttribute("id", resultVO.getUserid());
-		
 		// 테스트
 		
 		// return "redirect:/";

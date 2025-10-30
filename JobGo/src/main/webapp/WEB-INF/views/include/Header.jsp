@@ -59,8 +59,7 @@
 									<ul class="sub-menu">
 										<li><a href="#">공지사항</a></li>
 										<li><a href="#">커뮤니티</a></li>
-									</ul>
-								</li>
+                  </ul>
 							</ul>
 						</div>
 						<!-- navbar collapse -->

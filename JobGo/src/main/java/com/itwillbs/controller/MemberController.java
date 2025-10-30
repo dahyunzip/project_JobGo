@@ -68,7 +68,7 @@ public class MemberController {
 		
 		session.setAttribute("id", resultVO.getUserid());
 		
-		// 
+		// 테스트
 		
 		return "redirect:/";
 	}

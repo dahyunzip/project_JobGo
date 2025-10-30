@@ -6,6 +6,8 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
 import com.itwillbs.service.ComBoardServiceImpl;
+import com.itwillbs.service.MemberService;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -28,6 +30,7 @@ public class ComBoardController {
 		= LoggerFactory.getLogger(ComBoardController.class);
 	
 	@Inject private ComBoardService comBoardService;
+	@Inject private MemberService memberService;
 	
 	@GetMapping("/test")
 	public void test() {
@@ -37,12 +40,14 @@ public class ComBoardController {
 	// 게시판 글쓰기 - GET
 	@GetMapping("/comRegist")
 	public void comRegistGET(HttpSession session,
-			                 Model model) {
+			                 Model model) throws Exception {
 		logger.debug(" /comboard/comRegist -> comRegistGET() 실행! ");
 		
-		MemberVO memberLoginInfo = (MemberVO) session.getAttribute("id");
+		String memberLoginInfo = (String) session.getAttribute("userid");
 		
-		model.addAttribute("memberLoginInfo", memberLoginInfo);
+		MemberVO memberInfo = memberService.getMember(memberLoginInfo);
+		
+		model.addAttribute("memberLoginInfo", memberInfo);
 		
 		logger.debug(" /views/comboard/comRegist.jsp 페이지 이동 ");
 	}

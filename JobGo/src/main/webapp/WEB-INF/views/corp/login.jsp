@@ -3,7 +3,7 @@
 <%@ include file="../include/corpHeader.jsp"%>
 <script>
 $(document).ready(function(){
-	if('${msg }' == 'joinSucess'){
+	if('${msg }' == 'joinSuccess'){
 		alert('회원가입 성공!');
 	}
 })

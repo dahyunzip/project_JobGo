@@ -20,7 +20,6 @@ import com.itwillbs.service.MemberService;
 @RequestMapping(value="/member/*")
 public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
-	
 	@Inject
 	private MemberService mService;
 
@@ -34,7 +33,7 @@ public class MemberController {
 	@RequestMapping(value="/join", method = RequestMethod.POST)
 	public String memberJoinPOST(MemberVO vo, RedirectAttributes rttr) throws Exception {
 		mService.registerMember(vo);
-		rttr.addFlashAttribute("msg", "joinSucess");
+		rttr.addFlashAttribute("msg", "joinSuccess");
 		return "redirect:/member/login";
 	}
 	
@@ -49,23 +48,21 @@ public class MemberController {
 	public String memberLoginPOST(@RequestParam("userid") String userid,
 								  @RequestParam("userpw") String userpw,
 								  HttpSession session,
-								  Model model) throws Exception {
+								  Model model,
+								  RedirectAttributes rttr) throws Exception {
 		
 		MemberVO loginVO = mService.login(userid, userpw);
 		
 		if(loginVO != null && !loginVO.isDeleted()) {
 			session.setAttribute("userid", loginVO.getUserid());
 			session.setAttribute("memberName", loginVO.getName());
+			logger.info(" 로그인 성공 ");
+			rttr.addFlashAttribute("msg", "loginSuccess");
 			return "redirect:/";
 		}else {
 			model.addAttribute("msg", "아이디 또는 비밀번호가 올바르지 않습니다.");
 			return "";
 		}
-		// logger.debug("@@@@ SUCCESS || 로그인 성공");
-		
-		// 테스트
-		
-		// return "redirect:/";
 	}
 	
 	// 로그아웃
@@ -74,6 +71,31 @@ public class MemberController {
 	public String memberLogoutGET(HttpSession session) {
 		session.invalidate();
 		return "redirect:/";
+	}
+	
+	@RequestMapping(value="/mypage", method=RequestMethod.GET)
+	public String memberInfoGET(HttpSession session, Model model) throws Exception{
+		String memberId = (String) session.getAttribute("userid");
+		MemberVO userVO = mService.getMember(memberId);
+		model.addAttribute("user", userVO);
+		return "/member/mypage";
+	}
+	
+	@RequestMapping(value="/modify", method=RequestMethod.GET)
+	public String memberModifyGET(HttpSession session, Model model) throws Exception{
+		String memberId = (String) session.getAttribute("userid");
+		MemberVO userVO = mService.getMember(memberId);
+		model.addAttribute("user", userVO);
+		return "/member/modify";
+	}
+	
+	@RequestMapping(value="/modify", method=RequestMethod.POST)
+	public String memberModifyPOST(MemberVO vo, RedirectAttributes rttr) throws Exception{
+		logger.debug(" memberModifyPOST(MemberVO vo) 실행!");
+		logger.debug("vo : " + vo);
+		mService.modifyMember(vo);
+		rttr.addFlashAttribute("msg", "modifySuccess");
+		return "redirect:/member/mypage";
 	}
 	
 }

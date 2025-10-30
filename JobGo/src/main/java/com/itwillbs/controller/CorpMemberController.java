@@ -29,7 +29,7 @@ public class CorpMemberController {
 	@RequestMapping(value="/join", method=RequestMethod.POST)
 	public String corpJoinPOST(CorpMemberVO vo, RedirectAttributes rttr) throws Exception{
 		cService.registerCorpMember(vo);
-		rttr.addFlashAttribute("msg", "joinSucess");
+		rttr.addFlashAttribute("msg", "joinSuccess");
 		return "redirect:/corp/login";
 	}
 	

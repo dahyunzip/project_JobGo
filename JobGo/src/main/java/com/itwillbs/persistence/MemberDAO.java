@@ -12,4 +12,7 @@ public interface MemberDAO {
 	
 	// 아이디로 멤버 정보 가져오기
 	public MemberVO getMemberByUserid(String userid) throws Exception;
+	
+	// 회원정보 수정
+	public void updateMember(MemberVO vo) throws Exception;
 }

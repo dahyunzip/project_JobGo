@@ -1,5 +1,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ include file="../include/Header.jsp"%>
+<script>
+$(document).ready(function(){
+	if('${msg }' == 'loginSuccess'){
+		alert('로그인 성공!');
+	}
+})
+</script>
 <section class="hero-area">
 	<!-- Single Slider -->
 	<div class="hero-inner">

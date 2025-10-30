@@ -40,5 +40,10 @@ public class MemberDAOImpl implements MemberDAO {
     public MemberVO getMemberByUserid(String userid) throws Exception {
         return sqlSession.selectOne(NAMESPACE + "getMemberByUserid", userid);
     }
+
+	@Override
+	public void updateMember(MemberVO vo) throws Exception {
+		sqlSession.update(NAMESPACE + "updateMember", vo);
+	}
 	
 }

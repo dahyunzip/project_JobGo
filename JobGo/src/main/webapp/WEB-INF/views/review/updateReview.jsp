@@ -13,7 +13,7 @@
 	
 	
 	<c:choose>
-		<c:when test="${sessionScope.id == review.member_id}">
+		<c:when test="${sessionScope.userid == review.member_id}">
 		<!-- 본인일 때만 수정 가능  -->
     	<!-- 실전용 : 로그인 세션 기반으로 본인만 수정 가능 -->
     	<!-- 테스트 시에는 action만 동일하게 두고 세션 제거 가능 -->
@@ -22,7 +22,7 @@
         	<!-- 리뷰 ID (고정값) -->
         	<input type="hidden" name="review_id" value="${review.review_id}" />
 
-        	<input type="hidden" name="member_id" value="${sessionScope.id}" />
+        	<input type="hidden" name="member_id" value="${sessionScope.userid}" />
 
         	<div>
             	<label>기업 ID</label>

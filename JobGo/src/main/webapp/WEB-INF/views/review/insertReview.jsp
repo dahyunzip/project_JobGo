@@ -10,6 +10,9 @@
 <body>
 	<h2>리뷰 작성</h2>
 	<form action="${pageContext.request.contextPath}/review/insertReview" method="post">
+		
+		<input type="hidden" name="userid" value="${sessionScope.userid}" />
+		
 		<div>
 			<label>기업 ID</label>
 			<input type="text" name="corp_id"/>

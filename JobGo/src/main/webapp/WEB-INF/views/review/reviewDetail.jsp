@@ -70,16 +70,19 @@
 			</c:choose>
 		</div>
 	<hr>
-	<div>
-		<form action="reviewUpdateForm" method="get">
-			<input type="hidden" name="review_id" value="${reviewDetail.review_id }">
-			<button type="submit">수정</button>
-		</form>
-		<form id="deleteForm" action="${pageContext.request.contextPath}/review/deleteReview" method="post" style="display:inline;">
-    		<input type="hidden" name="review_id" value="${reviewDetail.review_id}" />
-    		<button type="button" onclick="confirmDelete()">삭제</button>
-		</form>
-	</div>
+	<c:if test="${sessionScope.userid == reviewDetail.member_id}">
+		<div>
+			<form action="${pageContext.request.contextPath}/review/updateReview" method="get" style="display:inline;">
+				<input type="hidden" name="review_id" value="${reviewDetail.review_id}">
+				<button type="submit">수정</button>
+			</form>
+
+			<form id="deleteForm" action="${pageContext.request.contextPath}/review/deleteReview" method="post" style="display:inline;">
+				<input type="hidden" name="review_id" value="${reviewDetail.review_id}" />
+				<button type="button" onclick="confirmDelete()">삭제</button>
+			</form>
+		</div>
+	</c:if>
 	<script>
 		function confirmDelete() {
    			if (confirm("정말 이 리뷰를 삭제하시겠습니까?")) {

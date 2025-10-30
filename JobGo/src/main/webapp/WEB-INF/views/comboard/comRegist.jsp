@@ -18,7 +18,7 @@
 			        <div id="com_top" class="post-header align-items-center justify-content-center">
 			            <h3 id="title">
 			            	<font dir="auto" style="vertical-align: inherit;">
-			            		<font dir="auto" style="vertical-align: inherit;">${memberLoginInfo.name }님 환영합니다.</font>
+			            		<font dir="auto" style="vertical-align: inherit;">${memberLoginInfo.name }</font>
 			            	</font>
 			            </h3>
 			        </div>

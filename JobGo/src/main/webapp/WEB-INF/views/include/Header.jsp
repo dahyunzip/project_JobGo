@@ -55,7 +55,7 @@
 								<li class="nav-item"><a href="#">채용공고</a></li>
 								<li class="nav-item"><a href="#">커리어관리</a></li>
 								<li class="nav-item"><a href="#">기업리뷰</a></li>
-								<li class="nav-item"><a href="#">커뮤니티</a>
+								<li class="nav-item"><a href="/comboard/comListCri">커뮤니티</a>
 									<ul class="sub-menu">
 										<li><a href="#">공지사항</a></li>
 										<li><a href="#">커뮤니티</a></li>
@@ -65,7 +65,7 @@
 						<!-- navbar collapse -->
 						<div class="button">
 						    <c:choose>
-						        <c:when test="${not empty id}">
+						        <c:when test="${not empty userid}">
 						            <a href="/member/logout" class="login">
 						                <i class="lni lni-lock-alt"></i> 로그아웃
 						            </a>

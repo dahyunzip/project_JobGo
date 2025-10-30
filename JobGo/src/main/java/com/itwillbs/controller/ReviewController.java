@@ -43,7 +43,7 @@ public class ReviewController {
     	try {
     		review.setMember_id(Integer.parseInt(loginId.toString()));
     	} catch (NumberFormatException e) {
-    		logger.warn("세션 ID 변환 실패");
+    		logger.debug("세션 ID 변환 실패");
     		return "redirect:/member/login";
     	}
 

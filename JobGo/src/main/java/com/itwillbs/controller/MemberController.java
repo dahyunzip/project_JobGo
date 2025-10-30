@@ -6,9 +6,12 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.MemberVO;
 import com.itwillbs.service.MemberService;
@@ -24,19 +27,14 @@ public class MemberController {
 	// 회원가입
 	// http://localhost:8088/member/join
 	@RequestMapping(value="/join", method=RequestMethod.GET)
-	public void memberJoinGET() {
-		logger.debug(" /join -> memberJoinGet() 실행! ");
-		logger.debug("/views/member/join.jsp 페이지 이동");
+	public String memberJoinGET() {
+		return "/member/join";
 	}
 	
 	@RequestMapping(value="/join", method = RequestMethod.POST)
-	public String memberJoinPOST(@ModelAttribute MemberVO vo) {
-		logger.debug(" /join -> memberJoinPOST 실행 !");
-		logger.debug("vo : " + vo);
-		
-		mService.memberJoin(vo);
-		logger.debug("회원가입 성공!");
-		
+	public String memberJoinPOST(MemberVO vo, RedirectAttributes rttr) throws Exception {
+		mService.registerMember(vo);
+		rttr.addFlashAttribute("msg", "joinSucess");
 		return "redirect:/member/login";
 	}
 	
@@ -44,42 +42,37 @@ public class MemberController {
 	// http://localhost:8088/member/login
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String memberLoginGET() {
-		logger.debug(" /login -> memberLoginGet() 실행! ");
-		logger.debug("/views/member/Login.jsp 페이지 이동");
-		
 		return "/member/login";
 	}
 	
-	// 로그인
-	// http://localhost:8088/member/login
 	@RequestMapping(value="/login", method=RequestMethod.POST)
-	public String memberLoginPOST(MemberVO loginVO, HttpSession session) {
-		logger.debug(" /login -> memberLoginPOST() 실행! ");
-		logger.debug(" loginVO : " + loginVO );
+	public String memberLoginPOST(@RequestParam("userid") String userid,
+								  @RequestParam("userpw") String userpw,
+								  HttpSession session,
+								  Model model) throws Exception {
 		
-		MemberVO resultVO = mService.memberLoginCheck(loginVO);
-		logger.debug(" resultVO : " + resultVO );
+		MemberVO loginVO = mService.login(userid, userpw);
 		
-		if(resultVO == null) {
-			logger.debug("로그인 실패");
-			return "redirect:/member/login";
+		if(loginVO != null && !loginVO.isDeleted()) {
+			session.setAttribute("userid", loginVO.getUserid());
+			session.setAttribute("memberName", loginVO.getName());
+			return "redirect:/";
+		}else {
+			model.addAttribute("msg", "아이디 또는 비밀번호가 올바르지 않습니다.");
+			return "";
 		}
-		logger.debug("@@@@ SUCCESS || 로그인 성공");
+		// logger.debug("@@@@ SUCCESS || 로그인 성공");
 		
-		session.setAttribute("id", resultVO.getUserid());
+		// 테스트
 		
-		return "redirect:/";
+		// return "redirect:/";
 	}
 	
 	// 로그아웃
 	// http://localhost:8088/member/logout
 	@RequestMapping(value="/logout", method = RequestMethod.GET)
 	public String memberLogoutGET(HttpSession session) {
-		logger.debug(" /member/logout -> memberLogoutGET() 실행 ");
-		
-		// 로그인 정보를 제거 => 세션 정보 초기화
 		session.invalidate();
-		logger.debug("세션 정보 초기화, 로그아웃 성공!");
 		return "redirect:/";
 	}
 	

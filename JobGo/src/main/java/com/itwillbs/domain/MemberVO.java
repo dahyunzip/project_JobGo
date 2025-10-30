@@ -6,19 +6,19 @@ import lombok.Data;
 
 @Data
 public class MemberVO {
-	private char membertype;
 	private int id;
-	private String userid;
-	private String userpw;
-	private String email;
-	private String name;
-	private String phone;
-	private String addr;
-	private String pfimage;
-	private Timestamp joined_at;
-	private Timestamp updated_at;
-	private boolean is_deleted;
-	private char agree_location;
-	private char agree_email;
-	private char agree_sms;
+    private String userid;
+    private String userpw;
+    private String email;
+    private String name;
+    private String phone;
+    private String addr;
+    private String pfImage;
+    private Timestamp joinedAt;
+    private Timestamp updateAt;
+    private boolean isDeleted;
+    private String membertype;       // 'G' : 일반회원, 'A' : 관리자
+    private String agreeLocation;    // Y/N
+    private String agreeEmail;       // Y/N
+    private String agreeSms;         // Y/N
 }

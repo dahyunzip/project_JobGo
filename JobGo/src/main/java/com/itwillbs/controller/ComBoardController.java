@@ -1,20 +1,17 @@
 package com.itwillbs.controller;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
-import com.itwillbs.service.ComBoardServiceImpl;
 import com.itwillbs.service.MemberService;
 
 import org.slf4j.Logger;
@@ -22,8 +19,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
@@ -110,13 +109,13 @@ public class ComBoardController {
 		
 		// 파일 업로드
 		List<String> fileList = fileUploadProcess(multiRequest);
-		paramMap.put("fileList", fileList);
-		
+		String storedFileNames = String.join(",", fileList);
+
 		// ComBoardVO 객체 생성
 		ComBoardVO comboardVO = new ComBoardVO();
 		comboardVO.setCom_title((String) paramMap.get("com_title"));
 		comboardVO.setCom_content((String) paramMap.get("com_content"));
-		comboardVO.setStoredFileName((String) paramMap.get("storedFileName"));
+		comboardVO.setStoredFileName(storedFileNames); 
 		comboardVO.setMember_id(member_id);
 		comboardVO.setWriter(memberInfo.getName());
 		comboardVO.setEmail(memberInfo.getEmail());
@@ -177,7 +176,8 @@ public class ComBoardController {
 	// 게시판 리스트(페이징)
 	@GetMapping("/comListCri")
 	public void comListCriGET(Criteria cri,
-			                  Model model) throws Exception {
+			                  Model model,
+			                  HttpSession session) throws Exception {
 		logger.debug(" /comboard/comListCri -> comListCri() 실행! ");
 		
 		PageVO pageVO = new PageVO();
@@ -188,11 +188,43 @@ public class ComBoardController {
 			= comBoardService.getComBoardListPage(cri);		
 		// logger.debug("list:"+cboardList);
 		logger.debug("list:"+cboardList.size());
+		logger.debug("list:"+cboardList);
 		
 		model.addAttribute(pageVO);
 		model.addAttribute("cboardList",cboardList);
 		
+		// 세션영역에 조회수증가 여부를 판단하는 상태값을 생성
+		session.setAttribute("incrementStatus", true);
+		
 		logger.debug(" /comboard/comListCri -> comListCri() 끝! ");		
+	}
+	
+	// 게시글 보기
+	@GetMapping("/comRead")
+	public String comReadGET(@RequestParam("com_bno") int com_bno,
+			                 @ModelAttribute("page") int page,
+			                 Model model,
+			                 HttpSession session) throws Exception {
+		logger.debug(" /comboard/comRead -> comReadGET 실행! ");
+		
+		// 회원 아이디 조회
+		String memberLoginInfo = (String) session.getAttribute("userid");
+		
+		MemberVO memberInfo = memberService.getMember(memberLoginInfo);
+		
+		model.addAttribute("memberLoginInfo", memberInfo);
+		logger.debug(" 로그인 회원 아이디: "+memberInfo.getId());
+		logger.debug(" 로그인 회원 이름: "+memberInfo.getName());
+		logger.debug(" 로그인 회원 메일 주소: "+memberInfo.getEmail());
+		
+		// 서비스 불러오기
+		ComBoardVO resultReadVO = comBoardService.getComBoard(com_bno);
+		logger.debug(" resultRead: "+resultReadVO);
+		
+		// 디비 정보 뷰페이지로 부르기
+		model.addAttribute("resultReadVO",resultReadVO);
+		
+		return "/comboard/comRead";
 	}
 	
 

@@ -7,6 +7,9 @@ import com.itwillbs.domain.Criteria;
 
 public interface ComBoardService {
 	
+	// 게시글 보기
+	public ComBoardVO getComBoard(int com_bno) throws Exception;
+	
 	// 게시판의 모든 글정보를 가져오기(페이징)
 	public List<ComBoardVO> getComBoardListPage(Criteria cri) throws Exception;
 

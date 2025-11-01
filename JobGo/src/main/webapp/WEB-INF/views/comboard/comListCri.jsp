@@ -12,7 +12,7 @@
                             </div>
                             <c:forEach var="vo" items="${cboardList }">
 	                            <div class="job-content">
-	                                <h4><a href="job-details.html">${vo.com_title }</a></h4>
+	                                <h4><a href="/comboard/comRead?com_bno=${vo.com_bno}&page=${cri.page}">${vo.com_title }</a></h4>
 	                                <ul>
 	                                    <li><a href="#">${vo.email }</a></li>
 	                                </ul>

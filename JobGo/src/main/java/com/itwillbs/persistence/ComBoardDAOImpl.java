@@ -54,4 +54,15 @@ public class ComBoardDAOImpl implements ComBoardDAO {
 		logger.debug(" insertComBoard()실행! ");
 	}
 
+	@Override
+	public ComBoardVO selectComBoardRead(int com_bno) throws Exception {
+		logger.debug(" selectComBoardRead()실행! ");
+		
+		ComBoardVO resultRead 
+			= sqlSession.selectOne(NAMESPACE +"selectComBoardRead", com_bno);
+		
+		logger.debug(" selectComBoardRead()끝! ");
+		return resultRead;
+	}
+
 }

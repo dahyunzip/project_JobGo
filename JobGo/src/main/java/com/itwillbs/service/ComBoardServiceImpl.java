@@ -50,6 +50,16 @@ public class ComBoardServiceImpl implements ComBoardService {
 		
 		logger.debug(" comReistBoard() 끝! ");
 	}
+
+	@Override
+	public ComBoardVO getComBoard(int com_bno) throws Exception {
+		logger.debug(" getComBoard() 실행! ");
+		
+		ComBoardVO resultRead = cbDAO.selectComBoardRead(com_bno);
+		
+		logger.debug(" getComBoard() 끝! ");
+		return resultRead;
+	}
 	
 	
 	

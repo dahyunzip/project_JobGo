@@ -26,7 +26,9 @@ public class ComBoardVO {
 	private int com_viewcnt;
 	private Timestamp com_regdate;
 	
+	
 	private String writer;                  // 작성자
+	private String userid;                  // 유저 아이디 정보
 	private String email;                   // email
 	private String addr;                    // 거주지
 	

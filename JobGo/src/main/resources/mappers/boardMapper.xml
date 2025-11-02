@@ -8,7 +8,8 @@
 	<!-- 게시글 보기 -->
 	<select id="selectComBoardRead" resultType="ComBoardVO">
 		select 
-			cb.com_bno, 
+			cb.com_bno,
+			m.userid, 
 			m.name as writer,
 			m.email,
 			m.addr,

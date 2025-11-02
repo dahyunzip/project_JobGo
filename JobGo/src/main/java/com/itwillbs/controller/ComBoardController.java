@@ -1,6 +1,10 @@
 package com.itwillbs.controller;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.HashMap;
@@ -10,6 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.itwillbs.service.MemberService;
@@ -207,24 +212,61 @@ public class ComBoardController {
 			                 HttpSession session) throws Exception {
 		logger.debug(" /comboard/comRead -> comReadGET 실행! ");
 		
+		String loginUserId = (String) session.getAttribute("userid");
+	    model.addAttribute("loginUserId", loginUserId);
+		
 		// 회원 아이디 조회
-		String memberLoginInfo = (String) session.getAttribute("userid");
-		
-		MemberVO memberInfo = memberService.getMember(memberLoginInfo);
-		
-		model.addAttribute("memberLoginInfo", memberInfo);
-		logger.debug(" 로그인 회원 아이디: "+memberInfo.getId());
-		logger.debug(" 로그인 회원 이름: "+memberInfo.getName());
-		logger.debug(" 로그인 회원 메일 주소: "+memberInfo.getEmail());
-		
-		// 서비스 불러오기
 		ComBoardVO resultReadVO = comBoardService.getComBoard(com_bno);
 		logger.debug(" resultRead: "+resultReadVO);
 		
 		// 디비 정보 뷰페이지로 부르기
 		model.addAttribute("resultReadVO",resultReadVO);
+		logger.debug(" 로그인 회원 아이디: "+resultReadVO.getUserid());
+		logger.debug(" 로그인 회원 이름: "+resultReadVO.getWriter());
+		logger.debug(" 로그인 회원 메일 주소: "+resultReadVO.getEmail());
 		
 		return "/comboard/comRead";
+	}
+	
+	@GetMapping("/download")
+	public void fileDownloadGET(@RequestParam("fileName") String fileName,
+			                    HttpServletResponse response) throws Exception {
+		logger.debug(" /download -> fileDownloadGET() 실행! ");
+		
+		// 다운로드할 파일의 이름을 가져오기
+		logger.debug(" fileName: "+fileName);
+		
+		// 업로드해둔 폴더에 접근, 해당파일을 찾아서 열기
+		File downFile = new File(UPLOAD_PATH +"\\"+fileName);
+		
+		// 파일 다운로드 처리시 필요한 옵션
+		response.setHeader("Cache-Control", "no-cache");
+		// 파일의 이름정보를 인코딩(한글파일 처리)
+		String encodedFileName = URLEncoder.encode(fileName,"UTF-8");
+		
+		// 모든 파일이 다운로드창 형태로 동작
+		response.addHeader("Content-disposition", "attachment; fileName="+encodedFileName);
+		
+		// 파일의 내용을 다른 파일로 복사
+		FileInputStream fis = new FileInputStream(downFile);
+		
+		// 파일 출력
+		OutputStream out = response.getOutputStream();
+		
+		// 출력 버퍼 생성
+		byte[] buffer = new byte[1024 * 64]; // 64KB
+		while(true) {
+			int data = fis.read(buffer);
+			if(data == -1) break;
+			
+			// 정보 출력
+			out.write(buffer,0,data);
+		}
+		out.flush(); // 빈공간에 공백을 채워서 전달
+		
+		logger.debug(" 파일 다운로드 끝! ");
+		fis.close();
+		out.close();
 	}
 	
 

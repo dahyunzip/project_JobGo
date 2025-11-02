@@ -32,7 +32,7 @@
                 <div class="row">
                     <div class="col-12">
                     	<div class="button">
-	                    	<a href="/comboard/comRegist"><button type="button" class="btn ">글쓰기</button></a>
+	                    	<a href="/comboard/comRegist"><button type="button" class="btn">글쓰기</button></a>
                     	</div>
                         <div class="pagination center">
                             <ul class="pagination-list">

@@ -60,6 +60,24 @@ public class ComBoardServiceImpl implements ComBoardService {
 		logger.debug(" getComBoard() 끝! ");
 		return resultRead;
 	}
+
+	@Override
+	public void deleteComBoard(int com_bno) throws Exception {
+		logger.debug(" deleteComBoard() 실행! ");
+		
+		cbDAO.deleteComBoard(com_bno);
+		
+		logger.debug(" deleteComBoard() 끝! ");
+	}
+
+	@Override
+	public void updateComBoard(ComBoardVO vo) throws Exception {
+		logger.debug(" updateComBoard() 실행! ");
+		
+		cbDAO.updateComBoard(vo);
+		
+		logger.debug(" updateComBoard() 끝! ");
+	}
 	
 	
 	

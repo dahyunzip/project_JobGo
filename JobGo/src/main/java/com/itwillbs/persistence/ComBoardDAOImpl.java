@@ -65,4 +65,22 @@ public class ComBoardDAOImpl implements ComBoardDAO {
 		return resultRead;
 	}
 
+	@Override
+	public void deleteComBoard(int com_bno) throws Exception {
+		logger.debug(" deleteComBoard() 실행! ");
+		
+		sqlSession.delete(NAMESPACE + "deleteComBoard", com_bno);
+		
+		logger.debug(" deleteComBoard() 끝! ");
+	}
+
+	@Override
+	public void updateComBoard(ComBoardVO vo) throws Exception {
+		logger.debug(" updateComBoard() 실행! ");
+		
+		sqlSession.update(NAMESPACE + "updateComBoard", vo);
+		
+		logger.debug(" updateComBoard() 끝! ");
+	}
+
 }

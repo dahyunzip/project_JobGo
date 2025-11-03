@@ -77,4 +77,10 @@
 		update com_board set com_title = #{com_title},com_content = #{com_content},storedFileName = #{storedFileName },com_updatedate = now() 
 		where com_bno = #{com_bno}
 	</update>
+	
+	<!-- 특정 게시판 글 조회수 1증가 -->
+	<update id="updateViewCnt">
+		update com_board set com_viewcnt = com_viewcnt + 1 
+		where com_bno = #{com_bno}
+	</update>
 </mapper>

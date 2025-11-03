@@ -83,4 +83,13 @@ public class ComBoardDAOImpl implements ComBoardDAO {
 		logger.debug(" updateComBoard() 끝! ");
 	}
 
+	@Override
+	public void updateViewCnt(int com_bno) throws Exception {
+		logger.debug(" updateViewCnt() 실행! ");
+		
+		sqlSession.update(NAMESPACE + "updateViewCnt", com_bno);
+		
+		logger.debug(" updateViewCnt() 끝! ");
+	}
+
 }

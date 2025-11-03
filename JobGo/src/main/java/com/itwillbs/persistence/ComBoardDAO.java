@@ -25,4 +25,7 @@ public interface ComBoardDAO {
 	// 게시글 수정
 	public void updateComBoard(ComBoardVO vo) throws Exception;
 	
+	// 게시판 특정 글 조회수 1증가
+	public void updateViewCnt(int com_bno) throws Exception;
+	
 }

@@ -19,7 +19,7 @@
 		<div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
 			<div>
 				<button type="button"
-					onclick="location.href='${pageContext.request.contextPath}/review/reviewDetail?review_id=${review.reviewId}&origin=member&member_id=${memberId}'">
+					onclick="location.href='${pageContext.request.contextPath}/review/reviewDetail?reviewId=${review.reviewId}&origin=member&memberId=${memberId}'">
 					${review.revTitle}
 				</button>
 			</div>
@@ -31,7 +31,7 @@
 				<span style="margin-left:10px;">작성일: ${review.revRegdate}</span>
 			</div>
 
-			<div>기업 ID: ${review.corp_id}</div>
+			<div>기업 ID: ${review.corpId}</div>
 		</div>
 	</c:forEach>
 

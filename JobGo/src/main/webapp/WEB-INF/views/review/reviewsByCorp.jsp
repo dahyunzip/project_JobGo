@@ -19,7 +19,7 @@
         <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
             <div>
                 <button type="button"
-					onclick="location.href='${pageContext.request.contextPath}/review/reviewDetail?review_id=${review.reviewId}&origin=corp&corp_id=${corpId}'">
+					onclick="location.href='${pageContext.request.contextPath}/review/reviewDetail?reviewId=${review.reviewId}&origin=corp&corpId=${corpId}'">
 					${review.revTitle}
 				</button>
             </div>

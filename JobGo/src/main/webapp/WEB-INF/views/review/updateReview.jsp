@@ -13,17 +13,16 @@
 	
 	
 	<c:choose>
-		<c:when test="${sessionScope.userid == review.memberId}">
+		<c:when test="${sessionScope.id == review.memberId}">
 		<!-- 본인일 때만 수정 가능  -->
     	<!-- 실전용 : 로그인 세션 기반으로 본인만 수정 가능 -->
     	<!-- 테스트 시에는 action만 동일하게 두고 세션 제거 가능 -->
-    	<form action="${pageContext.request.contextPath}/review/updateReview" method="post">
+    	f<form action="${pageContext.request.contextPath}/review/updateReview" method="post">
 
         	
         	<input type="hidden" name="reviewId" value="${review.reviewId}" />
-        	<!-- <input type="hidden" name="reviewId" value="${review.reviewId}" /> -->
 
-        	<input type="hidden" name="memberId" value="${sessionScope.userid}" />
+			<!--  <input type="hidden" name="memberId" value="${sessionScope.userid}" /> -->
 
         	<div>
             	<label>기업 ID</label>

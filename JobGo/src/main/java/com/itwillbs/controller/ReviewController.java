@@ -21,6 +21,8 @@ import com.itwillbs.service.ReviewService;
 @Controller
 @RequestMapping("/review/*")
 public class ReviewController {
+	
+	
 
     @Inject
     private ReviewService reviewService;
@@ -33,7 +35,20 @@ public class ReviewController {
     // 리뷰 작성 폼
     @RequestMapping(value="/insertReview", method = RequestMethod.GET)
     public String insertReviewForm(HttpSession session) {
-    	/*
+    	
+    	// ========================= 테스트용 세션 시작 =========================
+    	if(session.getAttribute("userid") == null) {
+    		session.setAttribute("userid", "user01");  // 로그인 아이디 (문자열)
+    		session.setAttribute("id", 1);             // DB member PK (정수)
+    		System.out.println("[TEST MODE] 세션 자동 생성됨 > user01 / id=1");
+    	}
+    	// ========================= 테스트용 세션 끝 =========================
+    	
+    	
+    	
+    	
+    	
+    	
     	String loginUserid = (String) session.getAttribute("userid");
 		if (loginUserid == null) {
 			return "redirect:/member/login";
@@ -50,13 +65,7 @@ public class ReviewController {
 		if (memberInfo == null) {
 			return "redirect:/member/login";
 		}
-		*/
-    	
-    	if (session.getAttribute("userid") == null) {
-            session.setAttribute("userid", "user01"); // DB의 userid
-            session.setAttribute("id", 1); // DB의 id값
-            System.out.println("테스트용 세션 자동생성됨 : user01 / id=1");
-        }
+		
     	
 		return "review/insertReview";
     }
@@ -64,7 +73,15 @@ public class ReviewController {
     // 리뷰 작성 처리
     @RequestMapping(value="/insertReview", method = RequestMethod.POST)
     public String insertReview(ReviewVO review, HttpSession session) {
-    	/*
+    	
+    	// ========================= 테스트용 세션 시작 =========================
+    	if(session.getAttribute("userid") == null) {
+    		session.setAttribute("userid", "user01");  // 로그인 아이디 (문자열)
+    		session.setAttribute("id", 1);             // DB member PK (정수)
+    		System.out.println("[TEST MODE] 세션 자동 생성됨 > user01 / id=1");
+    	}
+    	// ========================= 테스트용 세션 끝 =========================
+    	
     	String loginUserid = (String) session.getAttribute("userid");
 		if (loginUserid == null) {
 			return "redirect:/member/login";
@@ -81,18 +98,10 @@ public class ReviewController {
 		if (memberInfo == null) {
 			return "redirect:/member/login";
 		}
-		review.setMember_id(memberInfo.getId());
+		review.setMemberId(memberInfo.getId());
 		reviewService.insertReview(review);
 		logger.debug("리뷰 작성 완료 - 작성자 ID: {}", memberInfo.getId());
-*/
-    	if (session.getAttribute("userid") == null) {
-            session.setAttribute("userid", "user01");
-            session.setAttribute("id", 1);
-        }
-        review.setMemberId(1);
 
-        reviewService.insertReview(review);
-        logger.debug("리뷰 작성 완료 (테스트) - 작성자 ID: 1");
     	
 		return "redirect:/review/reviewList";
     }
@@ -100,7 +109,15 @@ public class ReviewController {
     // 리뷰 수정 폼
     @RequestMapping(value="/updateReview", method = RequestMethod.GET)
 	    public String updateReviewForm(@RequestParam("reviewId") int reviewId, HttpSession session, Model model) {
-	    	/*
+	    
+    	// ========================= 테스트용 세션 시작 =========================
+    	if(session.getAttribute("userid") == null) {
+    		session.setAttribute("userid", "user01");  // 로그인 아이디 (문자열)
+    		session.setAttribute("id", 1);             // DB member PK (정수)
+    		System.out.println("[TEST MODE] 세션 자동 생성됨 > user01 / id=1");
+    	}
+    	// ========================= 테스트용 세션 끝 =========================
+    	
     	String loginUserid = (String) session.getAttribute("userid");
 		if (loginUserid == null) {
 			return "redirect:/member/login";
@@ -114,17 +131,10 @@ public class ReviewController {
 			return "redirect:/member/login";
 		}
 
-		ReviewVO review = reviewService.reviewDetail(review_id);
-		if (review == null || review.getMember_id() != memberInfo.getId()) {
+		ReviewVO review = reviewService.reviewDetail(reviewId);
+		if (review == null || review.getMemberId() != memberInfo.getId()) {
 			return "error/403";
 		}
-*/
-    	if (session.getAttribute("userid") == null) {
-            session.setAttribute("userid", "user01");
-            session.setAttribute("id", 1);
-        }
-
-        ReviewVO review = reviewService.reviewDetail(reviewId);
     	
 		model.addAttribute("review", review);
 		return "review/updateReview";
@@ -133,7 +143,15 @@ public class ReviewController {
     // 리뷰 수정 처리
     @RequestMapping(value="/updateReview", method = RequestMethod.POST)
     public String updateReview(ReviewVO review, HttpSession session) {
-    	/*
+    	
+    	// ========================= 테스트용 세션 시작 =========================
+    	if(session.getAttribute("userid") == null) {
+    		session.setAttribute("userid", "user01");  // 로그인 아이디 (문자열)
+    		session.setAttribute("id", 1);             // DB member PK (정수)
+    		System.out.println("[TEST MODE] 세션 자동 생성됨 > user01 / id=1");
+    	}
+    	// ========================= 테스트용 세션 끝 =========================
+    	
     	String loginUserid = (String) session.getAttribute("userid");
 		if (loginUserid == null) {
 			return "redirect:/member/login";
@@ -147,32 +165,35 @@ public class ReviewController {
 			return "redirect:/member/login";
 		}
 
-		ReviewVO original = reviewService.reviewDetail(review.getReview_id());
+		ReviewVO original = reviewService.reviewDetail(review.getReviewId());
 		if (original == null) {
 			return "error/404";
 		}
-		if (original.getMember_id() != memberInfo.getId()) {
+		if (original.getMemberId() != memberInfo.getId()) {
 			return "error/403";
 		}
 
-		review.setMember_id(memberInfo.getId());
-		*/
+		review.setMemberId(memberInfo.getId());
+		
     	
-    	if (session.getAttribute("userid") == null) {
-            session.setAttribute("userid", "user01");
-            session.setAttribute("id", 1);
-        }
-        review.setMemberId(1);
     	
 		reviewService.updateReview(review);
 
-		return "redirect:/review/reviewDetail?review_id=" + review.getReviewId();
+		return "redirect:/review/reviewDetail?reviewId=" + review.getReviewId();
     }
 
     // 리뷰 삭제
     @RequestMapping(value="/deleteReview", method = RequestMethod.POST)
     public String deleteReview(@RequestParam("reviewId") int reviewId, HttpSession session) {
-    	/*
+    	
+    	// ========================= 테스트용 세션 시작 =========================
+    	if(session.getAttribute("userid") == null) {
+    		session.setAttribute("userid", "user01");  // 로그인 아이디 (문자열)
+    		session.setAttribute("id", 1);             // DB member PK (정수)
+    		System.out.println("[TEST MODE] 세션 자동 생성됨 > user01 / id=1");
+    	}
+    	// ========================= 테스트용 세션 끝 =========================
+    	
     	String loginUserid = (String) session.getAttribute("userid");
 		if (loginUserid == null) {
 			return "redirect:/member/login";
@@ -186,27 +207,27 @@ public class ReviewController {
 			return "redirect:/member/login";
 		}
 
-		ReviewVO review = reviewService.reviewDetail(review_id);
-		if (review == null || review.getMember_id() != memberInfo.getId()) {
+		ReviewVO review = reviewService.reviewDetail(reviewId);
+		if (review == null || review.getMemberId() != memberInfo.getId()) {
 			return "error/403";
 		}
-*/
-    	if (session.getAttribute("userid") == null) {
-            session.setAttribute("userid", "user01");
-            session.setAttribute("id", 1);
-        }
+
+//    	if (session.getAttribute("userid") == null) {
+//            session.setAttribute("userid", "user01");
+//            session.setAttribute("id", 1);
+//        }
     	
 		reviewService.deleteReview(reviewId);
-		logger.debug("리뷰 삭제 완료 - review_id: {}", reviewId);
+		logger.debug("리뷰 삭제 완료 - reviewId: {}", reviewId);
 		return "redirect:/review/reviewList";
     }
 
     // 리뷰 목록
     @RequestMapping(value="/reviewList", method = RequestMethod.GET)
-    public String reviewList(@RequestParam("reviewId") int reviewId, Model model) {
-    	ReviewVO review = reviewService.reviewDetail(reviewId);
-        model.addAttribute("reviewDetail", review);
-        return "review/reviewDetail";
+    public String reviewList(Model model) {
+    	List<ReviewVO> list = reviewService.reviewList();
+    	model.addAttribute("reviewList", list);
+    	return "review/reviewList";
     }
 
     // 리뷰 상세

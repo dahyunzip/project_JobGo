@@ -49,14 +49,14 @@
 			<c:choose>
 				<c:when test="${param.origin eq 'member'}">
 					<button type="button"
-						onclick="location.href='${pageContext.request.contextPath}/review/memberReviewList?member_id=${param.member_id}'">
+						onclick="location.href='${pageContext.request.contextPath}/review/memberReviewList?memberId=${param.memberId}'">
 						회원별 리뷰 목록으로 돌아가기
 					</button>
 				</c:when>
 
 				<c:when test="${param.origin eq 'corp'}">
 					<button type="button"
-						onclick="location.href='${pageContext.request.contextPath}/review/corpReviewList?corp_id=${param.corp_id}'">
+						onclick="location.href='${pageContext.request.contextPath}/review/corpReviewList?corpId=${param.corpId}'">
 						기업별 리뷰 목록으로 돌아가기
 					</button>
 				</c:when>
@@ -70,7 +70,7 @@
 			</c:choose>
 		</div>
 	<hr>
-	<c:if test="${sessionScope.userid == reviewDetail.memberId}">
+	<c:if test="${sessionScope.id == reviewDetail.memberId}">
 		<div>
 			<form action="${pageContext.request.contextPath}/review/updateReview" method="get" style="display:inline;">
 				<input type="hidden" name="reviewId" value="${reviewDetail.reviewId}">

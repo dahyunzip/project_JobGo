@@ -4,6 +4,8 @@ public class Criteria {
 	
 	private int page;		// 페이지 정보
 	private int pageSize;   // 페이지 크기
+	private String search;  // 검색
+	
 	
 	public Criteria() {	    // 기본값 설정: 1페이지 10개씩 출력
 		this.page = 1;
@@ -26,6 +28,10 @@ public class Criteria {
 		this.pageSize = pageSize;
 	}
 	
+	public void setSearch(String search) {
+		this.search = search;
+	}
+	
 	// GET
 	public int getPage() {
 		return page;
@@ -39,10 +45,16 @@ public class Criteria {
 	public int getPageSize() {
 		return pageSize;
 	}
+	
+	public String getSearch() {
+		return search;
+	}
 
 	@Override
 	public String toString() {
-		return "Criteria [page=" + page + ", pageSize=" + pageSize + "]";
+		return "Criteria [page=" + page + ", pageSize=" + pageSize + ", search=" + search + "]";
 	}
+
+
 
 }

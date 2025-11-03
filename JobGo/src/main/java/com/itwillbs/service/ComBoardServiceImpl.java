@@ -30,13 +30,12 @@ public class ComBoardServiceImpl implements ComBoardService {
 		logger.debug(" getComBoardListPage() 끝! ");
 		return cboardList;
 	}
-
+	
 	@Override
-	public int getTotalCount() throws Exception {
+	public int getTotalCount(String search) throws Exception {
 		logger.debug(" getTotalCount() 실행! ");
 		
-		int result 
-			= cbDAO.selectTotalCount();
+		int result = cbDAO.selectTotalCount(search);
 		
 		logger.debug(" getTotalCount() 끝! ");
 		return result;

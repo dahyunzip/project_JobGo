@@ -9,6 +9,9 @@
 <title>리뷰 상세</title>
 </head>
 <body>
+<p>세션 userid: ${sessionScope.userid}</p>
+<p>세션 id: ${sessionScope.id}</p>
+<p>리뷰 작성자: ${reviewDetail.memberId}</p>
 	<h2>리뷰 상세</h2>
 	
 	<div>
@@ -46,31 +49,28 @@
 	</div>
 	<hr>
 		<div style="margin-top:15px;">
-			<c:choose>
-				<c:when test="${param.origin eq 'member'}">
-					<button type="button"
-						onclick="location.href='${pageContext.request.contextPath}/review/memberReviewList?memberId=${param.memberId}'">
-						회원별 리뷰 목록으로 돌아가기
-					</button>
-				</c:when>
+			<c:if test="${param.origin eq 'member'}">
+    			<button type="button"
+    			    onclick="location.href='${pageContext.request.contextPath}/review/memberReviewList?memberId=${param.memberId}'">
+    			    회원별 리뷰 목록으로 돌아가기
+    			</button>
+			</c:if>
 
-				<c:when test="${param.origin eq 'corp'}">
-					<button type="button"
-						onclick="location.href='${pageContext.request.contextPath}/review/corpReviewList?corpId=${param.corpId}'">
-						기업별 리뷰 목록으로 돌아가기
-					</button>
-				</c:when>
+			<c:if test="${param.origin eq 'corp'}">
+    			<button type="button"
+        			onclick="location.href='${pageContext.request.contextPath}/review/corpReviewList?corpId=${param.corpId}'">
+        			기업별 리뷰 목록으로 돌아가기
+    			</button>
+			</c:if>
 
-				<c:otherwise>
-					<button type="button"
-						onclick="location.href='${pageContext.request.contextPath}/review/reviewList'">
-						전체 리뷰 목록으로 돌아가기
-					</button>
-				</c:otherwise>
-			</c:choose>
+			<!-- 기본: 전체 목록 -->
+			<button type="button"
+    			onclick="location.href='${pageContext.request.contextPath}/review/reviewList'">
+    			전체 리뷰 목록으로 돌아가기
+			</button>
 		</div>
 	<hr>
-	<c:if test="${sessionScope.id == reviewDetail.memberId}">
+	<c:if test="${isOwner}">
 		<div>
 			<form action="${pageContext.request.contextPath}/review/updateReview" method="get" style="display:inline;">
 				<input type="hidden" name="reviewId" value="${reviewDetail.reviewId}">

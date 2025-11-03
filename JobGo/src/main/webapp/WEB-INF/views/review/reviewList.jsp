@@ -7,6 +7,7 @@
 <meta charset="UTF-8">
 <title>리뷰 목록</title>
 </head>
+<%@ include file="../include/Header.jsp"%>
 <body>
 	
 	<h2>리뷰 목록</h2>
@@ -19,40 +20,47 @@
         	    <th>작성자</th>
         	    <th>별점</th>
         	    <th>작성일</th>
-        	    <th>수정/삭제</th>
         	</tr>
     	</thead>
     	<tbody>
+    		
+    		<!-- 리뷰 없을 때 표시 -->
+			<c:if test="${empty reviewList}">
+				<tr>
+					<td colspan="5">등록된 리뷰가 없습니다.</td>
+				</tr>
+			</c:if>
+    	
     	    <c:forEach var="review" items="${reviewList}">
     	        <tr>
-    	            <td>${review.review_id}</td>
+    	            <td>${review.reviewId}</td>
     	            <td>
-    	            	<a href="/review/reviewDetail?review_id=${review.review_id}">${review.rev_title}</a>
+    	            	<a href="${pageContext.request.contextPath}/review/reviewDetail?reviewId=${review.reviewId}">${review.revTitle}</a>
+    	            	<!-- <input type="hidden" name="reviewId" value="${reviewDetail.reviewId}">-->
     	            </td>
-    	            <td>${review.member_id}</td>
+    	            <td>${review.memberId}</td>
     	            <td>
-    	                <c:forEach begin="1" end="${review.rev_rate}" var="i">★</c:forEach>
-    	                <c:forEach begin="1" end="${5 - review.rev_rate}" var="i">☆</c:forEach>
+    	                <c:forEach begin="1" end="${review.revRate}" var="i">★</c:forEach>
+    	                <c:forEach begin="1" end="${5 - review.revRate}" var="i">☆</c:forEach>
     	            </td>
-    	            <td>${review.rev_regdate}</td>
-    	            <td>
-     	            	<button type="button" onclick="location.href='/review/updateReview?review_id=${review.review_id}'">수정</button>
-      	            	<form action="/review/deleteReview" method="post" style="display:inline;">
-                        	<input type="hidden" name="review_id" value="${review.review_id}">
-                        	<button type="submit">삭제</button>
-                    	</form>
-                	</td>
+    	            <td>${review.revRegdate}</td>
             	</tr>
         	</c:forEach>
     	</tbody>
 	</table>
-	<button type="button" onclick="location.href='/review/insertReview'">
-    리뷰 작성
-	</button>
-	<a href="/review/memberReviewList?member_id=${review.member_id}">회원 리뷰 보기</a>
-	<a href="/review/corpReviewList?corp_id=${review.corp_id}">기업 리뷰 보기</a>
+	
+	<c:if test="${not empty sessionScope.userid}">
+		<button type="button" onclick="location.href='${pageContext.request.contextPath}/review/insertReview'">
+			리뷰 작성
+		</button>
+	</c:if>
+	<c:if test="${empty sessionScope.userid}">
+		<p>로그인 후 리뷰를 작성할 수 있습니다.</p>
+	</c:if>
+	
+	
 	
 
 </body>
-</html>
 <%@ include file="../include/Footer.jsp"%>
+</html>

@@ -34,8 +34,8 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 
 	@Override
-	public void deleteReview(int review_id) {
-		reviewDAO.deleteReview(review_id);
+	public void deleteReview(int reviewId) {
+		reviewDAO.deleteReview(reviewId);
 		logger.debug(" 리뷰 삭제 완료 - 서비스");
 		
 	}
@@ -49,24 +49,24 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 
 	@Override
-	public ReviewVO reviewDetail(int review_id) {
-		ReviewVO review = reviewDAO.reviewDetail(review_id);
+	public ReviewVO reviewDetail(int reviewId) {
+		ReviewVO review = reviewDAO.reviewDetail(reviewId);
 		logger.debug(" 리뷰 상세 조회 완료 - 서비스");
 		
 		return review;
 	}
 
 	@Override
-	public List<ReviewVO> selectReviewsByMember(int member_id) {
-		List<ReviewVO> list = reviewDAO.selectReviewsByMember(member_id);
+	public List<ReviewVO> selectReviewsByMember(int memberId) {
+		List<ReviewVO> list = reviewDAO.selectReviewsByMember(memberId);
 		logger.debug(" 회원별 리뷰 조회 완료 - 서비스 ");
 		
 		return list;
 	}
 
 	@Override
-	public List<ReviewVO> selectReviewsByCorp(int corp_id) {
-		List<ReviewVO> list = reviewDAO.selectReviewsByCorp(corp_id);
+	public List<ReviewVO> selectReviewsByCorp(int corpId) {
+		List<ReviewVO> list = reviewDAO.selectReviewsByCorp(corpId);
 		logger.debug(" 기업별 리뷰 조회 완료 - 서비스 ");
 		
 		return list;

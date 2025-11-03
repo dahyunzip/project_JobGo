@@ -14,7 +14,7 @@ public interface ComBoardDAO {
 	public List<ComBoardVO> selectComBoardListPage(Criteria cri) throws Exception;
 
 	// 게시판 총 글의 개수 조회
-	public int selectTotalCount() throws Exception;
+	public int selectTotalCount(String search) throws Exception;
 	
 	// 게시글 등록
 	public void insertComBoard(ComBoardVO vo) throws Exception;

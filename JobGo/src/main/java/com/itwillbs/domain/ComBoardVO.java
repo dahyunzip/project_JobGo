@@ -12,6 +12,7 @@ import lombok.Data;
 //	    storedFileName varchar(255),       -- 업로드 파일 이름 (저장용)
 //	    com_viewcnt  int default 0,
 //	    com_regdate  timestamp not null default now(),
+//      com_updatedate timestamp on update now(),
 //	    foreign key(member_id) references member(id)
 //	);
 
@@ -25,10 +26,12 @@ public class ComBoardVO {
 	private String storedFileName;
 	private int com_viewcnt;
 	private Timestamp com_regdate;
+	private Timestamp com_updatedate;
 	
 	
 	private String writer;                  // 작성자
 	private String userid;                  // 유저 아이디 정보
+	private String userpw;                  // 유저 비밀번호 정보
 	private String email;                   // email
 	private String addr;                    // 거주지
 	

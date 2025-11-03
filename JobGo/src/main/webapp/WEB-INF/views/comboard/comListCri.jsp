@@ -1,6 +1,11 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ include file="../include/Header.jsp"%>
+<c:if test="${not empty msg}">
+    <script type="text/javascript">
+        alert("${msg}");
+    </script>
+</c:if>
 <section class="find-job job-list section">
         <div class="container">
         	<c:set var="cri" value="${pageVO.cri }" scope="page"/>
@@ -31,9 +36,11 @@
                 <!-- Pagination -->
                 <div class="row">
                     <div class="col-12">
-                    	<div class="button">
-	                    	<a href="/comboard/comRegist"><button type="button" class="btn">글쓰기</button></a>
-                    	</div>
+                    	<c:if test="${!empty loginInfo }">                    	
+	                    	<div class="button">
+		                    	<a href="/comboard/comRegist"><button type="button" class="btn">글쓰기</button></a>
+	                    	</div>
+                    	</c:if>
                         <div class="pagination center">
                             <ul class="pagination-list">
 	                            <c:if test="${pageVO.prev}">

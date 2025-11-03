@@ -50,4 +50,16 @@
 		insert into com_board (member_id,com_title,com_content,storedFileName) 
 		values (#{member_id},#{com_title},#{com_content},#{storedFileName})
 	</insert>
+	
+	<!-- 게시글 삭제 -->
+	<delete id="deleteComBoard">
+		delete from com_board 
+		where com_bno = #{com_bno}
+	</delete>
+	
+	<!-- 게시글 수정 -->
+	<update id="updateComBoard">
+		update com_board set com_title = #{com_title},com_content = #{com_content},storedFileName = #{storedFileName },com_updatedate = now() 
+		where com_bno = #{com_bno}
+	</update>
 </mapper>

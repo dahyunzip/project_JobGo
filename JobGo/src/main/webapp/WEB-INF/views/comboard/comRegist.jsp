@@ -11,6 +11,12 @@
 	
 </style>
 <section class="add-resume section" >
+<c:if test="${empty memberLoginInfo }">
+	<script type="text/javascript">
+		alert("로그인 후 이용 가능합니다.");
+		location.href = "/comboard/comListCri";
+	</script>
+</c:if>
 	<div class="container" >
 		<div class="row">
 			<div class="col-lg-10 offset-lg-1 col-12">

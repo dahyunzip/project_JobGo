@@ -17,7 +17,7 @@
 		<!-- 본인일 때만 수정 가능  -->
     	<!-- 실전용 : 로그인 세션 기반으로 본인만 수정 가능 -->
     	<!-- 테스트 시에는 action만 동일하게 두고 세션 제거 가능 -->
-    	f<form action="${pageContext.request.contextPath}/review/updateReview" method="post">
+    	<form action="${pageContext.request.contextPath}/review/updateReview" method="post">
 
         	
         	<input type="hidden" name="reviewId" value="${review.reviewId}" />

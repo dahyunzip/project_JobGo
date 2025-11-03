@@ -15,6 +15,16 @@
                             <div class="job-image">
                                 <img src="/resources/images/clients/client1.png" alt="#">
                             </div>
+                            <div>
+                            	<label>키워드 검색</label>
+                            </div>
+	                        <form action="/comboard/comListCri" method="get">
+		                    	<div id="searchBar" class="col-lg-4 col-xs-12">
+									<input type="text" placeholder="글제목, 작성자, 등 관련 키워드 작성 후 enter 눌러주세요!" value="${search}" 
+									       name="search" class="form-control" style="width: 648px;">
+								</div>
+							</form>
+							<hr>
                             <c:forEach var="vo" items="${cboardList }">
 	                            <div class="job-content">
 	                                <h4><a href="/comboard/comRead?com_bno=${vo.com_bno}&page=${cri.page}">${vo.com_title }</a></h4>

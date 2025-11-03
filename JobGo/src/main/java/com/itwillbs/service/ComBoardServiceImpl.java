@@ -77,6 +77,15 @@ public class ComBoardServiceImpl implements ComBoardService {
 		
 		logger.debug(" updateComBoard() 끝! ");
 	}
+
+	@Override
+	public void increseViewCnt(int com_bno) throws Exception {
+		logger.debug(" increseViewCnt() 실행! ");
+		
+		cbDAO.updateViewCnt(com_bno);
+		
+		logger.debug(" increseViewCnt() 끝! ");
+	}
 	
 	
 	

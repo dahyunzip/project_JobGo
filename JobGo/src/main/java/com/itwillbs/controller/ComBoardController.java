@@ -241,6 +241,17 @@ public class ComBoardController {
 		ComBoardVO resultReadVO = comBoardService.getComBoard(com_bno);
 		logger.debug(" resultRead: "+resultReadVO);
 		
+		// 세션영역에 저장된 조회수 변경가능 상태정보를 출력
+		boolean incrementStatus = (boolean) session.getAttribute("incrementStatus");
+		logger.debug(" incrementStatus: "+incrementStatus);
+		
+		// 조회수 상태변경이 가능할때(true)
+		if(incrementStatus) {
+			comBoardService.increseViewCnt(com_bno);
+			logger.debug(" 조회수 1증가! ");
+			
+			session.setAttribute("incrementStatus", false);
+		}
 		// 디비 정보 뷰페이지로 부르기
 		model.addAttribute("resultReadVO",resultReadVO);
 		logger.debug(" 로그인 회원 아이디: "+resultReadVO.getUserid());

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itwillbs.mapper.NoticeMapper">
+
+	<insert id="insertNotice">
+		insert into notice_board
+		(admin_id, notice_title, notice_content, storedFileName)
+		values
+		(#{adminId}, #{noticeTitle}, #{noticeContent}, #{storedFileName})
+	</insert>
+
+	<select id="getNotice" resultType="com.itwillbs.domain.NoticeVO">
+		select *
+		from notice_board
+		where notice_id = #{noticeId}
+	</select>
+
+	<select id="getNoticeList" resultType="com.itwillbs.domain.NoticeVO">
+		select *
+		from notice_board
+		order by notice_id desc
+	</select>
+
+	<update id="updateNotice">
+		update notice_board
+		set notice_title = #{noticeTitle},
+			notice_content = #{noticeContent},
+			storedFileName = #{storedFileName}
+		where notice_id = #{noticeId}
+	</update>
+
+	<update id="deleteNotice">
+		delete from notice_board
+		where notice_id = #{noticeId}
+	</update>
+
+	<update id="updateViewCnt">
+		update notice_board
+		set notice_viewcnt = notice_viewcnt + 1
+		where notice_id = #{noticeId}
+	</update>
+
+</mapper>

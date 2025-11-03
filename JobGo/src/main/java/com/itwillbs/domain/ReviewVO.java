@@ -9,7 +9,6 @@ public class ReviewVO {
 	private int reviewId;
 	private int memberId;
 	private int corpId;
-	private String jobCode;
 	private String workMonths;
 	private String revTitle;
 	private String revContent;
@@ -19,5 +18,10 @@ public class ReviewVO {
 	private String revPublic = "y";
 	private LocalDateTime revRegdate;
 	private LocalDateTime revUpdatedate;
+	
+	private Integer jobCode;
+	
+	private String topCategoryName;
+	private String bottomCategoryName;
 	
 }

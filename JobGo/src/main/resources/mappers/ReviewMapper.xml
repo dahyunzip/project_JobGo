@@ -11,6 +11,21 @@
 		values
 		(#{memberId}, #{corpId}, #{jobCode}, #{workMonths}, #{revTitle}, #{revContent}, #{revRate}, #{revPros}, #{revCons}, #{revPublic})
 	</insert>
+	
+	<!-- 대분류 -->
+	<select id="getTopCategoryList" resultType="map">
+		select topctg_id as id, topctg_name as name
+		from top_category
+		order by name
+	</select>
+
+	<!-- 소분류 -->
+	<select id="getBottomCategoryList" parameterType="int" resultType="map">
+		select btmctg_id as id, btmctg_name as name
+		from bottom_category
+		where top_ctgid = #{topId}
+		order by name
+	</select>
 
 	<!-- 리뷰 수정 -->
 	<update id="updateReview" parameterType="com.itwillbs.domain.ReviewVO">
@@ -47,21 +62,27 @@
 	<!-- 리뷰 상세 조회 -->
 	<select id="reviewDetail" parameterType="int" resultType="com.itwillbs.domain.ReviewVO">
 		select
-			review_id,
-			member_id,
-			corp_id,
-			job_code,
-			work_months,
-			rev_title,
-			rev_content,
-			rev_rate,
-			rev_pros,
-			rev_cons,
-			rev_public,
-			rev_regdate,
-			rev_updatedate
-		from review
-		where review_id = #{reviewId}
+			r.review_id,
+			r.member_id,
+			r.corp_id,
+			r.job_code,
+			r.work_months,
+			r.rev_title,
+			r.rev_content,
+			r.rev_rate,
+			r.rev_pros,
+			r.rev_cons,
+			r.rev_public,
+			r.rev_regdate,
+			r.rev_updatedate,
+			
+			b.btmctg_name as bottomCategoryName,
+			t.topctg_name as topCategoryName
+
+		from review r
+		join bottom_category b on r.job_code = b.btmctg_id
+		join top_category t on b.top_ctgid = t.topctg_id
+		where r.review_id = #{reviewId}
 	</select>
 
 	<!-- 회원별 리뷰 조회 -->

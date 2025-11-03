@@ -1,6 +1,7 @@
 package com.itwillbs.controller;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -12,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.itwillbs.domain.MemberVO;
 import com.itwillbs.domain.ReviewVO;
@@ -31,17 +33,31 @@ public class ReviewController {
     private MemberService memberService;
     
     private static final Logger logger = LoggerFactory.getLogger(ReviewController.class);
+    
+    // 대분류 가져오기
+    @RequestMapping(value="/topCategory", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Map<String, Object>> topCategory() {
+        return reviewService.getTopCategoryList();
+    }
+    
+    // 소분류 가져오기
+    @RequestMapping(value="/bottomCategory", method = RequestMethod.GET)
+    @ResponseBody
+    public List<Map<String, Object>> bottomCategory(@RequestParam("topId") int topId) {
+        return reviewService.getBottomCategoryList(topId);
+    }
 
     // 리뷰 작성 폼
     @RequestMapping(value="/insertReview", method = RequestMethod.GET)
     public String insertReviewForm(HttpSession session) {
     	
     	// ========================= 테스트용 세션 시작 =========================
-//    	if(session.getAttribute("userid") == null) {
-//    		session.setAttribute("userid", "test01");  // 로그인 아이디 (문자열)
-//    		session.setAttribute("id", 4);             // DB member PK (정수)
-//    		System.out.println("[TEST MODE] 세션 자동 생성됨 > user01 / id=1");
-//    	}
+    	if(session.getAttribute("userid") == null) {
+    		session.setAttribute("userid", "test01");  // 로그인 아이디 (문자열)
+    		session.setAttribute("id", 4);             // DB member PK (정수)
+    		System.out.println("[TEST MODE] 세션 자동 생성됨 > user01 / id=1");
+    	}
     	// ========================= 테스트용 세션 끝 =========================
     	
     	
@@ -75,11 +91,11 @@ public class ReviewController {
     public String insertReview(ReviewVO review, HttpSession session) {
     	
     	// ========================= 테스트용 세션 시작 =========================
-//    	if(session.getAttribute("userid") == null) {
-//    		session.setAttribute("userid", "test01");  // 로그인 아이디 (문자열)
-//    		session.setAttribute("id", 4);             // DB member PK (정수)
-//    		System.out.println("[TEST MODE] 세션 자동 생성됨 > user01 / id=1");
-//    	}
+    	if(session.getAttribute("userid") == null) {
+    		session.setAttribute("userid", "test01");  // 로그인 아이디 (문자열)
+    		session.setAttribute("id", 4);             // DB member PK (정수)
+    		System.out.println("[TEST MODE] 세션 자동 생성됨 > user01 / id=1");
+    	}
     	// ========================= 테스트용 세션 끝 =========================
     	
     	String loginUserid = (String) session.getAttribute("userid");
@@ -111,11 +127,11 @@ public class ReviewController {
 	    public String updateReviewForm(@RequestParam("reviewId") int reviewId, HttpSession session, Model model) {
 	    
     	// ========================= 테스트용 세션 시작 =========================
-//    	if(session.getAttribute("userid") == null) {
-//    		session.setAttribute("userid", "test01");  // 로그인 아이디 (문자열)
-//    		session.setAttribute("id", 4);             // DB member PK (정수)
-//    		System.out.println("[TEST MODE] 세션 자동 생성됨 > user01 / id=1");
-//    	}
+    	if(session.getAttribute("userid") == null) {
+    		session.setAttribute("userid", "test01");  // 로그인 아이디 (문자열)
+    		session.setAttribute("id", 4);             // DB member PK (정수)
+    		System.out.println("[TEST MODE] 세션 자동 생성됨 > user01 / id=1");
+    	}
     	// ========================= 테스트용 세션 끝 =========================
     	
     	String loginUserid = (String) session.getAttribute("userid");
@@ -145,11 +161,11 @@ public class ReviewController {
     public String updateReview(ReviewVO review, HttpSession session) {
     	
     	// ========================= 테스트용 세션 시작 =========================
-//    	if(session.getAttribute("userid") == null) {
-//    		session.setAttribute("userid", "test01");  // 로그인 아이디 (문자열)
-//    		session.setAttribute("id", 4);             // DB member PK (정수)
-//    		System.out.println("[TEST MODE] 세션 자동 생성됨 > user01 / id=1");
-//    	}
+    	if(session.getAttribute("userid") == null) {
+    		session.setAttribute("userid", "test01");  // 로그인 아이디 (문자열)
+    		session.setAttribute("id", 4);             // DB member PK (정수)
+    		System.out.println("[TEST MODE] 세션 자동 생성됨 > user01 / id=1");
+    	}
     	// ========================= 테스트용 세션 끝 =========================
     	
     	String loginUserid = (String) session.getAttribute("userid");
@@ -187,11 +203,11 @@ public class ReviewController {
     public String deleteReview(@RequestParam("reviewId") int reviewId, HttpSession session) {
     	
     	// ========================= 테스트용 세션 시작 =========================
-//    	if(session.getAttribute("userid") == null) {
-//    		session.setAttribute("userid", "test01");  // 로그인 아이디 (문자열)
-//    		session.setAttribute("id", 4);             // DB member PK (정수)
-//    		System.out.println("[TEST MODE] 세션 자동 생성됨 > user01 / id=1");
-//    	}
+    	if(session.getAttribute("userid") == null) {
+    		session.setAttribute("userid", "test01");  // 로그인 아이디 (문자열)
+    		session.setAttribute("id", 4);             // DB member PK (정수)
+    		System.out.println("[TEST MODE] 세션 자동 생성됨 > user01 / id=1");
+    	}
     	// ========================= 테스트용 세션 끝 =========================
     	
     	String loginUserid = (String) session.getAttribute("userid");

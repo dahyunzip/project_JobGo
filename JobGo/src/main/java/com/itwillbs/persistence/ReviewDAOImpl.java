@@ -1,6 +1,7 @@
 package com.itwillbs.persistence;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -28,6 +29,18 @@ public class ReviewDAOImpl implements ReviewDAO{
 		logger.debug(" 리뷰 등록 완료 ");
 	}
 	
+	// 직무 코드 - 대분류
+	@Override
+	public List<Map<String, Object>> getTopCategoryList() {
+		return sqlSession.selectList(NAMESPACE + "getTopCategoryList");
+	}
+	
+	// 직무 코드 - 소분류
+	@Override
+	public List<Map<String, Object>> getBottomCategoryList(int topId) {
+	    return sqlSession.selectList(NAMESPACE + "getBottomCategoryList");
+	}
+
 	// 리뷰 수정
 	@Override
 	public void updateReview(ReviewVO review) {

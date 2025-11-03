@@ -1,6 +1,7 @@
 package com.itwillbs.service;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -25,7 +26,19 @@ public class ReviewServiceImpl implements ReviewService{
 		logger.debug(" 리뷰 작성 완료 - 서비스");
 		
 	}
-
+	
+	@Override
+	public List<Map<String, Object>> getTopCategoryList(){
+		logger.debug(" 직무 코드 대분류 - 서비스 ");
+		return reviewDAO.getTopCategoryList();
+	}
+	
+	@Override
+	public List<Map<String, Object>> getBottomCategoryList(int topId) {
+		logger.debug(" 직무 코드 소분류 - 서비스 ");
+	    return reviewDAO.getBottomCategoryList(topId);
+	}
+	
 	@Override
 	public void updateReview(ReviewVO review) {
 		reviewDAO.updateReview(review);

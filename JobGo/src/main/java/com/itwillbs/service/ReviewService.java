@@ -19,12 +19,12 @@ public interface ReviewService {
 	List<ReviewVO> reviewList();
 	
 	// 리뷰 상세 조회
-	ReviewVO reviewDetail(int review_id);
+	ReviewVO reviewDetail(int reviewId);
 	
 	// 회원별 리뷰 조회
 	List<ReviewVO> selectReviewsByMember(int member_id);
 	
 	// 기업별 리뷰 조회
-	List<ReviewVO> selectReviewsByCorp(int corp_id);
+	List<ReviewVO> selectReviewsByCorp(int corpId);
 	
 }

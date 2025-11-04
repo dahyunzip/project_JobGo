@@ -35,11 +35,11 @@ public class ComBoardDAOImpl implements ComBoardDAO {
 	}
 
 	@Override
-	public int selectTotalCount() throws Exception {
+	public int selectTotalCount(String search) throws Exception {
 		logger.debug(" selectTotalCount() 실행! ");
 		
 		int result 
-			= sqlSession.selectOne(NAMESPACE + "selectTotalCount");
+			= sqlSession.selectOne(NAMESPACE + "selectTotalCount", search);
 		
 		logger.debug(" selectTotalCount() 끝! ");
 		return result;
@@ -81,6 +81,15 @@ public class ComBoardDAOImpl implements ComBoardDAO {
 		sqlSession.update(NAMESPACE + "updateComBoard", vo);
 		
 		logger.debug(" updateComBoard() 끝! ");
+	}
+
+	@Override
+	public void updateViewCnt(int com_bno) throws Exception {
+		logger.debug(" updateViewCnt() 실행! ");
+		
+		sqlSession.update(NAMESPACE + "updateViewCnt", com_bno);
+		
+		logger.debug(" updateViewCnt() 끝! ");
 	}
 
 }

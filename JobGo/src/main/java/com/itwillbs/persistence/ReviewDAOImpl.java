@@ -37,8 +37,8 @@ public class ReviewDAOImpl implements ReviewDAO{
 	
 	// 리뷰 삭제
 	@Override
-	public void deleteReview(int review_id) {
-		sqlSession.delete(NAMESPACE+".deleteReview", review_id);
+	public void deleteReview(int reviewId) {
+		sqlSession.delete(NAMESPACE+".deleteReview", reviewId);
 		logger.debug(" 리뷰 삭제 완료 ");
 	}
 	
@@ -52,24 +52,24 @@ public class ReviewDAOImpl implements ReviewDAO{
 	
 	// 리뷰 상세 조회
 	@Override
-	public ReviewVO reviewDetail(int review_id) {
-		ReviewVO review = sqlSession.selectOne(NAMESPACE+".reviewDetail", review_id);
+	public ReviewVO reviewDetail(int reviewId) {
+		ReviewVO review = sqlSession.selectOne(NAMESPACE+".reviewDetail", reviewId);
 		logger.debug(" 리뷰 상세 조회 완료");
 		return review;
 	}
 	
 	// 회원별 리뷰 조회
 	@Override
-	public List<ReviewVO> selectReviewsByMember(int member_id){
-		List<ReviewVO> list = sqlSession.selectList(NAMESPACE+".selectReviewsByMember", member_id);
+	public List<ReviewVO> selectReviewsByMember(int memberId){
+		List<ReviewVO> list = sqlSession.selectList(NAMESPACE+".selectReviewsByMember", memberId);
 		logger.debug(" 회원별 리뷰 조회 완료 ");
 		return list;
 	}
 	
 	// 기업별 리뷰 조회
 	@Override
-	public List<ReviewVO> selectReviewsByCorp(int corp_id){
-		List<ReviewVO> list = sqlSession.selectList(NAMESPACE+".selectReviewsByCorp", corp_id);
+	public List<ReviewVO> selectReviewsByCorp(int corpId){
+		List<ReviewVO> list = sqlSession.selectList(NAMESPACE+".selectReviewsByCorp", corpId);
 		logger.debug(" 기업별 리뷰 조회 완료 ");
 		return list;
 	}

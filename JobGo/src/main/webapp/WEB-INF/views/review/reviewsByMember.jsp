@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ include file="../include/Header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -9,6 +8,7 @@
 <title>회원별 리뷰 조회</title>
 </head>
 <body>
+<%@ include file="../include/Header.jsp"%>
 	<h2>회원별 리뷰 목록</h2>
     
     <c:if test="${empty memberReviewList}">
@@ -19,19 +19,19 @@
 		<div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
 			<div>
 				<button type="button"
-					onclick="location.href='${pageContext.request.contextPath}/review/reviewDetail?review_id=${review.review_id}&origin=member&member_id=${member_id}'">
-					${review.rev_title}
+					onclick="location.href='${pageContext.request.contextPath}/review/reviewDetail?reviewId=${review.reviewId}&origin=member&memberId=${memberId}'">
+					${review.revTitle}
 				</button>
 			</div>
 
 			<div>
 				<label>별점: </label>
-				<c:forEach begin="1" end="${review.rev_rate}" var="i">★</c:forEach>
-				<c:forEach begin="1" end="${5 - review.rev_rate}" var="i">☆</c:forEach>
-				<span style="margin-left:10px;">작성일: ${review.rev_regdate}</span>
+				<c:forEach begin="1" end="${review.revRate}" var="i">★</c:forEach>
+				<c:forEach begin="1" end="${5 - review.revRate}" var="i">☆</c:forEach>
+				<span style="margin-left:10px;">작성일: ${review.revRegdate}</span>
 			</div>
 
-			<div>기업 ID: ${review.corp_id}</div>
+			<div>기업 ID: ${review.corpId}</div>
 		</div>
 	</c:forEach>
 
@@ -42,5 +42,5 @@
 	</div>
 
 </body>
-</html>
 <%@ include file="../include/Footer.jsp"%>
+</html>

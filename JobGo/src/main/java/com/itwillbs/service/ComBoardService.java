@@ -14,7 +14,7 @@ public interface ComBoardService {
 	public List<ComBoardVO> getComBoardListPage(Criteria cri) throws Exception;
 
 	// 게시판 모든 글 개수를 가져오기
-	public int getTotalCount() throws Exception;
+	public int getTotalCount(String search) throws Exception;
 	
 	// 게시글 등록
 	public void comReistBoard(ComBoardVO vo) throws Exception;
@@ -24,4 +24,7 @@ public interface ComBoardService {
 	
 	// 게시글 수정
 	public void updateComBoard(ComBoardVO vo) throws Exception;
+	
+	// 게시판 특정 글 조회수 1증가
+	public void increseViewCnt(int com_bno) throws Exception;
 }

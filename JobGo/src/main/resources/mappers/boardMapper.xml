@@ -36,13 +36,28 @@
 			cb.com_regdate 
 		from com_board cb 
 		join member m on m.id = cb.member_id 
+		<if test="search != null and search != ''">
+			where 
+			(cb.com_title like concat('%',#{search},'%') 
+			or cb.com_content like concat('%',#{search},'%')
+			or m.userid like concat('%',#{search},'%') 
+			or m.name like concat('%',#{search},'%'))
+		</if>
 		order by cb.com_bno desc 
 		limit #{pageStart}, #{pageSize} 
 	</select>
 	
 	<!-- 게시판 모든 글 개수를 가져오기 -->
 	<select id="selectTotalCount" resultType="int">
-		select count(com_bno) from com_board
+		select count(cb.com_bno) from com_board cb 
+		join member m on cb.member_id = m.id  
+		<if test="search != null and search != ''">
+			where 
+			(cb.com_title like concat('%',#{search},'%') 
+			or cb.com_content like concat('%',#{search},'%')
+			or m.userid like concat('%',#{search},'%') 
+			or m.name like concat('%',#{search},'%'))
+		</if>
 	</select>
 	
 	<!-- 게시글 등록 -->
@@ -60,6 +75,12 @@
 	<!-- 게시글 수정 -->
 	<update id="updateComBoard">
 		update com_board set com_title = #{com_title},com_content = #{com_content},storedFileName = #{storedFileName },com_updatedate = now() 
+		where com_bno = #{com_bno}
+	</update>
+	
+	<!-- 특정 게시판 글 조회수 1증가 -->
+	<update id="updateViewCnt">
+		update com_board set com_viewcnt = com_viewcnt + 1 
 		where com_bno = #{com_bno}
 	</update>
 </mapper>

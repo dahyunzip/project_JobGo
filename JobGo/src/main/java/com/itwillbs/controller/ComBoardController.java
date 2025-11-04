@@ -183,16 +183,28 @@ public class ComBoardController {
 	@GetMapping("/comListCri")
 	public void comListCriGET(Criteria cri,
 			                  Model model,
-			                  HttpSession session) throws Exception {
+			                  HttpSession session,
+			                  @RequestParam(value="search", required=false) String search) throws Exception {
+						   // @RequestParam(value="search", required=false) String search)
+		                   // => @RequestParam("search") 이렇게 작성하면 항상 true 상태이기에 
+		                   //    오류가 발생 required=false 추가
 		logger.debug(" /comboard/comListCri -> comListCri() 실행! ");
+		logger.debug(" 검색어: "+search);
 		
 		// 회원정보 가져오기
 		String loginInfo = (String) session.getAttribute("userid");
 		
+		// Criteria 객체에서 search 필드 불러오기
+		cri.setSearch(search);
+		
+		// 전체 글 개수(검색어 포함)
+	    int totalCount = comBoardService.getTotalCount(search);
+		
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
-		pageVO.setTotalCount(comBoardService.getTotalCount());
+		pageVO.setTotalCount(totalCount);
 		
+		// 리스트 조회(검색 포함)
 		List<ComBoardVO> cboardList
 			= comBoardService.getComBoardListPage(cri);		
 		// logger.debug("list:"+cboardList);
@@ -201,6 +213,9 @@ public class ComBoardController {
 		
 		model.addAttribute(pageVO);
 		model.addAttribute("cboardList",cboardList);
+		
+		// 검색정보 뷰페이지 전달
+		model.addAttribute("search", search);
 		
 		// 회원정보 뷰페이지에 전달
 		model.addAttribute("loginInfo",loginInfo);
@@ -226,6 +241,17 @@ public class ComBoardController {
 		ComBoardVO resultReadVO = comBoardService.getComBoard(com_bno);
 		logger.debug(" resultRead: "+resultReadVO);
 		
+		// 세션영역에 저장된 조회수 변경가능 상태정보를 출력
+		boolean incrementStatus = (boolean) session.getAttribute("incrementStatus");
+		logger.debug(" incrementStatus: "+incrementStatus);
+		
+		// 조회수 상태변경이 가능할때(true)
+		if(incrementStatus) {
+			comBoardService.increseViewCnt(com_bno);
+			logger.debug(" 조회수 1증가! ");
+			
+			session.setAttribute("incrementStatus", false);
+		}
 		// 디비 정보 뷰페이지로 부르기
 		model.addAttribute("resultReadVO",resultReadVO);
 		logger.debug(" 로그인 회원 아이디: "+resultReadVO.getUserid());
@@ -419,7 +445,7 @@ public class ComBoardController {
 	    	}
 	    }
 		
-	    // 7수정된 정보 VO에 담기
+	    // 수정된 정보 VO에 담기
 	    ComBoardVO updatedVO = new ComBoardVO();
 	    updatedVO.setCom_bno(com_bno);
 	    updatedVO.setCom_title(com_title);

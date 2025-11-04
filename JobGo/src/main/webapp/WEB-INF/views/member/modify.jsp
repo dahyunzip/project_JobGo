@@ -18,7 +18,9 @@
 	                <div class="post-header align-items-center justify-content-center">
 	                    <h3>내 정보 수정</h3>
 	                </div>
-	                <form class="form-ad">
+	                <form class="form-ad" method="post" enctype="multipart/form-data">
+	                	<input type="hidden" name="userid" value="${user.userid }">
+	                	<input type="hidden" name="userpw" value="${user.userpw}">
 	                    <div class="row">
 	                        <div class="col-lg-6 col-12">
 	                            <div class="form-group">
@@ -41,25 +43,33 @@
 	                        <div class="col-lg-6 col-12">
 	                            <div class="form-group">
 	                                <label class="control-label">대표이미지</label>
+	                                <c:set var="imageName" value="${empty login.storedFileName ? 'default.jpg' : login.storedFileName }" />
+									<div><img src="/upload/${imageName }" height="100"></div>
 	                                <input type="file" class="form-control" name="pfImage" value="${user.pfImage }">
 	                            </div>
 	                        </div>
 	                        <div class="col-lg-6 col-12">
 	                            <div class="form-group">
+	                                <label class="control-label">핸드폰 번호</label>
+	                                <input type="text" class="form-control" name="phone" value="${user.phone }">
+	                            </div>
+	                        </div>
+	                        <div class="col-lg-6 col-12">
+	                            <div class="form-group">
 	                                <label class="control-label">마케팅 수신 동의</label>
-	                                <input type="checkbox" class="" name="" value="">
+	                                <input type="checkbox" class="" name="agreeLocation" value="Y">
 	                            </div>
 	                        </div>
 	                        <div class="col-lg-6 col-12">
 	                            <div class="form-group">
 	                                <label class="control-label">어쩌구 수신 동의</label>
-	                                <input type="checkbox" class="" name="" value="">
+	                                <input type="checkbox" class="" name="agreeEmail" value="Y">
 	                            </div>
 	                        </div>
 	                        <div class="col-lg-6 col-12">
 	                            <div class="form-group">
 	                                <label class="control-label">어쩌구 수신 동의</label>
-	                                <input type="checkbox" class="" name="" value="">
+	                                <input type="checkbox" class="" name="agreeSms" value="Y">
 	                            </div>
 	                        </div>
 	                    </div>

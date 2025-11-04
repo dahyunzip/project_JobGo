@@ -55,5 +55,21 @@ public class FileComponent {
             file.delete();
             System.out.println("삭제 완료: " + storedFileName);
         }
+    }/////////////////////////////////////////
+    // 단일 파일 업로드
+    public String upload(MultipartFile f) {
+    	String extName = f.getOriginalFilename().substring(f.getOriginalFilename().lastIndexOf("."));
+    	String storedFileName = UUID.randomUUID().toString().replace("-", "");
+    	storedFileName += extName;
+    	File dest = new File(saveDirectory, storedFileName);
+    	try {
+    		f.transferTo(dest);
+    		return storedFileName;
+    	}catch(Exception e){
+    		e.printStackTrace();
+    	}
+    	
+    	return null;
     }
+    /////////////////////////////다현작성
 }

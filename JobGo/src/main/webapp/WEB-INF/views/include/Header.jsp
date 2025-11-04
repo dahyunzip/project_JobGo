@@ -69,6 +69,9 @@
 						            <a href="/member/logout" class="login">
 						                <i class="lni lni-lock-alt"></i> 로그아웃
 						            </a>
+						            <a href="/member/mypage" class="btn">
+						                마이페이지
+						            </a>
 						        </c:when>
 						        <c:otherwise>
 						            <a href="/member/login" class="login">

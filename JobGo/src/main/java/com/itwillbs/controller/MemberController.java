@@ -7,7 +7,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -34,6 +33,7 @@ public class MemberController {
 	public String memberJoinPOST(MemberVO vo, RedirectAttributes rttr) throws Exception {
 		mService.registerMember(vo);
 		rttr.addFlashAttribute("msg", "joinSuccess");
+		logger.debug(" 회원가입 완료, 정보 : " + vo);
 		return "redirect:/member/login";
 	}
 	
@@ -57,11 +57,12 @@ public class MemberController {
 			session.setAttribute("userid", loginVO.getUserid());
 			session.setAttribute("memberName", loginVO.getName());
 			logger.info(" 로그인 성공 ");
+			logger.debug(" loginVO = " + loginVO);
 			rttr.addFlashAttribute("msg", "loginSuccess");
 			return "redirect:/";
 		}else {
-			model.addAttribute("msg", "아이디 또는 비밀번호가 올바르지 않습니다.");
-			return "";
+			rttr.addFlashAttribute("msg", "loginFail");
+			return "redirect:/member/login";
 		}
 	}
 	
@@ -94,6 +95,9 @@ public class MemberController {
 		logger.debug(" memberModifyPOST(MemberVO vo) 실행!");
 		logger.debug("vo : " + vo);
 		mService.modifyMember(vo);
+		String storedFileName = mService.uploadPhoto(vo);
+		vo.setStoredFileName(storedFileName);
+		logger.debug(" memberModifyPOST 성공 ! ");
 		rttr.addFlashAttribute("msg", "modifySuccess");
 		return "redirect:/member/mypage";
 	}

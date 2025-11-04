@@ -14,4 +14,7 @@ public interface MemberService {
 	
 	// 회원 정보 업데이트
 	public void modifyMember(MemberVO vo) throws Exception;
+	
+	// 회원 프로필 사진 업데이트
+	public String uploadPhoto(MemberVO vo) throws Exception; 
 }

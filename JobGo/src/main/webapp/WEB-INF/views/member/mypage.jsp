@@ -3,7 +3,9 @@
 <%@ include file="../include/Header.jsp"%>
 <script>
 	$(document).ready(function(){
-		$(
+		if('${msg }' == 'modifySuccess'){
+			alert('정보 수정 완료!');
+		}
 	})
 </script>
 
@@ -46,6 +48,7 @@
 	                    	<a href="/member/modify" class="btn">정보 수정하기</a>
 	                    </div>
 	                </div>
+	                <a href="#" class="dropBtn">회원 탈퇴하기</a>
 	            </div>
 	        </div>
 	        <!-- Job List Details End -->

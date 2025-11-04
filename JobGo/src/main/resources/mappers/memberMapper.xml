@@ -29,7 +29,30 @@
     <!-- 회원정보 업데이트 -->
     <update id="updateMember">
     	UPDATE member SET addr=#{addr}, phone=#{phone}, pfImage=#{pfImage},
-    	agree_location=#{agreeLocaion}, agree_email=#{agreeEmail}, agree_sms=#{agreeSms}
+    	agree_location=#{agreeLocation}, agree_email=#{agreeEmail}, agree_sms=#{agreeSms}
     	WHERE userid=#{userid} and userpw=#{userpw}
     </update>
+    
+    <!-- 회원 프로필 사진 수정 -->
+    <select id="getMemberByFiles" resultType="MemberVO">
+    </select>
+    
+    <!-- 디비에서 파일 삭제 -->
+    <update id="deleteOldPtFiles">
+    	update member set originalFileName = null, storedFileName = null
+    	where id = {id}
+    </update>
+    
+    <!-- 사진 정보 업로드 -->
+    <insert id="insertPhotoFiles">
+    	insert into member(originalFileName, storedFileName)
+    	values (#{originalFileName}, #{storedFileName})
+    </insert>
+    
+    <!-- 회원 정보 업데이트 -->
+    <update id="updateMemberPhotoFiles">
+    	update member set originalFileName = #{originalFileName}, storedFileName = #{storedFileName}
+    	where id=#{id} 
+    </update>
+    
 </mapper>

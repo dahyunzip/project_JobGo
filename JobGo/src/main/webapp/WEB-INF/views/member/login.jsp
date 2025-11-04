@@ -3,8 +3,11 @@
 <%@ include file="../include/Header.jsp"%>
 <script>
 $(document).ready(function(){
-	if('${msg }' == 'joinSuccess'){
-		alert('회원가입 성공!');
+	var msgBox = '${msg }';
+	if(msgBox == 'loginSuccess'){
+		alert('로그인 성공!');
+	}else if(msgBox == 'loginFail'){
+		alert('잘못된 ID 또는 비밀번호 입니다.');
 	}
 })
 </script>
@@ -27,13 +30,13 @@ $(document).ready(function(){
 								<div class="col-lg-6 col-12">
 									<div class="form-group">
 										<label class="control-label">아이디</label>
-										<input type="text" class="form-control" placeholder="이메일을 입력하세요." name="userid">
+										<input type="text" class="form-control" placeholder="이메일을 입력하세요." name="userid" required>
 									</div>
 								</div>
 								<div class="col-lg-6 col-12">
 									<div class="form-group">
 										<label class="control-label">비밀번호</label>
-										<input type="password" class="form-control" placeholder="비밀번호를 입력하세요." name="userpw">
+										<input type="password" class="form-control" placeholder="비밀번호를 입력하세요." name="userpw" required>
 									</div>
 								</div>
 								<div class="col-lg-12">

@@ -24,10 +24,10 @@ public class ReplyServiceImpl implements ReplyService {
 	public List<ReplyVO> getReplyList(int ref_bno) {
 		logger.debug(" getReplyList() 실행! ");
 		
-		
+		List<ReplyVO> resultReplyVO = replyDAO.selectReplyList(ref_bno);
 		
 		logger.debug(" getReplyList() 끝! ");
-		return null;
+		return resultReplyVO;
 	}
 
 }

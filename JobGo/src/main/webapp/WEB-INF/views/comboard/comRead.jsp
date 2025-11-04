@@ -201,6 +201,10 @@
 							<button type="submit" class="btn btn-list">목록으로</button>
 						</div>
 					</div>
+					<hr>
+					<div id="replyListZone">
+						
+					</div>
 			    </div>
 			</div>
 		</div>
@@ -294,6 +298,17 @@
 					alert("서버 오류가 발생했습니다.");
 				}
 			});
+		});
+		
+		// 댓글 목록 비동기 조회
+		$.ajax({
+			type: "GET",
+			url: "/reply/repList",
+			data: {ref_bno:'${ref_bno}'},
+			success: function(result,statusText,jquXHR){
+				alert("REST 컨트롤러 다녀옴!");
+				
+			} 
 		});
 	});
 </script>

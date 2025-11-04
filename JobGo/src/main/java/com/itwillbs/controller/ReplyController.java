@@ -28,10 +28,10 @@ public class ReplyController {
 	public List<ReplyVO> getReplyList(@RequestParam("ref_bno") int ref_bno){
 		logger.debug(" /reply/repList -> getReplyList() 실행! ");
 		
-		
+		List<ReplyVO> resultReplyVO = replyService.getReplyList(ref_bno);
 		
 		logger.debug(" /reply/repList -> getReplyList() 끝! ");	
-		return null;
+		return resultReplyVO;
 	}
 
 	

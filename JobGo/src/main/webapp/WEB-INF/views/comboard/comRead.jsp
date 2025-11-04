@@ -202,8 +202,21 @@
 						</div>
 					</div>
 					<hr>
-					<div id="replyListZone">
-						
+					<!-- 비동기 댓글 영역 -->
+					<div id="replyArea">
+						<h5>댓글 (<span id="rcount">0</span>)</h5>
+						<table class="table table-striped">
+							<thead>
+								<tr>
+									<th>작성자</th>
+									<th>내용</th>
+									<th>작성일</th>
+								</tr>
+							</thead>
+							<tbody>
+							
+							</tbody>
+						</table>
 					</div>
 			    </div>
 			</div>
@@ -304,11 +317,28 @@
 		$.ajax({
 			type: "GET",
 			url: "/reply/repList",
-			data: {ref_bno:'${ref_bno}'},
-			success: function(result,statusText,jquXHR){
-				alert("REST 컨트롤러 다녀옴!");
-				
-			} 
+			data: {ref_bno:comBno},
+			success: function(repList, statusText, jquXHR){
+				// alert("REST 컨트롤러 다녀옴!");
+				// console.log(repList);
+				var tag = "";
+
+				console.log("댓글 데이터:", repList); // ← 여기서 배열 확인
+
+				$(repList).each(function(idx, item) {
+					var date = new Date(item.create_date);
+					var dateYMD = date.getFullYear() + "년 " + (date.getMonth() + 1) + "월 " + date.getDate() + "일";
+
+					tag += "<tr>";
+					tag += "<td>" + item.writerUserid + "</td>";
+					tag += "<td>" + item.reply_content + "</td>";
+					tag += "<td>" + dateYMD + "</td>";
+					tag += "</tr>";
+				});
+
+				$("#replyArea tbody").html(tag);
+				$("#rcount").text(repList.length);
+		    }	 
 		});
 	});
 </script>

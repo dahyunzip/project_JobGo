@@ -1,6 +1,12 @@
 package com.itwillbs.controller;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -8,6 +14,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import com.itwillbs.domain.NoticeVO;
 import com.itwillbs.service.NoticeService;
@@ -34,18 +42,54 @@ public class NoticeController {
 	}
 	
 	@RequestMapping(value = "/write", method=RequestMethod.POST)
-	public String insertNotice(NoticeVO vo, HttpSession session) {
+	public String insertNotice(NoticeVO vo, HttpSession session, HttpServletRequest request) {
 		
 		if(!isAdmin(session)) {
 			return "redirect:/notice/list";
+		}
+		
+		vo.setAdminId(Integer.parseInt(session.getAttribute("id").toString()));
+		
+		if (request instanceof MultipartHttpServletRequest) {
+			MultipartHttpServletRequest multi = (MultipartHttpServletRequest) request;
+			List<String> fileList = fileUploadProcess(multi);
+			String storedFileNames = String.join(",", fileList);
+			vo.setStoredFileName(storedFileNames);
 		}
 		
 		nService.insertNotice(vo);
 		return "redirect:/notice/list";
 	}
 	
+	private List<String> fileUploadProcess(MultipartHttpServletRequest multiRequest) {
+		List<String> fileList = new ArrayList<>();
+
+		Iterator<String> fileNames = multiRequest.getFileNames();
+		while(fileNames.hasNext()) {
+			String fileParam = fileNames.next();
+			MultipartFile file = multiRequest.getFile(fileParam);
+
+			if(!file.isEmpty()) {
+				String fileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+				String uploadPath = multiRequest.getSession().getServletContext()
+					.getRealPath("/resources/upload/");
+
+				File dest = new File(uploadPath, fileName);
+				try {
+					file.transferTo(dest);
+					fileList.add(fileName);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+		return fileList;
+	}
+	
 	@RequestMapping(value = "/detail", method=RequestMethod.GET)
 	public String getNotice(@RequestParam("noticeId") int noticeId, Model model) {
+		
+		nService.updateViewCnt(noticeId);
 		
 		model.addAttribute("notice", nService.getNotice(noticeId));
 		return "/notice/detail";
@@ -53,6 +97,9 @@ public class NoticeController {
 	
 	@RequestMapping(value = "/list", method=RequestMethod.GET)
 	public String getNoticeList(Model model) {
+		List<NoticeVO> list = nService.getNoticeList();
+	    System.out.println("===== Notice list size: " + list.size());
+	    for(NoticeVO vo : list) System.out.println(vo);
 		model.addAttribute("noticeList", nService.getNoticeList());
 		return "/notice/list";
 	}

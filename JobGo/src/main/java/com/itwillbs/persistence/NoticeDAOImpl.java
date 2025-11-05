@@ -16,7 +16,7 @@ public class NoticeDAOImpl implements NoticeDAO {
 	
 	@Inject
 	private SqlSession sqlSession;
-	private static final String NAMESPACE = "com.itwillbs.mapper.NoticeMapper.";
+	private static final String NAMESPACE = "com.itwillbs.mapper.NoticeMapper";
 	
 	private static final Logger logger = LoggerFactory.getLogger(ReviewDAOImpl.class);
 	
@@ -31,32 +31,32 @@ public class NoticeDAOImpl implements NoticeDAO {
 	@Override
 	public NoticeVO getNotice(int noticeId) {
 		logger.debug(" getNotice - DAO ");
-		return sqlSession.selectOne(NAMESPACE+ "getNotice", noticeId);
+		return sqlSession.selectOne(NAMESPACE+ ".getNotice", noticeId);
 	}
 
 	@Override
 	public List<NoticeVO> getNoticeList() {
 		logger.debug(" getNoticeList - DAO ");
-		return sqlSession.selectList(NAMESPACE+ "getNoticeList");
+		return sqlSession.selectList(NAMESPACE+ ".getNoticeList");
 	}
 
 	@Override
 	public void updateNotice(NoticeVO vo) {
 		logger.debug(" updateNotice - DAO ");
-		sqlSession.update(NAMESPACE+"updateNotice", vo);
+		sqlSession.update(NAMESPACE+".updateNotice", vo);
 		
 	}
 
 	@Override
 	public void deleteNotice(int noticeId) {
 		logger.debug(" deleteNotice - DAO ");
-		sqlSession.delete(NAMESPACE+"deleteNotice", noticeId);
+		sqlSession.delete(NAMESPACE+".deleteNotice", noticeId);
 	}
 
 	@Override
 	public void updateViewCnt(int noticeId) {
 		logger.debug(" updateViewCnt - DAO ");
-		sqlSession.update(NAMESPACE+"updateViewCnt", noticeId);
+		sqlSession.update(NAMESPACE+".updateViewCnt", noticeId);
 		
 	}
 	

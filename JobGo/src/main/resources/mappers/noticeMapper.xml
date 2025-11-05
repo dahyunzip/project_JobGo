@@ -12,13 +12,29 @@
 	</insert>
 
 	<select id="getNotice" resultType="com.itwillbs.domain.NoticeVO">
-		select *
+		select
+			notice_id as noticeId,
+			admin_id as adminId,
+			notice_title as noticeTitle,
+			notice_content as noticeContent,
+			storedFileName as storedFileName,
+			notice_viewcnt as noticeViewCnt,
+			notice_regdate as noticeRegdate,
+			notice_updated as noticeUpdated
 		from notice_board
 		where notice_id = #{noticeId}
 	</select>
 
 	<select id="getNoticeList" resultType="com.itwillbs.domain.NoticeVO">
-		select *
+		select
+			notice_id as noticeId,
+			admin_id as adminId,
+			notice_title as noticeTitle,
+			notice_content as noticeContent,
+			storedFileName as storedFileName,
+			notice_viewcnt as noticeViewCnt,
+			notice_regdate as noticeRegdate,
+			notice_updated as noticeUpdated
 		from notice_board
 		order by notice_id desc
 	</select>

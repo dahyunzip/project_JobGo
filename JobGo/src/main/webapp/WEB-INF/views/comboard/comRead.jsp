@@ -335,9 +335,14 @@
 		// 댓글 추가
 		function writeReplySection() {
 			$.ajax({
-				type: "GET",
-				url: "/reply/writeReply"+comBno,
-				success: function(){
+				url: "/reply/writeReply/"+comBno,
+				data: {
+					ref_bno:comBno,
+					writerUserid:'${resultReadVO.userid}',
+					reply_content: $(".form-control").val()
+				},
+				type:"POST",
+				success: function(result){
 					alert("REST 컨트롤러 다녀옴!");
 				}
 			});

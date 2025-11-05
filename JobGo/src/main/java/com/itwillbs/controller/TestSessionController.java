@@ -15,8 +15,8 @@ public class TestSessionController {
 		session.setAttribute("userid", "adminTest");
 		session.setAttribute("membertype", "A");
 		session.setAttribute("name", "관리자 테스트");
-		session.setAttribute("id", 1); // 관리자 id 임시 값
-		session.setAttribute("adminId", 1);
+		session.setAttribute("id", 2); // 관리자 id 임시 값
+		session.setAttribute("adminId", 2);
 		return "redirect:/notice/list";
 	}
 

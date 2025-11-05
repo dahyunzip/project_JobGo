@@ -12,6 +12,7 @@
 <body>
 <%@ include file="../include/Header.jsp"%>
 <div style="width:80%; margin:40px auto;">
+	<p style="color:red;">DEBUG storedFileName = [${notice.storedFileName}]</p>
 
 	<p style="font-size:22px; font-weight:700; margin-bottom:25px; color:#222;">공지 상세 보기</p>
 
@@ -45,9 +46,9 @@
 		</p>
 	</div>
 
-	<c:if test="${not empty notice.storedFileName}">
+	<c:if test="${fn:length(fn:trim(notice.storedFileName)) > 0}">
 		<p style="font-weight:600; margin-bottom:6px;">첨부파일</p>
-		<c:forEach var="file" items="${fn:split(notice.storedFileName, ',')}">
+		<c:forEach var="file" items="${fn:split(fn:trim(notice.storedFileName), ',')}">
 			<a href="${pageContext.request.contextPath}/resources/upload/${file}" download
 			   style="color:#007bff; text-decoration:none; font-size:14px; display:inline-block; margin-bottom:3px;">
 				${file}

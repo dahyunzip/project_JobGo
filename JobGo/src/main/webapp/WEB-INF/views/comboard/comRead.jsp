@@ -212,11 +212,12 @@
 		                               placeholder="다양한 의견을 작성해 보세요!">
 	                    	</c:if>
 	                    	<c:if test="${empty loginUserId}">
-		                    	<c:url var="returnOldPath" value="/comboard/comRead">
-		                    	    <c:param name="com_bno" value="${resultReadVO.com_bno}"></c:param>
-		                    	    <c:param name="page" value="${page}"></c:param>
-		                    	</c:url>
-	                    		<p><a href="/member/login/?oldPath=${returnOldPath }">로그인</a> 후 댓글 작성이 가능합니다. </p>
+	                    		<p><a id="loginLink" href="#">로그인</a> 후 댓글 작성이 가능합니다. </p>
+								<script>
+								  const returnOldPath = "/comboard/comRead?com_bno=${resultReadVO.com_bno}&page=${page}";
+								  const encoded = encodeURIComponent(returnOldPath);
+								  document.getElementById("loginLink").href = "/member/login?oldPath=" + encoded;
+								</script>
 	                    	</c:if>
 	                    </div>
 	                    <hr>
@@ -224,7 +225,7 @@
 							<colgroup>
 								<col width="10%">
 								<col width="*">
-								<col width="7%">
+								<col width="10%">
 							</colgroup>
 							<thead>
 								<tr>
@@ -327,9 +328,6 @@
 						alert("로그인 후 이용해주세요.");
 						location.href="/member/login";
 					}
-				},
-				error: function(){
-					alert("서버 오류가 발생했습니다.");
 				}
 			});
 		});

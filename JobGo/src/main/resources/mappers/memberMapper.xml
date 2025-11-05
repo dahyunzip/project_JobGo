@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <mapper namespace="com.itwillbs.mapper.MemberMapper">
+<mapper namespace="com.itwillbs.mapper.MemberMapper">
   	<!-- 회원가입 -->
   	<insert id="insertMember">
   		INSERT INTO member (
@@ -25,4 +25,31 @@
     <select id="getMemberByUserid" parameterType="string" resultType="MemberVO">
         SELECT * FROM member WHERE userid = #{userid}
     </select>
-  </mapper>
+    
+    <!-- 회원정보 업데이트 -->
+    <update id="updateMember">
+    	UPDATE member SET addr=#{addr}, phone=#{phone}, pfImage=#{pfImage},
+    	agree_location=#{agreeLocation}, agree_email=#{agreeEmail}, agree_sms=#{agreeSms}
+    	WHERE userid=#{userid} and userpw=#{userpw}
+    </update>
+    
+    <!-- 디비에서 파일 삭제 -->
+    <update id="deleteOldPtFiles">
+    	update member set originalFileName = null, storedFileName = null
+    	where id = #{id}
+    </update>
+    
+    <!-- 회원 정보 업데이트 -->
+    <update id="updateMemberPhotoFiles">
+    	update member set originalFileName = #{originalFileName}, storedFileName = #{storedFileName}
+    	where id = #{id} 
+    </update>
+    
+    <!-- 회원 탈퇴로 상태 변경하기 -->
+    <update id="updateIsDeleted">
+    	update member
+    	set is_deleted = 1
+    	where userid = #{userid}
+    </update>
+    
+</mapper>

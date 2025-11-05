@@ -1,6 +1,8 @@
 package com.itwillbs.domain;
 
-import java.security.Timestamp;
+import java.sql.Timestamp;
+
+import org.springframework.web.multipart.MultipartFile;
 
 import lombok.Data;
 
@@ -18,7 +20,10 @@ public class MemberVO {
     private Timestamp updateAt;
     private boolean isDeleted;
     private String membertype;       // 'G' : 일반회원, 'A' : 관리자
-    private String agreeLocation;    // Y/N
-    private String agreeEmail;       // Y/N
-    private String agreeSms;         // Y/N
+    private char agreeLocation;    // Y/N
+    private char agreeEmail;       // Y/N
+    private char agreeSms;         // Y/N
+    private String originalFileName;
+    private String storedFileName;
+    private MultipartFile upload;
 }

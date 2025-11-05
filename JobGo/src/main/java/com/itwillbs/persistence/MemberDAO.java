@@ -12,4 +12,17 @@ public interface MemberDAO {
 	
 	// 아이디로 멤버 정보 가져오기
 	public MemberVO getMemberByUserid(String userid) throws Exception;
+	
+	// 회원정보 수정
+	public void updateMember(MemberVO vo) throws Exception;
+
+	// 디비에서 파일 삭제
+	public void deleteOldPtFiles(int id) throws Exception;
+	
+	// 회원 프로필 사진 수정
+	public int updateMemberPhotoFiles(MemberVO vo) throws Exception;
+	
+	// 탈퇴 회원 상태 변경
+	public void updateIsDeleted(String userid) throws Exception;
+	
 }

@@ -40,5 +40,36 @@ public class MemberDAOImpl implements MemberDAO {
     public MemberVO getMemberByUserid(String userid) throws Exception {
         return sqlSession.selectOne(NAMESPACE + "getMemberByUserid", userid);
     }
-	
+
+	@Override
+	public void updateMember(MemberVO vo) throws Exception {
+		sqlSession.update(NAMESPACE + "updateMember", vo);
+	}
+
+
+	// 디비에서 기존 파일 삭제
+	@Override
+	public void deleteOldPtFiles(int id) throws Exception{
+		logger.debug(" deleteOldPtFiles() 실행 ! ");
+		sqlSession.delete(NAMESPACE+"deleteOldPtFiles", id);
+		logger.debug("deleteOldPtFiles() 끝 ! ");
+		
+	}
+
+	// 회원 정보 업데이트
+	@Override
+	public int updateMemberPhotoFiles(MemberVO vo) throws Exception {
+		logger.debug(" updateMemberPhotoFiles() 실행! ");
+		int resultMemberPtFiles = sqlSession.update(NAMESPACE+"updateMemberPhotoFiles", vo);
+		logger.debug(" updateMemberPhotoFiles() 끝! ");
+		return resultMemberPtFiles;
+	}
+
+	// 탈퇴 회원 상태 업데이트
+	@Override
+	public void updateIsDeleted(String userid) throws Exception {
+		logger.debug(" updateIsDeleted() 실행! ");
+		sqlSession.update(NAMESPACE+"updateIsDeleted", userid);
+		
+	}
 }

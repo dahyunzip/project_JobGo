@@ -2,6 +2,11 @@
 .fix-layout{max-width:1800px; width:100%; margin:0 auto;}
 html{scroll-behavior:smooth}
 body{font-family:"Inter",sans-serif;font-weight:400;font-style:normal;color:#7E8890;overflow-x:hidden;font-size:14px}
+.text-center{text-align:center;}
+.text-left{text-align:left;}
+.text-right{text-align:right;}
+
+
 /* header */
 .header .button{display:inherit!important; align-items:center}
 .header .button .login{display:inherit; padding:0; border-radius:4px; color:#2042e3; font-weight:500; font-size:14px; align-items:center;}

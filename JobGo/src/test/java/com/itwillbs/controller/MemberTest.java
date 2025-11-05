@@ -61,6 +61,7 @@ public class MemberTest {
 			logger.debug(" 로그인 성공 : {}", result.getName());
 			logger.debug(" 회원 이메일 : {}", result.getEmail());
 			logger.debug(" 회원 타입 : {}", result.getMembertype());
+			logger.debug(" result : {}" , result);
 		}else {
 			logger.debug(" 로그인 실패");
 		}

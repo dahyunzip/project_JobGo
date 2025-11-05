@@ -1,5 +1,5 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../include/Header.jsp"%>
 <section class="add-resume section">
 	<div class="container">
@@ -31,21 +31,21 @@
 	                        <div class="col-lg-6 col-12">
 	                            <div class="form-group">
 	                                <label class="control-label">이메일</label>
-	                                <input type="text" class="form-control" name="email" value=${user.email } readonly>
+	                                <input type="text" class="form-control" name="email" value="${user.email }" readonly>
 	                            </div>
 	                        </div>
 	                        <div class="col-lg-12 col-12">
 	                            <div class="form-group">
 	                                <label class="control-label">주소</label>
-	                                <input type="text" class="form-control" name="addr" value=${user.addr }>
+	                                <input type="text" class="form-control" name="addr" value="${user.addr }">
 	                            </div>
 	                        </div>
 	                        <div class="col-lg-6 col-12">
 	                            <div class="form-group">
 	                                <label class="control-label">대표이미지</label>
-	                                <c:set var="imageName" value="${empty login.storedFileName ? 'default.jpg' : login.storedFileName }" />
+	                                <c:set var="imageName" value="${empty user.storedFileName ? 'default.jpg' : user.storedFileName }" />
 									<div><img src="/upload/${imageName }" height="100"></div>
-	                                <input type="file" class="form-control" name="pfImage" value="${user.pfImage }">
+	                                <input type="file" class="form-control" name="upload" value="${user.upload }">
 	                            </div>
 	                        </div>
 	                        <div class="col-lg-6 col-12">
@@ -56,20 +56,20 @@
 	                        </div>
 	                        <div class="col-lg-6 col-12">
 	                            <div class="form-group">
-	                                <label class="control-label">마케팅 수신 동의</label>
-	                                <input type="checkbox" class="" name="agreeLocation" value="Y">
+	                                <label class="control-label">위치 정보 제공 동의</label>
+	                                <input type="checkbox" class="" name="agreeLocation" value="Y" <c:if test="${String.valueOf(user.agreeLocation) eq 'Y'}">checked</c:if>>
 	                            </div>
 	                        </div>
 	                        <div class="col-lg-6 col-12">
 	                            <div class="form-group">
-	                                <label class="control-label">어쩌구 수신 동의</label>
-	                                <input type="checkbox" class="" name="agreeEmail" value="Y">
+	                                <label class="control-label">이메일 수신 동의</label>
+	                                <input type="checkbox" class="" name="agreeEmail" value="Y" <c:if test="${String.valueOf(user.agreeEmail) eq 'Y'}">checked</c:if>>
 	                            </div>
 	                        </div>
 	                        <div class="col-lg-6 col-12">
 	                            <div class="form-group">
-	                                <label class="control-label">어쩌구 수신 동의</label>
-	                                <input type="checkbox" class="" name="agreeSms" value="Y">
+	                                <label class="control-label">SMS 수신 동의</label>
+	                                <input type="checkbox" class="" name="agreeSms" value="Y" <c:if test="${String.valueOf(user.agreeSms) eq 'Y'}">checked</c:if>>
 	                            </div>
 	                        </div>
 	                    </div>

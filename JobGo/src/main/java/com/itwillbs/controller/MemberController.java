@@ -1,5 +1,7 @@
 package com.itwillbs.controller;
 
+import java.lang.ProcessBuilder.Redirect;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -74,6 +76,7 @@ public class MemberController {
 		return "redirect:/";
 	}
 	
+	// 마이페이지 (내 정보 조회)
 	@RequestMapping(value="/mypage", method=RequestMethod.GET)
 	public String memberInfoGET(HttpSession session, Model model) throws Exception{
 		String memberId = (String) session.getAttribute("userid");
@@ -82,6 +85,7 @@ public class MemberController {
 		return "/member/mypage";
 	}
 	
+	// 내 정보 수정하기 GET
 	@RequestMapping(value="/modify", method=RequestMethod.GET)
 	public String memberModifyGET(HttpSession session, Model model) throws Exception{
 		String memberId = (String) session.getAttribute("userid");
@@ -90,16 +94,73 @@ public class MemberController {
 		return "/member/modify";
 	}
 	
+	// 내 정보 수정하기 POST
 	@RequestMapping(value="/modify", method=RequestMethod.POST)
 	public String memberModifyPOST(MemberVO vo, RedirectAttributes rttr) throws Exception{
 		logger.debug(" memberModifyPOST(MemberVO vo) 실행!");
 		logger.debug("vo : " + vo);
+		
+		// 체크박스 미선택 시 N으로 설정
+	    if (vo.getAgreeLocation() != 'Y') vo.setAgreeLocation('N');
+	    if (vo.getAgreeEmail() != 'Y') vo.setAgreeEmail('N');
+	    if (vo.getAgreeSms() != 'Y') vo.setAgreeSms('N');
+	    
+	    
+		// 회원 기본 정보 수정
 		mService.modifyMember(vo);
-		String storedFileName = mService.uploadPhoto(vo);
-		vo.setStoredFileName(storedFileName);
-		logger.debug(" memberModifyPOST 성공 ! ");
+		
+		// 프로필 사진 업로드
+		if(vo.getUpload() != null && !vo.getUpload().isEmpty()) {
+			logger.debug(" 새 프로필 이미지 업로드 감지 ! ");
+			String storedFileName = mService.uploadPhoto(vo);
+			vo.setStoredFileName(storedFileName);
+		} else {
+			logger.debug(" 프로필 이미지 변경 없음");
+		}
+		
 		rttr.addFlashAttribute("msg", "modifySuccess");
+		logger.debug(" memberModifyPOST 종료 ! ");
 		return "redirect:/member/mypage";
+	}
+	
+	// 회원 탈퇴 GET
+	@RequestMapping(value="/delete", method=RequestMethod.GET)
+	public void memberDeleteGET(HttpSession session, Model model) throws Exception {
+		String memberId = (String) session.getAttribute("userid");
+		MemberVO userVO = mService.getMember(memberId);
+		model.addAttribute("user", userVO);
+		logger.debug(" memberDeleteGET() 실행 ");
+		logger.debug(" /member/delete.jsp 뷰페이지 이동 ");
+	}
+	
+	// 회원 탈퇴 POST
+	@RequestMapping(value="/delete", method=RequestMethod.POST)
+	public String memberDeletePOST(HttpSession session, 
+								@RequestParam("agreeCheck") String agreeCheck,
+								@RequestParam("confirmText") String confirmText,
+								RedirectAttributes rttr) throws Exception {
+		logger.debug(" memberDeletePOST() 실행! ");
+		String userid = (String) session.getAttribute("userid");
+		
+		// 기본 검증 
+		if(userid == null) {
+			return "redirect:/member/login";
+		}
+		
+		if(!"on".equals(agreeCheck) || !"탈퇴하겠습니다.".equals(confirmText.trim())) {
+			rttr.addFlashAttribute("msg", "dropFail");
+			return "redirect:/member/delete";
+		}
+		
+		// DB 상태 변경
+		mService.dropMember(userid);
+		
+		session.invalidate();
+		
+		rttr.addFlashAttribute("msg", "dropComplete");
+		return "redirect:/";
+		
+		
 	}
 	
 }

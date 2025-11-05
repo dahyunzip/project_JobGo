@@ -2,9 +2,14 @@
 <%@ include file="../include/Header.jsp"%>
 <script>
 $(document).ready(function(){
-	if('${msg }' == 'loginSuccess'){
+	var status = '${msg }';
+	if(status == 'loginSuccess'){
 		alert('로그인 성공!');
 	}
+	if(status == 'dropComplete'){
+		alert('정상적으로 탈퇴처리 되었습니다. 이용해 주셔서 감사합니다.');
+	}
+	
 })
 </script>
 <section class="hero-area">

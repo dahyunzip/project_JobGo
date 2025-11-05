@@ -11,18 +11,15 @@ import com.itwillbs.persistence.MemberDAO;
 
 @Service
 public class MemberServiceImpl implements MemberService{
-
-    private final FileComponent fileComponent;
 	
+	@Inject
+    private FileComponent fileComponent;
+	@Inject
+	private MemberDAO mdao;
 	
 	private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
 	
-	@Inject
-	private MemberDAO mdao;
-
-    MemberServiceImpl(FileComponent fileComponent) {
-        this.fileComponent = fileComponent;
-    }
+	
 
 	@Override
 	public void registerMember(MemberVO vo) throws Exception {
@@ -55,25 +52,32 @@ public class MemberServiceImpl implements MemberService{
 		
 		if(existMember != null && existMember.getStoredFileName() != null) {
 			fileComponent.delete(existMember.getStoredFileName());
-			
 			mdao.deleteOldPtFiles(existMember.getId());
 		}
 		
 		String originalFileName = vo.getUpload().getOriginalFilename();
 		String storedFileName = fileComponent.upload(vo.getUpload());
 		
-		MemberVO resultVO = new MemberVO();
-		resultVO.setOriginalFileName(originalFileName);
-		resultVO.setStoredFileName(storedFileName);
+		vo.setId(existMember.getId());
+		vo.setOriginalFileName(originalFileName);
+		vo.setStoredFileName(storedFileName);
 		
-		mdao.insertPhotoFiles(resultVO);
+		//mdao.insertPhotoFiles(vo);
 		
-		mdao.updateMemberPhotoFiles(resultVO);
+		mdao.updateMemberPhotoFiles(vo);
 		
 		logger.debug("uploadPhoto() 끝! ");
 		
 		return storedFileName;
 	}
+
+	@Override
+	public void dropMember(String userid) throws Exception {
+		logger.debug(" dropMember() 실행 ");
+		mdao.updateIsDeleted(userid);
+	}
+	
+	
 
 	
 }

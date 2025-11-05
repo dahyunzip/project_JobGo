@@ -15,18 +15,14 @@ public interface MemberDAO {
 	
 	// 회원정보 수정
 	public void updateMember(MemberVO vo) throws Exception;
-	
-	// 회원 프로필 사진 수정
-	// 특정 회원의 파일 업로드 여부 조회
-	public MemberVO getMemberByFiles(int id);
 
 	// 디비에서 파일 삭제
-	public void deleteOldPtFiles(int id);
-	// 사진 파일 정보 업로드
-	public int insertPhotoFiles(MemberVO vo);
-	// 최신 사진파일 조회
-	public int selectMaxPhotoFiles();
-	// 회원 정보 업데이트
-	public int updateMemberPhotoFiles(MemberVO vo);
+	public void deleteOldPtFiles(int id) throws Exception;
+	
+	// 회원 프로필 사진 수정
+	public int updateMemberPhotoFiles(MemberVO vo) throws Exception;
+	
+	// 탈퇴 회원 상태 변경
+	public void updateIsDeleted(String userid) throws Exception;
 	
 }

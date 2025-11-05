@@ -17,4 +17,7 @@ public interface MemberService {
 	
 	// 회원 프로필 사진 업데이트
 	public String uploadPhoto(MemberVO vo) throws Exception; 
+
+	public void dropMember(String userid) throws Exception;
 }
+

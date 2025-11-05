@@ -46,45 +46,30 @@ public class MemberDAOImpl implements MemberDAO {
 		sqlSession.update(NAMESPACE + "updateMember", vo);
 	}
 
-	// 회원 프로필 사진 수정
-	// 특정 회원의 파일 업로드 여부 조회
-	@Override
-	public MemberVO getMemberByFiles(int id) {
-		return null;
-	}
 
 	// 디비에서 기존 파일 삭제
 	@Override
-	public void deleteOldPtFiles(int id) {
+	public void deleteOldPtFiles(int id) throws Exception{
 		logger.debug(" deleteOldPtFiles() 실행 ! ");
 		sqlSession.delete(NAMESPACE+"deleteOldPtFiles", id);
 		logger.debug("deleteOldPtFiles() 끝 ! ");
 		
 	}
 
-	// 사진 업로드
-	@Override
-	public int insertPhotoFiles(MemberVO vo) {
-		logger.debug(" insertPhotoFiles() 실행 ! ");
-		int resultPtFiles = sqlSession.insert(NAMESPACE+"insertPhotoFiles", vo);
-		logger.debug(" insertPhotoFiles() 끝");
-		return resultPtFiles;
-	}
-
-	@Override
-	public int selectMaxPhotoFiles() {
-		return 0;
-	}
-
 	// 회원 정보 업데이트
 	@Override
-	public int updateMemberPhotoFiles(MemberVO vo) {
+	public int updateMemberPhotoFiles(MemberVO vo) throws Exception {
 		logger.debug(" updateMemberPhotoFiles() 실행! ");
-		int resultMemberPtFiles = sqlSession.update(NAMESPACE+"updateMemberPhotoFilex", vo);
+		int resultMemberPtFiles = sqlSession.update(NAMESPACE+"updateMemberPhotoFiles", vo);
 		logger.debug(" updateMemberPhotoFiles() 끝! ");
 		return resultMemberPtFiles;
 	}
-	
-	
-	
+
+	// 탈퇴 회원 상태 업데이트
+	@Override
+	public void updateIsDeleted(String userid) throws Exception {
+		logger.debug(" updateIsDeleted() 실행! ");
+		sqlSession.update(NAMESPACE+"updateIsDeleted", userid);
+		
+	}
 }

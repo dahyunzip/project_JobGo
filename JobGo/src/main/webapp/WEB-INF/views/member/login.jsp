@@ -3,10 +3,10 @@
 <%@ include file="../include/Header.jsp"%>
 <script>
 $(document).ready(function(){
-	var msgBox = '${msg }';
-	if(msgBox == 'loginSuccess'){
+	var status = '${msg }';
+	if(status == 'loginSuccess'){
 		alert('로그인 성공!');
-	}else if(msgBox == 'loginFail'){
+	}else if(status == 'loginFail'){
 		alert('잘못된 ID 또는 비밀번호 입니다.');
 	}
 })

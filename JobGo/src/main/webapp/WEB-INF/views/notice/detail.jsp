@@ -12,7 +12,6 @@
 <body>
 <%@ include file="../include/Header.jsp"%>
 <div style="width:80%; margin:40px auto;">
-	<p style="color:red;">DEBUG storedFileName = [${notice.storedFileName}]</p>
 
 	<p style="font-size:22px; font-weight:700; margin-bottom:25px; color:#222;">공지 상세 보기</p>
 

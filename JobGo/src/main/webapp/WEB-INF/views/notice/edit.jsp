@@ -11,7 +11,7 @@
 <div style="width:80%; margin:40px auto; font-family:'Inter', sans-serif;">
 	<h2 style="margin-bottom:20px; border-left:4px solid #007bff; padding-left:10px;"> 공지 수정 </h2>
 	
-	<form action="/notice/edit" method="post">
+	<form action="/notice/edit" method="post" enctype="multipart/form-data">
 		<input type="hidden" name="noticeId" value="${notice.noticeId }">
 		
 		<div style="margin-bottom:15px;">

@@ -16,7 +16,7 @@
 		내용 : <br>
 		<textarea name="noticeContent" rows="8" cols="50" style="width:100%; padding:8px; border:1px solid #ccc; margin-bottom:15px;" required></textarea>
 		
-		첨부파일: <input type="file" name="file1" style="margin-bottom:20px; display:block;"><br>
+		첨부파일: <input type="file" name="file" style="margin-bottom:20px; display:block;"><br>
 		
 		<div style="display:flex; gap:10px;">
 			<button type="submit" style="padding:8px 14px; background:#28a745; color:#fff; border:none; cursor:pointer; border-radius:4px;">

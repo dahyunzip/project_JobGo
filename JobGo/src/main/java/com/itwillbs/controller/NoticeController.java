@@ -27,6 +27,8 @@ public class NoticeController {
 	@Inject
 	private NoticeService nService;
 	
+	private static final String UPLOAD_PATH = "c:\\spring\\upload";
+	
 	//관리자 체크
 	private boolean isAdmin(HttpSession session) {
 		String type = (String) session.getAttribute("membertype");
@@ -42,21 +44,31 @@ public class NoticeController {
 	}
 	
 	@RequestMapping(value = "/write", method=RequestMethod.POST)
-	public String insertNotice(NoticeVO vo, HttpSession session, HttpServletRequest request) {
-		
+	public String insertNotice(NoticeVO vo,
+		@RequestParam(value="file", required=false) MultipartFile file,
+		HttpSession session) {
+
 		if(!isAdmin(session)) {
 			return "redirect:/notice/list";
 		}
-		
+
 		vo.setAdminId(Integer.parseInt(session.getAttribute("id").toString()));
-		
-		if (request instanceof MultipartHttpServletRequest) {
-			MultipartHttpServletRequest multi = (MultipartHttpServletRequest) request;
-			List<String> fileList = fileUploadProcess(multi);
-			String storedFileNames = String.join(",", fileList);
-			vo.setStoredFileName(storedFileNames);
+
+		if(file != null && !file.isEmpty()) {
+			String uploadPath = session.getServletContext().getRealPath("/resources/upload/");
+			File dir = new File(uploadPath);
+			if(!dir.exists()) dir.mkdirs();
+
+			String origin = file.getOriginalFilename();
+			String fileName = System.currentTimeMillis() + "_" + origin;
+			try {
+				file.transferTo(new File(uploadPath, fileName));
+				vo.setStoredFileName(fileName);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
 		}
-		
+
 		nService.insertNotice(vo);
 		return "redirect:/notice/list";
 	}
@@ -116,12 +128,29 @@ public class NoticeController {
 	}
 	
 	@RequestMapping(value = "/edit", method=RequestMethod.POST)
-	public String updateNotice(NoticeVO vo, HttpSession session) {
-		
+	public String updateNotice(NoticeVO vo,
+		@RequestParam(value="file", required=false) MultipartFile file,
+		HttpSession session) {
+
 		if(!isAdmin(session)) {
 			return "redirect:/notice/list";
 		}
-		
+
+		if(file != null && !file.isEmpty()) {
+			String uploadPath = session.getServletContext().getRealPath("/resources/upload/");
+			File dir = new File(uploadPath);
+			if(!dir.exists()) dir.mkdirs();
+
+			String origin = file.getOriginalFilename();
+			String fileName = System.currentTimeMillis() + "_" + origin;
+			try {
+				file.transferTo(new File(uploadPath, fileName));
+				vo.setStoredFileName(fileName);
+			} catch(Exception e) {
+				e.printStackTrace();
+			}
+		}
+
 		nService.updateNotice(vo);
 		return "redirect:/notice/detail?noticeId="+vo.getNoticeId();
 	}

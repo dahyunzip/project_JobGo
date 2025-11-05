@@ -23,6 +23,8 @@ $(document).ready(function(){
 							</div>
 						</div>
 						<form class="form-ad" method="post">
+							<input type="hidden" name="oldPath" value="${param.oldPath}">
+							
 							<div class="row">
 								<div class="col-lg-6 col-12">
 									<div class="form-group">

@@ -30,6 +30,7 @@ public class ReplyDAOImpl implements ReplyDAO {
 			= sqlSession.selectList(NAMESPACE + "selectReplyList", ref_bno);
 		
 		logger.debug(" selectReplyList() 끝! ");
+		logger.debug(resultReplyList+"");
 		return resultReplyList;
 	}
 

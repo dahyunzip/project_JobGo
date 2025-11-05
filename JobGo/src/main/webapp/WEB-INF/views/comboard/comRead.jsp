@@ -203,9 +203,29 @@
 					</div>
 					<hr>
 					<!-- 비동기 댓글 영역 -->
-					<div id="replyArea">
+					<div class="form-group">
 						<h5>댓글 (<span id="rcount">0</span>)</h5>
+						<div id="replyArea">
+							<c:if test="${!empty loginUserId}">
+		                        <input type="text" class="form-control"
+		                               name="reply_content" 
+		                               placeholder="다양한 의견을 작성해 보세요!">
+	                    	</c:if>
+	                    	<c:if test="${empty loginUserId}">
+		                    	<c:url var="returnOldPath" value="/comboard/comRead">
+		                    	    <c:param name="com_bno" value="${resultReadVO.com_bno}"></c:param>
+		                    	    <c:param name="page" value="${page}"></c:param>
+		                    	</c:url>
+	                    		<p><a href="/member/login/?oldPath=${returnOldPath }">로그인</a> 후 댓글 작성이 가능합니다. </p>
+	                    	</c:if>
+	                    </div>
+	                    <hr>
 						<table class="table table-striped">
+							<colgroup>
+								<col width="10%">
+								<col width="*">
+								<col width="7%">
+							</colgroup>
 							<thead>
 								<tr>
 									<th>작성자</th>
@@ -213,11 +233,12 @@
 									<th>작성일</th>
 								</tr>
 							</thead>
-							<tbody>
+							<tbody class="replyList">
 							
 							</tbody>
 						</table>
 					</div>
+					<!-- 비동기 댓글 영역 -->
 			    </div>
 			</div>
 		</div>
@@ -313,33 +334,87 @@
 			});
 		});
 		
+		// 댓글 추가
+		function writeReplySection() {
+			$.ajax({
+				type: "GET",
+				url: "/reply/writeReply"+comBno,
+				success: function(){
+					alert("REST 컨트롤러 다녀옴!");
+				}
+			});
+		}
+		
+		// 댓글 작성 시간 계산 로직
+		function getTimeAgo(createDate) {
+		    const now = new Date();                // 현재 시각
+		    const written = new Date(createDate);  // 댓글 작성 시각
+		    const diffMs = now - written;          // 시간 차 (밀리초)
+
+		    const diffMin = Math.floor(diffMs / 1000 / 60);
+		    const diffHour = Math.floor(diffMin / 60);
+		    const diffDay = Math.floor(diffHour / 24);
+
+		    if (diffMin < 1) return "방금 전";
+		    if (diffMin < 60) return diffMin + "분 전";
+		    if (diffHour < 24) return diffHour + "시간 전";
+		    if (diffDay < 7) return diffDay + "일 전";
+
+		    // 7일 이상이면 날짜 형식으로 표시
+		    return written.getFullYear().toString().slice(2) + "년 " + 
+		           (written.getMonth() + 1) + "월 " + 
+		           written.getDate() + "일";
+		}
+		
 		// 댓글 목록 비동기 조회
-		$.ajax({
-			type: "GET",
-			url: "/reply/repList",
-			data: {ref_bno:comBno},
-			success: function(repList, statusText, jquXHR){
-				// alert("REST 컨트롤러 다녀옴!");
-				// console.log(repList);
-				var tag = "";
-
-				console.log("댓글 데이터:", repList); // ← 여기서 배열 확인
-
-				$(repList).each(function(idx, item) {
-					var date = new Date(item.create_date);
-					var dateYMD = date.getFullYear() + "년 " + (date.getMonth() + 1) + "월 " + date.getDate() + "일";
-
-					tag += "<tr>";
-					tag += "<td>" + item.writerUserid + "</td>";
-					tag += "<td>" + item.reply_content + "</td>";
-					tag += "<td>" + dateYMD + "</td>";
-					tag += "</tr>";
-				});
-
-				$("#replyArea tbody").html(tag);
-				$("#rcount").text(repList.length);
-		    }	 
-		});
+		function getReplyList() {
+			
+			$.ajax({
+				type: "GET",
+				url: "/reply/repList/"+comBno,
+				success: function(result,statusText,jquXHR){
+					// alert("REST 컨트롤러 다녀옴!");
+					// console.log(repList);
+					if(jquXHR.status == "200") {
+						
+						var tag = "";
+		
+						console.log("댓글 데이터:", result); // ← 여기서 배열 확인
+		
+						$(result).each(function(idx, item) {
+						/* 	var date = new Date(item.create_date);
+							
+							var year = String(date.getFullYear()).slice(2); // ← '2025' → '25'
+							var month = date.getMonth() + 1;
+							var day = date.getDate();
+							var hours = String(date.getHours()).padStart(2, '0');
+							var minutes = String(date.getMinutes()).padStart(2, '0'); */
+							
+							/* 
+							var dateYMD = year + "년 " + 
+										  month + "월 " + 
+										  day + "일 " + 
+										  hours + "시 " +
+										  minutes + "분";
+							
+							console.log(date); */
+							
+							const dateText = getTimeAgo(item.create_date);
+		
+							tag += "<tr>";
+							tag += "<td>" + item.writerUserid + "</td>";
+							tag += "<td>" + item.reply_content + "</td>";
+							tag += "<td>" + dateText + "</td>";
+							tag += "</tr>";
+						});
+					}
+	
+					$(".replyList").append(tag);
+					$("#rcount").text(result.length);
+			    }	 
+			});
+		}
+		getReplyList(); // 이 페이지에 접근했을 때 이 함수가 호출되도록 설정
 	});
 </script>
 <%@ include file="../include/Footer.jsp" %>

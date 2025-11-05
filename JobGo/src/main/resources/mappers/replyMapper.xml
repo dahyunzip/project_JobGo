@@ -13,7 +13,7 @@
   			r.reply_writer,
   			m.name as writerName,
   			m.userid as writerUserid,
-  			r.create_date,
+  			r.create_date as create_date,
   			r.status
   		from reply r 
   		join member m on r.reply_writer = m.id 

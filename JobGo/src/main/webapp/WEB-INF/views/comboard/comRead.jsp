@@ -472,10 +472,43 @@
 	    $td.html(editTag);
 	}
 	
-	// 수정 취소 (원래 내용 복원)
+	// 수정 취소 버튼(원래 내용 복원)
 	function cancelUpdateReply(btn, oldContent) {
 	    const $td = $(btn).closest("tr").find("td").eq(1);
 	    $td.html(oldContent);
+	}
+	
+	// 수정 저장 버튼(바뀐 내용 저장)
+	function saveUpdateReply(btn, reply_no) {
+		const $tb = $(btn).closest("tr").find("td").eq(1);
+		const newContent = $td.find("savedata").val().trim();
+		
+		if(newContent == "") {
+			alert("댓글 내용을 입력하세요.");
+			return;
+		}
+		
+		const replyData = {
+				reply_no: reply_no,
+				reply_content: newContent
+		}
+		
+		$.ajax({
+			type: "PUT",
+			url : "/reply/replyUpdate/"+reply_no,
+			data: JSON.stringify(replyData),
+			contentType: "application/json; charset=UTF-8",
+			success: function(result){
+				if(result > 0){
+					alert("댓글이 수정되었습니다.");
+					getReplyList();
+				} else {
+					alert("댓글 수정 실패");
+				}
+			}
+		});
+		
+		
 	}
 </script>
 <%@ include file="../include/Footer.jsp" %>

@@ -16,7 +16,7 @@
 			cb.storedFileName,
 			cb.com_title, 
 			cb.com_content, 
-			cb.com_viewcnt, 
+			cb.com_viewcnt,
 			cb.com_regdate 
 		from com_board cb 
 		join member m on m.id = cb.member_id 
@@ -30,10 +30,11 @@
 			m.name as writer,
 			m.email,
 			m.addr,
+			m.userid as userid,
 			cb.com_title, 
 			cb.com_content, 
 			cb.com_viewcnt, 
-			cb.com_regdate 
+			cb.com_regdate
 		from com_board cb 
 		join member m on m.id = cb.member_id 
 		<if test="search != null and search != ''">

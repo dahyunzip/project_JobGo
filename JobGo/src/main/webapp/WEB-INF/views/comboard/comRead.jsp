@@ -224,17 +224,19 @@
 	                    	</c:if>
 	                    </div>
 	                    <hr>
-						<table class="table table-striped">
+						<table class="table table-striped" style="word-break: break-word;">
 							<colgroup>
 								<col width="10%">
 								<col width="*">
 								<col width="10%">
+								<col width="12%">
 							</colgroup>
 							<thead>
 								<tr>
 									<th>작성자</th>
 									<th>내용</th>
 									<th>작성일</th>
+									<th>기능</th>
 								</tr>
 							</thead>
 							<tbody class="replyList">
@@ -267,6 +269,7 @@
 	
 		const formObj = $("#readForm");
 		const comBno = "${resultReadVO.com_bno}";
+		const loginUserId = "${loginUserId}";
 	
 		// 첨부파일 선택 시 다운로드
 		$('#fileSelect').change(function() {
@@ -434,6 +437,14 @@
 							tag += "<td>" + item.writerUserid + "</td>";
 							tag += "<td>" + item.reply_content + "</td>";
 							tag += "<td>" + dateText + "</td>";
+							if (loginUserId) {
+	                            tag += "<td>";
+	                            if (loginUserId == item.writerUserid) {
+	                                tag += "<button class='btn btn-sm btn-primary mt-1' onclick='updateReply(" + item.reply_no + ", this)'>수정</button>";
+	                                tag += "<button class='btn btn-sm btn-secondary mt-1' onclick='deleteReply(" + item.reply_no + ")'>삭제</button>";
+	                            }
+	                            tag += "</td>";
+	                        }
 							tag += "</tr>";
 						});
 					}
@@ -444,6 +455,27 @@
 			});
 		}
 		getReplyList(); // 이 페이지에 접근했을 때 이 함수가 호출되도록 설정
+		
 	});
+	
+	// 댓글 수정창 열기
+	function updateReply(reply_no, btn) {
+	    const $td = $(btn).closest("tr").find("td").eq(1); // 두 번째 td (댓글 내용칸)
+	    const oldContent = $td.text().trim();
+
+	    // textarea + 저장/취소 버튼 생성
+	    let editTag = "";
+	    editTag += "<textarea id='savedata' class='form-control' rows='2'>" + oldContent + "</textarea>";
+	    editTag += "<button class='btn btn-sm btn-success mt-1' onclick='saveUpdateReply(" + reply_no + ", this)'>저장</button>";
+	    editTag += "<button class='btn btn-sm btn-secondary mt-1' onclick='cancelUpdateReply(this, \"" + oldContent + "\")'>취소</button>";
+
+	    $td.html(editTag);
+	}
+	
+	// 수정 취소 (원래 내용 복원)
+	function cancelUpdateReply(btn, oldContent) {
+	    const $td = $(btn).closest("tr").find("td").eq(1);
+	    $td.html(oldContent);
+	}
 </script>
 <%@ include file="../include/Footer.jsp" %>

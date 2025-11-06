@@ -29,8 +29,12 @@ public class ReplyController {
 	
 	// 댓글 작성
 	@PostMapping("/writeReply/{ref_bno}")
-	public ResponseEntity<ReplyVO> insertReply() {
-		logger.debug(" /reply/writeReply ");
+	public ResponseEntity<ReplyVO> insertReply(ReplyVO vo) {
+		logger.debug(" /reply/writeReply -> insertReply() 실행! ");
+		
+		
+		
+		logger.debug(" /reply/writeReply -> insertReply() 끝! ");
 		return null;
 	}
 	

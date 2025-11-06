@@ -6,7 +6,11 @@ import com.itwillbs.domain.ReplyVO;
 
 public interface ReplyService {
 	
+	// 댓글 작성
+	public int writeReply(ReplyVO vo);
+	
 	// 댓글 목록 조회
 	public List<ReplyVO> getReplyList(int ref_bno);
+	
 
 }

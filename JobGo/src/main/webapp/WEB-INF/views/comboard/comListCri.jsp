@@ -16,9 +16,10 @@
 					<div class="row">
 						<div class="col-lg-6 col-xs-12"></div>
 						<div id="searchBar" class="col-lg-6 col-xs-12">
-							<label>키워드 검색</label> <input type="text"
-								placeholder="글제목, 작성자, 등 관련 키워드 작성 후 enter 눌러주세요!"
-								value="${search}" name="search" class="form-control">
+							<label>키워드 검색</label> 
+							<input type="text"
+								   placeholder="글제목, 작성자, 등 관련 키워드 작성 후 enter 눌러주세요!"
+								   value="${search}" name="search" class="form-control">
 						</div>
 					</div>
 				</form>

@@ -207,9 +207,12 @@
 						<h5>댓글 (<span id="rcount">0</span>)</h5>
 						<div id="replyArea">
 							<c:if test="${!empty loginUserId}">
+							<form id="replyForm">
 		                        <input type="text" class="form-control"
+		                               id="reply_content"
 		                               name="reply_content" 
 		                               placeholder="다양한 의견을 작성해 보세요!">
+							</form>
 	                    	</c:if>
 	                    	<c:if test="${empty loginUserId}">
 	                    		<p><a id="loginLink" href="#">로그인</a> 후 댓글 작성이 가능합니다. </p>
@@ -332,27 +335,43 @@
 			});
 		});
 		
+		// 댓글 검색 from 태그 감지
+		$("#replyForm").on("submit", function(e) {
+			  writeReplySection();
+			  e.preventDefault();
+		});
+		
 		// 댓글 추가
 		function writeReplySection() {
+			alert("REST 호출"+"${loginUserId}");
+			
 			$.ajax({
 				type:"POST",
 				url: "/reply/writeReply/"+comBno,
 				data: {
- 					ref_bno:comBno,
-					writerUserid:'${resultReadVO.userid}',
-					reply_content: $(".form-control").val()
-					},
-				success: function(result){
-					// alert("REST 컨트롤러 다녀옴!");
-					if(result == 0) {
-						alert("댓글 등록 실패")
-					} else {
-						alert("댓글 등록 성공")
+					reply_writer:'${loginUserId}',
+					reply_content: $("#reply_content").val()
+				},
+				success: function(result,statusText,jquXHR){
+					if(jquXHR.status == "200") {
+						// alert("REST 컨트롤러 다녀옴!");
+						if(result == 0) {
+							alert("댓글 등록 실패")
+						} else {
+							alert("댓글 등록 성공")
+						}
+						getReplyList();
+						$("#reply_content").val("");
 					}
-					getReplyList();
-					$("reply_content").val("");
+				},
+				error: function(data){
+					// alert("테스트e");
+					console.log(data);
 				}
 			});
+			
+			// alert("REST 호출2"+comBno);
+			
 		}
 		
 		// 댓글 작성 시간 계산 로직
@@ -385,9 +404,9 @@
 				success: function(result,statusText,jquXHR){
 					// alert("REST 컨트롤러 다녀옴!");
 					// console.log(repList);
+					var tag = "";
 					if(jquXHR.status == "200") {
 						
-						var tag = "";
 		
 						console.log("댓글 데이터:", result); // ← 여기서 배열 확인
 		
@@ -419,7 +438,7 @@
 						});
 					}
 	
-					$(".replyList").append(tag);
+					$(".replyList").html(tag);
 					$("#rcount").text(result.length);
 			    }	 
 			});

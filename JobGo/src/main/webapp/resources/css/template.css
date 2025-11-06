@@ -3414,6 +3414,7 @@ blockquote .shape {
   transition: all 0.4s ease;
   background-color: #fff;
   width:49%;
+  cursor:pointer;
 }
 
 .find-job .job-wrap .box-wrap{
@@ -3440,7 +3441,7 @@ blockquote .shape {
 }
 
 .find-job .single-job .job-content h4 {
-  padding-right: 200px;
+  /* padding-right: 200px; */
   position: relative;
   padding-bottom: 20px;
 }
@@ -3497,9 +3498,13 @@ blockquote .shape {
 }
 
 .find-job .single-job .job-button {
-  position: absolute;
+  /* position: absolute; */
   right: 40px;
   top: 40px;
+}
+
+.find-job .single-job .job-button > ul{
+	display:flex; justify-content:space-between;
 }
 
 .find-job .single-job .job-button ul li {

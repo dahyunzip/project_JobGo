@@ -1,6 +1,8 @@
 package com.itwillbs.controller;
 
 import java.lang.ProcessBuilder.Redirect;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -12,6 +14,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.MemberVO;
@@ -38,6 +41,18 @@ public class MemberController {
 		logger.debug(" 회원가입 완료, 정보 : " + vo);
 		return "redirect:/member/login";
 	}
+	
+	@RequestMapping(value="/member/idCheck", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> idCheck(@RequestParam("userid") String userid) throws Exception{
+		logger.debug("idCheck 호출 — userid 값: [{}], length: {}", userid, userid.length());
+		boolean available = mService.isUseridAvailable(userid);
+		Map<String, Object> result = new HashMap<>();
+		result.put("available", available);
+		result.put("message", available ? "사용 가능한 아이디입니다." : "이미 사용중인 아이디 입니다.");
+		return result;
+	}
+	
 	
 	// 로그인
 	// http://localhost:8088/member/login

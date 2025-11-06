@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itwillbs.mapper.EmailVerificationMapper">
+  	<!-- 인증레코드 삽입 -->
+    <insert id="insertVerification" >
+      INSERT INTO email_verification (
+        email, member_type, userid, corp_userid, verification_code, created_at, expires_at, verified) 
+      VALUES (
+        #{email}, #{memberType}, #{userid}, #{corpUserId}, #{verificationCode}, #{createdAt}, #{expiresAt}, #{verified})
+    </insert>
+    
+    <!-- 가장 최신 인증레코드 조회 -->
+    <select id="selectLatestByEmail" resultType="EmailVerificationVO">
+      SELECT
+        verification_id, email, member_type, userid, corp_userid, verification_code, created_at, expires_at, verified
+      FROM email_verification
+      WHERE email = #{email}
+        AND member_type = #{memberType}
+      ORDER BY created_at DESC
+      LIMIT 1
+    </select>
+    
+    <!-- 인증완료 상태 업데이트 -->
+    <update id="updateVerifiedStatus" >
+      UPDATE email_verification
+         SET verified = #{verified}
+       WHERE verification_id = #{verificationId}
+    </update>
+    
+</mapper>

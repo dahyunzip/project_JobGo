@@ -27,7 +27,22 @@ public class MemberDAOImpl implements MemberDAO {
 	public void insertMember(MemberVO vo) {
 		sqlSession.insert(NAMESPACE+"insertMember", vo);
 	}
+
+	@Override
+	public int countByUserid(String userid) throws Exception {
+		return sqlSession.selectOne(NAMESPACE+"countByUserid", userid);
+	}
+
+	@Override
+	public int countByEmailVerified(String email) throws Exception {
+		return sqlSession.selectOne(NAMESPACE+"countByEmailVerified", email);
+	}
 	
+	@Override
+	public int countByEmail(String email) throws Exception {
+		return sqlSession.selectOne(NAMESPACE+"countByEmail", email);
+	}
+
 	@Override
 	public MemberVO loginCheck(String userid, String userpw) throws Exception {
 		Map<String, Object> param = new HashMap<>();

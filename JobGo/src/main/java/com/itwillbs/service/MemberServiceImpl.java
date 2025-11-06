@@ -19,11 +19,28 @@ public class MemberServiceImpl implements MemberService{
 	
 	private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
 	
-	
-
 	@Override
 	public void registerMember(MemberVO vo) throws Exception {
 		mdao.insertMember(vo);
+	}
+	
+	@Override
+	public boolean isUseridAvailable(String userid) throws Exception {
+		int count = mdao.countByUserid(userid);
+		logger.debug(" userid = [{}], count = {}", userid, count);
+		return (count == 0);
+		
+	}
+	
+	@Override
+	public boolean isEmailVerified(String email) throws Exception {
+		return mdao.countByEmailVerified(email) > 0;
+	}
+
+	@Override
+	public boolean isEmailRegistered(String email) throws Exception {
+		int count = mdao.countByEmail(email);
+		return (count > 0);
 	}
 
 	@Override

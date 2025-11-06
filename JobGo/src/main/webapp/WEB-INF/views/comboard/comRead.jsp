@@ -335,15 +335,22 @@
 		// 댓글 추가
 		function writeReplySection() {
 			$.ajax({
+				type:"POST",
 				url: "/reply/writeReply/"+comBno,
 				data: {
-					ref_bno:comBno,
+ 					ref_bno:comBno,
 					writerUserid:'${resultReadVO.userid}',
 					reply_content: $(".form-control").val()
-				},
-				type:"POST",
+					},
 				success: function(result){
-					alert("REST 컨트롤러 다녀옴!");
+					// alert("REST 컨트롤러 다녀옴!");
+					if(result == 0) {
+						alert("댓글 등록 실패")
+					} else {
+						alert("댓글 등록 성공")
+					}
+					getReplyList();
+					$("reply_content").val("");
 				}
 			});
 		}

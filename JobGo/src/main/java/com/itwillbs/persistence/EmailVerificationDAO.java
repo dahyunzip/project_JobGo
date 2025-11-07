@@ -9,7 +9,7 @@ public interface EmailVerificationDAO {
 	void insertVerification(EmailVerificationVO vo) throws Exception;
 	
 	// 가장 최신 인증 레코드 조회
-	EmailVerificationVO selectLatestByEmail(String email, char memberType) throws Exception;
+	EmailVerificationVO selectLatestByEmail(String email) throws Exception;
 	
 	// 인증 완료 상태 변경
 	void updateVerifiedStatus(Long verificationId, char verified) throws Exception;

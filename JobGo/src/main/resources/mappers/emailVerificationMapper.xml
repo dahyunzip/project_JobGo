@@ -5,19 +5,18 @@
   	<!-- 인증레코드 삽입 -->
     <insert id="insertVerification" >
       INSERT INTO email_verification (
-        email, member_type, userid, corp_userid, verification_code, created_at, expires_at, verified) 
+        email, verification_code, created_at, expires_at, verified) 
       VALUES (
-        #{email}, #{memberType}, #{userid}, #{corpUserId}, #{verificationCode}, #{createdAt}, #{expiresAt}, #{verified})
+        #{email}, #{verificationCode}, #{createdAt}, #{expiresAt}, #{verified})
     </insert>
     
     <!-- 가장 최신 인증레코드 조회 -->
     <select id="selectLatestByEmail" resultType="EmailVerificationVO">
       SELECT
-        verification_id AS verificationId, email, member_type AS memberType, userid, corp_userid AS corpUserId,
+        verification_id AS verificationId, email, 
         verification_code AS verificationCode, created_at AS createdAt, expires_at AS expiresAt, verified
       FROM email_verification
       WHERE email = #{email}
-        AND member_type = #{memberType}
       ORDER BY created_at DESC
       LIMIT 1
     </select>

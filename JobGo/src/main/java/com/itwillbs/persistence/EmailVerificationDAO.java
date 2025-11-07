@@ -1,5 +1,7 @@
 package com.itwillbs.persistence;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.itwillbs.domain.EmailVerificationVO;
 
 public interface EmailVerificationDAO {
@@ -11,4 +13,8 @@ public interface EmailVerificationDAO {
 	
 	// 인증 완료 상태 변경
 	void updateVerifiedStatus(Long verificationId, char verified) throws Exception;
+
+	// 인증완료 체크용 쿼리
+	public int countVerifiedByEmail(@Param("email") String email,
+									@Param("verified") char verified) throws Exception;
 }

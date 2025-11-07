@@ -131,6 +131,9 @@
 			return true;
 		}
 
+		var isEmailVerified = false;
+		var timerInterval;
+		
 		// 이메일 전송 버튼 이벤트
 		$('#sendMail').click(function(){
 			var email = $('input[name="email"]').val().trim();
@@ -147,11 +150,12 @@
 				if(res.success){
 					alert(res.message);
 					$('#emailCodeSection').show();
+					startTimer(5 * 60);
 				}else{
 					alert(res.message);
 				}
 			}).fail(function(){
-				alert("인증메일 전송 중 오류가 발생했습니다.");
+				alert("인증메일 전송 중 오류가 발생했습니다. 관리자에게 문의하세요.");
 			});
 		});
 		
@@ -173,6 +177,7 @@
 				if(res.success){
 					$('#emailCodeMsg').css('color', 'green').text(res.message);
 					isEmailVerified = true;
+					stopTimer();
 				}else{
 					$('#emailCodeMsg').css('color', 'red').text(res.message);
 					isEmailVerified = false;
@@ -183,6 +188,29 @@
 			});
 		});
 		
+		
+		// 타이머 시작 함수
+		function startTimer(duration){
+			var remaining = duration;
+			clearInterval(timerInterval); // 이전 타이머 있으면 클리어
+			timerInterval = setInterval(function(){
+				var minutes = Math.floor(remaining / 60);
+				var seconds = remaining % 60;
+				$('#emailCodeMsg').text('남은 시간 : ' + minutes + '분 ' + (seconds < 10 ? '0' + seconds : seconds) + '초'); 
+				// 시간 만료시
+				if(remaining <= 0){
+					clearInterval(timerInterval);
+					$('#emailCodeMsg').text('유효시간이 만료되었습니다.');
+					isEmailVerified = false;
+				}
+				remaining--;
+			}, 1000);
+		}
+		
+		// 타이머 중지 함수
+		function stopTimer(){
+			clearInterval(timerInterval);
+		}
 		
 		// 실시간 검사
 		$pwd.on('keyup change', validatePassword);
@@ -229,6 +257,13 @@
 				return;
 			}
 		});
+		
+		var status = '${msg }';
+		if(status == 'notVerified'){
+			alert('이메일 인증을 먼저 완료해 주세요.');
+		}else if(status == 'errorVerified'){
+			alert('이메일 인증 상태 확인 중 오류가 발생했습니다. 다시 시도해 주세요.');
+		}
 
 	});
 </script>
@@ -301,13 +336,12 @@
 											<button type="button" id="sendMail" class="btn">인증메일 전송</button>
 										</div>
 									</div>
-									<div class="col-lg-6 col-12 mb-20" id="emailCodeSection"
-										style="display: none;">
+									<div class="col-12 mt-10" id="emailCodeSection" style="display: none;">
 										<label class="control-label">인증번호 입력</label>
 										<div class="row">
 											<div class="form-group col-8">
 												<input type="text" class="form-control"
-													placeholder="이메일로 받은 인증번호 입력" id="emailCode" />
+													placeholder="인증번호 입력" id="emailCode" />
 											</div>
 											<div class="col-4 button">
 												<button type="button" id="verifyCode" class="btn">인증확인</button>

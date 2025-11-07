@@ -19,8 +19,8 @@
 /* 회원가입 /join */
 .form-join{ padding:0 30px; background:#fff;}
 .agree-box{border-radius: .25em; border:1px solid #ced4da; padding:.375rem .75rem; max-height:250px; overflow-y:scroll}
-.form-join #pwdError, #useridCheckMsg, #phoneError{color:red;}
-#checkID, #sendMail{padding:8px; width:100%;}
+.form-join #pwdError, #useridCheckMsg, #phoneError, #emailCodeMsg{color:red;}
+#checkID, #sendMail, #verifyCode{padding:8px; width:100%;}
 .replyList td{word-break:break-all;}
 
 /* mypage */

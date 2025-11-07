@@ -10,8 +10,8 @@ public interface MemberDAO {
 	// 아이디 중복 체크
 	public int countByUserid(String userid) throws Exception;
 	
-	// 이메일 인증 완료 여부 확인용
-    public int countByEmailVerified(String email) throws Exception;
+	// 이메일 인증 완료 여부 확인용 (삭제예정)
+    // public int countByEmailVerified(String email) throws Exception;
 	
     // 가입 이메일 확인용
     public int countByEmail(String email) throws Exception;

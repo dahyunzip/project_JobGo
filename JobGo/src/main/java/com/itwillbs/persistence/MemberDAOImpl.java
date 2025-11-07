@@ -33,10 +33,12 @@ public class MemberDAOImpl implements MemberDAO {
 		return sqlSession.selectOne(NAMESPACE+"countByUserid", userid);
 	}
 
+	/*
 	@Override
 	public int countByEmailVerified(String email) throws Exception {
 		return sqlSession.selectOne(NAMESPACE+"countByEmailVerified", email);
 	}
+	*/
 	
 	@Override
 	public int countByEmail(String email) throws Exception {

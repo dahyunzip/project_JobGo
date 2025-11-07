@@ -13,7 +13,8 @@
     <!-- 가장 최신 인증레코드 조회 -->
     <select id="selectLatestByEmail" resultType="EmailVerificationVO">
       SELECT
-        verification_id, email, member_type, userid, corp_userid, verification_code, created_at, expires_at, verified
+        verification_id AS verificationId, email, member_type AS memberType, userid, corp_userid AS corpUserId,
+        verification_code AS verificationCode, created_at AS createdAt, expires_at AS expiresAt, verified
       FROM email_verification
       WHERE email = #{email}
         AND member_type = #{memberType}
@@ -28,4 +29,11 @@
        WHERE verification_id = #{verificationId}
     </update>
     
+    <!-- 인증완료 체크용 쿼리 추가 -->
+    <select id="countVerifiedByEmail" resultType="int">
+    	SELECT COUNT(*)
+    	FROM email_verification
+    	WHERE email = #{email}
+    	AND verified = #{verified}
+    </select>
 </mapper>

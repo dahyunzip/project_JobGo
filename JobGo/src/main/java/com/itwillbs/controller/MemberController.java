@@ -18,7 +18,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.MemberVO;
-import com.itwillbs.persistence.EmailVerificationDAO;
 import com.itwillbs.service.MemberService;
 
 @Controller

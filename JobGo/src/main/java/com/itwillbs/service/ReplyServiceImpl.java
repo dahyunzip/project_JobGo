@@ -50,4 +50,14 @@ public class ReplyServiceImpl implements ReplyService {
 		return resultUpdateRe;
 	}
 
+	@Override
+	public int removeReply(int reply_no) {
+		logger.debug(" removeReply() 실행! ");
+		
+		int resultDeleteRe = replyDAO.deleteReply(reply_no);
+		
+		logger.debug(" removeReply() 끝! ");
+		return resultDeleteRe;
+	}
+
 }

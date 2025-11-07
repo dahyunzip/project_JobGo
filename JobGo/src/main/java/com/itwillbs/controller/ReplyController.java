@@ -9,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -46,8 +47,6 @@ public class ReplyController {
 		return new ResponseEntity<Integer>(resultInsertVO, HttpStatus.OK);
 	}
 	
-	
-	
 	// 댓글 목록 조회
 	@GetMapping("/repList/{ref_bno}")
 	public ResponseEntity<List<ReplyVO>> getReplyList(@PathVariable("ref_bno") int ref_bno){
@@ -70,6 +69,17 @@ public class ReplyController {
 		
 		logger.debug(" updateReply() 끝! ");
 		return new ResponseEntity<Integer>(resultModifyRe, HttpStatus.OK);
+	}
+	
+	// 댓글 삭제 
+	@DeleteMapping("/replyDelete/{reply_no}")
+	public ResponseEntity<Integer> removeReply(@PathVariable("reply_no") int reply_no){
+		logger.debug(" removeReply() 실행! ");
+		
+		int resultRemoveRe = replyService.removeReply(reply_no);
+		
+		logger.debug(" removeReply() 끝! ");
+		return new ResponseEntity<Integer>(resultRemoveRe, HttpStatus.OK);
 	}
 
 	

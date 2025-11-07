@@ -54,4 +54,14 @@ public class ReplyDAOImpl implements ReplyDAO {
 		return resultUpdateRe;
 	}
 
+	@Override
+	public int deleteReply(int reply_no) {
+		logger.debug(" deleteReply() 실행! ");
+		
+		int resultDeleteRe = sqlSession.delete(NAMESPACE + "deleteReply", reply_no);
+		
+		logger.debug(" deleteReply() 끝! ");
+		return resultDeleteRe;
+	}
+
 }

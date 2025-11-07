@@ -14,5 +14,8 @@ public interface ReplyDAO {
 	
 	// 댓글 수정 저장
 	public int updateReply(ReplyVO vo);
+	
+	// 댓글 삭제
+	public int deleteReply(int reply_no);
 
 }

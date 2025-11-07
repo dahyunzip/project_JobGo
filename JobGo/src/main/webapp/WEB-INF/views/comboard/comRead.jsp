@@ -236,7 +236,9 @@
 									<th>작성자</th>
 									<th>내용</th>
 									<th>작성일</th>
-									<th>기능</th>
+									<c:if test="${!empty loginUserId}">									
+										<th>기능</th>
+									</c:if>
 								</tr>
 							</thead>
 							<tbody class="replyList">
@@ -489,7 +491,7 @@
 	
 	// 수정 저장 버튼(바뀐 내용 저장)
 	function saveUpdateReply(reply_no, btn) {
-		alert("saveUpdateReply함수 접근!");
+		// alert("saveUpdateReply함수 접근!");
 		const $tb = $(btn).closest("tr").find("td").eq(1);
 		const newContent = $tb.find("#savedata").val().trim();
 		
@@ -509,7 +511,7 @@
 			data: JSON.stringify(replyData),
 			contentType: "application/json; charset=UTF-8",
 			success: function(result,statusText,jquXHR){
-				alert("REST컨트롤러 다녀옴!");
+				// alert("REST컨트롤러 다녀옴!");
 				if(jquXHR.status == "200"){
 					if(result > 0){
 						alert("댓글이 수정되었습니다.");
@@ -520,11 +522,37 @@
 				}
 			},
 			error: function(data){
-				alert("테스트e");
+				// alert("테스트e");
 				console.log(data);
 			}
 		});
 		
+	}
+	
+	// 댓글 삭제
+	function deleteReply(reply_no){
+		// alert(" deleteReply() 함수 진입 ")
+		if(confirm('정말로 댓글을 삭제하겠습니까?')) {
+			
+			$.ajax({
+				type : 'DELETE',
+				url : '/reply/replyDelete/'+reply_no,
+				data : {
+					reply_no:reply_no
+					},
+				success : function(result,statusText,jquXHR){
+					// alert(" REST 컨트롤러 진입 ")
+					if(jquXHR.status == "200"){	
+						if(result > 0){
+							alert("삭제성공")
+							getReplyList();
+						}else{
+							alert("삭제실패")
+						}
+					}
+				}
+			});
+		}
 	}
 </script>
 <%@ include file="../include/Footer.jsp" %>

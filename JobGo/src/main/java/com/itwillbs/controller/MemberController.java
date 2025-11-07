@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -69,13 +70,15 @@ public class MemberController {
 	// 로그인
 	// http://localhost:8088/member/login
 	@RequestMapping(value="/login", method=RequestMethod.GET)
-	public String memberLoginGET() {
+	public String memberLoginGET(@ModelAttribute(value = "oldPath") String oldPath) {
+		logger.debug(" @@@ oldPath  "+oldPath);
 		return "/member/login";
 	}
 	
 	@RequestMapping(value="/login", method=RequestMethod.POST)
 	public String memberLoginPOST(@RequestParam("userid") String userid,
 								  @RequestParam("userpw") String userpw,
+								  @RequestParam(value = "oldPath", required = false) String oldPath,
 								  HttpSession session,
 								  Model model,
 								  RedirectAttributes rttr) throws Exception {
@@ -85,11 +88,21 @@ public class MemberController {
 		if(loginVO != null && !loginVO.isDeleted()) {
 			session.setAttribute("userid", loginVO.getUserid());
 			session.setAttribute("memberName", loginVO.getName());
+			session.setAttribute("membertype", loginVO.getMembertype());
 			logger.info(" 로그인 성공 ");
 			logger.debug(" loginVO = " + loginVO);
 			rttr.addFlashAttribute("msg", "loginSuccess");
-			return "redirect:/";
-		}else {
+			logger.debug(" oldPath "+oldPath);
+			
+			// oldPath정보가 있다면,
+			if (oldPath != null && !oldPath.isEmpty()) {
+		        return "redirect:" + oldPath;
+		    } else {		    
+		    	// oldPath정보가 없다면,
+		    	return "redirect:/";
+		    }
+			
+		} else {
 			rttr.addFlashAttribute("msg", "loginFail");
 			return "redirect:/member/login";
 		}

@@ -3,6 +3,7 @@ package com.itwillbs.controller;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,11 +11,15 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.itwillbs.domain.MemberVO;
 import com.itwillbs.domain.ReplyVO;
+import com.itwillbs.service.MemberService;
 import com.itwillbs.service.ReplyService;
 
 @RestController
@@ -25,6 +30,27 @@ public class ReplyController {
 		= LoggerFactory.getLogger(ReplyController.class);
 	
 	@Inject private ReplyService replyService;
+
+	
+	// 댓글 작성		                                   
+	@PostMapping("/writeReply/{ref_bno}")
+	public ResponseEntity<Integer> insertReply(@PathVariable("ref_bno") int ref_bno,
+			                                   ReplyVO vo) {
+		
+		System.out.println("REST 테스트");
+		System.out.println(ref_bno);
+		System.out.println(vo);
+		
+		logger.debug(" insertReply() 실행! ");
+		
+		vo.setRef_bno(ref_bno);
+		Integer resultInsertVO = replyService.writeReply(vo);
+		
+		logger.debug(" insertReply() 끝! ");
+		return new ResponseEntity<Integer>(resultInsertVO, HttpStatus.OK);
+	}
+	
+	
 	
 	// 댓글 목록 조회
 	@GetMapping("/repList/{ref_bno}")

@@ -56,6 +56,30 @@ $(document).ready(function(){
 							</div>
 						</div>
 					</form>
+						<form class="form-ad" method="post">
+							<div class="row">
+								<div class="col-lg-6 col-12">
+									<div class="form-group">
+										<label class="control-label">아이디</label>
+										<input type="text" class="form-control" placeholder="이메일을 입력하세요." name="userid" required>
+									</div>
+								</div>
+								<div class="col-lg-6 col-12">
+									<div class="form-group">
+										<label class="control-label">비밀번호</label>
+										<input type="password" class="form-control" placeholder="비밀번호를 입력하세요." name="userpw" required>
+									</div>
+								</div>
+								<div class="col-lg-12">
+									<a href="#">아이디 찾기</a>
+									<a href="#">| 비밀번호 찾기</a>
+								</div>
+								<div class="form-group mb-8 button">
+									<button type="submit" class="btn ">로그인</button>
+								</div>
+							</div>
+						</form>
+					</div>
 				</div>
 			</div>
 		</div>

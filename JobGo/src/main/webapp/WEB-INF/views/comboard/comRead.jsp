@@ -207,30 +207,36 @@
 						<h5>댓글 (<span id="rcount">0</span>)</h5>
 						<div id="replyArea">
 							<c:if test="${!empty loginUserId}">
+							<form id="replyForm">
 		                        <input type="text" class="form-control"
+		                               id="reply_content"
 		                               name="reply_content" 
 		                               placeholder="다양한 의견을 작성해 보세요!">
+							</form>
 	                    	</c:if>
 	                    	<c:if test="${empty loginUserId}">
-		                    	<c:url var="returnOldPath" value="/comboard/comRead">
-		                    	    <c:param name="com_bno" value="${resultReadVO.com_bno}"></c:param>
-		                    	    <c:param name="page" value="${page}"></c:param>
-		                    	</c:url>
-	                    		<p><a href="/member/login/?oldPath=${returnOldPath }">로그인</a> 후 댓글 작성이 가능합니다. </p>
+	                    		<p><a id="loginLink" href="#">로그인</a> 후 댓글 작성이 가능합니다. </p>
+								<script>
+								  const returnOldPath = "/comboard/comRead?com_bno=${resultReadVO.com_bno}&page=${page}";
+								  const encoded = encodeURIComponent(returnOldPath);
+								  document.getElementById("loginLink").href = "/member/login?oldPath=" + encoded;
+								</script>
 	                    	</c:if>
 	                    </div>
 	                    <hr>
-						<table class="table table-striped">
+						<table class="table table-striped" style="word-break: break-word;">
 							<colgroup>
 								<col width="10%">
 								<col width="*">
-								<col width="7%">
+								<col width="10%">
+								<col width="12%">
 							</colgroup>
 							<thead>
 								<tr>
 									<th>작성자</th>
 									<th>내용</th>
 									<th>작성일</th>
+									<th>기능</th>
 								</tr>
 							</thead>
 							<tbody class="replyList">
@@ -263,6 +269,7 @@
 	
 		const formObj = $("#readForm");
 		const comBno = "${resultReadVO.com_bno}";
+		const loginUserId = "${loginUserId}";
 	
 		// 첨부파일 선택 시 다운로드
 		$('#fileSelect').change(function() {
@@ -327,22 +334,47 @@
 						alert("로그인 후 이용해주세요.");
 						location.href="/member/login";
 					}
-				},
-				error: function(){
-					alert("서버 오류가 발생했습니다.");
 				}
 			});
 		});
 		
+		// 댓글 검색 from 태그 감지
+		$("#replyForm").on("submit", function(e) {
+			  writeReplySection();
+			  e.preventDefault();
+		});
+		
 		// 댓글 추가
 		function writeReplySection() {
+			alert("REST 호출"+"${loginUserId}");
+			
 			$.ajax({
-				type: "GET",
-				url: "/reply/writeReply"+comBno,
-				success: function(){
-					alert("REST 컨트롤러 다녀옴!");
+				type:"POST",
+				url: "/reply/writeReply/"+comBno,
+				data: {
+					reply_writer:'${loginUserId}',
+					reply_content: $("#reply_content").val()
+				},
+				success: function(result,statusText,jquXHR){
+					if(jquXHR.status == "200") {
+						// alert("REST 컨트롤러 다녀옴!");
+						if(result == 0) {
+							alert("댓글 등록 실패")
+						} else {
+							alert("댓글 등록 성공")
+						}
+						getReplyList();
+						$("#reply_content").val("");
+					}
+				},
+				error: function(data){
+					// alert("테스트e");
+					console.log(data);
 				}
 			});
+			
+			// alert("REST 호출2"+comBno);
+			
 		}
 		
 		// 댓글 작성 시간 계산 로직
@@ -375,9 +407,9 @@
 				success: function(result,statusText,jquXHR){
 					// alert("REST 컨트롤러 다녀옴!");
 					// console.log(repList);
+					var tag = "";
 					if(jquXHR.status == "200") {
 						
-						var tag = "";
 		
 						console.log("댓글 데이터:", result); // ← 여기서 배열 확인
 		
@@ -405,16 +437,78 @@
 							tag += "<td>" + item.writerUserid + "</td>";
 							tag += "<td>" + item.reply_content + "</td>";
 							tag += "<td>" + dateText + "</td>";
+							if (loginUserId) {
+	                            tag += "<td>";
+	                            if (loginUserId == item.writerUserid) {
+	                                tag += "<button class='btn btn-sm btn-primary mt-1' onclick='updateReply(" + item.reply_no + ", this)'>수정</button>";
+	                                tag += "<button class='btn btn-sm btn-secondary mt-1' onclick='deleteReply(" + item.reply_no + ")'>삭제</button>";
+	                            }
+	                            tag += "</td>";
+	                        }
 							tag += "</tr>";
 						});
 					}
 	
-					$(".replyList").append(tag);
+					$(".replyList").html(tag);
 					$("#rcount").text(result.length);
 			    }	 
 			});
 		}
 		getReplyList(); // 이 페이지에 접근했을 때 이 함수가 호출되도록 설정
+		
 	});
+	
+	// 댓글 수정창 열기
+	function updateReply(reply_no, btn) {
+	    const $td = $(btn).closest("tr").find("td").eq(1); // 두 번째 td (댓글 내용칸)
+	    const oldContent = $td.text().trim();
+
+	    // textarea + 저장/취소 버튼 생성
+	    let editTag = "";
+	    editTag += "<textarea id='savedata' class='form-control' rows='2'>" + oldContent + "</textarea>";
+	    editTag += "<button class='btn btn-sm btn-success mt-1' onclick='saveUpdateReply(" + reply_no + ", this)'>저장</button>";
+	    editTag += "<button class='btn btn-sm btn-secondary mt-1' onclick='cancelUpdateReply(this, \"" + oldContent + "\")'>취소</button>";
+
+	    $td.html(editTag);
+	}
+	
+	// 수정 취소 버튼(원래 내용 복원)
+	function cancelUpdateReply(btn, oldContent) {
+	    const $td = $(btn).closest("tr").find("td").eq(1);
+	    $td.html(oldContent);
+	}
+	
+	// 수정 저장 버튼(바뀐 내용 저장)
+	function saveUpdateReply(btn, reply_no) {
+		const $tb = $(btn).closest("tr").find("td").eq(1);
+		const newContent = $td.find("savedata").val().trim();
+		
+		if(newContent == "") {
+			alert("댓글 내용을 입력하세요.");
+			return;
+		}
+		
+		const replyData = {
+				reply_no: reply_no,
+				reply_content: newContent
+		}
+		
+		$.ajax({
+			type: "PUT",
+			url : "/reply/replyUpdate/"+reply_no,
+			data: JSON.stringify(replyData),
+			contentType: "application/json; charset=UTF-8",
+			success: function(result){
+				if(result > 0){
+					alert("댓글이 수정되었습니다.");
+					getReplyList();
+				} else {
+					alert("댓글 수정 실패");
+				}
+			}
+		});
+		
+		
+	}
 </script>
 <%@ include file="../include/Footer.jsp" %>

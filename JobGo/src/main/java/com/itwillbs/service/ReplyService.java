@@ -15,5 +15,8 @@ public interface ReplyService {
 	// 댓글 수정 저장
 	public int modifyReply(ReplyVO vo);
 	
+	// 댓글 삭제
+	public int removeReply(int reply_no);
+	
 
 }

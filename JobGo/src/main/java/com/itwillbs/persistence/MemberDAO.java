@@ -7,6 +7,15 @@ public interface MemberDAO {
 	// 회원가입
 	public void insertMember(MemberVO vo) throws Exception;
 	
+	// 아이디 중복 체크
+	public int countByUserid(String userid) throws Exception;
+	
+	// 이메일 인증 완료 여부 확인용 (삭제예정)
+    // public int countByEmailVerified(String email) throws Exception;
+	
+    // 가입 이메일 확인용
+    public int countByEmail(String email) throws Exception;
+    
 	// 로그인
 	public MemberVO loginCheck(String userid, String userpw) throws Exception;
 	

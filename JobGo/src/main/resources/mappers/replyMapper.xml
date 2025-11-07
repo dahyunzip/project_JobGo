@@ -25,5 +25,11 @@
   		and r.status = 'Y' 
   		order by r.reply_no desc;
   	</select>
+  	
+  	<update id="updateReply">
+  		update reply 
+  		set reply_content = #{reply_content} 
+  		where reply_no = #{reply_no}
+  	</update>
   
   </mapper>

@@ -12,5 +12,8 @@ public interface ReplyService {
 	// 댓글 목록 조회
 	public List<ReplyVO> getReplyList(int ref_bno);
 	
+	// 댓글 수정 저장
+	public int modifyReply(ReplyVO vo);
+	
 
 }

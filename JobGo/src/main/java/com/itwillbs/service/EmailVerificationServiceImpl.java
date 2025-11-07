@@ -39,7 +39,6 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
 		String code = String.format("%06d", (int)(Math.random() * 1000000));
 		EmailVerificationVO vo = new EmailVerificationVO();
 		vo.setEmail(email);
-		vo.setMemberType('G');
 		vo.setVerificationCode(code);
 		vo.setCreatedAt(LocalDateTime.now());
 		vo.setExpiresAt(LocalDateTime.now().plusMinutes(expireMinutes));
@@ -56,7 +55,7 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
 	@Override
 	public boolean verifyCode(String email, String code) throws Exception {
 		logger.debug(" verifyCode(String email, String code) 시작! ");
-		EmailVerificationVO vo = verificationDAO.selectLatestByEmail(email, 'G');
+		EmailVerificationVO vo = verificationDAO.selectLatestByEmail(email);
 		logger.debug("vo : " + vo);
 		if (vo == null) {
 			logger.debug("vo == null");
@@ -74,7 +73,6 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
 	    }
 	    if (!savedCode.equals(code)) {
 	    	logger.debug("랜덤 난수 코드와 인증 코드 같지 않음");
-	    	logger.debug("");
 	        return false;
 	    }
 	    if (vo.getExpiresAt() == null || vo.getExpiresAt().isBefore(LocalDateTime.now())) {

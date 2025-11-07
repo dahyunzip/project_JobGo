@@ -44,4 +44,14 @@ public class ReplyDAOImpl implements ReplyDAO {
 		return resultInsertRe;
 	}
 
+	@Override
+	public int updateReply(ReplyVO vo) {
+		logger.debug(" updateReply() 실행! ");
+		
+		int resultUpdateRe = sqlSession.update(NAMESPACE + "updateReply", vo);
+		
+		logger.debug(" updateReply() 끝! ");
+		return resultUpdateRe;
+	}
+
 }

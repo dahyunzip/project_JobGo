@@ -12,6 +12,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -36,11 +37,6 @@ public class ReplyController {
 	@PostMapping("/writeReply/{ref_bno}")
 	public ResponseEntity<Integer> insertReply(@PathVariable("ref_bno") int ref_bno,
 			                                   ReplyVO vo) {
-		
-		System.out.println("REST 테스트");
-		System.out.println(ref_bno);
-		System.out.println(vo);
-		
 		logger.debug(" insertReply() 실행! ");
 		
 		vo.setRef_bno(ref_bno);
@@ -61,6 +57,19 @@ public class ReplyController {
 		
 		logger.debug(" /reply/repList -> getReplyList() 끝! ");	
 		return new ResponseEntity<List<ReplyVO>>(resultReplyVO, HttpStatus.OK);
+	}
+	
+	// 댓글 수정 저장
+	@PutMapping("/replyUpdate/{reply_no}")
+	public ResponseEntity<Integer> modifyReply(@PathVariable("reply_no") int reply_no,
+			                                   @RequestBody ReplyVO vo) {
+		logger.debug(" updateReply() 실행! ");
+		
+		vo.setReply_no(reply_no);
+		int resultModifyRe = replyService.modifyReply(vo);
+		
+		logger.debug(" updateReply() 끝! ");
+		return new ResponseEntity<Integer>(resultModifyRe, HttpStatus.OK);
 	}
 
 	

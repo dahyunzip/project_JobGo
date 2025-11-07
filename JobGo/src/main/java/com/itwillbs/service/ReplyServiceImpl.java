@@ -40,4 +40,14 @@ public class ReplyServiceImpl implements ReplyService {
 		return resultInsertRe;
 	}
 
+	@Override
+	public int modifyReply(ReplyVO vo) {
+		logger.debug(" modifyReply() 실행! ");
+		
+		int resultUpdateRe = replyDAO.updateReply(vo);
+		
+		logger.debug(" modifyReply() 끝! ");
+		return resultUpdateRe;
+	}
+
 }

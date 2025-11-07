@@ -47,8 +47,6 @@ public class ReplyController {
 		return new ResponseEntity<Integer>(resultInsertVO, HttpStatus.OK);
 	}
 	
-	
-	
 	// 댓글 목록 조회
 	@GetMapping("/repList/{ref_bno}")
 	public ResponseEntity<List<ReplyVO>> getReplyList(@PathVariable("ref_bno") int ref_bno){

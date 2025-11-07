@@ -531,7 +531,7 @@
 	
 	// 댓글 삭제
 	function deleteReply(reply_no){
-		alert(" deleteReply() 함수 진입 ")
+		// alert(" deleteReply() 함수 진입 ")
 		if(confirm('정말로 댓글을 삭제하겠습니까?')) {
 			
 			$.ajax({
@@ -541,7 +541,7 @@
 					reply_no:reply_no
 					},
 				success : function(result,statusText,jquXHR){
-					alert(" REST 컨트롤러 진입 ")
+					// alert(" REST 컨트롤러 진입 ")
 					if(jquXHR.status == "200"){	
 						if(result > 0){
 							alert("삭제성공")

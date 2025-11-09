@@ -102,8 +102,8 @@
 			    <div class="add-resume-inner box">
 			        <div id="com_top" class="post-header align-items-center justify-content-center">
 		            	<form id="readForm" role="form">
-							<input type="hidden" name="com_bno" value="${resultReadVO.com_bno }">
-							<input type="hidden" name="page" value="${page }">
+							<input type="hidden" name="com_bno" value="${resultReadVO.com_bno}">
+							<input type="hidden" name="page" value="${page}">
 						</form>
 			            <h3 id="title">
 			            	<font dir="auto" style="vertical-align: inherit;">

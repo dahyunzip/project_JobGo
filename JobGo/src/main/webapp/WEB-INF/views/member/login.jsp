@@ -31,7 +31,7 @@ $(document).ready(function(){
 						<a href="/corp/login" class="">기업회원</a>
 					</div>
 					<form class="form-ad" method="post">
-						<input type="hidden" name="oldPath" value="${param.oldPath}">
+						<%-- <input type="hidden" name="oldPath" value="${param.oldPath}"> --%>
 						
 						<div class="row">
 							<div class="col-lg-12 col-12 mb-10">

@@ -1,0 +1,28 @@
+@charset "UTF-8";
+
+#contents{padding-top:102px;}
+
+#tab-li{max-width:500px; margin:0 auto 50px auto;  border:3px solid #ebebeb; border-radius: 24px; background:#ebebeb;}
+#tab-li ul li{width:1%; display:table-cell;}
+#tab-li ul li.on a{background:#2042e3; color:#fff;}
+#tab-li ul li a{display: block; text-align:center; padding:16px 0; background:#ebebeb; color:#5a5a5a; border-radius: 20px; font-size:16px; font-weight:500;}
+/* #tab-li ul li a:hover{background:#2042e3; transition:all .3s ease; color:#fff;} */
+/* 로그인 */
+#login .memberDiv{display:flex; flex-wrap:wrap; margin-bottom:50px;}
+#login .memberDiv > a{width:50%; text-align:center; color:#b7b7b7; font-weight:500; font-size:20px; position:relative;}
+#login .memberDiv > a:first-child::after{content:''; width:1px; height:60%; position:absolute; right:0; top:50%; transform:translateY(-50%); background:#dcdcdc;}
+#login .memberDiv > a.active{color:#2042e3}
+#login .button .btn{width:100%;}
+#login .section-title{margin-bottom:50px; padding:0;}
+#login .loginBox{max-width:460px; margin: 0 auto;}
+
+/* 회원가입 /join */
+.form-join{ padding:0 30px; background:#fff;}
+.agree-box{border-radius: .25em; border:1px solid #ced4da; padding:.375rem .75rem; max-height:250px; overflow-y:scroll}
+.form-join #pwdError, #useridCheckMsg, #phoneError, #emailCodeMsg{color:red;}
+#checkID, #sendMail, #verifyCode{padding:8px; width:100%;}
+.replyList td{word-break:break-all;}
+
+/* mypage */
+#mypage .user-img > a{display: block; width:120px; height:120px; overflow:hidden;}
+#mypage .user-img img{width:100%; height:auto;}

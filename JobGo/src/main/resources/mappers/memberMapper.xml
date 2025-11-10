@@ -1,9 +1,67 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
   "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
-  <mapper namespace="com.itwillbs.mapper.MemberMapper">
+<mapper namespace="com.itwillbs.mapper.MemberMapper">
+  	<!-- 회원가입 -->
   	<insert id="insertMember">
-  		insert into member(userid, userpw, email, name, phone, addr)
-  		values (#{userid}, #{userpw}, #{email}, #{name}, #{phone}, #{addr})
+  		INSERT INTO member (
+            userid, userpw, email, name, phone, addr,
+            agree_location, agree_email, agree_sms
+        ) VALUES (
+            #{userid}, #{userpw}, #{email}, #{name}, #{phone}, #{addr},
+            #{agreeLocation}, #{agreeEmail}, #{agreeSms}
+        )
   	</insert>
-  </mapper>
+  	
+  	<!-- 아이디 중복 검사 -->
+  	<select id="countByUserid" parameterType="string" resultType="int">
+  		select count(*) from member where userid=#{userid}
+  	</select>
+  	
+	<!-- 이메일 가입 확인 -->
+	<select id="countByEmail" resultType="int">
+		SELECT COUNT(*)
+		FROM member
+		WHERE email = #{email}
+	</select>
+  	
+  	<!-- 로그인 -->
+  	<select id="loginMember" parameterType="map" resultType="MemberVO">
+  		SELECT * FROM member
+        WHERE userid = #{userid}
+          AND userpw = #{userpw}
+          AND is_deleted = 0
+  	</select>
+  	
+  	<!-- 아이디로 회원조회 -->
+    <select id="getMemberByUserid" parameterType="string" resultType="MemberVO">
+        SELECT * FROM member WHERE userid = #{userid}
+    </select>
+    
+    <!-- 회원정보 업데이트 -->
+    <update id="updateMember">
+    	UPDATE member SET addr=#{addr}, phone=#{phone}, pfImage=#{pfImage},
+    	agree_location=#{agreeLocation}, agree_email=#{agreeEmail}, agree_sms=#{agreeSms}
+    	WHERE userid=#{userid} and userpw=#{userpw}
+    </update>
+    
+    <!-- 디비에서 파일 삭제 -->
+    <update id="deleteOldPtFiles">
+    	update member set originalFileName = null, storedFileName = null
+    	where id = #{id}
+    </update>
+    
+    <!-- 회원 정보 업데이트 -->
+    <update id="updateMemberPhotoFiles">
+    	update member set originalFileName = #{originalFileName}, storedFileName = #{storedFileName}
+    	where id = #{id} 
+    </update>
+    
+    <!-- 회원 탈퇴로 상태 변경하기 -->
+    <update id="updateIsDeleted">
+    	update member
+    	set is_deleted = 1
+    	where userid = #{userid}
+    </update>
+    
+</mapper>

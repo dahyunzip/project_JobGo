@@ -29,10 +29,11 @@ public class EmailVerificationDAOImpl implements EmailVerificationDAO {
 	}
 
 	@Override
-	public EmailVerificationVO selectLatestByEmail(String email) throws Exception {
+	public EmailVerificationVO selectLatestByEmail(String email, char memberType) throws Exception {
 		logger.debug("selectLatestByEmail(String email, char memberType) 시작 !");
 		Map<String, Object> params = new HashMap<>();
 		params.put("email", email);
+		params.put("memberType", memberType);
 		logger.debug("selectLatestByEmail(String email, char memberType) 종료 !");
 		return sqlSession.selectOne(NAMESPACE+"selectLatestByEmail", params);
 	}

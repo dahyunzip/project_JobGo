@@ -16,12 +16,38 @@
 		    rb.rec_viewcnt 
 		from rec_board rb 
 		join corpmember cm on cm.corp_id = rb.corp_id 
+		<if test="search != null and search != ''">
+			where 
+			(rb.rec_title like concat('%',#{search},'%') 
+			or cm.company_name like concat('%',#{search},'%')
+			or cm.corp_userid like concat('%',#{search},'%') 
+			or rb.rec_regdate like concat('%',#{search},'%'))
+		</if>
 		order by rb.rec_bno desc 
 		limit #{pageStart},#{pageSize} 
 	</select>
  
  	<!-- 게시판 모든 글 개수 가져오기 -->
  	<select id="selectRecTotalCount" resultType="int">
- 		select count(rec_bno) from rec_board
+ 		select count(rb.rec_bno) from rec_board rb 
+ 		join corpmember cm on rb.corp_id = cm.corp_id
+ 		<if test="search != null and search != ''">
+			where 
+			(rb.rec_title like concat('%',#{search},'%') 
+			or cm.company_name like concat('%',#{search},'%')
+			or cm.corp_userid like concat('%',#{search},'%') 
+			or rb.rec_regdate like concat('%',#{search},'%'))
+		</if>
+ 	</select>
+ 	
+ 	<!-- 게시글 작성 (대분류 리스트) -->
+ 	<select id="" resultType="RecTopCategoryVO">
+ 		select * from top_category 
+ 		order by topctg_id
+ 	</select>
+ 	
+ 	<select id="" resultType="RecTopLocationVO">
+ 		select * from top_location 
+ 		order by toplct_id 
  	</select>
  </mapper>

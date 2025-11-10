@@ -11,6 +11,8 @@ import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.RecBoardVO;
+import com.itwillbs.domain.RecTopCategoryVO;
+import com.itwillbs.domain.RecTopLocationVO;
 
 @Repository
 public class RecBoardDAOImpl implements RecBoardDAO {
@@ -38,14 +40,36 @@ public class RecBoardDAOImpl implements RecBoardDAO {
 
 	// 게시판 모든 글 개수 가져오기
 	@Override
-	public int selectRecTotalCount() throws Exception {
+	public int selectRecTotalCount(String search) throws Exception {
 		logger.debug(" selectRecTotalCount() 실행! ");
 		
 		int resultRecCnt 
-			= sqlSession.selectOne(NAMESPACE + "selectRecTotalCount");
+			= sqlSession.selectOne(NAMESPACE + "selectRecTotalCount", search);
 		
 		logger.debug(" selectRecTotalCount() 끝! ");
 		return resultRecCnt;
+	}
+
+	@Override
+	public List<RecTopCategoryVO> selectTopCategoryList() {
+		logger.debug(" selectTopCategoryList() 실행!");
+		
+		List<RecTopCategoryVO> resultTCL
+			= sqlSession.selectList(NAMESPACE + "selectTopCategoryList");
+		
+		logger.debug(" selectTopCategoryList() 끝!");
+		return resultTCL;
+	}
+
+	@Override
+	public List<RecTopLocationVO> selectTopLocationList() {
+		logger.debug(" selectTopLocationList() 실행! ");
+		
+		List<RecTopLocationVO> resultTLL 
+			= sqlSession.selectList(NAMESPACE + "selectTopLocationList");
+		
+		logger.debug(" selectTopLocationList() 끝! ");
+		return resultTLL;
 	}
 	
 

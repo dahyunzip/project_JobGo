@@ -9,7 +9,7 @@
                     <div class="col-12">
                         <!-- Single Job -->
 			           	<div class="job-wrap">
-							<form action="/comboard/comListCri" method="get">
+							<form action="/recboard/recListCri" method="get">
 								<div class="row">
 									<div class="col-lg-6 col-xs-12"></div>
 									<div id="searchBar" class="col-lg-6 col-xs-12">
@@ -27,7 +27,7 @@
 										<div class="job-content">
 											<h4>
 												<%-- <a href="/comboard/comRead?com_bno=${vo.com_bno}&page=${cri.page}">${vo.com_title }</a> --%>
-												${vo.rec_name }
+												${vo.companyName }
 											</h4>
 										</div>
 										<hr>

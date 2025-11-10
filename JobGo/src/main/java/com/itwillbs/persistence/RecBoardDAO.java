@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.RecBoardVO;
+import com.itwillbs.domain.RecTopCategoryVO;
+import com.itwillbs.domain.RecTopLocationVO;
 
 public interface RecBoardDAO {
 	
@@ -11,5 +13,9 @@ public interface RecBoardDAO {
 	public List<RecBoardVO> selectRecBoardList(Criteria cri) throws Exception;
 
 	// 게시판 모든 글 개수 가져오기
-	public int selectRecTotalCount() throws Exception;
+	public int selectRecTotalCount(String search) throws Exception;
+	
+	// 게시글 작성 (대분류 리스트)
+	public List<RecTopCategoryVO> selectTopCategoryList();
+	public List<RecTopLocationVO> selectTopLocationList();
 }

@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.RecBoardVO;
+import com.itwillbs.domain.RecTopCategoryVO;
+import com.itwillbs.domain.RecTopLocationVO;
 
 public interface RecBoardService {
 	
@@ -11,5 +13,9 @@ public interface RecBoardService {
 	public List<RecBoardVO> getRecBoardList(Criteria cri) throws Exception;
 
 	// 게시판 모든 글 개수 가져오기
-	public int getRecTotalCount() throws Exception;
+	public int getRecTotalCount(String search) throws Exception;
+	
+	// 게시글 작성 (대분류 리스트)
+	public List<RecTopCategoryVO> getRecTopCategoryList();
+	public List<RecTopLocationVO> getRecTopLocationList();
 }

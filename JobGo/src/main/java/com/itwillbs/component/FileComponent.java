@@ -80,12 +80,12 @@ public class FileComponent {
     
     
     // === 사업자등록증 PDF 전용 업로드 ===
-    public String uploadBusinessLicense(MultipartFile file) throws IOException{
+    public String[] uploadBusinessLicense(MultipartFile file) throws IOException{
     	if(file == null || file.isEmpty()) {
     		throw new IOException("파일이 비어있습니다.");
     	}
     	
-    	String originalName = file.getOriginalFilename().toLowerCase();
+    	String originalName = file.getOriginalFilename();
     	
     	// 확장자 검사
     	if(!originalName.endsWith(".pdf")) {
@@ -108,6 +108,6 @@ public class FileComponent {
     	
     	logger.debug("사업자등록증 저장 완료 : " +dest.getAbsolutePath());
     	
-    	return storedFileName;
+    	return new String[] {storedFileName, originalName};
     }
 }

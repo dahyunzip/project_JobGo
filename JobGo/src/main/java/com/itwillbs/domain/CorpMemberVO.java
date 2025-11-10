@@ -31,4 +31,7 @@ public class CorpMemberVO {
     private String originalFileName;
     private String storedFileName;
     private MultipartFile upload;
+    private String corpProfileOriginal;  // 기업 대표 이미지 원본명
+    private String corpProfileStored;    // 기업 대표 이미지 저장명
+    private MultipartFile corpProfileUpload; // 업로드 시 사용
 }

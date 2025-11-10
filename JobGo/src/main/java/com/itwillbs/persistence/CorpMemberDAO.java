@@ -17,4 +17,16 @@ public interface CorpMemberDAO {
 	
 	// 아이디로 회원 정보 가져오기
 	public CorpMemberVO getCorpMemberByUserid(String corpUserId) throws Exception;
+	
+	// 회원정보 수정
+	public void updateCorp(CorpMemberVO vo) throws Exception;
+
+	// 디비에서 파일 삭제
+	public void deleteCorpProfileImage(int corpId) throws Exception;
+	
+	// 회원 프로필 사진 수정
+	public void updateCorpProfileImage(CorpMemberVO vo) throws Exception;
+	
+	// 탈퇴 회원 상태 변경
+	public void deleteCorpMember(String corpUserId) throws Exception;
 }

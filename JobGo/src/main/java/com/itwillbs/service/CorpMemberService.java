@@ -20,4 +20,12 @@ public interface CorpMemberService {
 	
 	// 아이디로 회원정보 가져오기
 	public CorpMemberVO getCorpMember(String corpUserId) throws Exception;
+	
+	// 회원 정보 업데이트
+	public void modifyCorp(CorpMemberVO vo) throws Exception;
+	
+	// 회원 프로필 사진 업데이트
+	public void updateCorpProfileImage(CorpMemberVO vo) throws Exception; 
+
+	public void deleteCorpMember(String corpUserId) throws Exception;
 }

@@ -39,9 +39,12 @@ public class CorpMemberDAOImpl implements CorpMemberDAO {
 
 	@Override
 	public CorpMemberVO loginCorpMember(String corpUserId, String corpUserPw) throws Exception {
+		logger.debug("loginCorpMember(String corpUserId, String corpUserPw) 시작");
 		Map<String, Object> param = new HashMap<>();
 		param.put("corpUserId", corpUserId);
 		param.put("corpUserPw", corpUserPw);
+		logger.debug(" param {} ", param );
+		logger.debug("loginCorpMember(String corpUserId, String corpUserPw) 종료");
 		return sqlSession.selectOne(NAMESPACE + "loginCorpMember", param);
 	}
 
@@ -49,5 +52,29 @@ public class CorpMemberDAOImpl implements CorpMemberDAO {
 	public CorpMemberVO getCorpMemberByUserid(String corpUserId) throws Exception {
 		return sqlSession.selectOne(NAMESPACE + "getCorpMemberByUserid", corpUserId);
 	}
+
+	@Override
+	public void updateCorp(CorpMemberVO vo) throws Exception {
+		sqlSession.update(NAMESPACE + "updateCorpMember", vo);
+		
+	}
+
+	@Override
+	public void deleteCorpProfileImage(int corpId) throws Exception {
+	    sqlSession.update(NAMESPACE + "deleteCorpProfileImage", corpId);
+	}
+
+	@Override
+	public void updateCorpProfileImage(CorpMemberVO vo) throws Exception {
+	    sqlSession.update(NAMESPACE + "updateCorpProfileImage", vo);
+	}
+
+	@Override
+	public void deleteCorpMember(String corpUserId) throws Exception {
+	    sqlSession.update(NAMESPACE + "deleteCorpMember", corpUserId);
+	    logger.debug("기업회원 탈퇴 완료: corpUserId = {}", corpUserId);
+	}
+	
+	
 
 }

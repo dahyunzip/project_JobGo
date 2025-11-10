@@ -6,6 +6,12 @@ $(document).ready(function(){
 	var status = '${msg }';
 	if(status == 'joinSuccess'){
 		alert('회원가입 성공! 환영합니다.');
+	}else if(status == 'loginFail'){
+		alert('아이디 또는 비밀번호가 올바르지 않거나 탈퇴된 회원입니다.');
+	}else if(status == 'deleteSuccess'){
+		alert('회원 탈퇴가 완료되었습니다.');
+	}else if(status == 'notLoggedIn'){
+		alert('로그인이 필요한 서비스입니다.');
 	}
 })
 </script>

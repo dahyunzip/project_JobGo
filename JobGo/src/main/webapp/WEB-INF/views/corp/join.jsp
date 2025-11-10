@@ -287,7 +287,7 @@ $(document).ready(function() {
 								<li class="on"><a href="/corp/join">기업회원</a></li>
 							</ul>
 						</div>
-						<form class="form-join" method="post">
+						<form class="form-join" method="post" enctype="multipart/form-data">
 							<input type="hidden" name="status" value="W">
 							<div class="row">
 								<div class="col-lg-6 col-12 mb-20">
@@ -388,8 +388,8 @@ $(document).ready(function() {
 								</div>
 								<div class="col-lg-6 col-12 mb-20">
 									<div class="form-group">
-										<label class="control-label">사업자등록증 첨부<i class="essential">*</i></label>
-										<input type="file" class="form-control" placeholder="사업자등록증을 첨부해주세요." name="businessLicenseUrl" required>
+										<label class="control-label">사업자등록증(pdf) 첨부<i class="essential">*</i></label>
+										<input type="file" class="form-control" placeholder="사업자등록증(pdf)을 첨부해주세요." name="upload" accept="application/pdf" required>
 									</div>
 								</div>
 								<div class="col-lg-12 col-12 mb-20">

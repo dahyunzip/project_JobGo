@@ -14,6 +14,10 @@
 <p>리뷰 작성자: ${reviewDetail.memberId}</p>
 	<h2>리뷰 상세</h2>
 	
+	<c:if test="${not empty errorMsg}">
+		<p style="color:red; font-weight:bold;">${errorMsg}</p>
+	</c:if>
+	
 	<div>
 		<div>리뷰 번호: ${reviewDetail.reviewId }</div>
 		<div>회원 ID: ${reviewDetail.memberId }</div>
@@ -80,17 +84,27 @@
 
 			<form id="deleteForm" action="${pageContext.request.contextPath}/review/deleteReview" method="post" style="display:inline;">
 				<input type="hidden" name="reviewId" value="${reviewDetail.reviewId}" />
+				<input type="hidden" name="password" id="hiddenPassword" /> <!-- JS로 비번 주입 -->
 				<button type="button" onclick="confirmDelete()">삭제</button>
 			</form>
 		</div>
 	</c:if>
 	<script>
-		function confirmDelete() {
-   			if (confirm("정말 이 리뷰를 삭제하시겠습니까?")) {
-        		document.getElementById("deleteForm").submit();
-    		} else {
-        		alert("삭제가 취소되었습니다.");
-    		}
+	function confirmDelete() {
+		const pwd = prompt("비밀번호를 입력하세요:");
+		
+		if (pwd === null) {
+			alert("삭제가 취소되었습니다.");
+			return;
+		}
+		if (pwd.trim() === "") {
+			alert("비밀번호를 입력해야 합니다.");
+			return;
+		}
+		
+		if (confirm("정말 이 리뷰를 삭제하시겠습니까?")) {
+			document.getElementById("hiddenPassword").value = pwd; // 입력 비번 숨은 input에 저장
+			document.getElementById("deleteForm").submit(); // 폼 전송
 		}
 	</script>
 

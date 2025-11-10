@@ -200,7 +200,9 @@ public class ReviewController {
 
     // 리뷰 삭제
     @RequestMapping(value="/deleteReview", method = RequestMethod.POST)
-    public String deleteReview(@RequestParam("reviewId") int reviewId, HttpSession session) {
+    public String deleteReview( @RequestParam("reviewId") int reviewId,
+    							@RequestParam("password") String password,
+    							HttpSession session, Model model) {
     	
     	// ========================= 테스트용 세션 시작 =========================
     	if(session.getAttribute("userid") == null) {
@@ -215,7 +217,7 @@ public class ReviewController {
 			return "redirect:/member/login";
 		}
 
-		MemberVO memberInfo = null;
+		MemberVO memberInfo;
 		try {
 			memberInfo = memberService.getMember(loginUserid);
 		} catch (Exception e) {
@@ -224,8 +226,21 @@ public class ReviewController {
 		}
 
 		ReviewVO review = reviewService.reviewDetail(reviewId);
-		if (review == null || review.getMemberId() != memberInfo.getId()) {
+		if (review == null) {
+			return "error/404";
+		}
+
+		// 로그인 사용자와 작성자 일치 확인
+		if (review.getMemberId() != memberInfo.getId()) {
 			return "error/403";
+		}
+
+		// 입력한 비번과 DB상의 회원 비번 비교
+		if (!memberInfo.getUserpw().equals(password)) {
+			model.addAttribute("reviewDetail", review);
+			model.addAttribute("isOwner", true);
+			model.addAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
+			return "review/reviewDetail";
 		}
 
     	
@@ -239,6 +254,7 @@ public class ReviewController {
     public String reviewList(Model model) {
     	List<ReviewVO> list = reviewService.reviewList();
     	model.addAttribute("reviewList", list);
+    	logger.debug("리뷰 리스트 확인: {}", list);
     	return "review/reviewList";
     }
 

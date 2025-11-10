@@ -33,12 +33,13 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
 	private static final Logger logger = LoggerFactory.getLogger(EmailVerificationServiceImpl.class);
 	
 	@Override
-	public void sendVerificationCode(String email) throws Exception {
+	public void sendVerificationCode(String email, char memberType) throws Exception {
 		logger.debug(" sendVerificationCode(String email) 시작!");
 		// 이메일이 이미 존재하면 가입불가 -> 인증코드는 메서드 호출전에 체크
 		String code = String.format("%06d", (int)(Math.random() * 1000000));
 		EmailVerificationVO vo = new EmailVerificationVO();
 		vo.setEmail(email);
+		vo.setMemberType(memberType);
 		vo.setVerificationCode(code);
 		vo.setCreatedAt(LocalDateTime.now());
 		vo.setExpiresAt(LocalDateTime.now().plusMinutes(expireMinutes));
@@ -48,14 +49,14 @@ public class EmailVerificationServiceImpl implements EmailVerificationService {
 		String subject = "[잡고] 이메일 인증 코드입니다.";
 		String text = "인증번호는 [" + code +"] 입니다. " + expireMinutes + "분 내에 입력해주세요.";
 		emailSender.sendEmail(email, subject, text);
-		logger.debug("전송된 번호 : " + code);
-		logger.debug(" sendVerificationCode(String email) 종료!");
+		logger.debug("전송된 번호 : {}, type : " , code, memberType);
+		logger.debug(" sendVerificationCode(String email, char memberType) 종료!");
 	}
 
 	@Override
-	public boolean verifyCode(String email, String code) throws Exception {
-		logger.debug(" verifyCode(String email, String code) 시작! ");
-		EmailVerificationVO vo = verificationDAO.selectLatestByEmail(email);
+	public boolean verifyCode(String email, String code, char memberType) throws Exception {
+		logger.debug(" verifyCode(String email, String code, char memberType) 시작! ");
+		EmailVerificationVO vo = verificationDAO.selectLatestByEmail(email, memberType);
 		logger.debug("vo : " + vo);
 		if (vo == null) {
 			logger.debug("vo == null");

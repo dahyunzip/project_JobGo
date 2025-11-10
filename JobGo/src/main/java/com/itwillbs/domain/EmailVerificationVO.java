@@ -12,4 +12,5 @@ public class EmailVerificationVO {
 	private LocalDateTime createdAt;
 	private LocalDateTime expiresAt;
 	private char verified;
+	private char memberType;
 }

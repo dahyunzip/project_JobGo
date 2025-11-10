@@ -21,7 +21,7 @@ public class EmailVerificationTest {
 	@Test
 	public void testSendVerificationCode() throws Exception{
 		String email = "bydhyun@naver.com";
-		emailService.sendVerificationCode(email);
+		emailService.sendVerificationCode(email, 'G');
 	}
 	
 }

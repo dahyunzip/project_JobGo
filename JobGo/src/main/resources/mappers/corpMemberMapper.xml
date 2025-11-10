@@ -17,6 +17,18 @@
         )
     </insert>
     
+    <!-- 아이디 중복 검사 -->
+  	<select id="countByUserid" parameterType="string" resultType="int">
+  		select count(*) from corpmember where corp_userid=#{corpUserId}
+  	</select>
+  	
+  	<!-- 이메일 가입 확인 -->
+	<select id="countByEmail" resultType="int">
+		SELECT COUNT(*)
+		FROM corpmember
+		WHERE manager_email = #{managerEmail}
+	</select>
+    
     <!-- 기업회원 로그인 -->
     <select id="loginCorpMember" resultType="CorpMemberVO">
         SELECT * FROM corpmember

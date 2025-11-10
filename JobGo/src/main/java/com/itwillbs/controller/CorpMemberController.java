@@ -1,13 +1,19 @@
 package com.itwillbs.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.CorpMemberVO;
@@ -16,6 +22,8 @@ import com.itwillbs.service.CorpMemberService;
 @Controller
 @RequestMapping(value="/corp/*")
 public class CorpMemberController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(CorpMemberController.class);
 	
 	@Inject
 	private CorpMemberService cService;
@@ -31,6 +39,18 @@ public class CorpMemberController {
 		cService.registerCorpMember(vo);
 		rttr.addFlashAttribute("msg", "joinSuccess");
 		return "redirect:/corp/login";
+	}
+	
+	//아이디 중복 검사
+	@RequestMapping(value="/corp/idCheck", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> idCheck(@RequestParam("corpUserId") String corpUserId) throws Exception{
+		logger.debug("idCheck 호출 — userid 값: {}", corpUserId);
+		boolean available = cService.isUseridAvailable(corpUserId);
+		Map<String, Object> result = new HashMap<>();
+		result.put("available", available);
+		result.put("message", available ? "사용 가능한 아이디입니다." : "이미 사용중인 아이디 입니다.");
+		return result;
 	}
 	
 	// 기업회원 로그인

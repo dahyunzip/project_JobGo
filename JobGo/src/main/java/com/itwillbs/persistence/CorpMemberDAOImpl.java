@@ -26,6 +26,16 @@ public class CorpMemberDAOImpl implements CorpMemberDAO {
 	public void insertCorpMember(CorpMemberVO vo) throws Exception {
 		sqlSession.insert(NAMESPACE+"insertCorpMember", vo);
 	}
+	
+	@Override
+	public int countByUserid(String corpUserId) throws Exception {
+		return sqlSession.selectOne(NAMESPACE+"countByUserid", corpUserId);
+	}
+
+	@Override
+	public int countByEmail(String email) throws Exception {
+		return sqlSession.selectOne(NAMESPACE+"countByEmail", email);
+	}
 
 	@Override
 	public CorpMemberVO loginCorpMember(String corpUserId, String corpUserPw) throws Exception {

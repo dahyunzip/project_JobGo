@@ -53,7 +53,7 @@
 						<div class="collapse navbar-collapse sub-menu-bar"
 							id="navbarSupportedContent">
 							<ul id="nav" class="navbar-nav">
-								<li class="nav-item"><a href="#">채용공고</a></li>
+								<li class="nav-item"><a href="/recboard/recListCri">채용공고</a></li>
 								<li class="nav-item"><a href="#">커리어관리</a></li>
 								<li class="nav-item"><a href="#">기업리뷰</a></li>
 								<li class="nav-item"><a href="#">커뮤니티</a>

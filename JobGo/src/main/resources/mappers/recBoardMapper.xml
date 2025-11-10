@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.itwillbs.mapper.recBoardMapper">
+
+	<!-- 게시판 리스트 -->
+	<select id="selectRecBoardList" resultType="RecBoardVO">
+		select  
+			rb.rec_bno, 
+		    cm.corp_userid as corpUserId, 
+		    cm.company_name as companyName, 
+		    rb.thumbFileName, 
+		    rb.rec_regdate, 
+		    rb.rec_viewcnt 
+		from rec_board rb 
+		join corpmember cm on cm.corp_id = rb.corp_id 
+		order by rb.rec_bno desc 
+		limit #{pageStart},#{pageSize} 
+	</select>
+ 
+ 	<!-- 게시판 모든 글 개수 가져오기 -->
+ 	<select id="selectRecTotalCount" resultType="int">
+ 		select count(rec_bno) from rec_board
+ 	</select>
+ </mapper>

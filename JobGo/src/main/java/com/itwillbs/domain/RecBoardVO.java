@@ -8,6 +8,7 @@ import lombok.Data;
 //	CREATE TABLE rec_board (
 //	    rec_bno           INT AUTO_INCREMENT PRIMARY KEY,
 //	    corp_id           INT NOT NULL,
+//	    rec_name          varchar(255) not null,
 //	    rec_title         VARCHAR(100) NOT NULL,
 //	    rec_maintask      TEXT,
 //	    rec_preference    TEXT,
@@ -37,9 +38,10 @@ public class RecBoardVO {
 	private int topctg_id;                 // 직종 대분류
 	private int btmctg_id;                 // 직종 소분류
 	private int toplct_id;                 // 지역 대분류
-	private int rec_viewcnt;
+	private int rec_viewcnt;               // 게시글 조회수
 	
-	private String rec_title;              // 채용 공고 제목 
+	private String rec_name;               // 회사 이름
+	private String rec_title;              // 채용 공고 제목
  	private String rec_maintask;           // 주요 업무
 	private String rec_preference;         // 채용 우대 사항
 	private String rec_benefit;            // 복리 후생
@@ -52,6 +54,7 @@ public class RecBoardVO {
 	
 	private Timestamp rec_regdate;         // 글 작성일
 	private Timestamp rec_updatedate;      // 글 수정일
-	
 
+	private String corpUserId;
+	private String companyName;
 }

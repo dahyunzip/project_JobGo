@@ -88,6 +88,7 @@ public class MemberController {
 			session.setAttribute("userid", loginVO.getUserid());
 			session.setAttribute("memberName", loginVO.getName());
 			session.setAttribute("membertype", loginVO.getMembertype());
+			session.setAttribute("userType", "general");
 			logger.info(" 로그인 성공 ");
 			logger.debug(" loginVO = " + loginVO);
 			rttr.addFlashAttribute("msg", "loginSuccess");

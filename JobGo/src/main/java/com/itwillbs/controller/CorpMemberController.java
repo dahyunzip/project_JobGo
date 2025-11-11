@@ -87,6 +87,7 @@ public class CorpMemberController {
 			logger.debug("loginVO.getCorpUserId() : " + loginVO.getCorpUserId());
 			session.setAttribute("corpUserId", loginVO.getCorpUserId());
 			session.setAttribute("companyName", loginVO.getCompanyName());
+			session.setAttribute("userType", "corp");
 			logger.debug(" 로그인 성공 ");
 			return "/corp/main";
 		}else {

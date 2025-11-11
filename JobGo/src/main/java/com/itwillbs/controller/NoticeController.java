@@ -99,20 +99,50 @@ public class NoticeController {
 	}
 	
 	@RequestMapping(value = "/detail", method=RequestMethod.GET)
-	public String getNotice(@RequestParam("noticeId") int noticeId, Model model) {
+	public String getNotice(@RequestParam("noticeId") int noticeId, Model model, HttpSession session) {
 		
+		NoticeVO notice = nService.getNotice(noticeId);
+		String memberType = (String) session.getAttribute("membertype");
+		boolean isCorpNotice = notice.getNoticeTitle() != null && notice.getNoticeTitle().contains("[기업공지]");
+
+		// 기업공지인데 일반회원/비회원이면 접근 차단
+		if (isCorpNotice && (memberType == null || !(memberType.equals("C") || memberType.equals("A")))) {
+			return "redirect:/error/403"; // 접근 제한 페이지로 이동
+		}
+		
+		// 관리자(A)는 모든 공지 접근 가능
+		if ("A".equals(memberType)) {
+			
+		}
+
 		nService.updateViewCnt(noticeId);
-		
-		model.addAttribute("notice", nService.getNotice(noticeId));
+		model.addAttribute("notice", notice);
 		return "/notice/detail";
 	}
 	
 	@RequestMapping(value = "/list", method=RequestMethod.GET)
-	public String getNoticeList(Model model) {
-		List<NoticeVO> list = nService.getNoticeList();
-	    System.out.println("===== Notice list size: " + list.size());
-	    for(NoticeVO vo : list) System.out.println(vo);
-		model.addAttribute("noticeList", nService.getNoticeList());
+	public String getNoticeList(HttpSession session, Model model) {
+		String memberType = (String) session.getAttribute("membertype");
+		
+		List<NoticeVO> allList = nService.getNoticeList();
+		List<NoticeVO> filteredList = new ArrayList<>();
+		
+		for (NoticeVO vo : allList) {
+			// 제목에 [기업공지] 포함 여부로
+			boolean isCorpNotice = vo.getNoticeTitle() != null && vo.getNoticeTitle().contains("[기업공지]");
+
+			if (isCorpNotice) {
+				// 기업공지 -> 관리자(A) 기업회원(C)
+				if ("A".equals(memberType) || "C".equals(memberType)) {
+					filteredList.add(vo);
+				}
+			} else {
+				// 일반 공지 -> 아무나
+				filteredList.add(vo);
+			}
+		}
+
+		model.addAttribute("noticeList", filteredList);
 		return "/notice/list";
 	}
 	

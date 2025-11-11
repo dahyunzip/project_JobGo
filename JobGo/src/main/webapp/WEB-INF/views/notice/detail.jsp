@@ -1,8 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -57,17 +55,18 @@
 	
 	<br>
 
-	<c:if test="${sessionScope.membertype eq 'A' }">
+	<c:if test="${sessionScope.membertype eq 'A'}">
 		<form action="/notice/edit" method="get" style="display:inline-block; margin-right:6px;">
 			<input type="hidden" name="noticeId" value="${notice.noticeId}">
 			<input type="submit" value="수정" 
-			style="padding:8px 14px; background:#ffc107; border:none; border-radius:4px; cursor:pointer; font-weight:600;">
+				style="padding:8px 14px; background:#ffc107; border:none; border-radius:4px; cursor:pointer; font-weight:600;">
 		</form>
-		
+	
 		<form action="/notice/delete" method="post" style="display:inline-block; margin-right:6px;">
 			<input type="hidden" name="noticeId" value="${notice.noticeId}">
 			<input type="submit" value="삭제"
-			style="padding:8px 14px; background:#dc3545; border:none; color:#fff; border-radius:4px; cursor:pointer; font-weight:600;">
+				style="padding:8px 14px; background:#dc3545; border:none; color:#fff; border-radius:4px; cursor:pointer; font-weight:600;"
+				onclick="return confirm('삭제하시겠습니까?');">
 		</form>
 	</c:if>
 	

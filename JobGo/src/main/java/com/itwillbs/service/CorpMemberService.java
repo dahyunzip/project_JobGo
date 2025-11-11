@@ -27,5 +27,6 @@ public interface CorpMemberService {
 	// 회원 프로필 사진 업데이트
 	public void updateCorpProfileImage(CorpMemberVO vo) throws Exception; 
 
+	// 회원탈퇴
 	public void deleteCorpMember(String corpUserId) throws Exception;
 }

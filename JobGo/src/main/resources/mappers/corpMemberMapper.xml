@@ -31,15 +31,63 @@
     
     <!-- 기업회원 로그인 -->
     <select id="loginCorpMember" resultType="CorpMemberVO">
-        SELECT * FROM corpmember
+        SELECT
+        	corp_id AS corpId,
+	        corp_userid AS corpUserId,
+	        corp_userPw AS corpUserPw,
+	        manager_name AS managerName,
+	        manager_email AS managerEmail,
+	        manager_tel AS managerTel,
+	        company_name AS companyName,
+	        business_rno AS businessRno,
+	        business_licenseurl AS businessLicenseUrl,
+	        ceo_name AS ceoName,
+	        company_address AS companyAddress,
+	        industry_type AS industryType,
+	        business_type AS businessType,
+	        corp_joined AS corpJoined,
+	        corp_updated AS corpUpdated,
+	        status,
+	        corp_checkdeleted AS corpCheckDeleted,
+	        corp_agreelocation AS corpAgreeLocation,
+	        corp_agreeemail AS corpAgreeEmail,
+	        corp_agreesms AS corpAgreeSms,
+	        originalFileName,
+	        corpProfileOriginal,
+	        corpProfileStored	
+        FROM corpmember
         WHERE corp_userid = #{corpUserId}
         AND corp_userPw = #{corpUserPw}
         AND corp_checkdeleted = '0'
     </select>
 
 	<!-- 회원정보 아이디로 체크 -->
-	<select id="getCorpMemberByUserid" resultType="CorpMemberVO">
-        SELECT * FROM corpmember
+	<select id="getCorpMemberByUserid" resultType="com.itwillbs.domain.CorpMemberVO">
+        SELECT 
+            corp_id AS corpId,
+            corp_userid AS corpUserId,
+            corp_userPw AS corpUserPw,
+            manager_name AS managerName,
+            manager_email AS managerEmail,
+            manager_tel AS managerTel,
+            company_name AS companyName,
+            business_rno AS businessRno,
+            business_licenseurl AS businessLicenseUrl,
+            originalFileName,
+            ceo_name AS ceoName,
+            company_address AS companyAddress,
+            industry_type AS industryType,
+            business_type AS businessType,
+            corp_joined AS corpJoined,
+            corp_updated AS corpUpdated,
+            status,
+            corp_checkdeleted AS corpCheckDeleted,
+            corp_agreelocation AS corpAgreeLocation,
+            corp_agreeemail AS corpAgreeEmail,
+            corp_agreesms AS corpAgreeSms,
+            corpProfileOriginal,
+            corpProfileStored
+        FROM corpmember
         WHERE corp_userid = #{corpUserId}
     </select>
     

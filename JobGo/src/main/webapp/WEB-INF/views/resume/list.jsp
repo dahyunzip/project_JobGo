@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="../include/Header.jsp" %>
+
 <script>
 	$(document).ready(function(){
 		var status = '${msg}';
@@ -11,6 +12,10 @@
 			alert("이력서 삭제 완료");
 		}else if(status == 'editDone'){
 			alert("이력서 수정 완료");
+		}else if(status == 'unauthorizedAccess'){
+			alert("허용되지 않은 접근입니다.");
+		}else if(status == 'resumeNotFound'){
+			alert("확인할 이력서가 없습니다.");
 		}
 	});
 </script>

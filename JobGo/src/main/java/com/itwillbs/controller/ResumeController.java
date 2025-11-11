@@ -3,6 +3,7 @@ package com.itwillbs.controller;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +29,25 @@ public class ResumeController {
 	
 	// ===== [이력서 목록] =====
 	@RequestMapping(value="/list", method=RequestMethod.GET)
-	public String list(@RequestParam("memberId") int memberId, Model model) {
+	public String list(@RequestParam("memberId") int memberId,
+						HttpSession session,
+						Model model,
+						RedirectAttributes rttr) {
+		
+		Integer sessionMemberId = (Integer) session.getAttribute("memberId");
+		
+		// 로그인 안된 경우
+		if(sessionMemberId == null) {
+			rttr.addFlashAttribute("msg", "loginRequired");
+			return "redirect:/member/login";
+		}
+		
+		// 로그인된 회원과 요청한 memberId가 다를 경우 -> 접근 차단
+		if(!sessionMemberId.equals(memberId)) {
+			rttr.addFlashAttribute("msg", "unauthorizedAccess");
+			return "redirect:/resume/list?memberId=" + sessionMemberId;
+		}
+		
 		List<ResumeVO> resumeList = rService.getResumeList(memberId);
 		model.addAttribute("resumeList", resumeList);
 		return "/resume/list";
@@ -36,8 +55,30 @@ public class ResumeController {
 	
 	// ===== [이력서 상세보기] =====
 	@RequestMapping(value="/detail", method=RequestMethod.GET)
-	public String detail(@RequestParam("resumeId") int resumeId, Model model) {
+	public String detail(@RequestParam("resumeId") int resumeId,
+						HttpSession session,
+						Model model,
+						RedirectAttributes rttr) {
+		
+		Integer sessionMemberId = (Integer) session.getAttribute("memberId");
+		if (sessionMemberId == null) {
+	        rttr.addFlashAttribute("msg", "loginRequired");
+	        return "redirect:/member/login";
+	    }
+		
 		ResumeVO resume = rService.getResume(resumeId);
+		
+		// 이력서 없는 경우
+		if (resume == null) {
+	        rttr.addFlashAttribute("msg", "resumeNotFound");
+	        return "redirect:/resume/list?memberId=" + sessionMemberId;
+	    }
+		
+		// 로그인한 사용자의 이력서가 아닐 경우 접근 차단
+	    if (resume.getMemberId() != sessionMemberId) {
+	        rttr.addFlashAttribute("msg", "unauthorizedAccess");
+	        return "redirect:/resume/list?memberId=" + sessionMemberId;
+	    }
 		model.addAttribute("resume", resume);
 		return "/resume/detail";
 	}

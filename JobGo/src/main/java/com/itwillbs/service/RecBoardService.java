@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.RecBoardVO;
+import com.itwillbs.domain.RecBottomCategoryVO;
 import com.itwillbs.domain.RecTopCategoryVO;
 import com.itwillbs.domain.RecTopLocationVO;
 
@@ -18,4 +19,11 @@ public interface RecBoardService {
 	// 게시글 작성 (대분류 리스트)
 	public List<RecTopCategoryVO> getRecTopCategoryList();
 	public List<RecTopLocationVO> getRecTopLocationList();
+	
+	// 게시글 작성 (소분류 리스트)
+	public List<RecBottomCategoryVO> getRecBottomCategoryList(int topctg_id);
+	
+	// 작성한 게시글 업로드
+	public void writeRecBoard(RecBoardVO vo); 
+	public void uploadFiles(int rec_bno, String file_type, String originalFileName, String storedFileName);
 }

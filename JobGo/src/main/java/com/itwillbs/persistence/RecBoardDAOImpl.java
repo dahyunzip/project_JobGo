@@ -1,6 +1,8 @@
 package com.itwillbs.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.RecBoardVO;
+import com.itwillbs.domain.RecBottomCategoryVO;
 import com.itwillbs.domain.RecTopCategoryVO;
 import com.itwillbs.domain.RecTopLocationVO;
 
@@ -50,6 +53,7 @@ public class RecBoardDAOImpl implements RecBoardDAO {
 		return resultRecCnt;
 	}
 
+	// 게시글 작성 (대분류 리스트)
 	@Override
 	public List<RecTopCategoryVO> selectTopCategoryList() {
 		logger.debug(" selectTopCategoryList() 실행!");
@@ -60,7 +64,6 @@ public class RecBoardDAOImpl implements RecBoardDAO {
 		logger.debug(" selectTopCategoryList() 끝!");
 		return resultTCL;
 	}
-
 	@Override
 	public List<RecTopLocationVO> selectTopLocationList() {
 		logger.debug(" selectTopLocationList() 실행! ");
@@ -70,6 +73,40 @@ public class RecBoardDAOImpl implements RecBoardDAO {
 		
 		logger.debug(" selectTopLocationList() 끝! ");
 		return resultTLL;
+	}
+
+	// 게시글 작성 (소분류 리스트)
+	@Override
+	public List<RecBottomCategoryVO> selectBottomCategoryList(int topctg_id) {
+		logger.debug(" selectBottomCategoryList() 실행! ");
+		
+		List<RecBottomCategoryVO> resultBCL 
+			= sqlSession.selectList(NAMESPACE + "selectBottomCategoryList", topctg_id);
+		
+		logger.debug(" selectBottomCategoryList() 끝! ");
+		return resultBCL;
+	}
+
+	// 작성한 게시글 업로드
+	@Override
+	public void insertRecBoard(RecBoardVO vo) {
+		logger.debug(" insertRecBoard() 실행! ");
+		
+		sqlSession.insert(NAMESPACE + "insertRecBoard", vo);
+		
+		logger.debug(" insertRecBoard() 끝! ");
+	}
+	@Override
+	public void insertFiles(int rec_bno, String file_type, String originalFileName, String storedFileName) {
+		logger.debug(" insertFiles() 실행! ");
+		Map<String, Object> param = new HashMap<>();
+		param.put("rec_bno", rec_bno);
+		param.put("file_type", file_type);
+		param.put("originalFileName", originalFileName);
+		param.put("storedFileName", storedFileName);
+		sqlSession.insert(NAMESPACE + "insertFiles", param);
+		
+		logger.debug(" insertFiles() 끝! ");
 	}
 	
 

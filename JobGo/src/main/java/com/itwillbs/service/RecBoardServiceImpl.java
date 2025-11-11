@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.RecBoardVO;
+import com.itwillbs.domain.RecBottomCategoryVO;
 import com.itwillbs.domain.RecTopCategoryVO;
 import com.itwillbs.domain.RecTopLocationVO;
 import com.itwillbs.persistence.RecBoardDAO;
@@ -46,6 +47,7 @@ public class RecBoardServiceImpl implements RecBoardService {
 		return resultRecCnt;
 	}
 
+	// 게시글 작성 (대분류 리스트)
 	@Override
 	public List<RecTopCategoryVO> getRecTopCategoryList() {
 		logger.debug(" getRecTopCategoryList() 실행! ");
@@ -56,7 +58,6 @@ public class RecBoardServiceImpl implements RecBoardService {
 		logger.debug(" getRecTopCategoryList() 끝! ");
 		return resultTCL;
 	}
-
 	@Override
 	public List<RecTopLocationVO> getRecTopLocationList() {
 		logger.debug(" getRecTopLocationList() 실행! ");
@@ -66,6 +67,36 @@ public class RecBoardServiceImpl implements RecBoardService {
 		
 		logger.debug(" getRecTopLocationList() 끝! ");
 		return resultTLL;
+	}
+
+	// 게시글 작성 (소분류 리스트)
+	@Override
+	public List<RecBottomCategoryVO> getRecBottomCategoryList(int topctg_id) {
+		logger.debug(" getRecBottomCategoryList() 실행!");
+		
+		List<RecBottomCategoryVO> resultBCL 
+			= rbDAO.selectBottomCategoryList(topctg_id);
+		
+		logger.debug(" getRecBottomCategoryList() 끝!");
+		return resultBCL;
+	}
+
+	// 작성한 게시글 업로드
+	@Override
+	public void writeRecBoard(RecBoardVO vo) {
+		logger.debug(" writeRecBoard() 실행! ");
+		
+		rbDAO.insertRecBoard(vo);
+		
+		logger.debug(" writeRecBoard() 끝! ");
+	}
+	@Override
+	public void uploadFiles(int rec_bno, String file_type, String originalFileName, String storedFileName) {
+		logger.debug(" uploadFiles() 실행! ");
+		
+		rbDAO.insertFiles(rec_bno, file_type, originalFileName, storedFileName);
+		
+		logger.debug(" uploadFiles() 끝! ");		
 	}
 	
 	

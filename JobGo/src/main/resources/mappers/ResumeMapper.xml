@@ -13,13 +13,23 @@
 	</insert>
 	
 	<select id="selectResume" parameterType="int" resultType="ResumeVO">
-	     SELECT resume_id, member_id, resume_title, created_at, updated_at
+	     SELECT
+			resume_id AS resumeId,
+		    member_id AS memberId,
+		    resume_title AS resumeTitle,
+			created_at AS createdAt,
+			updated_at AS updatedAt
 	     FROM resume
 	     WHERE resume_id = #{resumeId}
 	</select>
 
 	<select id="selectResumeList" parameterType="int" resultType="ResumeVO">
-	    SELECT resume_id, member_id, resume_title, created_at, updated_at
+	    SELECT 
+		    resume_id AS resumeId,
+			member_id AS memberId,
+			resume_title AS resumeTitle,
+			created_at AS createdAt,
+			updated_at AS updatedAt
 	    FROM resume
 	    WHERE member_id = #{memberId}
 	    ORDER BY updated_at DESC
@@ -46,7 +56,14 @@
 	</insert>
 	
 	<select id="selectEducationList" parameterType="int" resultType="ResumeEducationVO">
-	    SELECT resume_id, education_seq, from_date, to_date, school_name, major, is_graduated
+	    SELECT 
+	        resume_id AS resumeId,
+	        education_seq AS educationSeq,
+	        from_date AS fromDate,
+	        to_date AS toDate,
+	        school_name AS schoolName,
+	        major AS major,
+	        is_graduated AS isGraduated
 	    FROM resume_education
 	    WHERE resume_id = #{resumeId}
 	    ORDER BY education_seq ASC
@@ -66,7 +83,13 @@
 	</insert>
 	
 	<select id="selectCareerList" parameterType="int" resultType="ResumeCareerVO">
-	    SELECT resume_id, career_seq, from_date, to_date, company_name, responsibility
+	    SELECT 
+	        resume_id AS resumeId,
+	        career_seq AS careerSeq,
+	        from_date AS fromDate,
+	        to_date AS toDate,
+	        company_name AS companyName,
+	        responsibility AS responsibility
 	    FROM resume_career
 	    WHERE resume_id = #{resumeId}
 	    ORDER BY career_seq ASC
@@ -86,7 +109,13 @@
 	</insert>
 	
 	<select id="selectTrainingList" parameterType="int" resultType="ResumeTrainingVO">
-	    SELECT resume_id, training_seq, from_date, to_date, institution, content
+	    SELECT 
+	        resume_id AS resumeId,
+	        training_seq AS trainingSeq,
+	        from_date AS fromDate,
+	        to_date AS toDate,
+	        institution AS institution,
+	        content AS content
 	    FROM resume_training
 	    WHERE resume_id = #{resumeId}
 	    ORDER BY training_seq ASC
@@ -106,7 +135,11 @@
 	</insert>
 	
 	<select id="selectCertificationList" parameterType="int" resultType="ResumeCertificationVO">
-	    SELECT resume_id, cert_seq, acquired_date, certification_name
+	    SELECT 
+	        resume_id AS resumeId,
+	        cert_seq AS certSeq,
+	        acquired_date AS acquiredDate,
+	        certification_name AS certificationName
 	    FROM resume_certification
 	    WHERE resume_id = #{resumeId}
 	    ORDER BY cert_seq ASC
@@ -126,7 +159,12 @@
 	</insert>
 	
 	<select id="selectSelfIntro" parameterType="int" resultType="ResumeSelfIntroVO">
-	    SELECT resume_id, motivation, strengths, key_experience, future_plan
+	    SELECT 
+	        resume_id AS resumeId,
+	        motivation AS motivation,
+	        strengths AS strengths,
+	        key_experience AS keyExperience,
+	        future_plan AS futurePlan
 	    FROM resume_self_intro
 	    WHERE resume_id = #{resumeId}
 	</select>

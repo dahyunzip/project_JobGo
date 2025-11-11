@@ -148,4 +148,11 @@
 		where userid = #{userid}
 	</select>
 	
+	<!-- 기업 이름 조회 -->
+	<select id="getCompanyNameByCorpId" resultType="string">
+		select company_name as companyName
+		from corpmember
+		where corp_id = #{corpId}
+	</select>
+	
 </mapper>

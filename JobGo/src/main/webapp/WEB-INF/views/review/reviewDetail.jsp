@@ -18,7 +18,7 @@
 	<div>
 		<div>리뷰 번호: ${reviewDetail.reviewId }</div>
 		<div>회원 ID: ${reviewDetail.memberId }</div>
-		<div>기업 ID: ${reviewDetail.corpId }</div>
+		<div>기업명: ${companyName}</div>
 		<div>직무 대분류: ${reviewDetail.topCategoryName}</div>
 		<div>직무 소분류: ${reviewDetail.bottomCategoryName}</div>
 		<div>근무 기간: 

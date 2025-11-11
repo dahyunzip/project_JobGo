@@ -238,23 +238,22 @@ public class ReviewController {
 
  		// 세션에서 userid 가져오기
  		String loginUserid = (String) session.getAttribute("userid");
- 		if (loginUserid == null) {
- 			return "redirect:/member/login";
+
+ 		boolean isOwner = false;
+ 		if (loginUserid != null) {  // 로그인한 경우만 비교
+ 			Integer loginUserId = reviewService.getMemberIdByUserid(loginUserid);
+ 			if (loginUserId != null) {
+ 				isOwner = (review.getMemberId() == loginUserId);
+ 			}
  		}
-
- 		// userid → member_id(PK) 조회 (리뷰 서비스 전용)
- 		int loginUserId = reviewService.getMemberIdByUserid(loginUserid);
-
- 		// 작성자 본인인지 확인
- 		boolean isOwner = review.getMemberId() == loginUserId;
+ 		
+ 		String companyName = reviewService.getCompanyNameByCorpId(review.getCorpId());
 
  		model.addAttribute("reviewDetail", review);
  		model.addAttribute("isOwner", isOwner);
+ 		model.addAttribute("companyName", companyName);
 
- 		model.addAttribute("reviewDetail", review);
- 		model.addAttribute("isOwner", isOwner);
-
- 		logger.debug(" detail 동작 - controller ");
+ 		logger.debug("리뷰 상세 진입 - reviewId: {}, companyName: {}", reviewId, companyName);
  		return "review/reviewDetail";
  	}
 

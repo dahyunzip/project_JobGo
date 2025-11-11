@@ -99,6 +99,10 @@ public class ReviewDAOImpl implements ReviewDAO{
 		return sqlSession.selectOne(NAMESPACE + ".getMemberIdByUserid", userid);
 	}
 	
-	
+	// 기업이름 조회
+	@Override
+	public String getCompanyNameByCorpId(int corpId) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getCompanyNameByCorpId", corpId);
+	}
 	
 }

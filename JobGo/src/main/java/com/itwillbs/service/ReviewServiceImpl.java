@@ -95,5 +95,9 @@ public class ReviewServiceImpl implements ReviewService{
 		return reviewDAO.getMemberIdByUserid(userid);
 	}
 	
+	@Override
+	public String getCompanyNameByCorpId(int corpId) throws Exception {
+		return reviewDAO.getCompanyNameByCorpId(corpId);
+	}
 	
 }

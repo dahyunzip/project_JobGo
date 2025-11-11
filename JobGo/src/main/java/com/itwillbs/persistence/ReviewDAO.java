@@ -40,6 +40,7 @@ public interface ReviewDAO {
 	// 아이디 가져오기
 	Integer getMemberIdByUserid(String userid) throws Exception;
 	
-	
+	// 회사이름 조회
+	String getCompanyNameByCorpId(int corpId) throws Exception;
 	
 }

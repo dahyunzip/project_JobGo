@@ -40,5 +40,7 @@ public interface ReviewService {
 	// 아이디 가져오기
 	Integer getMemberIdByUserid(String userid) throws Exception;
 	
+	// 회사 이름 조회
+	String getCompanyNameByCorpId(int corpId) throws Exception;
 	
 }

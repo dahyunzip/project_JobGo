@@ -2,6 +2,7 @@ package com.itwillbs.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -20,6 +21,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.itwillbs.domain.CorpMemberVO;
 import com.itwillbs.domain.MemberVO;
 import com.itwillbs.service.CorpMemberService;
+import com.itwillbs.service.CorpMemberServiceImpl;
 
 @Controller
 @RequestMapping(value="/corp/*")
@@ -79,7 +81,8 @@ public class CorpMemberController {
 	public String loginPOST(@RequestParam("corpUserId") String corpUserId,
 							@RequestParam("corpUserPw") String corpUserPW,
 							HttpSession session,
-							Model model) throws Exception{
+							Model model,
+							RedirectAttributes rttr) throws Exception{
 		logger.debug("기업회원 로그인 시작 - loginPOST ");
 		CorpMemberVO loginVO = cService.login(corpUserId, corpUserPW);
 		
@@ -88,8 +91,9 @@ public class CorpMemberController {
 			session.setAttribute("corpUserId", loginVO.getCorpUserId());
 			session.setAttribute("companyName", loginVO.getCompanyName());
 			session.setAttribute("userType", "corp");
+			rttr.addFlashAttribute("msg", "loginSuccess");
 			logger.debug(" 로그인 성공 ");
-			return "/corp/main";
+			return "redirect:/corp/main";
 		}else {
 			logger.debug(" 로그인 실패 ");
 			model.addAttribute("msg", "loginFail");
@@ -217,4 +221,79 @@ public class CorpMemberController {
 
 	    return "redirect:/corp/login";
 	}
+	
+	/* =============================
+     * 기업회원 아이디 / 비밀번호 찾기
+     * ============================= */
+
+    // 아이디 찾기 페이지
+	@RequestMapping(value="/findId", method=RequestMethod.GET)
+    public String findIdPage(HttpSession session) {
+		session.setAttribute("userType", "corp");
+        return "/common/findId";
+    }
+
+    // 아이디 찾기 처리
+	@RequestMapping(value="/findId", method=RequestMethod.POST)
+    public String findId(@RequestParam("managerEmail") String email, Model model) throws Exception {
+        logger.debug("기업회원 아이디 찾기 요청 - email: {}", email);
+        String corpUserId = cService.findCorpUserIdByEmail(email);
+        if (corpUserId != null) {
+            model.addAttribute("corpUserId", corpUserId);
+            return "/common/findIdResult";
+        } else {
+            model.addAttribute("msg", "등록된 이메일이 없습니다.");
+            return "/common/findId";
+        }
+    }
+
+    // 비밀번호 찾기 페이지
+	@RequestMapping(value="/findPw", method=RequestMethod.GET)
+    public String findPwPage(HttpSession session) {
+		session.setAttribute("userType", "corp");
+        return "/common/findPw";
+    }
+
+    // 비밀번호 찾기 처리 (메일 전송)
+	@RequestMapping(value="/findPw", method=RequestMethod.POST)
+    public String findPw(@RequestParam("managerEmail") String email, Model model) throws Exception {
+        logger.debug("기업회원 비밀번호 찾기 요청 - email: {}", email);
+        CorpMemberVO vo = cService.findCorpMemberByEmail(email);
+
+        if (vo == null) {
+            model.addAttribute("msg", "등록된 이메일이 없습니다.");
+            return "/common/findPw";
+        }
+
+        String token = UUID.randomUUID().toString();
+        cService.sendResetMail(email, token);
+
+        model.addAttribute("msg", "비밀번호 재설정 메일이 발송되었습니다. 이메일을 확인해주세요.");
+        return "/common/findPw";
+    }
+
+    // 비밀번호 재설정 폼
+	@RequestMapping(value="/resetPw", method=RequestMethod.GET)
+    public String resetPwPage(@RequestParam("token") String token, Model model) {
+        String email = cService.getEmailByToken(token);
+        if (email == null) {
+            model.addAttribute("msg", "유효하지 않거나 만료된 링크입니다.");
+            return "/common/resetFail";
+        }
+        model.addAttribute("managerEmail", email);
+        model.addAttribute("token", token);
+        return "/common/resetPwForm";
+    }
+
+    // 비밀번호 재설정 처리
+	@RequestMapping(value="/resetPw", method=RequestMethod.POST)
+    public String resetPw(@RequestParam("managerEmail") String email,
+                          @RequestParam("newPw") String newPw,
+                          @RequestParam("token") String token,
+                          RedirectAttributes rttr) throws Exception {
+        cService.updatePasswordByEmail(email, newPw);
+        cService.invalidateToken(token);
+        rttr.addFlashAttribute("msg", "resetPwSuccess");
+        return "redirect:/corp/login";
+    }
 }

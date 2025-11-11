@@ -29,4 +29,13 @@ public interface CorpMemberDAO {
 	
 	// 탈퇴 회원 상태 변경
 	public void deleteCorpMember(String corpUserId) throws Exception;
+	
+	// 이메일로 아이디 찾기
+	public String findCorpUserIdByEmail(String email) throws Exception;
+
+	// 이메일로 회원정보 조회
+	public CorpMemberVO findCorpMemberByEmail(String email) throws Exception;
+
+	// 이메일로 비밀번호 재설정
+	public void updatePasswordByEmail(CorpMemberVO vo) throws Exception;
 }

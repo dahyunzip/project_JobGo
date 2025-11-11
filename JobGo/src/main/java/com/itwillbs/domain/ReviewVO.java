@@ -19,9 +19,11 @@ public class ReviewVO {
 	private LocalDateTime revRegdate;
 	private LocalDateTime revUpdatedate;
 	
-	private Integer jobCode;
+	private String jobCode;
 	
 	private String topCategoryName;
+	private String topCategoryId;
 	private String bottomCategoryName;
+	private String bottomCategoryId;
 	
 }

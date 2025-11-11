@@ -13,7 +13,7 @@
 	
 	
 	<c:choose>
-		<c:when test="${sessionScope.id == review.memberId}">
+		<c:when test="${isOwner}">
 		<!-- 본인일 때만 수정 가능  -->
     	<!-- 실전용 : 로그인 세션 기반으로 본인만 수정 가능 -->
     	<!-- 테스트 시에는 action만 동일하게 두고 세션 제거 가능 -->
@@ -28,12 +28,19 @@
             	<label>기업 ID</label>
             	<input type="text" name="corpId" value="${review.corpId}" readonly />
         	</div>
-
         	<div>
-        	    <label>직무 코드</label>
-        	    <input type="text" name="jobCode" value="${review.jobCode}" />
-        	</div>
+				<label>직무</label>
 
+				<!-- 대분류 -->
+				<select id="topCategory" name="topId">
+					<option value="">대분류 선택</option>
+				</select>
+	
+				<!-- 소분류 -->
+				<select id="bottomCategory" name="jobCode" disabled="disabled">
+					<option value="">소분류 선택</option>
+				</select>
+			</div>
         	<div>
         	    <label>근무 기간</label>
         	    <select name="workMonths">
@@ -118,6 +125,61 @@
                 });
             });
         });
+        
+        const topSelect = document.querySelector("#topCategory");
+        const bottomSelect = document.querySelector("#bottomCategory");
+
+        // DB에서 전달된 기존 선택값
+        const topIdFromDB = "${review.topCategoryId}";
+        const bottomIdFromDB = "${review.bottomCategoryId}";
+        const jobCodeFromDB = "${review.jobCode}"; // 혹시 jobCode와 bottomId가 동일하게 쓰이는 경우 대비
+
+        // 대분류 목록 불러오기
+        fetch("${pageContext.request.contextPath}/review/topCategory")
+        	.then(r => r.json())
+        	.then(topList => {
+        		topList.forEach(item => {
+        			const opt = document.createElement("option");
+        			opt.value = item.id;
+        			opt.textContent = item.name;
+        			if (item.id == topIdFromDB) opt.selected = true; // ✅ 기존 대분류 선택
+        			topSelect.appendChild(opt);
+        		});
+
+        		// 기존 대분류가 있을 경우 소분류 자동 로드
+        		if (topIdFromDB) {
+        			loadBottomCategory(topIdFromDB, bottomIdFromDB || jobCodeFromDB);
+        		}
+        	});
+
+        // 대분류 선택 시 소분류 다시 로드
+        topSelect.addEventListener("change", () => {
+        	const topId = topSelect.value;
+        	loadBottomCategory(topId);
+        });
+
+        // 소분류 불러오기 함수
+        function loadBottomCategory(topId, selectedBottomId = null) {
+        	bottomSelect.innerHTML = "<option value=''>소분류 선택</option>";
+        	if (!topId) {
+        		bottomSelect.disabled = true;
+        		return;
+        	}
+
+        	fetch("${pageContext.request.contextPath}/review/bottomCategory?topId=" + topId)
+        		.then(r => r.json())
+        		.then(bottomList => {
+        			bottomSelect.disabled = false;
+        			bottomList.forEach(b => {
+        				const opt = document.createElement("option");
+        				opt.value = b.id;
+        				opt.textContent = b.name;
+        				if (b.id == selectedBottomId) opt.selected = true; // ✅ 기존 소분류 자동 선택
+        				bottomSelect.appendChild(opt);
+        			});
+        		});
+        }
+        
     </script>
 </body>
 <%@ include file="../include/Footer.jsp"%>

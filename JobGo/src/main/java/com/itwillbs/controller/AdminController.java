@@ -92,4 +92,28 @@ public class AdminController {
 		return "/admin/corpBoard";
 	}
 	
+	// 기업회원 관리
+	@RequestMapping(value="/userManageCorp", method=RequestMethod.GET)
+	public String userManageCorp() {
+		return "/admin/userManageCorp";
+	}
+	
+	// 일반회원 관리
+	@RequestMapping(value="/userManageMember", method=RequestMethod.GET)
+	public String userManageMember() {
+		return "/admin/userManageMember";
+	}
+	
+	// 전체 리뷰 관리
+	@RequestMapping(value="/reviewManage", method=RequestMethod.GET)
+	public String reviewManage() {
+		return "/admin/reviewManage";
+	}
+	
+	// 전체 게시판 관리
+	@RequestMapping(value="/boardManage", method=RequestMethod.GET)
+	public String boardManage() {
+		return "/admin/boardManage";
+	}
+	
 }

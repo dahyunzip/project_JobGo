@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartRequest;
@@ -67,55 +68,42 @@ public class RecBoardController {
     }
 	
 	// 게시글 쓰기
-	@PostMapping("/recWrite")
-	public String recWritePOST(RecBoardVO vo,
-							   HttpSession session,
-							   @RequestParam(value="thumbFileName", required=false) MultipartFile thumbFileName,
-							   @RequestParam(value="attachFileName", required=false) MultipartFile[] attachFileName) throws Exception {
-		logger.debug(" recWritePOST() 실행! ");
-		
-		// 회원 정보 가져오기
-		String recLoginInfo = (String) session.getAttribute("corpUserId");
-		CorpMemberVO recMemInfo = corpMemberService.getCorpMember(recLoginInfo);
-		logger.debug(" 기업 회원 정보: "+recLoginInfo);
-		
-		vo.setCorp_id(recMemInfo.getCorpId());
-		vo.setCorpUserId(recMemInfo.getCorpUserId());
-		vo.setManagerName(recMemInfo.getManagerName());
-		vo.setManagerEmail(recMemInfo.getManagerEmail());
-		vo.setCompanyName(recMemInfo.getCompanyName());
-		
-		logger.debug("작성자 기업ID : " + vo.getCorp_id());
-	    logger.debug("작성자 기업UserId : " + vo.getCorpUserId());
-	    logger.debug("담당자명 : " + vo.getManagerName());
-	    logger.debug("담당자 이메일 : " + vo.getManagerEmail());
-	    logger.debug("담당자 소속 회사명 : " + vo.getCompanyName());
-		 
-		// 게시판 정보 DB저장
-		recBoardService.writeRecBoard(vo);
-	    
-		// 썸네일 업로드
-		if(!thumbFileName.isEmpty()) {
-			String storedFileName = recFileComponent.thumbUpload(thumbFileName);
-			recBoardService.uploadFiles(vo.getRec_bno(), "THUMB", 
-					                    thumbFileName.getOriginalFilename(), 
-					                    storedFileName);
-		}
-		
-		// 첨부 파일 저장
-		if(attachFileName != null && attachFileName.length > 0) {
-			for (MultipartFile file : attachFileName) {
-	            if (!file.isEmpty()) {
-	                String stored = recFileComponent.thumbUpload(file);
-	                recBoardService.uploadFiles(vo.getRec_bno(), "ATTACH",
-	                                            file.getOriginalFilename(), stored);
-	            }
-	        }
-		}
-		
-		logger.debug(" recWritePOST() 끝! ");
-		return "redirect:/recboard/recListCri";
-	}
+    @PostMapping("/recWrite")
+    public String recWritePOST(HttpSession session,
+    		                   RecBoardVO vo,
+    		                   @RequestParam(value="thumb", required=false) MultipartFile thumb,
+    		                   @RequestParam(value="attachFiles", required=false) List<MultipartFile> attachFiles) throws Exception {
+
+        logger.debug("recWritePOST() 실행!");
+
+        // 로그인 정보
+        String corpUserId = (String) session.getAttribute("corpUserId");
+        CorpMemberVO recMemInfo = corpMemberService.getCorpMember(corpUserId);
+
+        if (recMemInfo == null) {
+            return "redirect:/corp/login";
+        }
+
+        vo.setCorp_id(recMemInfo.getCorpId());
+        vo.setCorpUserId(recMemInfo.getCorpUserId());
+        vo.setManagerName(recMemInfo.getManagerName());
+        vo.setManagerEmail(recMemInfo.getManagerEmail());
+        vo.setCompanyName(recMemInfo.getCompanyName());
+
+        // 파일 업로드
+        String storedThumb = recFileComponent.thumbUpload(thumb);
+        List<String> storedAttachList = recFileComponent.attachUpload(attachFiles);
+        
+        // 첨부파일 업로드
+        vo.setThumbFileName(storedThumb);
+        vo.setAttachFileName(String.join(",", storedAttachList)); // 여러 파일일 경우 쉼표로 구분
+        
+        // 게시글 저장
+        recBoardService.recUploadBoard(vo);
+
+        logger.debug("recWritePOST() 끝!");
+        return "redirect:/recboard/recListCri";
+    }
 	
 	
 	// 채용 공고 리스트(페이징)

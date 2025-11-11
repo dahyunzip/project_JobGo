@@ -24,6 +24,5 @@ public interface RecBoardService {
 	public List<RecBottomCategoryVO> getRecBottomCategoryList(int topctg_id);
 	
 	// 작성한 게시글 업로드
-	public void writeRecBoard(RecBoardVO vo); 
-	public void uploadFiles(int rec_bno, String file_type, String originalFileName, String storedFileName);
+	public void recUploadBoard(RecBoardVO vo) throws Exception;
 }

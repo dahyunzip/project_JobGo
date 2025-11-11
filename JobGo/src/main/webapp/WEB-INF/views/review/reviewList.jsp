@@ -40,8 +40,12 @@
     	            </td>
     	            <td>${review.memberId}</td>
     	            <td>
-    	                <c:forEach begin="1" end="${review.revRate}" var="i">★</c:forEach>
-    	                <c:forEach begin="1" end="${5 - review.revRate}" var="i">☆</c:forEach>
+    	                <c:forEach begin="1" end="5" var="i">
+							<c:choose>
+								<c:when test="${i <= review.revRate}">★</c:when>
+								<c:otherwise>☆</c:otherwise>
+							</c:choose>
+						</c:forEach>
     	            </td>
     	            <td>${review.revRegdate}</td>
             	</tr>

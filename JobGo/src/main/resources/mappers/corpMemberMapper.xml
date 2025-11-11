@@ -127,4 +127,48 @@
 	        status = 'D'
 	    WHERE corp_userid = #{corpUserId}
 	</update>
+	
+	<!-- 기업회원 이메일로 아이디 찾기 -->
+    <select id="findCorpUserIdByEmail" resultType="string">
+        SELECT corp_userid AS corpUserId
+        FROM corpmember
+        WHERE manager_email = #{email}
+    </select>
+
+    <!-- 기업회원 이메일로 전체 회원 정보 조회 -->
+    <select id="findCorpMemberByEmail" resultType="com.itwillbs.domain.CorpMemberVO">
+        SELECT 
+        	corp_id AS corpId,
+            corp_userid AS corpUserId,
+            corp_userPw AS corpUserPw,
+            manager_name AS managerName,
+            manager_email AS managerEmail,
+            manager_tel AS managerTel,
+            company_name AS companyName,
+            business_rno AS businessRno,
+            business_licenseurl AS businessLicenseUrl,
+            originalFileName,
+            ceo_name AS ceoName,
+            company_address AS companyAddress,
+            industry_type AS industryType,
+            business_type AS businessType,
+            corp_joined AS corpJoined,
+            corp_updated AS corpUpdated,
+            status,
+            corp_checkdeleted AS corpCheckDeleted,
+            corp_agreelocation AS corpAgreeLocation,
+            corp_agreeemail AS corpAgreeEmail,
+            corp_agreesms AS corpAgreeSms,
+            corpProfileOriginal,
+            corpProfileStored
+        FROM corpmember
+        WHERE manager_email = #{email}
+    </select>
+
+    <!-- 기업회원 이메일로 비밀번호 업데이트 -->
+    <update id="updatePasswordByEmail" parameterType="com.itwillbs.domain.CorpMemberVO">
+        UPDATE corpmember
+        SET corp_userPw = #{corpUserPw}
+        WHERE manager_email = #{managerEmail}
+    </update>
 </mapper>

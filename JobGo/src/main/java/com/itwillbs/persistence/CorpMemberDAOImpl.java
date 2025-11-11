@@ -75,6 +75,25 @@ public class CorpMemberDAOImpl implements CorpMemberDAO {
 	    logger.debug("기업회원 탈퇴 완료: corpUserId = {}", corpUserId);
 	}
 	
-	
+	// 이메일로 기업회원 아이디 찾기
+	@Override
+	public String findCorpUserIdByEmail(String email) throws Exception {
+		logger.debug("findCorpUserIdByEmail(email={}) 실행", email);
+		return sqlSession.selectOne(NAMESPACE + "findCorpUserIdByEmail", email);
+	}
+
+	// 이메일로 기업회원 정보 조회
+	@Override
+	public CorpMemberVO findCorpMemberByEmail(String email) throws Exception {
+		logger.debug("findCorpMemberByEmail(email={}) 실행", email);
+		return sqlSession.selectOne(NAMESPACE + "findCorpMemberByEmail", email);
+	}
+
+	// 이메일로 비밀번호 업데이트
+	@Override
+	public void updatePasswordByEmail(CorpMemberVO vo) throws Exception {
+		logger.debug("updatePasswordByEmail() 실행, vo = {}", vo);
+		sqlSession.update(NAMESPACE + "updatePasswordByEmail", vo);
+	}
 
 }

@@ -29,4 +29,20 @@ public interface CorpMemberService {
 
 	// 회원탈퇴
 	public void deleteCorpMember(String corpUserId) throws Exception;
+	
+	// 기업회원 이메일로 아이디 찾기
+	public String findCorpUserIdByEmail(String email) throws Exception;
+	
+	// 기업회원 이메일로 정보 조회
+	public CorpMemberVO findCorpMemberByEmail(String email) throws Exception;
+	
+	// 기업회원 비밀번호 업데이트
+	public void updatePasswordByEmail(String email, String newPw) throws Exception;
+	
+	// 메일 전송
+	public void sendResetMail(String toEmail, String token) throws Exception;
+	
+	String getEmailByToken(String token);
+    void invalidateToken(String token);
+	
 }

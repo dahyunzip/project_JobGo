@@ -1,6 +1,62 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ include file="../include/Header.jsp"%>
+<style>
+	.single-job {
+	    position: relative;
+	    border-radius: 30px;         /* 모서리 둥글게 */
+	    overflow: hidden;            /* 이미지가 밖으로 삐져나오지 않게 */
+	    margin: 10px 0;
+	    cursor: pointer;
+	    transition: transform 0.2s ease-in-out;
+	    background: #000;            /* 여백 없이 꽉 차게 */
+	}
+	.single-job:hover {
+	    transform: scale(1.02);
+	}
+	
+	/* 이미지 영역 */
+	.thumb-area {
+	    position: relative;
+	    width: 100%;
+	    height: 180px;               /* 높이를 기존보다 살짝 낮게 */
+	    border-radius: 30px;
+	}
+	.thumb-area img {
+	    width: 100%;
+	    height: 100%;
+	    object-fit: cover;           /* 비율 유지하면서 꽉 채움 */
+	    display: block;
+	}
+	
+	/* 텍스트 오버레이 */
+	.overlay-text {
+	    position: absolute;
+	    bottom: 0;
+	    left: 0;
+	    width: 100%;
+	    padding: 15px 20px;
+	    background: linear-gradient(to top, rgba(0,0,0,0.75), rgba(0,0,0,0));
+	    color: #fff;
+	}
+	
+	.overlay-text .company {
+	    font-size: 18px;
+	    font-weight: 700;
+	    margin: 0;
+	}
+	.overlay-text .title {
+	    font-size: 14px;
+	    margin: 4px 0 8px;
+	}
+	.overlay-text .info {
+	    font-size: 12px;
+	    opacity: 0.9;
+	}
+	.overlay-text .info span {
+	    margin-right: 8px;
+	}
+</style>
 <section class="find-job job-list section">
         <div class="container">
         	<c:set var="cri" value="${pageVO.cri }" scope="page" />
@@ -23,22 +79,19 @@
 							<hr>
 							<div class="box-wrap">
 								<c:forEach var="vo" items="${recBoardList }">
-									<div class="single-job" onclick="">
-										<div class="job-content">
-											<h4>
-												<%-- <a href="/comboard/comRead?com_bno=${vo.com_bno}&page=${cri.page}">${vo.com_title }</a> --%>
-												${vo.companyName }
-											</h4>
-										</div>
-										<hr>
-										<div class="job-button">
-											<ul>
-												<li><img src="/upload/${vo.thumbFileName }" width="50"></li>
-												<li>작성자: ${vo.corpUserId }</li>
-												<li>작성일: <fmt:formatDate value="${vo.rec_regdate }" /></li>
-												<li>조회수: <span>${vo.rec_viewcnt }</span></li>
-											</ul>
-										</div>
+									<div class="single-job">
+									 	<div class="thumb-area">
+									        <img src="/upload/recfile/${vo.thumbFileName}">
+									        <div class="overlay-text">
+									            <h3 class="company">${vo.companyName}</h3>
+									            <p class="title">${vo.rec_title}</p>
+									            <div class="info">
+									                <span>작성자: ${vo.corpUserId}</span>
+									                <span>작성일: <fmt:formatDate value="${vo.rec_regdate}" pattern="yyyy.MM.dd"/></span>
+									                <span>조회수: ${vo.rec_viewcnt}</span>
+									            </div>
+									        </div>
+									    </div>
 									</div>
 								</c:forEach>
 							</div>

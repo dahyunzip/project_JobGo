@@ -130,18 +130,32 @@
 						<textarea class="form-control" name="rec_qualification"
 								  placeholder="필요한 자격요건을 입력하세요." rows="5"></textarea>
 					</div>
-
-					<!-- 파일 업로드 -->
+					
 					<div class="form-group">
-						<label>썸네일 파일</label>
-						<input type="file" name="thumbFileName" class="form-control" accept="image/*" required>
+						<label>채용 우대 사항</label>
+						<textarea class="form-control" name="rec_preference"
+								  placeholder="채용시 우대 사항을 작성하세요" rows="5"></textarea>
+					</div>
+					
+					<div class="form-group">
+						<label>복리 후생</label>
+						<textarea class="form-control" name="rec_benefit"
+								  placeholder="채용시 복지 및 임직원 지원 항목을 작성하세요." rows="5"></textarea>
 					</div>
 
-					<div class="form-group">
-						<label>자료 파일 (다중 업로드 가능)</label>
-						<!-- <input type="file" name="attachFiles" class="form-control" multiple> -->
-						<input type="file" name="attachFileName" accept="image/*" class="form-control" > 첨부파일 ➕ <input type="button" value=" 추가하기" id="addBtn">
-					</div>
+					<!-- 썸네일 업로드 -->
+				    <div class="form-group">
+				        <label>썸네일 파일</label>
+				        <input type="file" name="thumb" class="form-control" accept="image/*">
+				        <small class="form-text text-muted">※ 등록하지 않아도 됩니다.</small>
+				    </div>
+				
+				    <!-- 첨부파일 업로드 -->
+				    <div class="form-group">
+				        <label>자료 파일 (다중 업로드 가능)</label>
+				        <input type="file" name="attachFiles" class="form-control" accept="image/*">
+				        <button type="button" id="addBtn" class="btn btn-sm btn-secondary mt-2">➕ 추가하기</button>
+				    </div>
                     <div id="fileDiv">
 			                                    
                		</div>
@@ -208,7 +222,7 @@
 		
 		$("#addBtn").click(function(){
 			// alert("버튼 클릭");
-			$("#fileDiv").append("<div><br><input type='file' name='attachFileName' accept='image/*'></div>");
+			$("#fileDiv").append("<div><br><input type='file' name='attachFiles' accept='image/*'></div>");
 		});
 	});
 </script>

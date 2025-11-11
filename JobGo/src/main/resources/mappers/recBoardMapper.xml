@@ -11,6 +11,7 @@
 			rb.rec_bno, 
 		    cm.corp_userid as corpUserId, 
 		    cm.company_name as companyName, 
+		    rb.rec_title, 
 		    rb.thumbFileName, 
 		    rb.rec_regdate, 
 		    rb.rec_viewcnt 
@@ -60,17 +61,14 @@
  	<insert id="insertRecBoard">
  		insert into rec_board (
  			corp_id, rec_title, rec_maintask, rec_benefit, 
- 			topctg_id, btmctg_id, toplct_id, rec_qualification, rec_deadline
+ 			topctg_id, btmctg_id, toplct_id, rec_qualification, 
+ 			rec_deadline, thumbFileName, attachFileName, 
+ 			rec_preference, rec_inputlct 
  		) values (
  			#{corp_id}, #{rec_title}, #{rec_maintask}, #{rec_benefit}, 
- 			#{topctg_id}, #{btmctg_id}, #{toplct_id}, #{rec_qualification}, #{rec_deadline}
- 		)
- 	</insert>
- 	<insert id="insertFiles">
- 		insert into rec_file (
- 			rec_bno, file_type, originalFileName, storedFileName
- 		) values (
- 			#{rec_bno}, #{file_type}, #{originalFileName}, #{storedFileName}
+ 			#{topctg_id}, #{btmctg_id}, #{toplct_id}, #{rec_qualification}, 
+ 			#{rec_deadline}, #{thumbFileName}, #{attachFileName}, 
+ 			#{rec_preference}, #{rec_inputlct}
  		)
  	</insert>
  </mapper>

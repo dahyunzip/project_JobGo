@@ -83,21 +83,17 @@ public class RecBoardServiceImpl implements RecBoardService {
 
 	// 작성한 게시글 업로드
 	@Override
-	public void writeRecBoard(RecBoardVO vo) {
-		logger.debug(" writeRecBoard() 실행! ");
+	public void recUploadBoard(RecBoardVO vo) throws Exception {
+		logger.debug(" recUploadBoard() 실행! ");
 		
 		rbDAO.insertRecBoard(vo);
 		
-		logger.debug(" writeRecBoard() 끝! ");
-	}
-	@Override
-	public void uploadFiles(int rec_bno, String file_type, String originalFileName, String storedFileName) {
-		logger.debug(" uploadFiles() 실행! ");
+		logger.debug(" recUploadBoard() 끝! ");
 		
-		rbDAO.insertFiles(rec_bno, file_type, originalFileName, storedFileName);
-		
-		logger.debug(" uploadFiles() 끝! ");		
 	}
+
+	
+
 	
 	
 

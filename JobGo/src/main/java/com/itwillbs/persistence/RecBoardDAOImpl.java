@@ -96,18 +96,6 @@ public class RecBoardDAOImpl implements RecBoardDAO {
 		
 		logger.debug(" insertRecBoard() 끝! ");
 	}
-	@Override
-	public void insertFiles(int rec_bno, String file_type, String originalFileName, String storedFileName) {
-		logger.debug(" insertFiles() 실행! ");
-		Map<String, Object> param = new HashMap<>();
-		param.put("rec_bno", rec_bno);
-		param.put("file_type", file_type);
-		param.put("originalFileName", originalFileName);
-		param.put("storedFileName", storedFileName);
-		sqlSession.insert(NAMESPACE + "insertFiles", param);
-		
-		logger.debug(" insertFiles() 끝! ");
-	}
 	
 
 }

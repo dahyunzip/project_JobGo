@@ -26,9 +26,5 @@ public interface RecBoardDAO {
 	public List<RecBottomCategoryVO> selectBottomCategoryList(int topctg_id);
 	
 	// 작성한 게시글 업로드
-	public void insertRecBoard(RecBoardVO vo);
-	public void insertFiles(@Param("rec_bno") int rec_bno, 
-			                @Param("file_type") String file_type, 
-			                @Param("originalFileName") String originalFileName, 
-			                @Param("storedFileName") String storedFileName);
+	public void insertRecBoard(RecBoardVO vo) throws Exception;
 }

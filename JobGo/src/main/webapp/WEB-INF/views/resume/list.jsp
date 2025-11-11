@@ -2,7 +2,18 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ include file="../include/Header.jsp" %>
-
+<script>
+	$(document).ready(function(){
+		var status = '${msg}';
+		if(status == 'writeDone'){
+			alert("이력서 작성 완료");
+		}else if(status == 'deleteDone'){
+			alert("이력서 삭제 완료");
+		}else if(status == 'editDone'){
+			alert("이력서 수정 완료");
+		}
+	});
+</script>
 <section class="section resume-list-section py-5">
     <div class="container">
         <div class="section-title text-center mb-4">

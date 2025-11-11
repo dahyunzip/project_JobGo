@@ -90,9 +90,47 @@ public class ResumeServiceImpl implements ResumeService {
     }
 
 	@Override
+	@Transactional
 	public void updateResume(ResumeVO resume) {
-        resumeDAO.updateResume(resume);
-    }
+		// 기본 정보 수정
+		resumeDAO.updateResume(resume);
+
+		// 하위 테이블 삭제 후 다시 삽입
+		resumeDAO.deleteEducationByResume(resume.getResumeId());
+		resumeDAO.deleteCareerByResume(resume.getResumeId());
+		resumeDAO.deleteTrainingByResume(resume.getResumeId());
+		resumeDAO.deleteCertificationByResume(resume.getResumeId());
+		resumeDAO.deleteSelfIntro(resume.getResumeId());
+
+		if (resume.getEducationList() != null) {
+			for (var edu : resume.getEducationList()) {
+				edu.setResumeId(resume.getResumeId());
+				resumeDAO.insertEducation(edu);
+			}
+		}
+		if (resume.getCareerList() != null) {
+			for (var c : resume.getCareerList()) {
+				c.setResumeId(resume.getResumeId());
+				resumeDAO.insertCareer(c);
+			}
+		}
+		if (resume.getTrainingList() != null) {
+			for (var t : resume.getTrainingList()) {
+				t.setResumeId(resume.getResumeId());
+				resumeDAO.insertTraining(t);
+			}
+		}
+		if (resume.getCertificationList() != null) {
+			for (var cert : resume.getCertificationList()) {
+				cert.setResumeId(resume.getResumeId());
+				resumeDAO.insertCertification(cert);
+			}
+		}
+		if (resume.getSelfIntro() != null) {
+			resume.getSelfIntro().setResumeId(resume.getResumeId());
+			resumeDAO.insertSelfIntro(resume.getSelfIntro());
+		}
+	}
 
 	@Transactional
 	@Override

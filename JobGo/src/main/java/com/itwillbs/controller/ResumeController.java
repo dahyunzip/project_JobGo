@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.ResumeVO;
 import com.itwillbs.service.ResumeService;
@@ -49,19 +50,40 @@ public class ResumeController {
 	
 	// ===== [이력서 작성 처리] =====
 	@RequestMapping(value="/write", method=RequestMethod.POST)
-	public String writePOST(@ModelAttribute ResumeVO resume) {
+	public String writePOST(@ModelAttribute ResumeVO resume,
+							RedirectAttributes rttr) {
 		logger.debug("writePOST 진입 / memberId = {}", resume.getMemberId());
 		logger.debug("resume : {}", resume);
 		rService.createResume(resume);
+		rttr.addFlashAttribute("msg", "writeDone");
 		return "redirect:/resume/list?memberId=" + resume.getMemberId();
 	}
 	
 	// ===== [이력서 삭제] =====
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
 	public String delete(@RequestParam("resumeId") int resumeId,
-						 @RequestParam("memberId") int memberId) {
+						 @RequestParam("memberId") int memberId,
+						 RedirectAttributes rttr) {
 		rService.deleteResume(resumeId);
+		rttr.addFlashAttribute("msg", "deleteDone");
 		return "redirect:/resume/list?memberId=" + memberId;
+	}
+	
+	// ===== [이력서 수정 폼] =====
+	@RequestMapping(value="/edit", method=RequestMethod.GET)
+	public String editGET(@RequestParam("resumeId") int resumeId, Model model) {
+	    ResumeVO resume = rService.getResume(resumeId);
+	    model.addAttribute("resume", resume);
+	    return "/resume/edit";
+	}
+
+	// ===== [이력서 수정 처리] =====
+	@RequestMapping(value="/edit", method=RequestMethod.POST)
+	public String editPOST(@ModelAttribute ResumeVO resume,
+							RedirectAttributes rttr) {
+	    rService.updateResume(resume);
+	    rttr.addFlashAttribute("msg","editDone");
+	    return "redirect:/resume/detail?resumeId=" + resume.getResumeId();
 	}
 
 }

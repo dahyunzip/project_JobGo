@@ -40,6 +40,21 @@
 	</bean>
 	<!-- E : sqlSession -->
 	
+	<!-- S : mailSender -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com"/>
+		<property name="port" value="587"/>
+		<property name="username" value="projectjobgo@gmail.com"/>
+		<property name="password" value="forx dabd eoxz cqaw"/>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+			</props>
+		</property>
+	</bean>
+	<!-- E : mailSender -->
+	
 	<!-- 비동기처리를 위한 task -->
 	<task:annotation-driven/>
 	

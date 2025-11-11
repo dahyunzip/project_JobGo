@@ -9,16 +9,18 @@
 <title>리뷰 상세</title>
 </head>
 <body>
-<p>세션 userid: ${sessionScope.userid}</p>
-<p>세션 id: ${sessionScope.id}</p>
-<p>리뷰 작성자: ${reviewDetail.memberId}</p>
 	<h2>리뷰 상세</h2>
+	
+	<c:if test="${not empty errorMsg}">
+		<p style="color:red; font-weight:bold;">${errorMsg}</p>
+	</c:if>
 	
 	<div>
 		<div>리뷰 번호: ${reviewDetail.reviewId }</div>
 		<div>회원 ID: ${reviewDetail.memberId }</div>
-		<div>기업 ID: ${reviewDetail.corpId }</div>
-		<div>직무 코드: ${reviewDetail.jobCode }</div>
+		<div>기업명: ${companyName}</div>
+		<div>직무 대분류: ${reviewDetail.topCategoryName}</div>
+		<div>직무 소분류: ${reviewDetail.bottomCategoryName}</div>
 		<div>근무 기간: 
     		<c:choose>
     		    <c:when test="${reviewDetail.workMonths == 'A'}">1개월 미만</c:when>
@@ -70,29 +72,83 @@
 			</button>
 		</div>
 	<hr>
+	
+	<!-- 작성자 본인일 때만 수정/삭제 버튼 -->
 	<c:if test="${isOwner}">
-		<div>
-			<form action="${pageContext.request.contextPath}/review/updateReview" method="get" style="display:inline;">
-				<input type="hidden" name="reviewId" value="${reviewDetail.reviewId}">
-				<button type="submit">수정</button>
-			</form>
+		<!-- 수정 버튼 -->
+		<form action="${pageContext.request.contextPath}/review/updateReview" method="get" style="display:inline;">
+			<input type="hidden" name="reviewId" value="${reviewDetail.reviewId}"/>
+			<button type="submit">수정</button>
+		</form>
+	
+		<!-- 삭제 버튼 -->
+		<button type="button" onclick="openDeleteModal(${reviewDetail.reviewId})">삭제</button>
+	</c:if>
 
-			<form id="deleteForm" action="${pageContext.request.contextPath}/review/deleteReview" method="post" style="display:inline;">
-				<input type="hidden" name="reviewId" value="${reviewDetail.reviewId}" />
-				<button type="button" onclick="confirmDelete()">삭제</button>
+	<!-- 모달 템플릿 -->
+	<div id="deleteModal" class="modal-overlay">
+		<div class="modal-container">
+			<h3>리뷰 삭제 확인</h3>
+			<form id="deleteForm" method="post" action="${pageContext.request.contextPath}/review/deleteReview">
+				<input type="hidden" id="modalReviewId" name="reviewId">
+				<div class="modal-body">
+					<label>비밀번호를 입력하세요:</label><br>
+					<input type="password" id="modalPassword" name="password" required>
+				</div>
+				<div class="modal-footer">
+					<button type="button" onclick="closeDeleteModal()">취소</button>
+					<button type="submit">삭제</button>
+				</div>
 			</form>
 		</div>
-	</c:if>
+	</div>
+	
+	<style>
+	.modal-overlay {
+		display: none;
+		position: fixed;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+		background: rgba(0,0,0,0.6);
+		z-index: 1000;
+		justify-content: center;
+		align-items: center;
+	}
+	.modal-container {
+		background: white;
+		padding: 20px;
+		border-radius: 8px;
+		width: 350px;
+		box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+	}
+	.modal-body {
+		margin: 15px 0;
+	}
+	.modal-footer {
+		text-align: right;
+	}
+	.modal-footer button {
+		margin-left: 10px;
+		padding: 6px 10px;
+		cursor: pointer;
+	}
+	</style>
+		
 	<script>
-		function confirmDelete() {
-   			if (confirm("정말 이 리뷰를 삭제하시겠습니까?")) {
-        		document.getElementById("deleteForm").submit();
-    		} else {
-        		alert("삭제가 취소되었습니다.");
-    		}
+		function openDeleteModal(reviewId) {
+			document.getElementById("modalReviewId").value = reviewId;
+			document.getElementById("deleteModal").style.display = "flex";
 		}
+		function closeDeleteModal() {
+			document.getElementById("deleteModal").style.display = "none";
+		}
+		window.addEventListener("click", function(e) {
+			const modal = document.getElementById("deleteModal");
+			if (e.target === modal) modal.style.display = "none";
+		});
 	</script>
-
 </body>
 <%@ include file="../include/Footer.jsp"%>
 </html>

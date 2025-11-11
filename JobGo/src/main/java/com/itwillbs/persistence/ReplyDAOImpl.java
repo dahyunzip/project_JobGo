@@ -34,4 +34,34 @@ public class ReplyDAOImpl implements ReplyDAO {
 		return resultReplyList;
 	}
 
+	@Override
+	public int insertReply(ReplyVO vo) {
+		logger.debug(" insertReply() 실행! ");
+		
+		int resultInsertRe = sqlSession.insert(NAMESPACE + "insertReply", vo);
+		
+		logger.debug(" insertReply() 끝! ");
+		return resultInsertRe;
+	}
+
+	@Override
+	public int updateReply(ReplyVO vo) {
+		logger.debug(" updateReply() 실행! ");
+		
+		int resultUpdateRe = sqlSession.update(NAMESPACE + "updateReply", vo);
+		
+		logger.debug(" updateReply() 끝! ");
+		return resultUpdateRe;
+	}
+
+	@Override
+	public int deleteReply(int reply_no) {
+		logger.debug(" deleteReply() 실행! ");
+		
+		int resultDeleteRe = sqlSession.delete(NAMESPACE + "deleteReply", reply_no);
+		
+		logger.debug(" deleteReply() 끝! ");
+		return resultDeleteRe;
+	}
+
 }

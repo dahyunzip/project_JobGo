@@ -88,7 +88,7 @@
 			                    <div class="form-group">
 			                        <div class="button-group">
 			                            <div class="action-buttons">
-			                                <div class="upload-button button">
+			                                <div class="">
 								                <div class="checkbox">
 											        <label>
 											        	<input type="checkbox" required> 내용을 한번 더 확인 해 주세요.

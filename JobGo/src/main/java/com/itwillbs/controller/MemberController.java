@@ -1,5 +1,8 @@
 package com.itwillbs.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.MemberVO;
@@ -23,6 +27,7 @@ public class MemberController {
 	@Inject
 	private MemberService mService;
 
+	
 	// 회원가입
 	// http://localhost:8088/member/join
 	@RequestMapping(value="/join", method=RequestMethod.GET)
@@ -32,11 +37,34 @@ public class MemberController {
 	
 	@RequestMapping(value="/join", method = RequestMethod.POST)
 	public String memberJoinPOST(MemberVO vo, RedirectAttributes rttr) throws Exception {
+		logger.debug(" 회원가입 POST 요청 - vo : {}", vo);
+		
+		// 이메일 인증 완료 여부 확인
+		boolean verified = mService.isEmailVerified(vo.getEmail());
+		logger.debug("이메일 인증 완료 상태 여부 (email = {}, verified={})", vo.getEmail(), verified);
+		
+		if(!verified) {
+			rttr.addFlashAttribute("msg", "notVerified");
+			return "redirect:/member/join";
+		}
+		
 		mService.registerMember(vo);
 		rttr.addFlashAttribute("msg", "joinSuccess");
 		logger.debug(" 회원가입 완료, 정보 : " + vo);
 		return "redirect:/member/login";
 	}
+	
+	@RequestMapping(value="/member/idCheck", method=RequestMethod.GET)
+	@ResponseBody
+	public Map<String, Object> idCheck(@RequestParam("userid") String userid) throws Exception{
+		logger.debug("idCheck 호출 — userid 값: [{}], length: {}", userid, userid.length());
+		boolean available = mService.isUseridAvailable(userid);
+		Map<String, Object> result = new HashMap<>();
+		result.put("available", available);
+		result.put("message", available ? "사용 가능한 아이디입니다." : "이미 사용중인 아이디 입니다.");
+		return result;
+	}
+	
 	
 	// 로그인
 	// http://localhost:8088/member/login
@@ -60,6 +88,7 @@ public class MemberController {
 			session.setAttribute("userid", loginVO.getUserid());
 			session.setAttribute("memberName", loginVO.getName());
 			session.setAttribute("membertype", loginVO.getMembertype());
+			session.setAttribute("userType", "general");
 			logger.info(" 로그인 성공 ");
 			logger.debug(" loginVO = " + loginVO);
 			rttr.addFlashAttribute("msg", "loginSuccess");

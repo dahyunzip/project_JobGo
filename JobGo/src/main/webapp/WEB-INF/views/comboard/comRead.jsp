@@ -102,8 +102,8 @@
 			    <div class="add-resume-inner box">
 			        <div id="com_top" class="post-header align-items-center justify-content-center">
 		            	<form id="readForm" role="form">
-							<input type="hidden" name="com_bno" value="${resultReadVO.com_bno }">
-							<input type="hidden" name="page" value="${page }">
+							<input type="hidden" name="com_bno" value="${resultReadVO.com_bno}">
+							<input type="hidden" name="page" value="${page}">
 						</form>
 			            <h3 id="title">
 			            	<font dir="auto" style="vertical-align: inherit;">
@@ -207,9 +207,12 @@
 						<h5>댓글 (<span id="rcount">0</span>)</h5>
 						<div id="replyArea">
 							<c:if test="${!empty loginUserId}">
+							<form id="replyForm">
 		                        <input type="text" class="form-control"
+		                               id="reply_content"
 		                               name="reply_content" 
 		                               placeholder="다양한 의견을 작성해 보세요!">
+							</form>
 	                    	</c:if>
 	                    	<c:if test="${empty loginUserId}">
 	                    		<p><a id="loginLink" href="#">로그인</a> 후 댓글 작성이 가능합니다. </p>
@@ -221,17 +224,21 @@
 	                    	</c:if>
 	                    </div>
 	                    <hr>
-						<table class="table table-striped">
+						<table class="table table-striped" style="word-break: break-word;">
 							<colgroup>
 								<col width="10%">
 								<col width="*">
 								<col width="10%">
+								<col width="12%">
 							</colgroup>
 							<thead>
 								<tr>
 									<th>작성자</th>
 									<th>내용</th>
 									<th>작성일</th>
+									<c:if test="${!empty loginUserId}">									
+										<th>기능</th>
+									</c:if>
 								</tr>
 							</thead>
 							<tbody class="replyList">
@@ -260,10 +267,18 @@
 		</div>
 	</div>
 <script type="text/javascript">
+	let comBno = null;         
+	let loginUserId = null;
+	
 	$(document).ready(function(){
 	
 		const formObj = $("#readForm");
-		const comBno = "${resultReadVO.com_bno}";
+		
+		comBno = "${resultReadVO.com_bno}";
+		loginUserId = "${loginUserId}";
+		
+		console.log("comBno:", comBno);
+	    console.log("loginUserId:", loginUserId);
 	
 		// 첨부파일 선택 시 다운로드
 		$('#fileSelect').change(function() {
@@ -332,87 +347,212 @@
 			});
 		});
 		
+		// 댓글 검색 from 태그 감지
+		$("#replyForm").on("submit", function(e) {
+			  writeReplySection();
+			  e.preventDefault();
+		});
+		
 		// 댓글 추가
 		function writeReplySection() {
+			alert("REST 호출"+"${loginUserId}");
+			
 			$.ajax({
-				type: "GET",
-				url: "/reply/writeReply"+comBno,
-				success: function(){
-					alert("REST 컨트롤러 다녀옴!");
+				type:"POST",
+				url: "/reply/writeReply/"+comBno,
+				data: {
+					reply_writer:'${loginUserId}',
+					reply_content: $("#reply_content").val()
+				},
+				success: function(result,statusText,jquXHR){
+					if(jquXHR.status == "200") {
+						// alert("REST 컨트롤러 다녀옴!");
+						if(result == 0) {
+							alert("댓글 등록 실패")
+						} else {
+							alert("댓글 등록 성공")
+						}
+						getReplyList();
+						$("#reply_content").val("");
+					}
+				},
+				error: function(data){
+					// alert("테스트e");
+					console.log(data);
+				}
+			});
+			
+			// alert("REST 호출2"+comBno);
+			
+		}
+		
+		getTimeAgo();
+		getReplyList();
+		
+	});
+	
+	// 댓글 작성 시간 계산 로직
+	function getTimeAgo(createDate) {
+	    const now = new Date();                // 현재 시각
+	    const written = new Date(createDate);  // 댓글 작성 시각
+	    const diffMs = now - written;          // 시간 차 (밀리초)
+
+	    const diffMin = Math.floor(diffMs / 1000 / 60);
+	    const diffHour = Math.floor(diffMin / 60);
+	    const diffDay = Math.floor(diffHour / 24);
+
+	    if (diffMin < 1) return "방금 전";
+	    if (diffMin < 60) return diffMin + "분 전";
+	    if (diffHour < 24) return diffHour + "시간 전";
+	    if (diffDay < 7) return diffDay + "일 전";
+
+	    // 7일 이상이면 날짜 형식으로 표시
+	    return written.getFullYear().toString().slice(2) + "년 " + 
+	           (written.getMonth() + 1) + "월 " + 
+	           written.getDate() + "일";
+	}
+	
+	// 댓글 목록 비동기 조회
+	function getReplyList() {
+		
+		$.ajax({
+			type: "GET",
+			url: "/reply/repList/"+comBno,
+			success: function(result,statusText,jquXHR){
+				// alert("REST 컨트롤러 다녀옴!");
+				// console.log(repList);
+				var tag = "";
+				if(jquXHR.status == "200") {
+					
+	
+					console.log("댓글 데이터:", result); // ← 여기서 배열 확인
+	
+					$(result).each(function(idx, item) {
+					/* 	var date = new Date(item.create_date);
+						
+						var year = String(date.getFullYear()).slice(2); // ← '2025' → '25'
+						var month = date.getMonth() + 1;
+						var day = date.getDate();
+						var hours = String(date.getHours()).padStart(2, '0');
+						var minutes = String(date.getMinutes()).padStart(2, '0'); */
+						
+						/* 
+						var dateYMD = year + "년 " + 
+									  month + "월 " + 
+									  day + "일 " + 
+									  hours + "시 " +
+									  minutes + "분";
+						
+						console.log(date); */
+						
+						const dateText = getTimeAgo(item.create_date);
+	
+						tag += "<tr>";
+						tag += "<td>" + item.writerUserid + "</td>";
+						tag += "<td>" + item.reply_content + "</td>";
+						tag += "<td>" + dateText + "</td>";
+						if (loginUserId) {
+                            tag += "<td>";
+                            if (loginUserId == item.writerUserid) {
+                                tag += "<button class='btn btn-sm btn-primary mt-1' onclick='updateReply(" + item.reply_no + ", this)'>수정</button>";
+                                tag += "<button class='btn btn-sm btn-secondary mt-1' onclick='deleteReply(" + item.reply_no + ")'>삭제</button>";
+                            }
+                            tag += "</td>";
+                        }
+						tag += "</tr>";
+					});
+				}
+
+				$(".replyList").html(tag);
+				$("#rcount").text(result.length);
+		    }	 
+		});
+	}
+
+	// 댓글 수정창 열기
+	function updateReply(reply_no, btn) {
+	    const $td = $(btn).closest("tr").find("td").eq(1); // 두 번째 td (댓글 내용칸)
+	    const oldContent = $td.text().trim();
+
+	    // textarea + 저장/취소 버튼 생성
+	    let editTag = "";
+	    editTag += "<textarea id='savedata' class='form-control' rows='2'>" + oldContent + "</textarea>";
+	    editTag += "<button class='btn btn-sm btn-success mt-1' onclick='saveUpdateReply(" + reply_no + ", this)'>저장</button>";
+	    editTag += "<button class='btn btn-sm btn-secondary mt-1' onclick='cancelUpdateReply(this, \"" + oldContent + "\")'>취소</button>";
+
+	    $td.html(editTag);
+	}
+	
+	// 수정 취소 버튼(원래 내용 복원)
+	function cancelUpdateReply(btn, oldContent) {
+	    const $td = $(btn).closest("tr").find("td").eq(1);
+	    $td.html(oldContent);
+	}
+	
+	// 수정 저장 버튼(바뀐 내용 저장)
+	function saveUpdateReply(reply_no, btn) {
+		// alert("saveUpdateReply함수 접근!");
+		const $tb = $(btn).closest("tr").find("td").eq(1);
+		const newContent = $tb.find("#savedata").val().trim();
+		
+		if(newContent == "") {
+			alert("댓글 내용을 입력하세요.");
+			return;
+		}
+		
+		const replyData = {
+				reply_no: reply_no,
+				reply_content: newContent
+		}
+		
+		$.ajax({
+			type: "PUT",
+			url : "/reply/replyUpdate/"+reply_no,
+			data: JSON.stringify(replyData),
+			contentType: "application/json; charset=UTF-8",
+			success: function(result,statusText,jquXHR){
+				// alert("REST컨트롤러 다녀옴!");
+				if(jquXHR.status == "200"){
+					if(result > 0){
+						alert("댓글이 수정되었습니다.");
+						getReplyList();
+					} else {
+						alert("댓글 수정 실패");
+					}
+				}
+			},
+			error: function(data){
+				// alert("테스트e");
+				console.log(data);
+			}
+		});
+		
+	}
+	
+	// 댓글 삭제
+	function deleteReply(reply_no){
+		// alert(" deleteReply() 함수 진입 ")
+		if(confirm('정말로 댓글을 삭제하겠습니까?')) {
+			
+			$.ajax({
+				type : 'DELETE',
+				url : '/reply/replyDelete/'+reply_no,
+				data : {
+					reply_no:reply_no
+					},
+				success : function(result,statusText,jquXHR){
+					// alert(" REST 컨트롤러 진입 ")
+					if(jquXHR.status == "200"){	
+						if(result > 0){
+							alert("삭제성공")
+							getReplyList();
+						}else{
+							alert("삭제실패")
+						}
+					}
 				}
 			});
 		}
-		
-		// 댓글 작성 시간 계산 로직
-		function getTimeAgo(createDate) {
-		    const now = new Date();                // 현재 시각
-		    const written = new Date(createDate);  // 댓글 작성 시각
-		    const diffMs = now - written;          // 시간 차 (밀리초)
-
-		    const diffMin = Math.floor(diffMs / 1000 / 60);
-		    const diffHour = Math.floor(diffMin / 60);
-		    const diffDay = Math.floor(diffHour / 24);
-
-		    if (diffMin < 1) return "방금 전";
-		    if (diffMin < 60) return diffMin + "분 전";
-		    if (diffHour < 24) return diffHour + "시간 전";
-		    if (diffDay < 7) return diffDay + "일 전";
-
-		    // 7일 이상이면 날짜 형식으로 표시
-		    return written.getFullYear().toString().slice(2) + "년 " + 
-		           (written.getMonth() + 1) + "월 " + 
-		           written.getDate() + "일";
-		}
-		
-		// 댓글 목록 비동기 조회
-		function getReplyList() {
-			
-			$.ajax({
-				type: "GET",
-				url: "/reply/repList/"+comBno,
-				success: function(result,statusText,jquXHR){
-					// alert("REST 컨트롤러 다녀옴!");
-					// console.log(repList);
-					if(jquXHR.status == "200") {
-						
-						var tag = "";
-		
-						console.log("댓글 데이터:", result); // ← 여기서 배열 확인
-		
-						$(result).each(function(idx, item) {
-						/* 	var date = new Date(item.create_date);
-							
-							var year = String(date.getFullYear()).slice(2); // ← '2025' → '25'
-							var month = date.getMonth() + 1;
-							var day = date.getDate();
-							var hours = String(date.getHours()).padStart(2, '0');
-							var minutes = String(date.getMinutes()).padStart(2, '0'); */
-							
-							/* 
-							var dateYMD = year + "년 " + 
-										  month + "월 " + 
-										  day + "일 " + 
-										  hours + "시 " +
-										  minutes + "분";
-							
-							console.log(date); */
-							
-							const dateText = getTimeAgo(item.create_date);
-		
-							tag += "<tr>";
-							tag += "<td>" + item.writerUserid + "</td>";
-							tag += "<td>" + item.reply_content + "</td>";
-							tag += "<td>" + dateText + "</td>";
-							tag += "</tr>";
-						});
-					}
-	
-					$(".replyList").append(tag);
-					$("#rcount").text(result.length);
-			    }	 
-			});
-		}
-		getReplyList(); // 이 페이지에 접근했을 때 이 함수가 호출되도록 설정
-	});
+	}
 </script>
 <%@ include file="../include/Footer.jsp" %>

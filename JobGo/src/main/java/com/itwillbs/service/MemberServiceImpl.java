@@ -7,6 +7,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import com.itwillbs.component.FileComponent;
 import com.itwillbs.domain.MemberVO;
+import com.itwillbs.persistence.EmailVerificationDAO;
+import com.itwillbs.persistence.EmailVerificationDAOImpl;
 import com.itwillbs.persistence.MemberDAO;
 
 @Service
@@ -17,13 +19,36 @@ public class MemberServiceImpl implements MemberService{
 	@Inject
 	private MemberDAO mdao;
 	
+	@Inject
+	private EmailVerificationDAOImpl vdao;
+	
 	private static final Logger logger = LoggerFactory.getLogger(MemberServiceImpl.class);
 	
-	
-
 	@Override
 	public void registerMember(MemberVO vo) throws Exception {
 		mdao.insertMember(vo);
+	}
+	
+	@Override
+	public boolean isUseridAvailable(String userid) throws Exception {
+		int count = mdao.countByUserid(userid);
+		logger.debug(" userid = [{}], count = {}", userid, count);
+		return (count == 0);
+		
+	}
+	
+	@Override
+	public boolean isEmailVerified(String email) throws Exception {
+		int countVer = vdao.countVerifiedByEmail(email, 'Y');
+		logger.debug("isEmailVerified: email = [{}], count = {}", email, countVer);
+		return countVer > 0;
+	}
+
+	@Override
+	public boolean isEmailRegistered(String email) throws Exception {
+		int count = mdao.countByEmail(email);
+		logger.debug("isEmailRegistered: email = [{}], count = {}", email, count);
+		return (count > 0);
 	}
 
 	@Override

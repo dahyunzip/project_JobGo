@@ -12,15 +12,22 @@
 	<h2>리뷰 작성</h2>
 	<form action="${pageContext.request.contextPath}/review/insertReview" method="post">
 		
-		<!-- <input type="hidden" name="memberId" value="${sessionScope.userid}" />-->
-		
 		<div>
 			<label>기업 ID</label>
 			<input type="text" name="corpId"/>
 		</div>
 		<div>
-			<label>직무 코드</label>
-			<input type="text" name="jobCode"/>
+			<label>직무</label>
+	
+			<!-- 대분류 -->
+			<select id="topCategory" name="topId">
+				<option value="">대분류 선택</option>
+			</select>
+	
+			<!-- 소분류 -->
+			<select id="bottomCategory" name="jobCode" disabled="disabled">
+				<option value="">소분류 선택</option>
+			</select>
 		</div>
 		<div>
 			<label>근무 기간</label>
@@ -96,6 +103,41 @@
 	   	         	});
 	    	    });
 	    	});
+		    
+		 // 대분류 로드
+		    fetch("${pageContext.request.contextPath}/review/topCategory")
+		    	.then(r => r.json())
+		    	.then(data => {
+		    		const top = document.querySelector("#topCategory");
+		    		data.forEach(item => {
+		    			const opt = document.createElement("option");
+		    			opt.value = item.id || item.TOP_ID;
+		    			opt.textContent = item.name || item.TOP_NAME;
+		    			top.appendChild(opt);
+		    		});
+		    	});
+
+		    // 소분류 로드
+		    document.querySelector("#topCategory").addEventListener("change", function(){
+		    	const topId = this.value;
+		    	console.log("✅ 선택된 topId:", topId);
+		    	const bottom = document.querySelector("#bottomCategory");
+		    	bottom.innerHTML = "<option value=''>선택</option>";
+
+		    	if (!topId) return;
+
+		    	fetch("${pageContext.request.contextPath}/review/bottomCategory?topId=" + topId)
+		    		.then(r => r.json())
+		    		.then(data => {
+		    			bottom.disabled = false;
+		    			data.forEach(item => {
+		    				const opt = document.createElement("option");
+		    				opt.value = item.id || item.BOTTOM_ID;
+		    				opt.textContent = item.name || item.BOTTOM_NAME;
+		    				bottom.appendChild(opt);
+		    			});
+		    		});
+		    });
 		</script>
 	
 </body>

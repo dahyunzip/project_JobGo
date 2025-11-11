@@ -41,12 +41,12 @@
  	</select>
  	
  	<!-- 게시글 작성 (대분류 리스트) -->
- 	<select id="" resultType="RecTopCategoryVO">
+ 	<select id="selectTopCategoryList" resultType="RecTopCategoryVO">
  		select * from top_category 
  		order by topctg_id
  	</select>
  	
- 	<select id="" resultType="RecTopLocationVO">
+ 	<select id="selectTopLocationList" resultType="RecTopLocationVO">
  		select * from top_location 
  		order by toplct_id 
  	</select>

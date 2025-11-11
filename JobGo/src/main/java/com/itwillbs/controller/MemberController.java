@@ -92,8 +92,13 @@ public class MemberController {
 			session.setAttribute("memberName", loginVO.getName());
 			session.setAttribute("membertype", loginVO.getMembertype());
 			session.setAttribute("userType", "general");
+			
+			//추가: memberId 세션 저장
+		    session.setAttribute("memberId", loginVO.getId());
+		    
 			logger.info(" 로그인 성공 ");
 			logger.debug(" loginVO = " + loginVO);
+			logger.debug(" 로그인 회원 : {}", loginVO.getId() );
 			rttr.addFlashAttribute("msg", "loginSuccess");
 			logger.debug(" oldPath "+oldPath);
 			

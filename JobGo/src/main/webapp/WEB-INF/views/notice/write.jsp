@@ -23,10 +23,12 @@
 
 				<!-- 공지 유형 선택 (일반 / 기업) -->
 				<label>공지 유형 :</label><br>
-				<select id="noticeType" style="margin-bottom:15px; padding:6px; border:1px solid #ccc;">
+				<select id="noticeType" name="corpNotice"
+						style="margin-bottom:15px; padding:6px; border:1px solid #ccc;">
 					<option value="A">일반 공지</option>
-					<option value="C">기업 공지</option>
+					<option value="corp">기업 공지</option>
 				</select><br>
+				
 				내용 : <br>
 				<textarea name="noticeContent" rows="8" cols="50" style="width:100%; padding:8px; border:1px solid #ccc; margin-bottom:15px;" required></textarea>
 		

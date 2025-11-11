@@ -2,11 +2,12 @@ package com.itwillbs.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -30,13 +31,13 @@ public class NoticeController {
 	private static final String UPLOAD_PATH = "c:\\spring\\upload";
 	
 	//관리자 체크
-	private boolean isAdmin(HttpSession session) {
+	private boolean isAdmin(HttpSession session) throws Exception{
 		String type = (String) session.getAttribute("membertype");
 		return type != null && type.equals("A");
 	}
 	
 	@RequestMapping(value = "/write", method=RequestMethod.GET)
-	public String writeForm(HttpSession session) {
+	public String writeForm(HttpSession session) throws Exception{
 		if(!isAdmin(session)) {
 			return "redirect:/notice/list";
 		}
@@ -46,13 +47,17 @@ public class NoticeController {
 	@RequestMapping(value = "/write", method=RequestMethod.POST)
 	public String insertNotice(NoticeVO vo,
 		@RequestParam(value="file", required=false) MultipartFile file,
-		HttpSession session) {
-
+		@RequestParam(value="corpNotice", required=false, defaultValue="A") String corpNotice,
+		HttpSession session) throws Exception {
+		
+		System.out.println("==== corpNotice 파라미터 값 ===> " + corpNotice);
+		
 		if(!isAdmin(session)) {
 			return "redirect:/notice/list";
 		}
 
-		vo.setAdminId(Integer.parseInt(session.getAttribute("id").toString()));
+		String userid = (String) session.getAttribute("userid");
+		if (userid == null) return "redirect:/member/login";
 
 		if(file != null && !file.isEmpty()) {
 			String uploadPath = session.getServletContext().getRealPath("/resources/upload/");
@@ -61,15 +66,21 @@ public class NoticeController {
 
 			String origin = file.getOriginalFilename();
 			String fileName = System.currentTimeMillis() + "_" + origin;
-			try {
-				file.transferTo(new File(uploadPath, fileName));
-				vo.setStoredFileName(fileName);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+			file.transferTo(new File(uploadPath, fileName));
+			vo.setStoredFileName(fileName);
 		}
+		
+		if ("corp".equals(corpNotice) && !vo.getNoticeTitle().startsWith("[기업공지]")) {
+			vo.setNoticeTitle("[기업공지] " + vo.getNoticeTitle());
+		}
+		
+		Map<String, Object> noticeData = new HashMap<>();
+		noticeData.put("userid", userid);
+		noticeData.put("noticeTitle", vo.getNoticeTitle());
+		noticeData.put("noticeContent", vo.getNoticeContent());
+		noticeData.put("storedFileName", vo.getStoredFileName());
 
-		nService.insertNotice(vo);
+		nService.insert_notice_with_userid(noticeData);
 		return "redirect:/notice/list";
 	}
 	
@@ -99,21 +110,19 @@ public class NoticeController {
 	}
 	
 	@RequestMapping(value = "/detail", method=RequestMethod.GET)
-	public String getNotice(@RequestParam("noticeId") int noticeId, Model model, HttpSession session) {
+	public String getNotice(@RequestParam("noticeId") int noticeId, Model model, HttpSession session) throws Exception{
 		
 		NoticeVO notice = nService.getNotice(noticeId);
 		String memberType = (String) session.getAttribute("membertype");
+		String userType = (String) session.getAttribute("userType");
+		
 		boolean isCorpNotice = notice.getNoticeTitle() != null && notice.getNoticeTitle().contains("[기업공지]");
 
-		// 기업공지인데 일반회원/비회원이면 접근 차단
-		if (isCorpNotice && (memberType == null || !(memberType.equals("C") || memberType.equals("A")))) {
-			return "redirect:/error/403"; // 접근 제한 페이지로 이동
-		}
-		
-		// 관리자(A)는 모든 공지 접근 가능
-		if ("A".equals(memberType)) {
-			
-		}
+		// 일반회원(G) 또는 비회원이고 userType도 corp이 아니면 차단
+		if (isCorpNotice && (memberType == null && userType == null ||
+				!( "A".equals(memberType) || "corp".equals(userType) ))) {
+				return "redirect:/error/403";
+			}
 
 		nService.updateViewCnt(noticeId);
 		model.addAttribute("notice", notice);
@@ -121,33 +130,30 @@ public class NoticeController {
 	}
 	
 	@RequestMapping(value = "/list", method=RequestMethod.GET)
-	public String getNoticeList(HttpSession session, Model model) {
+	public String getNoticeList(HttpSession session, Model model) throws Exception{
 		String memberType = (String) session.getAttribute("membertype");
+		String userType = (String) session.getAttribute("userType");
 		
 		List<NoticeVO> allList = nService.getNoticeList();
 		List<NoticeVO> filteredList = new ArrayList<>();
 		
 		for (NoticeVO vo : allList) {
-			// 제목에 [기업공지] 포함 여부로
 			boolean isCorpNotice = vo.getNoticeTitle() != null && vo.getNoticeTitle().contains("[기업공지]");
-
+			
 			if (isCorpNotice) {
-				// 기업공지 -> 관리자(A) 기업회원(C)
-				if ("A".equals(memberType) || "C".equals(memberType)) {
+				if ("A".equals(memberType) || "corp".equals(userType)) {
 					filteredList.add(vo);
 				}
 			} else {
-				// 일반 공지 -> 아무나
 				filteredList.add(vo);
 			}
 		}
-
 		model.addAttribute("noticeList", filteredList);
 		return "/notice/list";
 	}
 	
 	@RequestMapping(value = "/edit", method=RequestMethod.GET)
-	public String updateNoticeForm(@RequestParam("noticeId") int noticeId, Model model, HttpSession session) {
+	public String updateNoticeForm(@RequestParam("noticeId") int noticeId, Model model, HttpSession session) throws Exception{
 		
 		if(!isAdmin(session)) {
 			return "redirect:/notice/list";
@@ -160,7 +166,7 @@ public class NoticeController {
 	@RequestMapping(value = "/edit", method=RequestMethod.POST)
 	public String updateNotice(NoticeVO vo,
 		@RequestParam(value="file", required=false) MultipartFile file,
-		HttpSession session) {
+		HttpSession session) throws Exception{
 
 		if(!isAdmin(session)) {
 			return "redirect:/notice/list";
@@ -186,7 +192,7 @@ public class NoticeController {
 	}
 	
 	@RequestMapping(value = "/delete", method=RequestMethod.POST)
-	public String deleteNotice(@RequestParam("noticeId") int noticeId, HttpSession session) {
+	public String deleteNotice(@RequestParam("noticeId") int noticeId, HttpSession session) throws Exception{
 		
 		if(!isAdmin(session)) {
 			return "redirect:/notice/list";

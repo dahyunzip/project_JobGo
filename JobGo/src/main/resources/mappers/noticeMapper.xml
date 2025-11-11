@@ -57,5 +57,21 @@
 		set notice_viewcnt = notice_viewcnt + 1
 		where notice_id = #{noticeId}
 	</update>
+	
+	<insert id="insert_notice_with_userid" parameterType="map">
+		insert into notice_board (
+			admin_id,
+			notice_title,
+			notice_content,
+			storedFileName
+		)
+		select 
+			m.id,
+			#{noticeTitle},
+			#{noticeContent},
+			#{storedFileName}
+		from member m
+		where m.userid = #{userid}
+	</insert>
 
 </mapper>

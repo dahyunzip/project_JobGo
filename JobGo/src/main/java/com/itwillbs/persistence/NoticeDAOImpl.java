@@ -1,6 +1,7 @@
 package com.itwillbs.persistence;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -21,40 +22,45 @@ public class NoticeDAOImpl implements NoticeDAO {
 	private static final Logger logger = LoggerFactory.getLogger(ReviewDAOImpl.class);
 	
 	@Override
-	public void insertNotice(NoticeVO vo) {
+	public void insertNotice(NoticeVO vo) throws Exception{
 		logger.debug(" insertNotice - DAO ");
 		
 		sqlSession.insert(NAMESPACE+".insertNotice",vo);
 		
 	}
+	
+	@Override
+	public void insert_notice_with_userid(Map<String, Object> noticeData) throws Exception {
+		sqlSession.insert(NAMESPACE + ".insert_notice_with_userid", noticeData);
+	}
 
 	@Override
-	public NoticeVO getNotice(int noticeId) {
+	public NoticeVO getNotice(int noticeId) throws Exception{
 		logger.debug(" getNotice - DAO ");
 		return sqlSession.selectOne(NAMESPACE+ ".getNotice", noticeId);
 	}
 
 	@Override
-	public List<NoticeVO> getNoticeList() {
+	public List<NoticeVO> getNoticeList() throws Exception{
 		logger.debug(" getNoticeList - DAO ");
 		return sqlSession.selectList(NAMESPACE+ ".getNoticeList");
 	}
 
 	@Override
-	public void updateNotice(NoticeVO vo) {
+	public void updateNotice(NoticeVO vo) throws Exception{
 		logger.debug(" updateNotice - DAO ");
 		sqlSession.update(NAMESPACE+".updateNotice", vo);
 		
 	}
 
 	@Override
-	public void deleteNotice(int noticeId) {
+	public void deleteNotice(int noticeId) throws Exception{
 		logger.debug(" deleteNotice - DAO ");
 		sqlSession.delete(NAMESPACE+".deleteNotice", noticeId);
 	}
 
 	@Override
-	public void updateViewCnt(int noticeId) {
+	public void updateViewCnt(int noticeId) throws Exception{
 		logger.debug(" updateViewCnt - DAO ");
 		sqlSession.update(NAMESPACE+".updateViewCnt", noticeId);
 		

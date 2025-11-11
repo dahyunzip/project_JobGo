@@ -1,6 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -32,8 +34,8 @@
 		<c:forEach var="notice" items="${noticeList}">
 			<c:set var="isCorpNotice" value="${fn:contains(notice.noticeTitle, '[기업공지]')}" />
 
-			<!-- 기업공지라면 A,C만 표시 / 일반공지면 모두 표시 -->
-			<c:if test="${!isCorpNotice or (sessionScope.membertype eq 'A' or sessionScope.membertype eq 'C')}">
+			<!-- 기업공지라면 A,corp만 표시 / 일반공지면 모두 표시 -->
+			<c:if test="${(not isCorpNotice) or	(isCorpNotice and (sessionScope.membertype eq 'A' or sessionScope.userType eq 'corp'))}">
 				<tr style="border-bottom:1px solid #ddd;">
 					<td style="padding:10px; text-align:center;">${notice.noticeId}</td>
 					<td style="padding:10px;">
@@ -41,11 +43,6 @@
 								style="background:none; border:none; color:blue; cursor:pointer; font-size:15px;">
 							${notice.noticeTitle}
 						</button>
-						
-						<!-- 기업공지 표시 -->
-						<c:if test="${isCorpNotice}">
-							<span style="color:#007bff; font-weight:600;">(기업공지)</span>
-						</c:if>
 					</td>
 					<td style="padding:10px; text-align:center;">
 						<fmt:formatDate value="${notice.noticeRegdate}" pattern="yyyy-MM-dd"/>

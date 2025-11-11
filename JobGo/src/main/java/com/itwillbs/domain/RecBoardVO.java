@@ -56,5 +56,7 @@ public class RecBoardVO {
 	private Timestamp rec_updatedate;      // 글 수정일
 
 	private String corpUserId;
-	private String companyName;
+	private String companyName;   // 소속 회사명
+    private String managerName;   // 담당자 이름
+    private String managerEmail;  // 담당자 이메일
 }

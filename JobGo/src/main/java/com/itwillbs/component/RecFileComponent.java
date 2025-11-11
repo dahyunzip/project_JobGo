@@ -58,15 +58,16 @@ public class RecFileComponent {
 					storedNames.add(stored);
 				}
 			}
-			return storedNames;
 		}
-		
-		return null;
+		return storedNames;
 	}
 	
 	// 파일 삭제 메서드
 	public boolean recDeleteFile(String storedFileName) {
 		File f = new File(recSaveDirectory, storedFileName);
-		return f.exists() && f.delete();
+		if (f.exists()) {
+            return f.delete();
+        }
+        return false;
 	}
 }

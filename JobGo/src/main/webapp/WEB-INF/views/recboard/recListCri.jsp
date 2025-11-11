@@ -48,9 +48,10 @@
                 <!-- Pagination -->
                 <div class="row">
                     <div class="col-12">
-	                    <c:if test="${!empty recLoginInfo }">
+	                    <c:if test="${!empty recLoginInfo}">
 							<div class="button mt-20 text-right">
-								<a href="/recboard/recWrite"><button type="button"
+								<a href="/recboard/recWrite">
+								<button type="button"
 										class="btn">글쓰기</button></a>
 							</div>
 						</c:if>

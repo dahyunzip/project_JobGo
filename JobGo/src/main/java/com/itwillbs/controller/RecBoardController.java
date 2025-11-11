@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.itwillbs.component.RecFileComponent;
+import com.itwillbs.domain.CorpMemberVO;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.RecBoardVO;
@@ -34,13 +35,20 @@ public class RecBoardController {
 	
 	// 게시글 작성 (대분류 리스트)
 	@GetMapping("/recWrite")
-	public String recWriteGET(Model model) {
+	public String recWriteGET(Model model,
+							  HttpSession session) throws Exception {
 		logger.debug(" recWriteGET() 실행! ");
 		
 		// DB에서 대분류, 지역 목록 불러와 JSP로 전달
 		model.addAttribute("topCategoryList", recBoardService.getRecTopCategoryList());
 		model.addAttribute("topLocationList", recBoardService.getRecTopLocationList());
 		
+		// 회원 정보 불러오기
+		String recLoginInfo = (String) session.getAttribute("corpUserId");
+		CorpMemberVO recMemInfo = corpMemberService.getCorpMember(recLoginInfo);
+		logger.debug(" 기업 회원 정보: "+recLoginInfo);
+		
+		model.addAttribute("recLoginInfo", recMemInfo);
 		logger.debug(" recWriteGET() 끝! ");
 		return "/recboard/recWrite";
 	}
@@ -59,6 +67,7 @@ public class RecBoardController {
 		String recLoginInfo = (String) session.getAttribute("corpUserId");
 		logger.debug(" 기업 회원 정보: "+recLoginInfo);
 		
+		model.addAttribute("recLoginInfo", recLoginInfo);
 		// Criteria 객체에서 search 필드 불러오기
 		cri.setSearch(search);
 		

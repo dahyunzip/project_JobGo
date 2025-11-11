@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.itwillbs.mapper.ResumeMapper">
+	<!-- ========================================================= -->
+	<!--  [1] 이력서 (resume)                                      -->
+	<!-- ========================================================= -->
+	<insert id="insertResume" parameterType="ResumeVO" useGeneratedKeys="true" keyProperty="resumeId">
+	     INSERT INTO resume (member_id, resume_title)
+	     VALUES (#{memberId}, #{resumeTitle})
+	</insert>
+	
+	<select id="selectResume" parameterType="int" resultType="ResumeVO">
+	     SELECT resume_id, member_id, resume_title, created_at, updated_at
+	     FROM resume
+	     WHERE resume_id = #{resumeId}
+	</select>
+
+	<select id="selectResumeList" parameterType="int" resultType="ResumeVO">
+	    SELECT resume_id, member_id, resume_title, created_at, updated_at
+	    FROM resume
+	    WHERE member_id = #{memberId}
+	    ORDER BY updated_at DESC
+	</select>
+	
+	<update id="updateResume" parameterType="ResumeVO">
+	    UPDATE resume
+	    SET resume_title = #{resumeTitle},
+	        updated_at = CURRENT_TIMESTAMP
+	    WHERE resume_id = #{resumeId}
+	</update>
+	
+	<delete id="deleteResume" parameterType="int">
+	    DELETE FROM resume WHERE resume_id = #{resumeId}
+	</delete>
+	
+	<!-- ========================================================= -->
+	<!--  [2] 학력사항 (resume_education)                           -->
+	<!-- ========================================================= -->
+	<insert id="insertEducation" parameterType="ResumeEducationVO">
+	    INSERT INTO resume_education 
+	    (resume_id, education_seq, from_date, to_date, school_name, major, is_graduated)
+	    VALUES (#{resumeId}, #{educationSeq}, #{fromDate}, #{toDate}, #{schoolName}, #{major}, #{isGraduated})
+	</insert>
+	
+	<select id="selectEducationList" parameterType="int" resultType="ResumeEducationVO">
+	    SELECT resume_id, education_seq, from_date, to_date, school_name, major, is_graduated
+	    FROM resume_education
+	    WHERE resume_id = #{resumeId}
+	    ORDER BY education_seq ASC
+	</select>
+	
+	<delete id="deleteEducationByResume" parameterType="int">
+	    DELETE FROM resume_education WHERE resume_id = #{resumeId}
+	</delete>
+	
+	<!-- ========================================================= -->
+	<!--  [3] 경력사항 (resume_career)                              -->
+	<!-- ========================================================= -->
+	<insert id="insertCareer" parameterType="ResumeCareerVO">
+	    INSERT INTO resume_career 
+	    (resume_id, career_seq, from_date, to_date, company_name, responsibility)
+	    VALUES (#{resumeId}, #{careerSeq}, #{fromDate}, #{toDate}, #{companyName}, #{responsibility})
+	</insert>
+	
+	<select id="selectCareerList" parameterType="int" resultType="ResumeCareerVO">
+	    SELECT resume_id, career_seq, from_date, to_date, company_name, responsibility
+	    FROM resume_career
+	    WHERE resume_id = #{resumeId}
+	    ORDER BY career_seq ASC
+	</select>
+	
+	<delete id="deleteCareerByResume" parameterType="int">
+	    DELETE FROM resume_career WHERE resume_id = #{resumeId}
+	</delete>
+	
+	<!-- ========================================================= -->
+	<!--  [4] 교육이력 (resume_training)                            -->
+	<!-- ========================================================= -->
+	<insert id="insertTraining" parameterType="ResumeTrainingVO">
+	    INSERT INTO resume_training
+	    (resume_id, training_seq, from_date, to_date, institution, content)
+	    VALUES (#{resumeId}, #{trainingSeq}, #{fromDate}, #{toDate}, #{institution}, #{content})
+	</insert>
+	
+	<select id="selectTrainingList" parameterType="int" resultType="ResumeTrainingVO">
+	    SELECT resume_id, training_seq, from_date, to_date, institution, content
+	    FROM resume_training
+	    WHERE resume_id = #{resumeId}
+	    ORDER BY training_seq ASC
+	</select>
+	
+	<delete id="deleteTrainingByResume" parameterType="int">
+	    DELETE FROM resume_training WHERE resume_id = #{resumeId}
+	</delete>
+	
+	<!-- ========================================================= -->
+	<!--  [5] 자격사항 (resume_certification)                       -->
+	<!-- ========================================================= -->
+	<insert id="insertCertification" parameterType="ResumeCertificationVO">
+	    INSERT INTO resume_certification
+	    (resume_id, cert_seq, acquired_date, certification_name)
+	    VALUES (#{resumeId}, #{certSeq}, #{acquiredDate}, #{certificationName})
+	</insert>
+	
+	<select id="selectCertificationList" parameterType="int" resultType="ResumeCertificationVO">
+	    SELECT resume_id, cert_seq, acquired_date, certification_name
+	    FROM resume_certification
+	    WHERE resume_id = #{resumeId}
+	    ORDER BY cert_seq ASC
+	</select>
+	
+	<delete id="deleteCertificationByResume" parameterType="int">
+	    DELETE FROM resume_certification WHERE resume_id = #{resumeId}
+	</delete>
+	
+	<!-- ========================================================= -->
+	<!--  [6] 자기소개서 (resume_self_intro)                        -->
+	<!-- ========================================================= -->
+	<insert id="insertSelfIntro" parameterType="ResumeSelfIntroVO">
+	    INSERT INTO resume_self_intro
+	    (resume_id, motivation, strengths, key_experience, future_plan)
+	    VALUES (#{resumeId}, #{motivation}, #{strengths}, #{keyExperience}, #{futurePlan})
+	</insert>
+	
+	<select id="selectSelfIntro" parameterType="int" resultType="ResumeSelfIntroVO">
+	    SELECT resume_id, motivation, strengths, key_experience, future_plan
+	    FROM resume_self_intro
+	    WHERE resume_id = #{resumeId}
+	</select>
+	
+	<delete id="deleteSelfIntro" parameterType="int">
+	    DELETE FROM resume_self_intro WHERE resume_id = #{resumeId}
+	</delete>
+</mapper>

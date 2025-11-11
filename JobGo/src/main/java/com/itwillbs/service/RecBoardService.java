@@ -25,4 +25,7 @@ public interface RecBoardService {
 	
 	// 작성한 게시글 업로드
 	public void recUploadBoard(RecBoardVO vo) throws Exception;
+	
+	// 게시글 보기
+	public RecBoardVO getRecBoard(int rec_bno) throws Exception;
 }

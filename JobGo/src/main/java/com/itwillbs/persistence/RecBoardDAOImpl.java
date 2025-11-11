@@ -96,6 +96,18 @@ public class RecBoardDAOImpl implements RecBoardDAO {
 		
 		logger.debug(" insertRecBoard() 끝! ");
 	}
+
+	// 게시글 보기
+	@Override
+	public RecBoardVO selectRecBoardRead(int rec_bno) throws Exception {
+		logger.debug(" selectRecBoardRead() 실행! ");
+		
+		RecBoardVO resultRBR 
+			= sqlSession.selectOne(NAMESPACE + "selectRecBoardRead", rec_bno);
+		
+		logger.debug(" selectRecBoardRead() 끝! ");
+		return resultRBR;
+	}
 	
 
 }

@@ -79,7 +79,7 @@
 							<hr>
 							<div class="box-wrap">
 								<c:forEach var="vo" items="${recBoardList }">
-									<div class="single-job">
+									<div class="single-job" onclick="location.href='/recboard/recRead?rec_bno=${vo.rec_bno}&page=${cri.page}'">
 									 	<div class="thumb-area">
 									        <img src="/upload/recfile/${vo.thumbFileName}">
 									        <div class="overlay-text">

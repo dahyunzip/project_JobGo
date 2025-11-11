@@ -92,6 +92,18 @@ public class RecBoardServiceImpl implements RecBoardService {
 		
 	}
 
+	// 게시글 보기
+	@Override
+	public RecBoardVO getRecBoard(int rec_bno) throws Exception {
+		logger.debug(" getRecBoard() 실행! ");
+		
+		RecBoardVO resultRB = rbDAO.selectRecBoardRead(rec_bno);
+		
+		logger.debug(" getRecBoard() 끝! ");
+		return resultRB;
+	}
+	
+
 	
 
 	

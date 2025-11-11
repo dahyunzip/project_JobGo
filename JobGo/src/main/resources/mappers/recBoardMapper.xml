@@ -71,4 +71,31 @@
  			#{rec_preference}, #{rec_inputlct}
  		)
  	</insert>
+ 	
+ 	<!-- 게시글 보기 -->
+ 	<select id="selectRecBoardRead" resultType="RecBoardVO">
+ 		select 
+ 			rb.rec_bno,
+ 			rb.topctg_id,
+ 			rb.btmctg_id,
+ 			rb.toplct_id,
+ 			rb.rec_viewcnt,
+ 			cm.corp_userid as corpUserId,
+ 			cm.company_name as companyName,
+ 			cm.manager_name as managerName,
+ 			cm.manager_email as managerEmail,
+ 			rb.rec_title,
+ 			rb.rec_maintask,
+ 			rb.rec_preference,
+ 			rb.rec_benefit,
+ 			rb.rec_inputlct,
+ 			rb.rec_qualification,
+ 			rb.thumbFileName,
+ 			rb.attachFileName,
+ 			rb.rec_deadline,
+ 			rb.rec_regdate
+ 		from rec_board rb 
+ 		join corpmember cm on cm.corp_id = rb.corp_id 
+ 		where rb.rec_bno = #{rec_bno}
+ 	</select>
  </mapper>

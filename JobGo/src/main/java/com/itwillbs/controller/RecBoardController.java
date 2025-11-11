@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -140,6 +141,32 @@ public class RecBoardController {
 		model.addAttribute("recBoardList", resultRecList);
 		
 		logger.debug(" /recboard/recListCri -> recListCri() 끝! ");
+	}
+	
+	// 게시글 보기
+	@GetMapping("/recRead")
+	public String recReadGET(HttpSession session,
+			                 Model model,
+			                 @RequestParam("rec_bno") int rec_bno,
+			                 @ModelAttribute("page") int page) throws Exception {
+		logger.debug(" recReadGET() 실행! ");
+		
+		// 회원 정보 불러오기
+		String recLoginInfo = (String) session.getAttribute("corpUserId");
+		model.addAttribute("recLoginInfo", recLoginInfo);
+		
+		// 디비에서 정보 불러오기
+		RecBoardVO resultReadVO = recBoardService.getRecBoard(rec_bno);
+		logger.debug(" resultRead: "+resultReadVO);
+		
+		model.addAttribute("resultReadVO", resultReadVO);
+		logger.debug(" 담당자 아이디: "+resultReadVO.getCorpUserId());
+		logger.debug(" 소속 회사명: "+resultReadVO.getCompanyName());
+		logger.debug(" 담당자 이름: "+resultReadVO.getManagerName());
+		logger.debug(" 담당자 이메일: "+resultReadVO.getManagerEmail());
+		
+		logger.debug(" recReadGET() 실행! ");
+		return "/recboard/recRead";
 	}
 
 	

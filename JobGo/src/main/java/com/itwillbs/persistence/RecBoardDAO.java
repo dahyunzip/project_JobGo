@@ -27,4 +27,7 @@ public interface RecBoardDAO {
 	
 	// 작성한 게시글 업로드
 	public void insertRecBoard(RecBoardVO vo) throws Exception;
+	
+	// 게시글 보기
+	public RecBoardVO selectRecBoardRead(int rec_bno)throws Exception; 
 }

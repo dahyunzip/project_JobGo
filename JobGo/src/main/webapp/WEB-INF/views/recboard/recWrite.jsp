@@ -11,10 +11,10 @@
 	
 </style>
 <section class="add-resume section" >
-<c:if test="">
+<c:if test="${empty recLoginInfo}">
 	<script type="text/javascript">
 		alert("로그인 후 이용 가능합니다.");
-		location.href = "/comboard/comListCri";
+		location.href = "/recboard/recListCri";
 	</script>
 </c:if>
 	<div class="container" >
@@ -24,7 +24,7 @@
 			        <div id="com_top" class="post-header align-items-center justify-content-center">
 			            <h3 id="title">
 			            	<font dir="auto" style="vertical-align: inherit;">
-			            		<font dir="auto" style="vertical-align: inherit;"></font>
+			            		<font dir="auto" style="vertical-align: inherit;">${recLoginInfo.corpUserId}</font>
 			            	</font>
 			            </h3>
 			        </div>
@@ -40,7 +40,7 @@
 			                    <div class="form-group">
 			                        <label class="control-label">
 			                        	<font dir="auto" style="vertical-align: inherit;">
-			                        		<font dir="auto" style="vertical-align: inherit;">글 제목</font>
+			                        		<font dir="auto" style="vertical-align: inherit;">채용 공고 명</font>
 			                        	</font>
 			                        </label>
 			                        <input type="text" class="form-control" 
@@ -53,11 +53,11 @@
 			                    <div class="form-group">
 			                        <label class="control-label">
 			                        	<font dir="auto" style="vertical-align: inherit;">
-			                        		<font dir="auto" style="vertical-align: inherit;">작성자</font>
+			                        		<font dir="auto" style="vertical-align: inherit;">채용 담당자</font>
 			                        	</font>
 			                        </label>
 			                        <input type="text" class="form-control"
-			                        	   value=""
+			                        	   value="${recLoginInfo.managerName }"
 			                               readonly>
 			                    </div>
 			                </div>
@@ -65,11 +65,11 @@
 			            <div class="form-group">
 			                <label class="control-label">
 			                	<font dir="auto" style="vertical-align: inherit;">
-			                		<font dir="auto" style="vertical-align: inherit;">E-mail</font>
+			                		<font dir="auto" style="vertical-align: inherit;">담당자 메일 주소</font>
 			                	</font>
 			                </label>
 			                <input type="text" class="form-control" 
-			                       value=""
+			                       value="${recLoginInfo.managerEmail }"
 			                       readonly>
 			            </div>
 			            <div class="form-group">

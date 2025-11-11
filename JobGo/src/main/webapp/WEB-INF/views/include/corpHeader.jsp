@@ -51,7 +51,7 @@
 						<div class="collapse navbar-collapse sub-menu-bar"
 							id="navbarSupportedContent">
 							<ul id="nav" class="navbar-nav">
-								<li class="nav-item"><a href="#">채용 공고 관리</a></li>
+								<li class="nav-item"><a href="${pageContext.request.contextPath}/recboard/recListCri">채용 공고 관리</a></li>
 								<li class="nav-item"><a href="#">지원자 현황</a></li>
 								<li class="nav-item"><a href="#">공지사항</a></li>
 								<li class="nav-item"><a href="#">기업리뷰</a></li>

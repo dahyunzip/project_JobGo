@@ -1,6 +1,5 @@
 package com.itwillbs.controller;
 
-import java.util.Enumeration;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -15,15 +14,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.multipart.MultipartRequest;
 
 import com.itwillbs.component.RecFileComponent;
 import com.itwillbs.domain.CorpMemberVO;
 import com.itwillbs.domain.Criteria;
-import com.itwillbs.domain.MemberVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.RecBoardVO;
 import com.itwillbs.domain.RecBottomCategoryVO;

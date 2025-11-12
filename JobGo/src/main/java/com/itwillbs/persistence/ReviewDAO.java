@@ -3,6 +3,7 @@ package com.itwillbs.persistence;
 import java.util.List;
 import java.util.Map;
 
+import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.ReviewVO;
 
 public interface ReviewDAO {
@@ -23,16 +24,19 @@ public interface ReviewDAO {
 	void deleteReview(int reviewId) throws Exception;
 	
 	// 리뷰 목록 조회
-	List<ReviewVO> reviewList() throws Exception;
+	List<ReviewVO> getListPaging(Criteria cri) throws Exception;
+	int getTotalCount(Criteria cri) throws Exception;
 	
 	// 리뷰 상세 조회
 	ReviewVO reviewDetail(int reviewId) throws Exception;
 	
 	// 회원별 리뷰 조회
-	List<ReviewVO> selectReviewsByMember(int memberId) throws Exception;
+	List<ReviewVO> getListByMemberPaging(Map<String, Object> param) throws Exception;
+	int getTotalByMember(int memberId) throws Exception;
 	
 	// 기업별 리뷰 조회
-	List<ReviewVO> selectReviewsByCorp(int corpId) throws Exception;
+	List<ReviewVO> getListByCorpPaging(Map<String, Object> param) throws Exception;
+	int getTotalByCorp(int corpId) throws Exception;
 	
 	// 리뷰 작성자 비밀번호 확인용
 	String getMemberPasswordByReviewId(int reviewId) throws Exception;

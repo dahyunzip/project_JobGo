@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MemberVO;
+import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.ReviewVO;
 import com.itwillbs.service.MemberService;
 import com.itwillbs.service.ReviewService;
@@ -221,11 +223,17 @@ public class ReviewController {
 
     // 리뷰 목록
     @RequestMapping(value="/reviewList", method = RequestMethod.GET)
-    public String reviewList(Model model) throws Exception{
-    	List<ReviewVO> list = reviewService.reviewList();
-    	model.addAttribute("reviewList", list);
-    	logger.debug("리뷰 리스트 확인: {}", list);
-    	return "review/reviewList";
+    public String reviewList(Criteria cri, Model model) throws Exception {
+		
+		List<ReviewVO> reviewList = reviewService.getListPaging(cri);
+		model.addAttribute("reviewList", reviewList);
+
+		int total = reviewService.getTotalCount(cri);
+		model.addAttribute("pageVO", new PageVO(cri, total));
+
+		logger.debug(" 리뷰 전체 목록 조회 완료");
+
+    	return "/review/list";
     }
 
     // 리뷰 상세
@@ -259,19 +267,29 @@ public class ReviewController {
 
     // 회원별 리뷰
     @RequestMapping(value="/memberReviewList", method = RequestMethod.GET)
-    public String selectReviewsByMember(@RequestParam("memberId") int memberId, Model model) throws Exception{
-        List<ReviewVO> list = reviewService.selectReviewsByMember(memberId);
-        model.addAttribute("memberReviewList", list);
-        model.addAttribute("member_id", memberId);
-        return "review/reviewsByMember";
+    public String selectReviewsByMember(@RequestParam("memberId") int memberId, Criteria cri, Model model) throws Exception{
+    	List<ReviewVO> reviewList = reviewService.getListByMemberPaging(memberId, cri);
+		model.addAttribute("reviewList", reviewList);
+
+		int total = reviewService.getTotalByMember(memberId);
+		model.addAttribute("pageVO", new PageVO(cri, total));
+		model.addAttribute("memberId", memberId);
+
+		logger.debug(" 회원별 리뷰 목록 조회 완료 - 총 {}개", total);        return "review/reviewsByMember";
     }
 
     // 기업별 리뷰
     @RequestMapping(value="/corpReviewList", method = RequestMethod.GET)
-    public String selectReviewsByCorp(@RequestParam("corpId") int corpId, Model model) throws Exception{
-        List<ReviewVO> list = reviewService.selectReviewsByCorp(corpId);
-        model.addAttribute("corpReviewList", list);
-        model.addAttribute("corp_id", corpId);
+    public String reviewListByCorp(@RequestParam("corpId") int corpId, Criteria cri, Model model) throws Exception {
+		
+		List<ReviewVO> reviewList = reviewService.getListByCorpPaging(corpId, cri);
+		model.addAttribute("reviewList", reviewList);
+
+		int total = reviewService.getTotalByCorp(corpId);
+		model.addAttribute("pageVO", new PageVO(cri, total));
+		model.addAttribute("corpId", corpId);
+
+		logger.debug(" 기업별 리뷰 목록 조회 완료 - 총 {}개", total);
         return "review/reviewsByCorp";
     }
 }

@@ -21,54 +21,84 @@ public class ResumeServiceImpl implements ResumeService {
 	@Inject
     private ResumeDAO resumeDAO;
 	
-	// ===== [이력서 작성 + 하위항목 등록 트랜잭션 처리] =====
+	// ===== [1] 최종등록 (status='FINAL') =====
     @Transactional
-	@Override
-	public void createResume(ResumeVO resume)  throws Exception{
-    	// 1. 이력서 본문 등록
-        resumeDAO.insertResume(resume);
-        int resumeId = resume.getResumeId(); // auto_increment된 PK
-        
-        // 2. 학력사항 등록
+    @Override
+    public void createFinalResume(ResumeVO resume) throws Exception {
+        // 1. 이력서 본문 등록 (status='FINAL')
+        resumeDAO.insertResumeFinal(resume);
+        int resumeId = resume.getResumeId();
+
+        // 2. 하위 항목 등록
+        insertSubTables(resume, resumeId);
+    }
+
+    // ===== [2] 임시저장 (status='TEMP') =====
+    @Transactional
+    @Override
+    public void createTempResume(ResumeVO resume) throws Exception {
+    	resume.setStatus("TEMP");
+        // 1. 이력서 본문 등록 (status='TEMP')
+        resumeDAO.insertResumeTemp(resume);
+        // 2. 하위 항목 등록 (원하면 여기선 생략 가능)
+        insertSubTables(resume, resume.getResumeId());
+    }
+
+    // ===== [3] 임시저장에서 최종등록으로 변경 =====
+    @Override
+    public void updateToFinal(int resumeId) throws Exception {
+        resumeDAO.updateResumeToFinal(resumeId);
+    }
+    
+    // ===== [4] 최종저장에서 임시저장으로 변경 =====
+    @Override
+    public void updateToTemp(ResumeVO resume) throws Exception {
+        resume.setStatus("TEMP");
+        resumeDAO.updateResumeStatus(resume);  // status만 TEMP로 변경
+        resumeDAO.updateResume(resume);        // 제목 등 수정 반영
+
+        // 하위 테이블 업데이트
+        resumeDAO.deleteEducationByResume(resume.getResumeId());
+        resumeDAO.deleteCareerByResume(resume.getResumeId());
+        resumeDAO.deleteTrainingByResume(resume.getResumeId());
+        resumeDAO.deleteCertificationByResume(resume.getResumeId());
+        resumeDAO.deleteSelfIntro(resume.getResumeId());
+
+        insertSubTables(resume, resume.getResumeId());
+    }
+
+    // ===== [공통: 하위항목 등록 메서드] =====
+    private void insertSubTables(ResumeVO resume, int resumeId) throws Exception {
         if (resume.getEducationList() != null) {
             for (ResumeEducationVO edu : resume.getEducationList()) {
                 edu.setResumeId(resumeId);
                 resumeDAO.insertEducation(edu);
             }
         }
-        
-        // 3. 경력사항 등록
         if (resume.getCareerList() != null) {
             for (ResumeCareerVO career : resume.getCareerList()) {
                 career.setResumeId(resumeId);
                 resumeDAO.insertCareer(career);
             }
         }
-        
-        // 4. 교육이력 등록
         if (resume.getTrainingList() != null) {
             for (ResumeTrainingVO tr : resume.getTrainingList()) {
                 tr.setResumeId(resumeId);
                 resumeDAO.insertTraining(tr);
             }
         }
-        
-        // 5. 자격사항 등록
         if (resume.getCertificationList() != null) {
             for (ResumeCertificationVO cert : resume.getCertificationList()) {
                 cert.setResumeId(resumeId);
                 resumeDAO.insertCertification(cert);
             }
         }
-        
-        // 6. 자기소개서 등록
         if (resume.getSelfIntro() != null) {
             ResumeSelfIntroVO intro = resume.getSelfIntro();
             intro.setResumeId(resumeId);
             resumeDAO.insertSelfIntro(intro);
         }
-
-	}
+    }
 
 	@Override
 	public ResumeVO getResume(int resumeId)  throws Exception{
@@ -89,47 +119,43 @@ public class ResumeServiceImpl implements ResumeService {
         return resumeDAO.getResumeList(memberId);
     }
 
-	@Override
 	@Transactional
-	public void updateResume(ResumeVO resume) throws Exception{
-		// 기본 정보 수정
-		resumeDAO.updateResume(resume);
+	@Override
+	public void updateResumeTemp(ResumeVO resume) throws Exception {
+		// 1. 기본 정보 수정 + status='TEMP'
+	    resume.setStatus("TEMP");
+	    resumeDAO.updateResumeStatus(resume);
+	    
+	    // 2. 기본 정보(제목 등) 업데이트
+	    resumeDAO.updateResume(resume);
+	    
+	    // 3. 하위항목 재저장 (기존 delete + insert 구조 유지)
+	    resumeDAO.deleteEducationByResume(resume.getResumeId());
+	    resumeDAO.deleteCareerByResume(resume.getResumeId());
+	    resumeDAO.deleteTrainingByResume(resume.getResumeId());
+	    resumeDAO.deleteCertificationByResume(resume.getResumeId());
+	    resumeDAO.deleteSelfIntro(resume.getResumeId());
 
-		// 하위 테이블 삭제 후 다시 삽입
-		resumeDAO.deleteEducationByResume(resume.getResumeId());
-		resumeDAO.deleteCareerByResume(resume.getResumeId());
-		resumeDAO.deleteTrainingByResume(resume.getResumeId());
-		resumeDAO.deleteCertificationByResume(resume.getResumeId());
-		resumeDAO.deleteSelfIntro(resume.getResumeId());
-
-		if (resume.getEducationList() != null) {
-			for (var edu : resume.getEducationList()) {
-				edu.setResumeId(resume.getResumeId());
-				resumeDAO.insertEducation(edu);
-			}
-		}
-		if (resume.getCareerList() != null) {
-			for (var c : resume.getCareerList()) {
-				c.setResumeId(resume.getResumeId());
-				resumeDAO.insertCareer(c);
-			}
-		}
-		if (resume.getTrainingList() != null) {
-			for (var t : resume.getTrainingList()) {
-				t.setResumeId(resume.getResumeId());
-				resumeDAO.insertTraining(t);
-			}
-		}
-		if (resume.getCertificationList() != null) {
-			for (var cert : resume.getCertificationList()) {
-				cert.setResumeId(resume.getResumeId());
-				resumeDAO.insertCertification(cert);
-			}
-		}
-		if (resume.getSelfIntro() != null) {
-			resume.getSelfIntro().setResumeId(resume.getResumeId());
-			resumeDAO.insertSelfIntro(resume.getSelfIntro());
-		}
+	    insertSubTables(resume, resume.getResumeId());
+		
+	}
+	
+	@Transactional
+	@Override
+	public void updateResumeFinal(ResumeVO resume) throws Exception {
+		// 기본 정보 수정 + status='TEMP'
+	    resume.setStatus("TEMP");
+	    resumeDAO.updateResume(resume);
+	    
+	    // 하위 테이블은 그대로 둬도 되지만,
+	    // 기존 구조 유지 시 삭제 후 재삽입 처리
+	    resumeDAO.deleteEducationByResume(resume.getResumeId());
+	    resumeDAO.deleteCareerByResume(resume.getResumeId());
+	    resumeDAO.deleteTrainingByResume(resume.getResumeId());
+	    resumeDAO.deleteCertificationByResume(resume.getResumeId());
+	    resumeDAO.deleteSelfIntro(resume.getResumeId());
+	    
+	    insertSubTables(resume, resume.getResumeId());
 	}
 
 	@Transactional

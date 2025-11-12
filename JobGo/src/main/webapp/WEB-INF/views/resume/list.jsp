@@ -16,6 +16,8 @@
 			alert("허용되지 않은 접근입니다.");
 		}else if(status == 'resumeNotFound'){
 			alert("확인할 이력서가 없습니다.");
+		}else if(status == 'tempSaved'){
+			alert("이력서 임시 저장 완료");
 		}
 	});
 </script>
@@ -32,7 +34,6 @@
                 <i class="lni lni-add-files"></i> 새 이력서 작성
             </a>
         </div>
-
         <!-- 이력서 목록 테이블 -->
         <div class="table-responsive">
             <table class="table table-hover align-middle text-center">
@@ -42,6 +43,7 @@
                         <th>이력서 제목</th>
                         <th>작성일</th>
                         <th>수정일</th>
+                        <th>상태</th>
                         <th>관리</th>
                     </tr>
                 </thead>
@@ -61,6 +63,14 @@
                                     </td>
                                     <td>
                                         <fmt:formatDate value="${resume.updatedAt}" pattern="yyyy-MM-dd HH:mm" />
+                                    </td>
+                                    <td>
+                                       <c:if test="${resume.status eq 'TEMP'}">
+									        <span class="badge bg-warning text-dark">임시저장</span>
+									    </c:if>
+                                       <c:if test="${resume.status eq 'FINAL'}">
+									        <span class="badge bg-primary text-white">작성완료</span>
+									    </c:if>
                                     </td>
                                     <td>
                                         <div class="btn-group">
@@ -85,7 +95,7 @@
                         </c:when>
                         <c:otherwise>
                             <tr>
-                                <td colspan="5" class="text-muted py-4">
+                                <td colspan="6" class="text-muted py-4">
                                     아직 등록된 이력서가 없습니다. <br>
                                     <a href="/resume/write" class="btn btn-outline-primary mt-3">이력서 작성하기</a>
                                 </td>

@@ -23,111 +23,111 @@ public class ResumeDAOImpl implements ResumeDAO {
 
     // ===== [1] 이력서 =====
     @Override
-    public void insertResume(ResumeVO resume) {
+    public void insertResume(ResumeVO resume) throws Exception {
         sqlSession.insert(namespace + "insertResume", resume);
     }
 
     @Override
-    public ResumeVO getResume(int resumeId) {
+    public ResumeVO getResume(int resumeId) throws Exception {
         return sqlSession.selectOne(namespace + "selectResume", resumeId);
     }
 
     @Override
-    public List<ResumeVO> getResumeList(int memberId) {
+    public List<ResumeVO> getResumeList(int memberId) throws Exception{
         return sqlSession.selectList(namespace + "selectResumeList", memberId);
     }
 
     @Override
-    public void updateResume(ResumeVO resume) {
+    public void updateResume(ResumeVO resume) throws Exception{
         sqlSession.update(namespace + "updateResume", resume);
     }
 
     @Override
-    public void deleteResume(int resumeId) {
+    public void deleteResume(int resumeId) throws Exception {
         sqlSession.delete(namespace + "deleteResume", resumeId);
     }
 
     // ===== [2] 학력사항 =====
     @Override
-    public void insertEducation(ResumeEducationVO edu) {
+    public void insertEducation(ResumeEducationVO edu) throws Exception {
         sqlSession.insert(namespace + "insertEducation", edu);
     }
 
     @Override
-    public List<ResumeEducationVO> getEducationList(int resumeId) {
+    public List<ResumeEducationVO> getEducationList(int resumeId) throws Exception {
         return sqlSession.selectList(namespace + "selectEducationList", resumeId);
     }
 
     @Override
-    public void deleteEducationByResume(int resumeId) {
+    public void deleteEducationByResume(int resumeId) throws Exception {
         sqlSession.delete(namespace + "deleteEducationByResume", resumeId);
     }
 
     // ===== [3] 경력사항 =====
     
     @Override
-    public void insertCareer(ResumeCareerVO career) {
+    public void insertCareer(ResumeCareerVO career) throws Exception {
         sqlSession.insert(namespace + "insertCareer", career);
     }
 
     @Override
-    public List<ResumeCareerVO> getCareerList(int resumeId) {
+    public List<ResumeCareerVO> getCareerList(int resumeId) throws Exception {
         return sqlSession.selectList(namespace + "selectCareerList", resumeId);
     }
 
     @Override
-    public void deleteCareerByResume(int resumeId) {
+    public void deleteCareerByResume(int resumeId) throws Exception {
         sqlSession.delete(namespace + "deleteCareerByResume", resumeId);
     }
 
     // ===== [4] 교육이력 =====
     
     @Override
-    public void insertTraining(ResumeTrainingVO training) {
+    public void insertTraining(ResumeTrainingVO training) throws Exception {
         sqlSession.insert(namespace + "insertTraining", training);
     }
 
     @Override
-    public List<ResumeTrainingVO> getTrainingList(int resumeId) {
+    public List<ResumeTrainingVO> getTrainingList(int resumeId) throws Exception {
         return sqlSession.selectList(namespace + "selectTrainingList", resumeId);
     }
 
     @Override
-    public void deleteTrainingByResume(int resumeId) {
+    public void deleteTrainingByResume(int resumeId) throws Exception {
         sqlSession.delete(namespace + "deleteTrainingByResume", resumeId);
     }
     
     // ===== [5] 자격사항 =====
 
 	@Override
-    public void insertCertification(ResumeCertificationVO cert) {
+    public void insertCertification(ResumeCertificationVO cert) throws Exception {
         sqlSession.insert(namespace + "insertCertification", cert);
     }
 
     @Override
-    public List<ResumeCertificationVO> getCertificationList(int resumeId) {
+    public List<ResumeCertificationVO> getCertificationList(int resumeId) throws Exception {
         return sqlSession.selectList(namespace + "selectCertificationList", resumeId);
     }
 
     @Override
-    public void deleteCertificationByResume(int resumeId) {
+    public void deleteCertificationByResume(int resumeId) throws Exception {
         sqlSession.delete(namespace + "deleteCertificationByResume", resumeId);
     }
 
     // ===== [6] 자기소개서 =====
     
     @Override
-    public void insertSelfIntro(ResumeSelfIntroVO intro) {
+    public void insertSelfIntro(ResumeSelfIntroVO intro) throws Exception {
         sqlSession.insert(namespace + "insertSelfIntro", intro);
     }
 
     @Override
-    public ResumeSelfIntroVO getSelfIntro(int resumeId) {
+    public ResumeSelfIntroVO getSelfIntro(int resumeId) throws Exception {
         return sqlSession.selectOne(namespace + "selectSelfIntro", resumeId);
     }
 
     @Override
-    public void deleteSelfIntro(int resumeId) {
+    public void deleteSelfIntro(int resumeId) throws Exception {
         sqlSession.delete(namespace + "deleteSelfIntro", resumeId);
     }
 

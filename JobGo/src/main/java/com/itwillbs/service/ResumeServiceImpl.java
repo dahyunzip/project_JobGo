@@ -24,7 +24,7 @@ public class ResumeServiceImpl implements ResumeService {
 	// ===== [이력서 작성 + 하위항목 등록 트랜잭션 처리] =====
     @Transactional
 	@Override
-	public void createResume(ResumeVO resume) {
+	public void createResume(ResumeVO resume)  throws Exception{
     	// 1. 이력서 본문 등록
         resumeDAO.insertResume(resume);
         int resumeId = resume.getResumeId(); // auto_increment된 PK
@@ -71,7 +71,7 @@ public class ResumeServiceImpl implements ResumeService {
 	}
 
 	@Override
-	public ResumeVO getResume(int resumeId) {
+	public ResumeVO getResume(int resumeId)  throws Exception{
 		ResumeVO resume = resumeDAO.getResume(resumeId);
 		
 		// 하위 항목 모두 조회해서 묶어주기
@@ -85,13 +85,13 @@ public class ResumeServiceImpl implements ResumeService {
 	}
 
 	@Override
-	public List<ResumeVO> getResumeList(int memberId) {
+	public List<ResumeVO> getResumeList(int memberId) throws Exception {
         return resumeDAO.getResumeList(memberId);
     }
 
 	@Override
 	@Transactional
-	public void updateResume(ResumeVO resume) {
+	public void updateResume(ResumeVO resume) throws Exception{
 		// 기본 정보 수정
 		resumeDAO.updateResume(resume);
 
@@ -134,7 +134,7 @@ public class ResumeServiceImpl implements ResumeService {
 
 	@Transactional
 	@Override
-    public void deleteResume(int resumeId) {
+    public void deleteResume(int resumeId) throws Exception{
         // 하위 데이터 먼저 정리
         resumeDAO.deleteEducationByResume(resumeId);
         resumeDAO.deleteCareerByResume(resumeId);

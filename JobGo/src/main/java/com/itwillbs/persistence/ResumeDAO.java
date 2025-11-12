@@ -11,34 +11,34 @@ import com.itwillbs.domain.ResumeVO;
 
 public interface ResumeDAO {
 	// ===== [1] 이력서 =====
-    void insertResume(ResumeVO resume);
-    ResumeVO getResume(int resumeId);
-    List<ResumeVO> getResumeList(int memberId);
-    void updateResume(ResumeVO resume);
-    void deleteResume(int resumeId);
+    void insertResume(ResumeVO resume) throws Exception;
+    ResumeVO getResume(int resumeId) throws Exception;
+    List<ResumeVO> getResumeList(int memberId) throws Exception;
+    void updateResume(ResumeVO resume) throws Exception;
+    void deleteResume(int resumeId) throws Exception;
 
     // ===== [2] 학력사항 =====
-    void insertEducation(ResumeEducationVO edu);
-    List<ResumeEducationVO> getEducationList(int resumeId);
-    void deleteEducationByResume(int resumeId);
+    void insertEducation(ResumeEducationVO edu) throws Exception;
+    List<ResumeEducationVO> getEducationList(int resumeId) throws Exception;
+    void deleteEducationByResume(int resumeId) throws Exception;
 
     // ===== [3] 경력사항 =====
-    void insertCareer(ResumeCareerVO career);
-    List<ResumeCareerVO> getCareerList(int resumeId);
-    void deleteCareerByResume(int resumeId);
+    void insertCareer(ResumeCareerVO career) throws Exception;
+    List<ResumeCareerVO> getCareerList(int resumeId) throws Exception;
+    void deleteCareerByResume(int resumeId) throws Exception;
 
     // ===== [4] 교육이력 =====
-    void insertTraining(ResumeTrainingVO training);
-    List<ResumeTrainingVO> getTrainingList(int resumeId);
-    void deleteTrainingByResume(int resumeId);
+    void insertTraining(ResumeTrainingVO training) throws Exception;
+    List<ResumeTrainingVO> getTrainingList(int resumeId) throws Exception;
+    void deleteTrainingByResume(int resumeId) throws Exception;
 
     // ===== [5] 자격사항 =====
-    void insertCertification(ResumeCertificationVO cert);
-    List<ResumeCertificationVO> getCertificationList(int resumeId);
-    void deleteCertificationByResume(int resumeId);
+    void insertCertification(ResumeCertificationVO cert) throws Exception;
+    List<ResumeCertificationVO> getCertificationList(int resumeId) throws Exception;
+    void deleteCertificationByResume(int resumeId) throws Exception;
 
     // ===== [6] 자기소개서 =====
-    void insertSelfIntro(ResumeSelfIntroVO intro);
-    ResumeSelfIntroVO getSelfIntro(int resumeId);
-    void deleteSelfIntro(int resumeId);
+    void insertSelfIntro(ResumeSelfIntroVO intro) throws Exception;
+    ResumeSelfIntroVO getSelfIntro(int resumeId) throws Exception;
+    void deleteSelfIntro(int resumeId) throws Exception;
 }

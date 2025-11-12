@@ -3,6 +3,7 @@ package com.itwillbs.service;
 import java.util.List;
 
 import com.itwillbs.domain.MemberVO;
+import com.itwillbs.domain.ReviewVO;
 
 public interface AdminService {
 	
@@ -14,4 +15,10 @@ public interface AdminService {
 	
 	// 회원 삭제
 	int deleteMember(int id) throws Exception;
+	
+	// 리뷰게시판 리뷰 조회
+	List<ReviewVO> getAllReviews() throws Exception;
+		
+	// 리뷰게시판 리뷰 삭제
+	int deleteReview(int reviewId) throws Exception;
 }

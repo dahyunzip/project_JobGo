@@ -14,10 +14,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MemberVO;
-import com.itwillbs.domain.PageVO;
-import com.itwillbs.domain.RecBoardVO;
+import com.itwillbs.domain.ReviewVO;
 import com.itwillbs.service.AdminService;
 import com.itwillbs.service.MemberService;
 
@@ -126,10 +124,50 @@ public class AdminController {
 		return "/admin/userManageMember";
 	}
 	
-	// 전체 리뷰 관리
+	// 회원 삭제 (관리자 전용)
+	@RequestMapping(value="/deleteMember", method=RequestMethod.GET)
+	public String deleteMember(@RequestParam("id") int id,
+	                           HttpSession session,
+	                           RedirectAttributes rttr) throws Exception {
+		
+		String adminUserid = (String) session.getAttribute("adminSession");
+		if (adminUserid == null) {
+			rttr.addFlashAttribute("msg", "noAdminSession");
+			return "redirect:/admin/login";
+		}
+
+		int result = adminService.deleteMember(id);
+		if (result > 0) {
+			rttr.addFlashAttribute("msg", "deleteSuccess");
+		} else {
+			rttr.addFlashAttribute("msg", "deleteFail");
+		}
+
+		return "redirect:/admin/userManageMember";
+	}
+	
+	// 리뷰 관리
 	@RequestMapping(value="/reviewManage", method=RequestMethod.GET)
-	public String reviewManage() {
+	public String reviewManage(HttpSession session, Model model) throws Exception {
+		String adminUserid = (String) session.getAttribute("adminSession");
+		if (adminUserid == null) return "redirect:/admin/login";
+
+		List<ReviewVO> reviewList = adminService.getAllReviews();
+		model.addAttribute("reviewList", reviewList);
+
 		return "/admin/reviewManage";
+	}
+	
+	// 리뷰 삭제 (관리자 전용)
+	@RequestMapping(value="/deleteReview", method=RequestMethod.POST)
+	public String deleteReview(@RequestParam("reviewId") int reviewId, HttpSession session, RedirectAttributes rttr) throws Exception {
+		String adminUserid = (String) session.getAttribute("adminSession");
+		if (adminUserid == null) return "redirect:/admin/login";
+
+		adminService.deleteReview(reviewId);
+		rttr.addFlashAttribute("msg", "deleteSuccess");
+
+		return "redirect:/admin/reviewManage";
 	}
 	
 	

@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.springframework.stereotype.Service;
 
 import com.itwillbs.domain.MemberVO;
+import com.itwillbs.domain.ReviewVO;
 import com.itwillbs.persistence.AdminDAO;
 
 @Service
@@ -29,5 +30,17 @@ public class AdminServiceImpl implements AdminService{
 	public int deleteMember(int id) throws Exception {
 		return adminDAO.deleteMember(id);
 	}
+
+	@Override
+	public List<ReviewVO> getAllReviews() throws Exception {
+		return adminDAO.getAllReviews();
+	}
+
+	@Override
+	public int deleteReview(int reviewId) throws Exception {
+		return adminDAO.deleteReview(reviewId);
+	}
+	
+	
 	
 }

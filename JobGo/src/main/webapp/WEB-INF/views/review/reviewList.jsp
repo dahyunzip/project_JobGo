@@ -40,14 +40,39 @@
     	            </td>
     	            <td>${review.memberId}</td>
     	            <td>
-    	                <c:forEach begin="1" end="${review.revRate}" var="i">★</c:forEach>
-    	                <c:forEach begin="1" end="${5 - review.revRate}" var="i">☆</c:forEach>
+    	                <c:forEach begin="1" end="5" var="i">
+							<c:choose>
+								<c:when test="${i <= review.revRate}">★</c:when>
+								<c:otherwise>☆</c:otherwise>
+							</c:choose>
+						</c:forEach>
     	            </td>
     	            <td>${review.revRegdate}</td>
             	</tr>
         	</c:forEach>
     	</tbody>
 	</table>
+		
+	<div class="pagination" style="text-align:center; margin-top:20px;">
+		<c:if test="${pageVO.prev}">
+			<a href="?page=${pageVO.startPage - 1}">이전</a>
+		</c:if>
+	
+		<c:forEach var="num" begin="${pageVO.startPage}" end="${pageVO.endPage}">
+			<c:choose>
+				<c:when test="${pageVO.cri.page == num}">
+					<strong>[${num}]</strong>
+				</c:when>
+				<c:otherwise>
+					<a href="?page=${num}">${num}</a>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+	
+		<c:if test="${pageVO.next}">
+			<a href="?page=${pageVO.endPage + 1}">다음</a>
+		</c:if>
+	</div>
 	
 	<c:if test="${not empty sessionScope.userid}">
 		<button type="button" onclick="location.href='${pageContext.request.contextPath}/review/insertReview'">

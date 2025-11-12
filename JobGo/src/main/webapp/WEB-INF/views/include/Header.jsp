@@ -39,8 +39,14 @@
 					<div class="col-lg-8 col-xs-12">
 						<nav class="navbar navbar-expand-lg">
 							<a class="navbar-brand logo" href="/">
-								<h3>일반회원 페이지</h3>
-								<%-- <img class="logo1" src="${pageContext.request.contextPath }/resources/images/logo/logo.svg" alt="Logo" /> --%>
+								<h3>
+								<c:choose>
+									<c:when test="${not empty sessionScope.corpUserId}">기업회원</c:when>
+									<c:when test="${not empty sessionScope.userid}">일반회원</c:when>
+									<c:otherwise>JobGo</c:otherwise>
+								</c:choose>
+								&nbsp;페이지
+								</h3>
 							</a>
 						</nav>
 					</div>
@@ -50,40 +56,81 @@
 				</div>
 				<div class="col-lg-12">
 					<nav class="navbar navbar-expand-lg">
-						<div class="collapse navbar-collapse sub-menu-bar"
-							id="navbarSupportedContent">
+						<div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
 							<ul id="nav" class="navbar-nav">
-								<li class="nav-item"><a href="#">채용공고</a></li>
-								<li class="nav-item"><a href="#">커리어관리</a></li>
-								<li class="nav-item"><a href="#">기업리뷰</a></li>
-								<li class="nav-item"><a href="#">커뮤니티</a>
-									<ul class="sub-menu">
-										<li><a href="#">공지사항</a></li>
-										<li><a href="/comboard/comListCri">커뮤니티</a></li>
-	                 				</ul>
-                 				</li>
+								<c:choose>
+									<%-- 기업회원 메뉴 --%>
+									<c:when test="${not empty sessionScope.corpUserId}">
+										<li class="nav-item"><a href="${pageContext.request.contextPath }/recboard/recListCri">채용 공고 관리</a></li>
+										<li class="nav-item"><a href="#">지원자 현황</a></li>
+										<li class="nav-item"><a href="${pageContext.request.contextPath }/review/reviewList">기업리뷰</a></li>
+										<li class="nav-item"><a href="${pageContext.request.contextPath }/comboard/comListCri">커뮤니티</a>
+											<ul class="sub-menu">
+												<li><a href="${pageContext.request.contextPath }/notice/list">공지사항</a></li>
+												<li><a href="${pageContext.request.contextPath }/comboard/comListCri">커뮤니티</a></li>
+											</ul>
+										</li>
+									</c:when>
+									
+									<%-- 일반회원 메뉴 --%>
+									<c:when test="${not empty sessionScope.userid}">
+										<li class="nav-item"><a href="${pageContext.request.contextPath }/recboard/recListCri">채용공고</a></li>
+										<li class="nav-item"><a href="${pageContext.request.contextPath }/resume/list?memberId=${sessionScope.memberId}">커리어관리</a></li>
+										<li class="nav-item"><a href="${pageContext.request.contextPath }/review/reviewList">기업리뷰</a></li>
+										<li class="nav-item"><a href="${pageContext.request.contextPath }/comboard/comListCri">커뮤니티</a>
+											<ul class="sub-menu">
+												<li><a href="${pageContext.request.contextPath }/notice/list">공지사항</a></li>
+												<li><a href="${pageContext.request.contextPath }/comboard/comListCri">커뮤니티</a></li>
+											</ul>
+										</li>
+									</c:when>
+	
+									<%-- 비로그인 회원 공용 메뉴 --%>
+									<c:otherwise>
+										<li class="nav-item"><a href="${pageContext.request.contextPath }/recboard/recListCri">채용공고</a></li>
+										<li class="nav-item"><a href="${pageContext.request.contextPath }/review/reviewList">기업리뷰</a></li>
+										<li class="nav-item"><a href="${pageContext.request.contextPath }/comboard/comListCri">커뮤니티</a>
+											<ul class="sub-menu">
+												<li><a href="${pageContext.request.contextPath }/notice/list">공지사항</a></li>
+												<li><a href="${pageContext.request.contextPath }/comboard/comListCri">커뮤니티</a></li>
+											</ul>
+										</li>
+									</c:otherwise>
+								</c:choose>
 							</ul>
 						</div>
-						<!-- navbar collapse -->
 						<div class="button">
-						    <c:choose>
-						        <c:when test="${not empty userid}">
-						            <a href="/member/logout" class="login">
-						                <i class="lni lni-lock-alt"></i> 로그아웃
-						            </a>
-						            <a href="/member/mypage" class="btn">
-						                마이페이지
-						            </a>
-						        </c:when>
-						        <c:otherwise>
-						            <a href="/member/login" class="login">
-						                <i class="lni lni-lock-alt"></i> 로그인
-						            </a>
-						            <a href="/member/join" class="btn">
-						                회원가입
-						            </a>
-						        </c:otherwise>
-						    </c:choose>
+							<c:choose>
+								<%-- 기업회원 로그인 상태 --%>
+								<c:when test="${not empty sessionScope.corpUserId}">
+									<a href="${pageContext.request.contextPath }/corp/logout" class="login">
+										<i class="lni lni-lock-alt"></i> 로그아웃
+									</a>
+									<a href="${pageContext.request.contextPath }/corp/mypage" class="btn">
+										마이페이지
+									</a>
+								</c:when>
+	
+								<%-- 일반회원 로그인 상태 --%>
+								<c:when test="${not empty sessionScope.userid}">
+									<a href="${pageContext.request.contextPath }/member/logout" class="login">
+										<i class="lni lni-lock-alt"></i> 로그아웃
+									</a>
+									<a href="${pageContext.request.contextPath }/member/mypage" class="btn">
+										마이페이지
+									</a>
+								</c:when>
+	
+								<%-- 비로그인 상태 --%>
+								<c:otherwise>
+									<a href="${pageContext.request.contextPath }/member/login" class="login">
+										<i class="lni lni-lock-alt"></i> 로그인
+									</a>
+									<a href="${pageContext.request.contextPath }/member/join" class="btn">
+										회원가입
+									</a>
+								</c:otherwise>
+							</c:choose>
 						</div>
 					</nav>
 					<!-- navbar -->

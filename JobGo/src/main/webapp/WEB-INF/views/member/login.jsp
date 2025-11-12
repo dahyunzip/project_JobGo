@@ -10,6 +10,10 @@ $(document).ready(function(){
 		alert('잘못된 ID 또는 비밀번호 입니다.');
 	}else if(status == 'joinSuccess'){
 		alert('회원가입 완료! 환영합니다.');
+	}else if(status == 'resetPwSuccess'){
+		alert('비밀번호가 변경되었습니다. 변경된 비밀번호로 로그인해주세요.');
+	}else if(status == 'loginRequired'){
+		alert('로그인 후 이용 가능한 서비스입니다.');
 	}
 })
 </script>
@@ -47,8 +51,8 @@ $(document).ready(function(){
 								</div>
 							</div>
 							<div class="col-lg-12 mb-20">
-								<a href="#">아이디 찾기</a>
-								<a href="#">| 비밀번호 찾기</a>
+								<a href="/member/findId">아이디 찾기</a>
+								<a href="/member/findPw">| 비밀번호 찾기</a>
 								<a href="/member/join">회원가입</a>
 							</div>
 							<div class="form-group mb-8 button">

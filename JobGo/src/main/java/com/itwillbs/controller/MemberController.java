@@ -2,6 +2,7 @@ package com.itwillbs.controller;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
@@ -19,11 +20,13 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.MemberVO;
 import com.itwillbs.service.MemberService;
+import com.itwillbs.service.MemberServiceImpl;
 
 @Controller
 @RequestMapping(value="/member/*")
 public class MemberController {
 	private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
+	
 	@Inject
 	private MemberService mService;
 
@@ -88,8 +91,14 @@ public class MemberController {
 			session.setAttribute("userid", loginVO.getUserid());
 			session.setAttribute("memberName", loginVO.getName());
 			session.setAttribute("membertype", loginVO.getMembertype());
+			session.setAttribute("userType", "general");
+			
+			//추가: memberId 세션 저장
+		    session.setAttribute("memberId", loginVO.getId());
+		    
 			logger.info(" 로그인 성공 ");
 			logger.debug(" loginVO = " + loginVO);
+			logger.debug(" 로그인 회원 : {}", loginVO.getId() );
 			rttr.addFlashAttribute("msg", "loginSuccess");
 			logger.debug(" oldPath "+oldPath);
 			
@@ -198,8 +207,84 @@ public class MemberController {
 		
 		rttr.addFlashAttribute("msg", "dropComplete");
 		return "redirect:/";
+	}
+	
+	// -------------------- 아이디 & 비밀번호 찾기 --------------------------
+
+	// 아이디 찾기 - GET
+	@RequestMapping(value="/findId", method=RequestMethod.GET)
+	public String findIdGET(HttpSession session) {
+		session.setAttribute("userType", "general");
+		return "/common/findId";
+	}
+	// 아이디 찾기 - POST
+	@RequestMapping(value="/findId", method=RequestMethod.POST)
+	public String findIdPOST(@RequestParam("email") String email, Model model) throws Exception {
+		logger.debug(" 아이디 찾기 요청 - email : {}", email);
+		String userid = mService.findUseridByEmail(email);
+		if(userid != null) {
+			model.addAttribute("userid", userid);
+			return "/common/findIdResult";
+		}else {
+			model.addAttribute("msg", "등록된 이메일이 없습니다.");
+			return "/common/findId";
+		}
+	}
+	
+	// 비밀번호 찾기 - GET
+	@RequestMapping(value="/findPw", method=RequestMethod.GET)
+	public String findPwGET(HttpSession session) {
+		session.setAttribute("userType", "general");
+		return "/common/findPw";
+	}
+	
+	// 비밀번호 찾기 - POST 
+	@RequestMapping(value="/findPw", method=RequestMethod.POST)
+	public String findPwPost(@RequestParam("email") String email, Model model) throws Exception {
+		logger.debug(" 비밀번호 찾기 요청 - eamil {}", email );
+		MemberVO vo = mService.findMemberByEmail(email);
 		
+		if(vo == null) {
+			model.addAttribute("msg", "등록된 이메일이 없습니다.");
+			return "/common/findPw";
+		}
 		
+		String token = UUID.randomUUID().toString();
+		mService.sendResetMail(email, token);
+		
+		model.addAttribute("msg", "비밀번호 재설정 메일이 발송되었습니다. 이메일을 확인해 주세요.");
+		return "/common/findPw";
+	}
+	
+	// 비밀번호 재설정 - GET
+	@RequestMapping(value="/resetPw", method=RequestMethod.GET)
+	public String resetPwGET(@RequestParam("token") String token, Model model) {
+		String email = mService.getEmailByToken(token);
+		
+		if(email == null) {
+			model.addAttribute("msg", "유효하지 않거나 만료된 링크입니다.");
+			return "/common/resetFail";
+		}
+		
+		model.addAttribute("email", email);
+		model.addAttribute("token", token);
+		return "/common/resetPwForm";
+	}
+	
+	// 비밀번호 재설정 - POST
+	@RequestMapping(value="/resetPw", method=RequestMethod.POST)
+	public String resetPw(@RequestParam("email") String email,
+			  @RequestParam("newPw") String newPw,
+			  @RequestParam("token") String token,
+			  RedirectAttributes rttr) throws Exception {
+		logger.debug(" 비밀번호 재설정 요청 - email : {}", email);
+		
+		mService.updatePasswordByEmail(email, newPw);
+		mService.invalidateToken(token);
+		
+		rttr.addFlashAttribute("msg", "resetPwSuccess");
+		logger.debug(" 비밀번호 변경 완료! ");
+		return "redirect:/member/login";
 	}
 	
 }

@@ -6,28 +6,169 @@
 	<insert id="insertCorpMember">
         INSERT INTO corpmember (
             corp_userid, corp_userPw, manager_name, manager_email, manager_tel,
-            company_name, business_rno, business_licenseurl, ceo_name,
+            company_name, business_rno, business_licenseurl, originalFileName, ceo_name,
             company_address, industry_type, business_type,
-            corp_agreelocation, corp_agreeemail, corp_agreesms
+            corp_agreelocation, corp_agreeemail, corp_agreesms, status
         ) VALUES (
             #{corpUserId}, #{corpUserPw}, #{managerName}, #{managerEmail}, #{managerTel},
-            #{companyName}, #{businessRno}, #{businessLicenseUrl}, #{ceoName},
+            #{companyName}, #{businessRno}, #{businessLicenseUrl}, #{originalFileName}, #{ceoName},
             #{companyAddress}, #{industryType}, #{businessType},
-            #{corpAgreeLocation}, #{corpAgreeEmail}, #{corpAgreeSms}
+            #{corpAgreeLocation}, #{corpAgreeEmail}, #{corpAgreeSms}, #{status}
         )
     </insert>
     
+    <!-- 아이디 중복 검사 -->
+  	<select id="countByUserid" parameterType="string" resultType="int">
+  		select count(*) from corpmember where corp_userid=#{corpUserId}
+  	</select>
+  	
+  	<!-- 이메일 가입 확인 -->
+	<select id="countByEmail" resultType="int">
+		SELECT COUNT(*)
+		FROM corpmember
+		WHERE manager_email = #{managerEmail}
+	</select>
+    
     <!-- 기업회원 로그인 -->
     <select id="loginCorpMember" resultType="CorpMemberVO">
-        SELECT * FROM corpmember
+        SELECT
+        	corp_id AS corpId,
+	        corp_userid AS corpUserId,
+	        corp_userPw AS corpUserPw,
+	        manager_name AS managerName,
+	        manager_email AS managerEmail,
+	        manager_tel AS managerTel,
+	        company_name AS companyName,
+	        business_rno AS businessRno,
+	        business_licenseurl AS businessLicenseUrl,
+	        ceo_name AS ceoName,
+	        company_address AS companyAddress,
+	        industry_type AS industryType,
+	        business_type AS businessType,
+	        corp_joined AS corpJoined,
+	        corp_updated AS corpUpdated,
+	        status,
+	        corp_checkdeleted AS corpCheckDeleted,
+	        corp_agreelocation AS corpAgreeLocation,
+	        corp_agreeemail AS corpAgreeEmail,
+	        corp_agreesms AS corpAgreeSms,
+	        originalFileName,
+	        corpProfileOriginal,
+	        corpProfileStored	
+        FROM corpmember
         WHERE corp_userid = #{corpUserId}
         AND corp_userPw = #{corpUserPw}
-        AND corp_checkdeleted = 0
+        AND corp_checkdeleted = '0'
     </select>
 
 	<!-- 회원정보 아이디로 체크 -->
-	<select id="getCorpMemberByUserid" resultType="CorpMemberVO">
-        SELECT * FROM corpmember
+	<select id="getCorpMemberByUserid" resultType="com.itwillbs.domain.CorpMemberVO">
+        SELECT 
+            corp_id AS corpId,
+            corp_userid AS corpUserId,
+            corp_userPw AS corpUserPw,
+            manager_name AS managerName,
+            manager_email AS managerEmail,
+            manager_tel AS managerTel,
+            company_name AS companyName,
+            business_rno AS businessRno,
+            business_licenseurl AS businessLicenseUrl,
+            originalFileName,
+            ceo_name AS ceoName,
+            company_address AS companyAddress,
+            industry_type AS industryType,
+            business_type AS businessType,
+            corp_joined AS corpJoined,
+            corp_updated AS corpUpdated,
+            status,
+            corp_checkdeleted AS corpCheckDeleted,
+            corp_agreelocation AS corpAgreeLocation,
+            corp_agreeemail AS corpAgreeEmail,
+            corp_agreesms AS corpAgreeSms,
+            corpProfileOriginal,
+            corpProfileStored
+        FROM corpmember
         WHERE corp_userid = #{corpUserId}
     </select>
+    
+    <!-- 기업회원 정보 업데이트 -->
+	<update id="updateCorpMember">
+	    UPDATE corpmember
+	    SET 
+	        company_address = #{companyAddress},
+	        manager_tel = #{managerTel},
+	        corp_agreelocation = #{corpAgreeLocation},
+	        corp_agreeemail = #{corpAgreeEmail},
+	        corp_agreesms = #{corpAgreeSms}
+	    WHERE corp_userid = #{corpUserId} 
+	      AND corp_userPw = #{corpUserPw}
+	</update>
+    
+    <!-- 기업 프로필 이미지 삭제 -->
+	<update id="deleteCorpProfileImage">
+	    UPDATE corpmember
+	    SET corpProfileOriginal = NULL,
+	        corpProfileStored = NULL
+	    WHERE corp_id = #{corpId}
+	</update>
+    
+    <!-- 기업 프로필 이미지 업데이트 -->
+	<update id="updateCorpProfileImage">
+	    UPDATE corpmember
+	    SET corpProfileOriginal = #{corpProfileOriginal},
+	        corpProfileStored = #{corpProfileStored}
+	    WHERE corp_id = #{corpId}
+	</update>
+    
+    <!-- 회원 탈퇴로 상태 변경하기 -->
+    <update id="deleteCorpMember" parameterType="string">
+	    UPDATE corpmember
+	    SET corp_checkdeleted = 1,
+	        status = 'D'
+	    WHERE corp_userid = #{corpUserId}
+	</update>
+	
+	<!-- 기업회원 이메일로 아이디 찾기 -->
+    <select id="findCorpUserIdByEmail" resultType="string">
+        SELECT corp_userid AS corpUserId
+        FROM corpmember
+        WHERE manager_email = #{email}
+    </select>
+
+    <!-- 기업회원 이메일로 전체 회원 정보 조회 -->
+    <select id="findCorpMemberByEmail" resultType="com.itwillbs.domain.CorpMemberVO">
+        SELECT 
+        	corp_id AS corpId,
+            corp_userid AS corpUserId,
+            corp_userPw AS corpUserPw,
+            manager_name AS managerName,
+            manager_email AS managerEmail,
+            manager_tel AS managerTel,
+            company_name AS companyName,
+            business_rno AS businessRno,
+            business_licenseurl AS businessLicenseUrl,
+            originalFileName,
+            ceo_name AS ceoName,
+            company_address AS companyAddress,
+            industry_type AS industryType,
+            business_type AS businessType,
+            corp_joined AS corpJoined,
+            corp_updated AS corpUpdated,
+            status,
+            corp_checkdeleted AS corpCheckDeleted,
+            corp_agreelocation AS corpAgreeLocation,
+            corp_agreeemail AS corpAgreeEmail,
+            corp_agreesms AS corpAgreeSms,
+            corpProfileOriginal,
+            corpProfileStored
+        FROM corpmember
+        WHERE manager_email = #{email}
+    </select>
+
+    <!-- 기업회원 이메일로 비밀번호 업데이트 -->
+    <update id="updatePasswordByEmail" parameterType="com.itwillbs.domain.CorpMemberVO">
+        UPDATE corpmember
+        SET corp_userPw = #{corpUserPw}
+        WHERE manager_email = #{managerEmail}
+    </update>
 </mapper>

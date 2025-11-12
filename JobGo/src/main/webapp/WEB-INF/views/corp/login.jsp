@@ -1,11 +1,19 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ include file="../include/corpHeader.jsp"%>
+<%@ include file="../include/Header.jsp"%>
 <script>
 $(document).ready(function(){
 	var status = '${msg }';
 	if(status == 'joinSuccess'){
 		alert('회원가입 성공! 환영합니다.');
+	}else if(status == 'loginFail'){
+		alert('아이디 또는 비밀번호가 올바르지 않거나 탈퇴된 회원입니다.');
+	}else if(status == 'deleteSuccess'){
+		alert('회원 탈퇴가 완료되었습니다.');
+	}else if(status == 'notLoggedIn'){
+		alert('로그인이 필요한 서비스입니다.');
+	}else if(status == 'resetPwSuccess'){
+		alert('비밀번호가 변경되었습니다. 변경된 비밀번호로 로그인해주세요.');
 	}
 })
 </script>
@@ -41,8 +49,8 @@ $(document).ready(function(){
 								</div>
 							</div>
 							<div class="col-lg-12 mb-20">
-								<a href="#">아이디 찾기</a>
-								<a href="#">| 비밀번호 찾기</a>
+								<a href="/corp/findId">아이디 찾기</a>
+								<a href="/corp/findPw">| 비밀번호 찾기</a>
 								<a href="/corp/join">회원가입</a>
 							</div>
 							<div class="form-group mb-8 button">

@@ -32,7 +32,7 @@ public class ResumeController {
 	public String list(@RequestParam("memberId") int memberId,
 						HttpSession session,
 						Model model,
-						RedirectAttributes rttr) {
+						RedirectAttributes rttr)  throws Exception{
 		
 		Integer sessionMemberId = (Integer) session.getAttribute("memberId");
 		
@@ -58,7 +58,7 @@ public class ResumeController {
 	public String detail(@RequestParam("resumeId") int resumeId,
 						HttpSession session,
 						Model model,
-						RedirectAttributes rttr) {
+						RedirectAttributes rttr)  throws Exception{
 		
 		Integer sessionMemberId = (Integer) session.getAttribute("memberId");
 		if (sessionMemberId == null) {
@@ -92,7 +92,7 @@ public class ResumeController {
 	// ===== [이력서 작성 처리] =====
 	@RequestMapping(value="/write", method=RequestMethod.POST)
 	public String writePOST(@ModelAttribute ResumeVO resume,
-							RedirectAttributes rttr) {
+							RedirectAttributes rttr) throws Exception{
 		logger.debug("writePOST 진입 / memberId = {}", resume.getMemberId());
 		logger.debug("resume : {}", resume);
 		rService.createResume(resume);
@@ -104,7 +104,7 @@ public class ResumeController {
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
 	public String delete(@RequestParam("resumeId") int resumeId,
 						 @RequestParam("memberId") int memberId,
-						 RedirectAttributes rttr) {
+						 RedirectAttributes rttr) throws Exception{
 		rService.deleteResume(resumeId);
 		rttr.addFlashAttribute("msg", "deleteDone");
 		return "redirect:/resume/list?memberId=" + memberId;
@@ -112,7 +112,7 @@ public class ResumeController {
 	
 	// ===== [이력서 수정 폼] =====
 	@RequestMapping(value="/edit", method=RequestMethod.GET)
-	public String editGET(@RequestParam("resumeId") int resumeId, Model model) {
+	public String editGET(@RequestParam("resumeId") int resumeId, Model model) throws Exception {
 	    ResumeVO resume = rService.getResume(resumeId);
 	    model.addAttribute("resume", resume);
 	    return "/resume/edit";
@@ -121,7 +121,7 @@ public class ResumeController {
 	// ===== [이력서 수정 처리] =====
 	@RequestMapping(value="/edit", method=RequestMethod.POST)
 	public String editPOST(@ModelAttribute ResumeVO resume,
-							RedirectAttributes rttr) {
+							RedirectAttributes rttr) throws Exception{
 	    rService.updateResume(resume);
 	    rttr.addFlashAttribute("msg","editDone");
 	    return "redirect:/resume/detail?resumeId=" + resume.getResumeId();

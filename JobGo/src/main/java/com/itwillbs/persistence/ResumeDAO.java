@@ -15,8 +15,15 @@ public interface ResumeDAO {
     ResumeVO getResume(int resumeId) throws Exception;
     List<ResumeVO> getResumeList(int memberId) throws Exception;
     void updateResume(ResumeVO resume) throws Exception;
+    void updateResumeStatus(ResumeVO resume) throws Exception;
     void deleteResume(int resumeId) throws Exception;
 
+    // 저장 메서드
+    void insertResumeTemp(ResumeVO resume) throws Exception;    // 임시저장
+    void insertResumeFinal(ResumeVO resume) throws Exception;   // 최종등록
+    void updateResumeToFinal(int resumeId) throws Exception;    // 임시저장 → 최종등록 변경
+
+    
     // ===== [2] 학력사항 =====
     void insertEducation(ResumeEducationVO edu) throws Exception;
     List<ResumeEducationVO> getEducationList(int resumeId) throws Exception;

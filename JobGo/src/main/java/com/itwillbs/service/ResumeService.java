@@ -5,9 +5,13 @@ import java.util.List;
 import com.itwillbs.domain.*;
 
 public interface ResumeService {
-    void createResume(ResumeVO resume) throws Exception;
-    ResumeVO getResume(int resumeId) throws Exception;
-    List<ResumeVO> getResumeList(int memberId) throws Exception;
-    void updateResume(ResumeVO resume) throws Exception;
-    void deleteResume(int resumeId) throws Exception;
+    public void createTempResume(ResumeVO resume) throws Exception;  // 임시저장
+    public void createFinalResume(ResumeVO resume) throws Exception; // 최초 등록
+    public void updateToFinal(int resumeId) throws Exception;         // 임시 -> 최종
+    public void updateToTemp(ResumeVO resume) throws Exception;		  // 최종 -> 임시
+    public ResumeVO getResume(int resumeId) throws Exception;
+    public List<ResumeVO> getResumeList(int memberId) throws Exception;
+    public void updateResumeTemp(ResumeVO resume) throws Exception;
+    public void updateResumeFinal(ResumeVO resume) throws Exception;
+    public void deleteResume(int resumeId) throws Exception;
 }

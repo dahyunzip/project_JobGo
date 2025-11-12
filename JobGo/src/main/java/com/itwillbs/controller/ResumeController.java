@@ -27,7 +27,7 @@ public class ResumeController {
 	@Inject
 	private ResumeService rService;
 	
-	// ===== [이력서 목록] =====
+	// 이력서 목록
 	@RequestMapping(value="/list", method=RequestMethod.GET)
 	public String list(@RequestParam("memberId") int memberId,
 						HttpSession session,
@@ -53,7 +53,7 @@ public class ResumeController {
 		return "/resume/list";
 	}
 	
-	// ===== [이력서 상세보기] =====
+	// 이력서 상세보기
 	@RequestMapping(value="/detail", method=RequestMethod.GET)
 	public String detail(@RequestParam("resumeId") int resumeId,
 						HttpSession session,
@@ -83,24 +83,51 @@ public class ResumeController {
 		return "/resume/detail";
 	}
 	
-	// ===== [이력서 작성 폼] =====
+	// 이력서 작성 폼
 	@RequestMapping(value="/write", method=RequestMethod.GET)
 	public String writeGET() {
 		return "/resume/write";
 	}
 	
-	// ===== [이력서 작성 처리] =====
+	// 임시저장
+	@RequestMapping(value="/tempSave", method=RequestMethod.POST)
+	public String tempSavePOST(@ModelAttribute ResumeVO resume,
+	                           RedirectAttributes rttr) throws Exception {
+		if (resume.getResumeId() > 0) {
+	        // 👉 resumeId가 존재하면 수정 상태 → UPDATE만 수행
+	        rService.updateToTemp(resume);
+	        rttr.addFlashAttribute("msg", "tempUpdated");
+	    } else {
+	        // 👉 신규 작성 상태 → INSERT 수행
+	        rService.createTempResume(resume);
+	        rttr.addFlashAttribute("msg", "tempSaved");
+	    }
+		return "redirect:/resume/detail?resumeId=" + resume.getResumeId();
+	}
+
+	
+	// 이력서 작성 처리 / 최종 저장
 	@RequestMapping(value="/write", method=RequestMethod.POST)
 	public String writePOST(@ModelAttribute ResumeVO resume,
 							RedirectAttributes rttr) throws Exception{
 		logger.debug("writePOST 진입 / memberId = {}", resume.getMemberId());
 		logger.debug("resume : {}", resume);
-		rService.createResume(resume);
+		rService.createFinalResume(resume);
 		rttr.addFlashAttribute("msg", "writeDone");
 		return "redirect:/resume/list?memberId=" + resume.getMemberId();
 	}
 	
-	// ===== [이력서 삭제] =====
+
+	// 임시저장된 것 -> 최종등록으로 바꿀 때
+	@RequestMapping(value="/submitFinal", method=RequestMethod.POST)
+	public String submitFinal(@RequestParam("resumeId") int resumeId,
+	                          RedirectAttributes rttr) throws Exception {
+	    rService.updateToFinal(resumeId);
+	    rttr.addFlashAttribute("msg", "writeDone");
+	    return "redirect:/resume/detail?resumeId=" + resumeId;
+	}
+	
+	// 이력서 삭제
 	@RequestMapping(value="/delete", method=RequestMethod.POST)
 	public String delete(@RequestParam("resumeId") int resumeId,
 						 @RequestParam("memberId") int memberId,
@@ -110,20 +137,25 @@ public class ResumeController {
 		return "redirect:/resume/list?memberId=" + memberId;
 	}
 	
-	// ===== [이력서 수정 폼] =====
+	// 이력서 수정 폼
 	@RequestMapping(value="/edit", method=RequestMethod.GET)
 	public String editGET(@RequestParam("resumeId") int resumeId, Model model) throws Exception {
 	    ResumeVO resume = rService.getResume(resumeId);
 	    model.addAttribute("resume", resume);
 	    return "/resume/edit";
 	}
-
-	// ===== [이력서 수정 처리] =====
+	
+	// 이력서 수정 처리
 	@RequestMapping(value="/edit", method=RequestMethod.POST)
 	public String editPOST(@ModelAttribute ResumeVO resume,
-							RedirectAttributes rttr) throws Exception{
-	    rService.updateResume(resume);
-	    rttr.addFlashAttribute("msg","editDone");
+	                       RedirectAttributes rttr) throws Exception {
+	    if ("TEMP".equals(resume.getStatus())) {
+	        rService.updateResumeTemp(resume);
+	        rttr.addFlashAttribute("msg", "tempSaved");
+	    } else {
+	        rService.updateResumeFinal(resume);
+	        rttr.addFlashAttribute("msg", "editDone");
+	    }
 	    return "redirect:/resume/detail?resumeId=" + resume.getResumeId();
 	}
 

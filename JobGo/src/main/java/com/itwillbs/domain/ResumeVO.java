@@ -12,6 +12,7 @@ public class ResumeVO {
     private String resumeTitle;    // 이력서 제목
     private Timestamp createdAt;   // 생성일시
     private Timestamp updatedAt;   // 수정일시
+    private String status;
 
     // 하위 항목 포함 (조회 시 사용)
     private List<ResumeEducationVO> educationList;

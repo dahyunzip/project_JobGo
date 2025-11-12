@@ -7,10 +7,24 @@
 	<!-- ========================================================= -->
 	<!--  [1] 이력서 (resume)                                      -->
 	<!-- ========================================================= -->
-	<insert id="insertResume" parameterType="ResumeVO" useGeneratedKeys="true" keyProperty="resumeId">
-	     INSERT INTO resume (member_id, resume_title)
-	     VALUES (#{memberId}, #{resumeTitle})
+	<!-- [1] 임시저장 INSERT -->
+	<insert id="insertResumeTemp" parameterType="ResumeVO" useGeneratedKeys="true" keyProperty="resumeId">
+	    INSERT INTO resume (member_id, resume_title, status)
+	    VALUES (#{memberId}, #{resumeTitle}, 'TEMP');
 	</insert>
+	
+	<!-- [2] 최종등록 INSERT (최초 등록 시) -->
+	<insert id="insertResumeFinal" parameterType="ResumeVO" useGeneratedKeys="true" keyProperty="resumeId">
+	    INSERT INTO resume (member_id, resume_title, status)
+	    VALUES (#{memberId}, #{resumeTitle}, 'FINAL');
+	</insert>
+	
+	<!-- [3] 임시저장에서 최종등록으로 변경 (UPDATE) -->
+	<update id="updateResumeToFinal" parameterType="int">
+	    UPDATE resume
+	    SET status = 'FINAL', updated_at = CURRENT_TIMESTAMP
+	    WHERE resume_id = #{resumeId};
+	</update>
 	
 	<select id="selectResume" parameterType="int" resultType="ResumeVO">
 	     SELECT
@@ -18,7 +32,8 @@
 		    member_id AS memberId,
 		    resume_title AS resumeTitle,
 			created_at AS createdAt,
-			updated_at AS updatedAt
+			updated_at AS updatedAt,
+			status
 	     FROM resume
 	     WHERE resume_id = #{resumeId}
 	</select>
@@ -29,7 +44,8 @@
 			member_id AS memberId,
 			resume_title AS resumeTitle,
 			created_at AS createdAt,
-			updated_at AS updatedAt
+			updated_at AS updatedAt,
+			status
 	    FROM resume
 	    WHERE member_id = #{memberId}
 	    ORDER BY updated_at DESC
@@ -38,7 +54,15 @@
 	<update id="updateResume" parameterType="ResumeVO">
 	    UPDATE resume
 	    SET resume_title = #{resumeTitle},
+	        status = #{status},       
 	        updated_at = CURRENT_TIMESTAMP
+	    WHERE resume_id = #{resumeId}
+	</update>
+	
+	<!-- 이력서 상태만 변경 -->
+	<update id="updateResumeStatus" parameterType="ResumeVO">
+	    UPDATE resume
+	    SET status = #{status}, updated_at = CURRENT_TIMESTAMP
 	    WHERE resume_id = #{resumeId}
 	</update>
 	

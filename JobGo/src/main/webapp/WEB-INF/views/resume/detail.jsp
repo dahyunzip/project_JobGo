@@ -12,21 +12,6 @@
                 작성일: <fmt:formatDate value="${resume.createdAt}" pattern="yyyy-MM-dd HH:mm" /> |
                 수정일: <fmt:formatDate value="${resume.updatedAt}" pattern="yyyy-MM-dd HH:mm" />
             </p>
-            <div class="mt-3">
-                <a href="/resume/list?memberId=${resume.memberId}" class="btn btn-outline-secondary btn-sm">
-                    <i class="lni lni-arrow-left"></i> 목록으로
-                </a>
-                <a href="/resume/edit?resumeId=${resume.resumeId}" class="btn btn-outline-primary btn-sm">
-                    <i class="lni lni-pencil"></i> 수정
-                </a>
-                <form action="/resume/delete" method="post" style="display:inline;">
-                    <input type="hidden" name="resumeId" value="${resume.resumeId}">
-                    <input type="hidden" name="memberId" value="${resume.memberId}">
-                    <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('정말 삭제하시겠습니까?');">
-                        <i class="lni lni-trash-can"></i> 삭제
-                    </button>
-                </form>
-            </div>
         </div>
 
         <!-- ====== 학력사항 ====== -->
@@ -197,6 +182,22 @@
                     </c:otherwise>
                 </c:choose>
             </div>
+        </div>
+        
+        <div class="mt-3 text-right">
+            <a href="/resume/list?memberId=${resume.memberId}" class="btn btn-outline-secondary btn-sm">
+                <i class="lni lni-arrow-left"></i> 목록으로
+            </a>
+            <a href="/resume/edit?resumeId=${resume.resumeId}" class="btn btn-outline-primary btn-sm">
+                <i class="lni lni-pencil"></i> 수정
+            </a>
+            <form action="/resume/delete" method="post" style="display:inline;">
+                <input type="hidden" name="resumeId" value="${resume.resumeId}">
+                <input type="hidden" name="memberId" value="${resume.memberId}">
+                <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('정말 삭제하시겠습니까?');">
+                    <i class="lni lni-trash-can"></i> 삭제
+                </button>
+            </form>
         </div>
     </div>
 </section>

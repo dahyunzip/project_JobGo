@@ -143,7 +143,7 @@
 	                    <div class="border p-3 rounded bg-light mb-4">
 	                        <div class="form-group">
 	                            <label>지원 동기</label>
-	                            <textarea class="form-control" rows="4" name="motivation" id="motivation"></textarea>
+	                            <textarea class="form-control" rows="4" name="selfIntro.motivation" id="motivation"></textarea>
 	                            <div class="mt-2">
 							        <button type="button" class="btn btn-outline-primary btn-sm gpt-request" data-target="motivation">
 							            GPT 첨삭 요청
@@ -158,7 +158,7 @@
 	                        </div>
 	                        <div class="form-group">
 	                            <label>강점 및 역량</label>
-	                            <textarea class="form-control" rows="4" name="strengths" id="strengths"></textarea>
+	                            <textarea class="form-control" rows="4" name="selfIntro.strengths" id="strengths"></textarea>
 	                            <div class="mt-2">
 							        <button type="button" class="btn btn-outline-primary btn-sm gpt-request" data-target="strengths">
 							            GPT 첨삭 요청
@@ -173,7 +173,7 @@
 	                        </div>
 	                        <div class="form-group">
 	                            <label>성과나 중요한 경험</label>
-	                            <textarea class="form-control" rows="4" name="keyExperience" id="keyExperience"></textarea>
+	                            <textarea class="form-control" rows="4" name="selfIntro.keyExperience" id="keyExperience"></textarea>
 	                            <div class="mt-2">
 							        <button type="button" class="btn btn-outline-primary btn-sm gpt-request" data-target="keyExperience">
 							            GPT 첨삭 요청
@@ -188,7 +188,7 @@
 	                        </div>
 	                        <div class="form-group">
 	                            <label>입사 후 포부</label>
-	                            <textarea class="form-control" rows="4" name="futurePlan" id="futurePlan"></textarea>
+	                            <textarea class="form-control" rows="4" name="selfIntro.futurePlan" id="futurePlan"></textarea>
 	                            <div class="mt-2">
 							        <button type="button" class="btn btn-outline-primary btn-sm gpt-request" data-target="futurePlan">
 							            GPT 첨삭 요청
@@ -203,9 +203,15 @@
 	                        </div>
 	                    </div>
 	                    <!-- Submit -->
-	                    <div class="text-center">
-	                        <button type="submit" class="btn btn-primary btn-lg">이력서 등록</button>
-	                    </div>
+	                    <div class="text-center mt-4">
+						    <button type="submit" formaction="/resume/tempSave" class="btn btn-secondary btn-lg">
+						        임시 저장
+						    </button>
+						    <button type="submit" formaction="/resume/write" class="btn btn-primary btn-lg">
+						        최종 등록
+						    </button>
+                            <a href="/resume/list?memberId=${sessionScope.memberId}" class="btn btn-outline-secondary btn-lg">취소</a>
+						</div>
 	                </form>
 	            </div>
 	        </div>

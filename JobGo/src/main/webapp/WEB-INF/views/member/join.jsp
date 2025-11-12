@@ -397,8 +397,9 @@
 											<br> 동의 거부 권리 및 안내<br> • 동의하지 않아도 서비스 기본 기능 이용 가능<br>
 											• 단, 위치 기반 혜택 및 추천 서비스 제공이 제한됨
 										</div>
-										<label class="control-label"><input type="checkbox"
-											class="form-check-input" name="agreeLocation" value="Y">
+										<label class="control-label">
+										<input type="hidden" name="agreeLocation" value="N">
+										<input type="checkbox" class="form-check-input" name="agreeLocation" value="Y">
 											약관에 동의합니다.</label>
 									</div>
 									<div class="form-group mb-20">
@@ -410,8 +411,9 @@
 											<br> 수신 거부 안내<br> • 이메일 내 하단의 수신 거부 링크 또는 서비스 내 알림
 											설정에서 변경 가능
 										</div>
-										<label class="control-label"><input type="checkbox"
-											class="form-check-input" name="agreeEmail" value="Y">
+										<label class="control-label">
+										<input type="hidden" name="agreeEmail" value="N">
+										<input type="checkbox" class="form-check-input" name="agreeEmail" value="Y">
 											약관에 동의합니다.</label>
 									</div>
 									<div class="form-group mb-20">
@@ -422,8 +424,9 @@
 											<br> 보유 및 이용 기간<br> • 동의 철회 또는 회원 탈퇴 시까지<br>
 											<br> 수신 거부 안내<br> • 고객센터를 통한 철회 또는 서비스 내 설정에서 변경 가능
 										</div>
-										<label class="control-label"><input type="checkbox"
-											class="form-check-input" name="agreeSms" value="Y">
+										<label class="control-label">
+										<input type="hidden" name="agreeSms" value="N">
+										<input type="checkbox" class="form-check-input" name="agreeSms" value="Y">
 											약관에 동의합니다.</label>
 									</div>
 									<div class="form-group mb-8 button">

@@ -214,13 +214,16 @@
 		                               placeholder="다양한 의견을 작성해 보세요!">
 							</form>
 	                    	</c:if>
-	                    	<c:if test="${empty loginUserId}">
+	                    	<c:if test="${empty loginUserId and empty recLoginInfo}">
 	                    		<p><a id="loginLink" href="#">로그인</a> 후 댓글 작성이 가능합니다. </p>
 								<script>
 								  const returnOldPath = "/comboard/comRead?com_bno=${resultReadVO.com_bno}&page=${page}";
 								  const encoded = encodeURIComponent(returnOldPath);
 								  document.getElementById("loginLink").href = "/member/login?oldPath=" + encoded;
 								</script>
+	                    	</c:if>
+	                    	<c:if test="${!empty recLoginInfo}">
+	                    		<p>불편을 드려 죄송합니다 (┬┬﹏┬┬) 일반회원만 댓글 작성이 가능합니다.</p>
 	                    	</c:if>
 	                    </div>
 	                    <hr>
@@ -299,7 +302,7 @@
 			location.href="/comboard/comListCri?page=${page}";
 		});
 	
-		// 삭제 버튼 → 모달 표시
+		// 삭제 버튼
 		$(".btn-delete").click(function(e){
 			e.preventDefault();
 			$("#pwdModal").fadeIn();
@@ -355,7 +358,7 @@
 		
 		// 댓글 추가
 		function writeReplySection() {
-			alert("REST 호출"+"${loginUserId}");
+			// alert("REST 호출"+"${loginUserId}");
 			
 			$.ajax({
 				type:"POST",

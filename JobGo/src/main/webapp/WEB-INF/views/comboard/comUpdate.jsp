@@ -32,7 +32,7 @@
 			        <form class="form-ad" method="post" enctype="multipart/form-data">
 			        	<!-- 페이지 이동시(수정,삭제) 필요한 정보를 가져가기위한 from태그 -->
 			            <h3 class="single-section-title">
-			            	<input type="hidden" name="page" value="${page }">
+			            	<input type="hidden" name="page" value="${page}">
 			            	<font dir="auto" style="vertical-align: inherit;">
 			            		<font dir="auto" style="vertical-align: inherit;">글 작성</font>
 			            	</font>
@@ -87,31 +87,35 @@
 			            </div>
 			            <div class="row align-items-center justify-content-center">
 			                <div class="col-lg-6 col-md-5 col-12">
-			                    <div class="form-group">
+			                    <div>
 			                        <div class="button-group">
 			                            <div class="action-buttons">
 			                                <div class="upload-button button">
-								                <div class="checkbox">
-											        <label>
-											        	<input type="checkbox" required> 내용을 한번 더 확인 해 주세요.
-											        </label>
-									            </div>	
-			                                    <hr>
-			                                    <div>
-				                                    <input id="cover_img_file_3" type="file" name="storedFileName" accept="image/*"> 첨부파일 ➕ <input type="button" value=" 추가하기" id="addBtn">
-			                                    </div>
-			                                    <div id="fileDiv">
-			                                    
-			                                    </div>
-			                                </div>
-			                            </div>
-			                        </div>
-			                    </div>
+												<!-- 체크박스 영역 -->
+												<div class="checkbox">
+													<input type="checkbox" id="confirmCheck" required>
+													<label for="confirmCheck">내용을 한번 더 확인 해 주세요.</label>
+												</div>	
+												<hr>
+											
+												<!-- 파일 입력 영역 -->
+												<div>
+													<input id="cover_img_file_3" type="file" name="storedFileName" accept="image/*">
+													<label for="cover_img_file_3">첨부파일 ➕</label>
+													<input type="button" value="추가하기" id="addBtn">
+												</div>
+												<div id="fileDiv">
+												
+												</div>
+			                            	</div>
+			                        	</div>
+			                    	</div>
+			                	</div>
 			                </div>
 			                <div class="col-lg-6 col-md-7 col-12">
 			                    <div class="add-post-btn float-right">
-			                  		<button type="submit">수정</button>
-			                  		<button type="button">목록으로</button>
+			                  		<button type="submit" class="btn btn-primary">수정</button>
+			                  		<button type="button" class="btn btn-primary">목록으로</button>
 			                    </div>
 			                </div>
 			            </div>
@@ -124,9 +128,13 @@
 <script type="text/javascript">
 	$(document).ready(function(){
 		var cnt = 1;
+		var formObj = $("form[role='form']");
 		$("#addBtn").click(function(){
 			// alert("버튼 클릭");
 			$("#fileDiv").append("<div><br><input id='cover_img_file_3' type='file' name='storedFileName"+(cnt++)+"' accept='image/*' ></div>")
+		});
+		$(".btn-primary").click(function(){
+		    location.href = "/comboard/comListCri?page=${page}";
 		});
 	});
 </script>

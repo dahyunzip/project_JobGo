@@ -11,10 +11,10 @@ import com.itwillbs.domain.RecTopLocationVO;
 public interface RecBoardService {
 	
 	// 게시판 리스트
-	public List<RecBoardVO> getRecBoardList(Criteria cri) throws Exception;
+	public List<RecBoardVO> getRecBoardList(Criteria cri, Integer toplct_id, Integer topctg_id, Integer btmctg_id, String search) throws Exception;
 
 	// 게시판 모든 글 개수 가져오기
-	public int getRecTotalCount(String search) throws Exception;
+	public int getRecTotalCount(Integer toplct_id, Integer topctg_id, Integer btmctg_id, String search) throws Exception;
 	
 	// 게시글 작성 (대분류 리스트)
 	public List<RecTopCategoryVO> getRecTopCategoryList();
@@ -28,4 +28,10 @@ public interface RecBoardService {
 	
 	// 게시글 보기
 	public RecBoardVO getRecBoard(int rec_bno) throws Exception;
+	
+	// 게시글 수정
+	public int updateRecBoard(RecBoardVO vo) throws Exception;
+	
+	// 게시글 삭제
+	public int deleteRecBoard(int rec_bno) throws Exception;
 }

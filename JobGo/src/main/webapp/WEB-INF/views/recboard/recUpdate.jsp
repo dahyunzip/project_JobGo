@@ -33,8 +33,9 @@
 				<hr>
 
 				<!-- 글쓰기 폼 시작 -->
-				<form class="form-ad" action="/recboard/recWrite" method="post" enctype="multipart/form-data">
+				<form class="form-ad" method="post" enctype="multipart/form-data">
 					<input type="hidden" name="page" value="${page }">
+					<input type="hidden" name="rec_bno" value="${resultReadVO.rec_bno}">
 					<h3 class="single-section-title">공고 수정</h3>
 
 					<!-- 기본 정보 영역 -->
@@ -43,14 +44,16 @@
 							<div class="form-group">
 								<label>채용 공고 명</label>
 								<input type="text" class="form-control" name="rec_title"
-									   placeholder="공고 제목을 입력하세요." required>
+									   placeholder="공고 제목을 입력하세요." 
+									   value="${resultReadVO.rec_title }"
+									   required>
 							</div>
 						</div>
 						<div class="col-lg-6 col-12">
 							<div class="form-group">
 								<label>채용 담당자</label>
 								<input type="text" class="form-control"
-									   value="${recLoginInfo.managerName}" readonly>
+									   value="${resultReadVO.managerName}" readonly>
 							</div>
 						</div>
 					</div>
@@ -58,19 +61,19 @@
 					<div class="form-group">
 						<label>담당자 소속 회사명</label>
 						<input type="text" class="form-control"
-							   value="${recLoginInfo.companyName}" readonly>
+							   value="${resultReadVO.companyName}" readonly>
 					</div>
 					
 					<div class="form-group">
 						<label>담당자 메일 주소</label>
 						<input type="text" class="form-control"
-							   value="${recLoginInfo.managerEmail}" readonly>
+							   value="${resultReadVO.managerEmail}" readonly>
 					</div>
 
 					<div class="form-group">
 						<label>주요 업무 내용</label>
 						<textarea class="form-control" name="rec_maintask"
-								  placeholder="주요 업무를 입력하세요." rows="5"></textarea>
+								  placeholder="주요 업무를 입력하세요." rows="5">${resultReadVO.rec_maintask }</textarea>
 					</div>
 
 					<!-- 카테고리 / 지역 선택 -->
@@ -79,10 +82,13 @@
 							<div class="form-group">
 								<label>상위 카테고리</label>
 								<select id="topCategory" name="topctg_id" class="form-control" required>
-									<option value="">선택하세요</option>
-									<c:forEach var="tc" items="${topCategoryList}">
-										<option value="${tc.topctg_id}">${tc.topctg_name}</option>
-									</c:forEach>
+								    <option value="">선택하세요</option>
+								    <c:forEach var="tc" items="${topCategoryList}">
+								        <option value="${tc.topctg_id}"
+								            <c:if test="${tc.topctg_id == resultReadVO.topctg_id}">selected</c:if>>
+								            ${tc.topctg_name}
+								        </option>
+								    </c:forEach>
 								</select>
 							</div>
 						</div>
@@ -98,10 +104,13 @@
 							<div class="form-group">
 								<label>근무 지역</label>
 								<select name="toplct_id" class="form-control" required>
-									<option value="">선택하세요</option>
-									<c:forEach var="tl" items="${topLocationList}">
-										<option value="${tl.toplct_id}">${tl.toplct_name}</option>
-									</c:forEach>
+								    <option value="">선택하세요</option>
+								    <c:forEach var="tl" items="${topLocationList}">
+								        <option value="${tl.toplct_id}"
+								            <c:if test="${tl.toplct_id == resultReadVO.toplct_id}">selected</c:if>>
+								            ${tl.toplct_name}
+								        </option>
+								    </c:forEach>
 								</select>
 							</div>
 						</div>
@@ -114,13 +123,15 @@
 								<label>상세 근무지</label>
 								<input type="text" id="streetAdr" class="form-control" name="rec_inputlct"
 						               placeholder="도로명 주소를 클릭해서 선택하세요" readonly
+						               value="${resultReadVO.rec_inputlct}"
 						               onclick="execDaumPostcode()"> <!-- 클릭 시 주소 검색창 실행 -->
 							</div>
 						</div>
 						<div class="col-lg-6 col-12">
 							<div class="form-group">
 								<label>마감일</label>
-								<input type="date" class="form-control" name="rec_deadline" required>
+								<input type="date" 
+									   class="form-control" name="rec_deadline" value="${resultReadVO.rec_deadline}" required>
 							</div>
 						</div>
 					</div>
@@ -128,19 +139,19 @@
 					<div class="form-group">
 						<label>입사 자격 요건</label>
 						<textarea class="form-control" name="rec_qualification"
-								  placeholder="학력 필요 자격증 등 등.." rows="5"></textarea>
+								  placeholder="학력 필요 자격증 등 등.." rows="5">${resultReadVO.rec_qualification}</textarea>
 					</div>
 					
 					<div class="form-group">
 						<label>채용 우대 사항</label>
 						<textarea class="form-control" name="rec_preference"
-								  placeholder="경력 및 우대 자격증 등 등.." rows="5"></textarea>
+								  placeholder="경력 및 우대 자격증 등 등.." rows="5">${resultReadVO.rec_preference}</textarea>
 					</div>
 					
 					<div class="form-group">
 						<label>복리 후생</label>
 						<textarea class="form-control" name="rec_benefit"
-								  placeholder="채용시 복지 및 임직원 지원 항목을 작성하세요." rows="5"></textarea>
+								  placeholder="채용시 복지 및 임직원 지원 항목을 작성하세요." rows="5">${resultReadVO.rec_benefit }</textarea>
 					</div>
 
 					<!-- 썸네일 업로드 -->
@@ -168,7 +179,8 @@
 						</div>
 						<div class="col-lg-6 col-md-7 col-12">
 							<div class="add-post-btn float-right">
-								<button type="submit" class="btn btn-primary">글 수정</button>
+								<button type="submit" class="btn btn-primary">공고 수정</button>
+								<button type="button" class="btn btn-primary">목록으로</button>
 							</div>
 						</div>
 					</div>
@@ -195,34 +207,43 @@
 
 <!-- 대분류 선택 시 소분류 선택 가능-->
 <script>
+	$(document).ready(function() {
+	    const selectedTopId = "${resultReadVO.topctg_id}";
+	    const selectedBtmId = "${resultReadVO.btmctg_id}";
 	
-	$(document).ready(function(){
-		
-		var cnt = 1;
-		
-		$('#topCategory').change(function(){
-			const topId = $(this).val();
-			$('#bottomCategory').empty();
-		
-			if(topId) {
-				$.ajax({
-					url: "/recboard/getBottomCategory",
-					data: { topctg_id: topId },
-					success: function(list) {
-						$('#bottomCategory').append('<option value="">선택하세요</option>');
-						$.each(list, function(i, item) {
-							$('#bottomCategory').append('<option value="'+item.btmctg_id+'">'+item.btmctg_name+'</option>');
-						});
-					}
-				});
-			} else {
-				$('#bottomCategory').append('<option value="">상위 카테고리를 먼저 선택하세요</option>');
-			}
-		});
-		
-		$("#addBtn").click(function(){
-			// alert("버튼 클릭");
-			$("#fileDiv").append("<div><br><input type='file' name='attachFiles' accept='image/*'></div>");
+	    $('#topCategory').change(function() {
+	        const topId = $(this).val();
+	        $('#bottomCategory').empty();
+	
+	        if (topId) {
+	            $.ajax({
+	                url: "/recboard/getBottomCategory",
+	                data: { topctg_id: topId },
+	                success: function(list) {
+	                    $('#bottomCategory').append('<option value="">선택하세요</option>');
+	                    $.each(list, function(i, item) {
+	                        const selected = (item.btmctg_id == selectedBtmId) ? 'selected' : '';
+	                        $('#bottomCategory').append('<option value="' + item.btmctg_id + '" ' + selected + '>' + item.btmctg_name + '</option>');
+	                    });
+	                }
+	            });
+	        } else {
+	            $('#bottomCategory').append('<option value="">상위 카테고리를 먼저 선택하세요</option>');
+	        }
+	    });
+	
+	    // 초기 설정
+	    if (selectedTopId) {
+	        $('#topCategory').val(selectedTopId).trigger('change');
+	    }
+	
+	    // 파일 추가 버튼
+	    $("#addBtn").click(function() {
+	        $("#fileDiv").append("<div><br><input type='file' name='attachFiles' accept='image/*'></div>");
+	    });
+	    
+	    $(".btn-primary").click(function(){
+		    location.href = "/recboard/recListCri?page=${page}";
 		});
 	});
 </script>

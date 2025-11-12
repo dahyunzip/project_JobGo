@@ -17,23 +17,37 @@
 		    rb.rec_viewcnt 
 		from rec_board rb 
 		join corpmember cm on cm.corp_id = rb.corp_id 
+		where 1=1 
+		<if test="toplct_id != null">
+			AND rb.toplct_id = #{toplct_id}
+		</if>
+		<if test="topctg_id != null">
+			AND rb.topctg_id = #{topctg_id}
+		</if>
+		<if test="btmctg_id != null">
+			AND rb.btmctg_id = #{btmctg_id}
+		</if>
 		<if test="search != null and search != ''">
-			where 
+			and  
 			(rb.rec_title like concat('%',#{search},'%') 
 			or cm.company_name like concat('%',#{search},'%')
 			or cm.corp_userid like concat('%',#{search},'%') 
 			or rb.rec_regdate like concat('%',#{search},'%'))
 		</if>
 		order by rb.rec_bno desc 
-		limit #{pageStart},#{pageSize} 
+		limit #{cri.pageStart},#{cri.pageSize} 
 	</select>
  
  	<!-- 게시판 모든 글 개수 가져오기 -->
  	<select id="selectRecTotalCount" resultType="int">
  		select count(rb.rec_bno) from rec_board rb 
  		join corpmember cm on rb.corp_id = cm.corp_id
+ 		where 1=1 
+		<if test="toplct_id != null">AND toplct_id = #{toplct_id}</if>
+		<if test="topctg_id != null">AND topctg_id = #{topctg_id}</if>
+		<if test="btmctg_id != null">AND btmctg_id = #{btmctg_id}</if>
  		<if test="search != null and search != ''">
-			where 
+			and  
 			(rb.rec_title like concat('%',#{search},'%') 
 			or cm.company_name like concat('%',#{search},'%')
 			or cm.corp_userid like concat('%',#{search},'%') 
@@ -98,4 +112,29 @@
  		join corpmember cm on cm.corp_id = rb.corp_id 
  		where rb.rec_bno = #{rec_bno}
  	</select>
+ 	
+ 	<!-- 게시글 수정 -->
+ 	<update id="updateRecBoard">
+ 		update rec_board set 
+ 			rec_title = #{rec_title}, 
+ 			rec_maintask = #{rec_maintask},  
+ 			rec_preference = #{rec_preference}, 
+ 			rec_benefit = #{rec_benefit}, 
+ 			rec_qualification = #{rec_qualification}, 
+ 			rec_inputlct = #{rec_inputlct},
+ 			rec_deadline = #{rec_deadline},
+ 			thumbFileName = #{thumbFileName}, 
+ 			attachFileName = #{attachFileName}, 
+ 			topctg_id = #{topctg_id}, 
+ 			btmctg_id = #{btmctg_id}, 
+ 			toplct_id = #{toplct_id}, 
+ 			rec_updatedate = now() 
+ 		where rec_bno = #{rec_bno} 
+ 	</update>
+ 	
+ 	<!-- 게시글 삭제 -->
+ 	<delete id="deleteRecBoard">
+ 		delete from rec_board 
+ 		where rec_bno = #{rec_bno}
+ 	</delete>
  </mapper>

@@ -12,6 +12,14 @@
                 작성일: <fmt:formatDate value="${resume.createdAt}" pattern="yyyy-MM-dd HH:mm" /> |
                 수정일: <fmt:formatDate value="${resume.updatedAt}" pattern="yyyy-MM-dd HH:mm" />
             </p>
+            <p>
+            	<c:if test="${resume.status eq 'TEMP'}">
+			        <span class="badge bg-warning text-dark">임시저장</span>
+			    </c:if>
+                 <c:if test="${resume.status eq 'FINAL'}">
+			        <span class="badge bg-primary text-white">작성완료</span>
+			    </c:if>
+            </p>
         </div>
 
         <!-- ====== 학력사항 ====== -->

@@ -23,6 +23,7 @@ import org.springframework.web.multipart.MultipartRequest;
 import com.itwillbs.component.RecFileComponent;
 import com.itwillbs.domain.CorpMemberVO;
 import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.MemberVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.RecBoardVO;
 import com.itwillbs.domain.RecBottomCategoryVO;
@@ -153,20 +154,49 @@ public class RecBoardController {
 		
 		// 회원 정보 불러오기
 		String recLoginInfo = (String) session.getAttribute("corpUserId");
-		model.addAttribute("recLoginInfo", recLoginInfo);
+		CorpMemberVO recMemInfo = corpMemberService.getCorpMember(recLoginInfo);
+		model.addAttribute("recLoginInfo", recMemInfo);
+		logger.debug(" 담당자 아이디: "+recMemInfo.getCorpUserId());
+		logger.debug(" 소속 회사명: "+recMemInfo.getCompanyName());
+		logger.debug(" 담당자 이름: "+recMemInfo.getManagerName());
+		logger.debug(" 담당자 이메일: "+recMemInfo.getManagerEmail());
 		
 		// 디비에서 정보 불러오기
 		RecBoardVO resultReadVO = recBoardService.getRecBoard(rec_bno);
 		logger.debug(" resultRead: "+resultReadVO);
 		
 		model.addAttribute("resultReadVO", resultReadVO);
-		logger.debug(" 담당자 아이디: "+resultReadVO.getCorpUserId());
-		logger.debug(" 소속 회사명: "+resultReadVO.getCompanyName());
-		logger.debug(" 담당자 이름: "+resultReadVO.getManagerName());
-		logger.debug(" 담당자 이메일: "+resultReadVO.getManagerEmail());
+		logger.debug(" 썸네일 정보: "+resultReadVO.getThumbFileName());
+		logger.debug(" 첨부 파일/사진 정보: "+resultReadVO.getAttachFileName());
 		
 		logger.debug(" recReadGET() 실행! ");
 		return "/recboard/recRead";
+	}
+	
+	// 게시글 수정 - gET
+	@GetMapping("/recUpdate")
+	public void recUpdateBoardGET(HttpSession session,
+			                      Model model,
+			                      @RequestParam("rec_bno") int rec_bno) throws Exception {
+		logger.debug(" recUpdateBoardGET() 실행! ");
+		
+		String corpUserId = (String) session.getAttribute("corpUserId");
+        CorpMemberVO recMemInfo = corpMemberService.getCorpMember(corpUserId);
+		model.addAttribute("recLoginInfo", recMemInfo);
+		
+		logger.debug(" recUpdateBoardGET() 끝! ");
+	}
+	
+	// 게시글 수정 - POST
+	@PostMapping("/recUpdate")
+	public String recUpdateBoardPOST(HttpSession session) throws Exception {
+		logger.debug(" recUpdateBoardPOST() 실행! ");
+		
+		String corpUserId = (String) session.getAttribute("corpUserId");
+        CorpMemberVO recMemInfo = corpMemberService.getCorpMember(corpUserId);
+		
+		logger.debug(" recUpdateBoardPOST() 끝! ");
+		return "";
 	}
 
 	

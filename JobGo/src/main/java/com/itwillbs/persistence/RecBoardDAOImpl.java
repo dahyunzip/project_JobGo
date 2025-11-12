@@ -1,6 +1,8 @@
 package com.itwillbs.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -29,11 +31,17 @@ public class RecBoardDAOImpl implements RecBoardDAO {
 
 	// 게시판 리스트
 	@Override
-	public List<RecBoardVO> selectRecBoardList(Criteria cri) throws Exception {
+	public List<RecBoardVO> selectRecBoardList(Criteria cri, Integer toplct_id, Integer topctg_id, Integer btmctg_id, String search) throws Exception {
 		logger.debug(" DAO: selectRecBoardList() 실행! ");
 		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("cri", cri);
+		paramMap.put("toplct_id", toplct_id);
+		paramMap.put("topctg_id", topctg_id);
+		paramMap.put("btmctg_id", btmctg_id);
+		paramMap.put("search", search);
 		List<RecBoardVO> resultRecList 
-			= sqlSession.selectList(NAMESPACE + "selectRecBoardList", cri);
+			= sqlSession.selectList(NAMESPACE + "selectRecBoardList", paramMap);
 		
 		logger.debug(" DAO: selectRecBoardList() 끝! ");
 		return resultRecList;
@@ -41,11 +49,16 @@ public class RecBoardDAOImpl implements RecBoardDAO {
 
 	// 게시판 모든 글 개수 가져오기
 	@Override
-	public int selectRecTotalCount(String search) throws Exception {
+	public int selectRecTotalCount(Integer toplct_id, Integer topctg_id, Integer btmctg_id, String search) throws Exception {
 		logger.debug(" selectRecTotalCount() 실행! ");
 		
+		Map<String, Object> paramMap = new HashMap<>();
+		paramMap.put("toplct_id", toplct_id);
+		paramMap.put("topctg_id", topctg_id);
+		paramMap.put("btmctg_id", btmctg_id);
+		paramMap.put("search", search);
 		int resultRecCnt 
-			= sqlSession.selectOne(NAMESPACE + "selectRecTotalCount", search);
+			= sqlSession.selectOne(NAMESPACE + "selectRecTotalCount", paramMap);
 		
 		logger.debug(" selectRecTotalCount() 끝! ");
 		return resultRecCnt;
@@ -105,6 +118,26 @@ public class RecBoardDAOImpl implements RecBoardDAO {
 		
 		logger.debug(" selectRecBoardRead() 끝! ");
 		return resultRBR;
+	}
+
+	@Override
+	public int updateRecBoard(RecBoardVO vo) throws Exception {
+		logger.debug(" updateRecBoard() 실행! ");
+		
+		int resultUpdateRB = sqlSession.update(NAMESPACE + "updateRecBoard", vo);
+		
+		logger.debug(" updateRecBoard() 끝! ");
+		return resultUpdateRB;
+	}
+
+	@Override
+	public int deleteRecBoard(int rec_bno) throws Exception {
+		logger.debug(" deleteRecBoard() 실행! ");
+		
+		int resultDeleteRB = sqlSession.delete(NAMESPACE + "deleteRecBoard", rec_bno);
+		
+		logger.debug(" deleteRecBoard() 끝! ");
+		return resultDeleteRB;
 	}
 	
 

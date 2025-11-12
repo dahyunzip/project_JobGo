@@ -234,8 +234,13 @@ public class ComBoardController {
 			                 HttpSession session) throws Exception {
 		logger.debug(" /comboard/comRead -> comReadGET 실행! ");
 		
+		// 일반회원 세션 조회용
 		String loginUserId = (String) session.getAttribute("userid");
 	    model.addAttribute("loginUserId", loginUserId);
+	    
+		// 기업회원 세션 조회용
+	    String recLoginInfo = (String) session.getAttribute("corpUserId");
+		model.addAttribute("recLoginInfo", recLoginInfo);
 		
 		// 회원 아이디 조회
 		ComBoardVO resultReadVO = comBoardService.getComBoard(com_bno);
@@ -377,10 +382,12 @@ public class ComBoardController {
 	// 게시글 수정 - GET
 	@GetMapping("/comUpdate")
 	public void comUpdateBoardGET(HttpSession session,
-			                      Model model) throws Exception {
+			                      Model model,
+			                      @RequestParam(value="page", required=false, defaultValue="1") int page) throws Exception {
 		logger.debug(" /comboard/comUpdate -> comUpdateBoardGET() 실행! ");
 		String memberLoginInfo = (String) session.getAttribute("userid");
 		MemberVO memberInfo = memberService.getMember(memberLoginInfo);
+		model.addAttribute("page", page);
 		model.addAttribute("memberLoginInfo", memberInfo);
 	}
 	

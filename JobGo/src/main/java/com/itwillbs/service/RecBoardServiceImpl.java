@@ -25,11 +25,11 @@ public class RecBoardServiceImpl implements RecBoardService {
 
 	// 게시판 리스트
 	@Override
-	public List<RecBoardVO> getRecBoardList(Criteria cri) throws Exception {
+	public List<RecBoardVO> getRecBoardList(Criteria cri, Integer toplct_id, Integer topctg_id, Integer btmctg_id, String search) throws Exception {
 		logger.debug(" getRecBoardListPage() 실행! ");
 		
 		List<RecBoardVO> resultRecList 
-			= rbDAO.selectRecBoardList(cri);
+			= rbDAO.selectRecBoardList(cri, toplct_id, topctg_id, btmctg_id, search);
 		
 		logger.debug(" getRecBoardListPage() 끝! ");
 		return resultRecList;
@@ -37,11 +37,11 @@ public class RecBoardServiceImpl implements RecBoardService {
 
 	// 게시판 모든 글 개수 가져오기
 	@Override
-	public int getRecTotalCount(String search) throws Exception {
+	public int getRecTotalCount(Integer toplct_id, Integer topctg_id, Integer btmctg_id, String search) throws Exception {
 		logger.debug(" getRecTotalCount() 실행! ");
 		
 		int resultRecCnt 
-			= rbDAO.selectRecTotalCount(search);
+			= rbDAO.selectRecTotalCount(toplct_id, topctg_id, btmctg_id, search);
 		
 		logger.debug(" getRecTotalCount() 끝! ");
 		return resultRecCnt;
@@ -101,6 +101,26 @@ public class RecBoardServiceImpl implements RecBoardService {
 		
 		logger.debug(" getRecBoard() 끝! ");
 		return resultRB;
+	}
+
+	@Override
+	public int updateRecBoard(RecBoardVO vo) throws Exception {
+		logger.debug(" getRecBoard() 실행! ");
+		
+		int resultUpdateRB = rbDAO.updateRecBoard(vo);
+		
+		logger.debug(" getRecBoard() 끝! ");
+		return resultUpdateRB;
+	}
+
+	@Override
+	public int deleteRecBoard(int rec_bno) throws Exception {
+		logger.debug(" deleteRecBoard() 실행! ");
+		
+		int resultDeleteRB = rbDAO.deleteRecBoard(rec_bno);
+		
+		logger.debug(" deleteRecBoard() 끝! ");
+		return resultDeleteRB;
 	}
 	
 

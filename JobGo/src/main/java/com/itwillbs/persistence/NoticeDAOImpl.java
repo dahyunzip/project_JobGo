@@ -41,12 +41,6 @@ public class NoticeDAOImpl implements NoticeDAO {
 	}
 
 	@Override
-	public List<NoticeVO> getNoticeList() throws Exception{
-		logger.debug(" getNoticeList - DAO ");
-		return sqlSession.selectList(NAMESPACE+ ".getNoticeList");
-	}
-
-	@Override
 	public void updateNotice(NoticeVO vo) throws Exception{
 		logger.debug(" updateNotice - DAO ");
 		sqlSession.update(NAMESPACE+".updateNotice", vo);
@@ -64,6 +58,16 @@ public class NoticeDAOImpl implements NoticeDAO {
 		logger.debug(" updateViewCnt - DAO ");
 		sqlSession.update(NAMESPACE+".updateViewCnt", noticeId);
 		
+	}
+	
+	@Override
+	public List<NoticeVO> getNoticeListPaging(Map<String, Object> map) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getNoticeListPaging", map);
+	}
+
+	@Override
+	public int getNoticeCount(Map<String, Object> map) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getNoticeCount", map);
 	}
 	
 }

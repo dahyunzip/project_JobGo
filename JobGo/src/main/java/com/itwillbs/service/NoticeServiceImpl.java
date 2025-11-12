@@ -31,11 +31,6 @@ public class NoticeServiceImpl implements NoticeService{
 	public NoticeVO getNotice(int noticeId) throws Exception{
 		return nDAO.getNotice(noticeId);
 	}
-
-	@Override
-	public List<NoticeVO> getNoticeList() throws Exception{
-		return nDAO.getNoticeList();
-	}
 	
 	@Override
 	public void updateNotice(NoticeVO vo) throws Exception{
@@ -54,5 +49,16 @@ public class NoticeServiceImpl implements NoticeService{
 		nDAO.updateViewCnt(noticeId);
 		
 	}
+	
+	@Override
+	public List<NoticeVO> getNoticeListPaging(Map<String, Object> map) throws Exception {
+		return nDAO.getNoticeListPaging(map);
+	}
+
+	@Override
+	public int getNoticeCount(Map<String, Object> map) throws Exception {
+		return nDAO.getNoticeCount(map);
+	}
+
 	
 }

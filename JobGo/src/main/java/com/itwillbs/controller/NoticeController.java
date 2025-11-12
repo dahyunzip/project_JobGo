@@ -18,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.NoticeVO;
+import com.itwillbs.domain.PageVO;
 import com.itwillbs.service.NoticeService;
 
 @Controller
@@ -49,8 +51,6 @@ public class NoticeController {
 		@RequestParam(value="file", required=false) MultipartFile file,
 		@RequestParam(value="corpNotice", required=false, defaultValue="A") String corpNotice,
 		HttpSession session) throws Exception {
-		
-		System.out.println("==== corpNotice 파라미터 값 ===> " + corpNotice);
 		
 		if(!isAdmin(session)) {
 			return "redirect:/notice/list";
@@ -129,26 +129,26 @@ public class NoticeController {
 		return "/notice/detail";
 	}
 	
-	@RequestMapping(value = "/list", method=RequestMethod.GET)
-	public String getNoticeList(HttpSession session, Model model) throws Exception{
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public String getNoticeList(Criteria cri, Model model, HttpSession session) throws Exception {
 		String memberType = (String) session.getAttribute("membertype");
 		String userType = (String) session.getAttribute("userType");
 		
-		List<NoticeVO> allList = nService.getNoticeList();
-		List<NoticeVO> filteredList = new ArrayList<>();
 		
-		for (NoticeVO vo : allList) {
-			boolean isCorpNotice = vo.getNoticeTitle() != null && vo.getNoticeTitle().contains("[기업공지]");
-			
-			if (isCorpNotice) {
-				if ("A".equals(memberType) || "corp".equals(userType)) {
-					filteredList.add(vo);
-				}
-			} else {
-				filteredList.add(vo);
-			}
-		}
-		model.addAttribute("noticeList", filteredList);
+		Map<String, Object> param = new HashMap<>();
+		param.put("cri", cri);
+		param.put("memberType", memberType);
+		param.put("userType", userType);
+
+		List<NoticeVO> noticeList = nService.getNoticeListPaging(param);
+		int totalCount = nService.getNoticeCount(param);
+
+		PageVO pageVO = new PageVO();
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(totalCount);
+
+		model.addAttribute("noticeList", noticeList);
+		model.addAttribute("pageVO", pageVO);
 		return "/notice/list";
 	}
 	

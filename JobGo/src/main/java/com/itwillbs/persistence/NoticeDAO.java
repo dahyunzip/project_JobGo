@@ -15,9 +15,6 @@ public interface NoticeDAO {
 		// 공지 상세 조회
 		NoticeVO getNotice(int noticeId) throws Exception;
 
-		// 공지 목록
-		List<NoticeVO> getNoticeList() throws Exception;
-
 		// 공지 수정
 		void updateNotice(NoticeVO vo) throws Exception;
 
@@ -26,4 +23,10 @@ public interface NoticeDAO {
 
 		// 조회수 증가
 		void updateViewCnt(int noticeId) throws Exception;
+		
+		//
+		List<NoticeVO> getNoticeListPaging(Map<String, Object> map) throws Exception;
+		
+		//
+		int getNoticeCount(Map<String, Object> map) throws Exception;
 }

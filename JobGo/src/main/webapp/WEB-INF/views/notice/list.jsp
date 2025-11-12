@@ -11,109 +11,67 @@
 </head>
 <body>
 <%@ include file="../include/Header.jsp"%>
-<div class="container">
-	<h2>공지사항 게시판</h2>
+<div style="width:80%; margin:40px auto;">
+	<h2 style="margin-bottom:20px;">공지사항</h2>
+	
+	<c:if test="${sessionScope.membertype eq 'A'}">
+		<div style="text-align:right; margin-bottom:15px;">
+			<a href="${pageContext.request.contextPath}/notice/write"
+			   style="display:inline-block; padding:8px 16px; background:#007bff; color:white;
+			          border-radius:4px; text-decoration:none;">
+				공지 작성
+			</a>
+		</div>
+	</c:if>
 
-	<div class="card">
-		<div class="card-header">
-			<h3>공지 목록</h3>
-			<c:if test="${sessionScope.membertype eq 'A'}">
-				<button type="button" onclick="location.href='${pageContext.request.contextPath}/notice/write'">
-					글쓰기
-				</button>
+	<table border="1" cellspacing="0" cellpadding="8" style="width:100%;">
+		<thead style="background:#f3f3f3;">
+			<tr>
+				<th>번호</th>
+				<th>제목</th>
+				<th>작성일</th>
+				<th>조회수</th>
+			</tr>
+		</thead>
+
+		<tbody>
+			<c:if test="${empty noticeList}">
+				<tr><td colspan="4" style="text-align:center;">등록된 공지가 없습니다.</td></tr>
 			</c:if>
-		</div>
+		
+			<c:forEach var="notice" items="${noticeList}" varStatus="status">
+				<tr>
+					<td>
+						${pageVO.totalCount - ((pageVO.cri.page - 1) * pageVO.cri.pageSize) - status.index}
+					</td>
+					<td>
+						<a href="${pageContext.request.contextPath}/notice/detail?noticeId=${notice.noticeId}">
+							${notice.noticeTitle}
+						</a>
+					</td>
+					<td><fmt:formatDate value="${notice.noticeRegdate}" pattern="yyyy-MM-dd"/></td>
+					<td>${notice.noticeViewCnt}</td>
+				</tr>
+			</c:forEach>
+		</tbody>
+	</table>
 
-		<div class="card-body">
-			<!-- 페이지 설정 -->
-			<c:set var="pageSize" value="10"/>
-			<c:set var="page" value="${param.page != null ? param.page : 1}"/>
-			<c:set var="start" value="${(page - 1) * pageSize}"/>
-			<c:set var="end" value="${start + pageSize}"/>
-			
-			<c:set var="visibleNotices" value="${0}"/>
-			<table border="1" width="100%" cellspacing="0" cellpadding="8">
-				<thead>
-					<tr>
-						<th>번호</th>
-						<th>제목</th>
-						<th>작성일</th>
-						<th>조회수</th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:set var="displayNum" value="${fn:length(noticeList) + 1}" />
-					
-					<c:forEach var="notice" items="${noticeList}">
-						<c:set var="isCorpNotice" value="${fn:contains(notice.noticeTitle, '[기업공지]')}"/>
-						<c:if test="${!isCorpNotice or (sessionScope.membertype eq 'A' or sessionScope.userType eq 'corp')}">
-							<c:set var="displayNum" value="${displayNum - 1}" />
-								<tr>
-									<td align="center">${displayNum}</td>
-									<td>
-										<a href="${pageContext.request.contextPath}/notice/detail?noticeId=${notice.noticeId}">
-											${notice.noticeTitle}
-										</a>
-									</td>
-									<td align="center">
-										<fmt:formatDate value="${notice.noticeRegdate}" pattern="yyyy-MM-dd"/>
-									</td>
-									<td align="center">${notice.noticeViewCnt}</td>
-								</tr>
-						</c:if>
-					</c:forEach>
-				</tbody>
-			</table>
+	<!-- 페이징 영역 -->
+	<div style="margin-top:20px; text-align:center;">
+		<c:if test="${pageVO.prev}">
+			<a href="?page=${pageVO.startPage - 1}" style="margin:0 4px;">◀ 이전</a>
+		</c:if>
 
-			<!-- 페이지 네비게이션 -->
-			<div style="margin-top:20px; text-align:center;">
-				<c:set var="totalPages" value="${(visibleNotices + pageSize - 1) / pageSize}" />
+		<c:forEach var="num" begin="${pageVO.startPage}" end="${pageVO.endPage}">
+			<a href="?page=${num}" 
+			   style="margin:0 3px; ${num == pageVO.cri.page ? 'font-weight:bold; color:red;' : ''}">
+				${num}
+			</a>
+		</c:forEach>
 
-				<c:if test="${totalPages > 1}">
-					<ul style="list-style:none; display:inline-flex; gap:8px; padding:0;">
-			
-						<!-- 이전 버튼 -->
-						<c:choose>
-							<c:when test="${currentPage > 1}">
-								<li>
-									<a href="?page=${currentPage - 1}" style="text-decoration:none;">&lt;</a>
-								</li>
-							</c:when>
-							<c:otherwise>
-								<li style="color:#aaa;">&lt;</li>
-							</c:otherwise>
-						</c:choose>
-
-						<!-- 페이지 번호 -->
-						<c:forEach var="i" begin="1" end="${totalPages}">
-							<c:choose>
-								<c:when test="${i eq currentPage}">
-									<li style="font-weight:bold;">[${i}]</li>
-								</c:when>
-								<c:otherwise>
-									<li>
-										<a href="?page=${i}" style="text-decoration:none;">${i}</a>
-									</li>
-								</c:otherwise>
-							</c:choose>
-						</c:forEach>
-	
-						<!-- 다음 버튼 -->
-						<c:choose>
-							<c:when test="${currentPage < totalPages}">
-								<li>
-									<a href="?page=${currentPage + 1}" style="text-decoration:none;">&gt;</a>
-								</li>
-							</c:when>
-							<c:otherwise>
-								<li style="color:#aaa;">&gt;</li>
-							</c:otherwise>
-						</c:choose>
-	
-					</ul>
-				</c:if>
-			</div>
-		</div>
+		<c:if test="${pageVO.next}">
+			<a href="?page=${pageVO.endPage + 1}" style="margin:0 4px;">다음 ▶</a>
+		</c:if>
 	</div>
 </div>
 </body>

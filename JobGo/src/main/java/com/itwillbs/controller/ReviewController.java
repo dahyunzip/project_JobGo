@@ -229,11 +229,14 @@ public class ReviewController {
 		model.addAttribute("reviewList", reviewList);
 
 		int total = reviewService.getTotalCount(cri);
-		model.addAttribute("pageVO", new PageVO(cri, total));
+		PageVO pageVO = new PageVO();
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(total);
+		model.addAttribute("pageVO", pageVO);
 
 		logger.debug(" 리뷰 전체 목록 조회 완료");
 
-    	return "/review/list";
+    	return "/review/reviewList";
     }
 
     // 리뷰 상세
@@ -272,10 +275,14 @@ public class ReviewController {
 		model.addAttribute("reviewList", reviewList);
 
 		int total = reviewService.getTotalByMember(memberId);
-		model.addAttribute("pageVO", new PageVO(cri, total));
+		PageVO pageVO = new PageVO();
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(total);
+		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("memberId", memberId);
 
-		logger.debug(" 회원별 리뷰 목록 조회 완료 - 총 {}개", total);        return "review/reviewsByMember";
+		logger.debug(" 회원별 리뷰 목록 조회 완료 - 총 {}개", total);
+		return "review/reviewsByMember";
     }
 
     // 기업별 리뷰
@@ -286,7 +293,10 @@ public class ReviewController {
 		model.addAttribute("reviewList", reviewList);
 
 		int total = reviewService.getTotalByCorp(corpId);
-		model.addAttribute("pageVO", new PageVO(cri, total));
+		PageVO pageVO = new PageVO();
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(total);
+		model.addAttribute("pageVO", pageVO);
 		model.addAttribute("corpId", corpId);
 
 		logger.debug(" 기업별 리뷰 목록 조회 완료 - 총 {}개", total);

@@ -1,0 +1,31 @@
+package com.itwillbs.persistence;
+
+import java.util.List;
+
+import com.itwillbs.domain.MemberVO;
+import com.itwillbs.domain.ReviewVO;
+
+public interface AdminDAO {
+	
+	// 채용게시판 공고 조회
+	
+	// 채용게시판 공고 삭제
+	
+	// 일반회원 목록 조회
+	List<MemberVO> getAllNormalMembers() throws Exception;
+	
+	// 기업회원 목록 조회
+	List<MemberVO> getAllCorpMembers() throws Exception;
+
+	// 회원 삭제
+	int deleteMember(int id) throws Exception;
+	
+	// 리뷰게시판 리뷰 조회
+	List<ReviewVO> getAllReviews() throws Exception;
+	
+	// 리뷰게시판 리뷰 삭제
+	int deleteReview(int reviewId) throws Exception;
+	
+	
+	
+}

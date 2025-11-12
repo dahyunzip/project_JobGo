@@ -1,5 +1,7 @@
 package com.itwillbs.controller;
 
+import java.util.List;
+
 import javax.inject.Inject;
 import javax.servlet.http.HttpSession;
 
@@ -12,7 +14,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MemberVO;
+import com.itwillbs.domain.PageVO;
+import com.itwillbs.domain.RecBoardVO;
+import com.itwillbs.service.AdminService;
 import com.itwillbs.service.MemberService;
 
 @Controller
@@ -22,6 +28,9 @@ public class AdminController {
 	
 	@Inject
 	private MemberService mService;
+	
+	@Inject
+	private AdminService adminService;
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String adminLoginGET() {
@@ -88,19 +97,32 @@ public class AdminController {
 	
 	// 관리자 채용공고 관리
 	@RequestMapping(value="/corpBoard", method=RequestMethod.GET)
-	public String adminCorpBoard() {
+	public String adminCorpBoard() throws Exception {
+		
 		return "/admin/corpBoard";
 	}
 	
 	// 기업회원 관리
 	@RequestMapping(value="/userManageCorp", method=RequestMethod.GET)
-	public String userManageCorp() {
+	public String userManageCorp(HttpSession session, Model model) throws Exception {
+		String adminUserid = (String) session.getAttribute("adminSession");
+		if (adminUserid == null) return "redirect:/admin/login";
+
+		List<MemberVO> corpList = adminService.getAllCorpMembers();
+		model.addAttribute("corpList", corpList);
+
 		return "/admin/userManageCorp";
 	}
-	
+
 	// 일반회원 관리
 	@RequestMapping(value="/userManageMember", method=RequestMethod.GET)
-	public String userManageMember() {
+	public String userManageMember(HttpSession session, Model model) throws Exception {
+		String adminUserid = (String) session.getAttribute("adminSession");
+		if (adminUserid == null) return "redirect:/admin/login";
+		
+		List<MemberVO> memberList = adminService.getAllNormalMembers();
+		model.addAttribute("memberList", memberList);
+
 		return "/admin/userManageMember";
 	}
 	
@@ -110,10 +132,6 @@ public class AdminController {
 		return "/admin/reviewManage";
 	}
 	
-	// 전체 게시판 관리
-	@RequestMapping(value="/boardManage", method=RequestMethod.GET)
-	public String boardManage() {
-		return "/admin/boardManage";
-	}
+	
 	
 }

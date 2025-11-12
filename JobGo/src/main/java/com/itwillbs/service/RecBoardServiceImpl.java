@@ -13,6 +13,7 @@ import com.itwillbs.domain.RecBoardVO;
 import com.itwillbs.domain.RecBottomCategoryVO;
 import com.itwillbs.domain.RecTopCategoryVO;
 import com.itwillbs.domain.RecTopLocationVO;
+import com.itwillbs.domain.ResumeVO;
 import com.itwillbs.persistence.RecBoardDAO;
 
 @Service
@@ -103,7 +104,11 @@ public class RecBoardServiceImpl implements RecBoardService {
 		return resultRB;
 	}
 	
-
+	// 이력서 정보 가져오기
+	@Override
+	public List<ResumeVO> getResumeList(int member_id) throws Exception {
+	    return rbDAO.getResumeList(member_id);
+	}
 	
 
 	

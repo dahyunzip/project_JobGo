@@ -14,6 +14,7 @@ import com.itwillbs.domain.RecBoardVO;
 import com.itwillbs.domain.RecBottomCategoryVO;
 import com.itwillbs.domain.RecTopCategoryVO;
 import com.itwillbs.domain.RecTopLocationVO;
+import com.itwillbs.domain.ResumeVO;
 
 @Repository
 public class RecBoardDAOImpl implements RecBoardDAO {
@@ -107,5 +108,10 @@ public class RecBoardDAOImpl implements RecBoardDAO {
 		return resultRBR;
 	}
 	
+	// 이력서 가져오기
+	@Override
+	public List<ResumeVO> getResumeList(int member_id) throws Exception {
+	    return sqlSession.selectList(NAMESPACE + "getResumeList", member_id);
+	}
 
 }

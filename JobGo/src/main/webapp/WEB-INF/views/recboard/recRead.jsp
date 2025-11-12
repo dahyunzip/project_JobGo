@@ -29,7 +29,7 @@
                         <div class="col-lg-6 col-12">
                             <div class="form-group">
                             	<div>
-			                    	<h3 class="single-section-title">(주)${recLoginInfo.companyName} 직원 채용 공고문</h3>
+			                    	<h3 class="single-section-title">(주)${recLoginInfo.companyName} 직원 채용 공고문 </h3>
 			                    </div>
                                 <label class="control-label">
                                     <font dir="auto" style="vertical-align: inherit;">
@@ -38,6 +38,25 @@
                                         </font>
                                     </font>
                                 </label>
+                                <c:choose>
+								  <c:when test="${not empty recLoginInfo}">
+								    <p>기업회원 로그인 중입니다: ${recLoginInfo.companyName}</p>
+								  </c:when>
+								  <c:when test="${not empty sessionScope.memberId}">
+								    <form method="post" action="/application/apply">
+								        <input type="hidden" name="rec_bno" value="${resultReadVO.rec_bno}">
+								        <select name="resume_id">
+								            <c:forEach var="resume" items="${resumeList}">
+								                <option value="${resume.resumeId}">${resume.resumeTitle}</option>
+								            </c:forEach>
+								        </select>
+								        <button type="submit">지원하기</button>
+								    </form>
+								  </c:when>
+								  <c:otherwise>
+								    <p>로그인 후 지원이 가능합니다. <a href="/member/login">로그인</a></p>
+								  </c:otherwise>
+								</c:choose>
                             </div>
                         </div>
                     </div>

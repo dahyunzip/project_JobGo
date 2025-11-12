@@ -9,6 +9,7 @@ import com.itwillbs.domain.RecBoardVO;
 import com.itwillbs.domain.RecBottomCategoryVO;
 import com.itwillbs.domain.RecTopCategoryVO;
 import com.itwillbs.domain.RecTopLocationVO;
+import com.itwillbs.domain.ResumeVO;
 
 public interface RecBoardDAO {
 	
@@ -30,4 +31,7 @@ public interface RecBoardDAO {
 	
 	// 게시글 보기
 	public RecBoardVO selectRecBoardRead(int rec_bno)throws Exception; 
+	
+	// 이력서 가져오기
+	List<ResumeVO> getResumeList(int member_id) throws Exception;
 }

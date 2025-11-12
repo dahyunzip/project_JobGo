@@ -98,4 +98,10 @@
  		join corpmember cm on cm.corp_id = rb.corp_id 
  		where rb.rec_bno = #{rec_bno}
  	</select>
+ 	
+ 	<select id="getResumeList" resultType="com.itwillbs.domain.ResumeVO">
+	    SELECT resume_id AS resumeId, resume_title AS resumeTitle
+	    FROM resume
+	    WHERE member_id = #{member_id}
+	</select>
  </mapper>

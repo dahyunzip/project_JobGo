@@ -7,6 +7,7 @@ import com.itwillbs.domain.RecBoardVO;
 import com.itwillbs.domain.RecBottomCategoryVO;
 import com.itwillbs.domain.RecTopCategoryVO;
 import com.itwillbs.domain.RecTopLocationVO;
+import com.itwillbs.domain.ResumeVO;
 
 public interface RecBoardService {
 	
@@ -28,4 +29,7 @@ public interface RecBoardService {
 	
 	// 게시글 보기
 	public RecBoardVO getRecBoard(int rec_bno) throws Exception;
+	
+	// 이력서 정보 가져오기
+	List<ResumeVO> getResumeList(int member_id) throws Exception;
 }

@@ -1,0 +1,80 @@
+package com.itwillbs.controller;
+
+import java.util.List;
+
+import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.itwillbs.domain.ApplicationVO;
+import com.itwillbs.service.ApplicationService;
+
+@Controller
+@RequestMapping("/application/*")
+public class ApplicationController {
+	
+	@Inject
+	private ApplicationService aService;
+	
+	private static final Logger logger = LoggerFactory.getLogger(ApplicationController.class);
+	
+	@RequestMapping(value="/apply", method=RequestMethod.GET)
+	public String applyGET(@RequestParam("rec_bno") int rec_bno, RedirectAttributes rttr) {
+	    logger.debug("applyGET() 실행 - rec_bno=" + rec_bno);
+	    rttr.addFlashAttribute("msg", "잘못된 접근입니다.");
+	    return "redirect:/recboard/recRead?rec_bno=" + rec_bno;
+	}
+	
+	@RequestMapping(value="/apply", method=RequestMethod.POST)
+	public String applyPOST(ApplicationVO vo, HttpSession session, RedirectAttributes rttr) throws Exception {
+        Integer member_id = (Integer) session.getAttribute("memberId");
+        if (member_id == null) {
+            rttr.addFlashAttribute("msg", "로그인이 필요합니다.");
+            return "redirect:/member/login";
+        }
+
+        vo.setMember_id(member_id);
+        logger.debug("받은 VO 데이터: " + vo);
+
+        try {
+            aService.apply(vo);
+            rttr.addFlashAttribute("msg", "지원이 완료되었습니다!");
+        } catch (IllegalStateException e) {
+            rttr.addFlashAttribute("msg", e.getMessage());
+        }
+        return "redirect:/recboard/recRead?rec_bno=" + vo.getRec_bno();
+    }
+	
+	// 지원 내역 보기
+    @RequestMapping(value="/list", method=RequestMethod.GET)
+    public String list(HttpSession session, Model model, RedirectAttributes rttr) throws Exception {
+        Integer member_id = (Integer) session.getAttribute("memberId");
+        if (member_id == null) {
+            rttr.addFlashAttribute("msg", "로그인이 필요합니다.");
+            return "redirect:/member/login";
+        }
+
+        List<ApplicationVO> list = aService.getApplications(member_id);
+        model.addAttribute("applications", list);
+        return "/application/list";
+    }
+    
+    // 지원 취소
+    @RequestMapping(value="/withdraw", method=RequestMethod.POST)
+    public String withdraw(@RequestParam("application_id") int application_id, RedirectAttributes rttr) throws Exception {
+        if (aService.withdraw(application_id)) {
+            rttr.addFlashAttribute("msg", "지원이 취소되었습니다.");
+        } else {
+            rttr.addFlashAttribute("msg", "취소 실패. 다시 시도해주세요.");
+        }
+        return "redirect:/application/list";
+    }
+}

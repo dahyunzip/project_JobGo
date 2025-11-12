@@ -23,6 +23,7 @@ import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.RecBoardVO;
 import com.itwillbs.domain.RecBottomCategoryVO;
+import com.itwillbs.domain.ResumeVO;
 import com.itwillbs.service.CorpMemberService;
 import com.itwillbs.service.RecBoardService;
 
@@ -150,13 +151,28 @@ public class RecBoardController {
 		
 		// 회원 정보 불러오기
 		String recLoginInfo = (String) session.getAttribute("corpUserId");
-		CorpMemberVO recMemInfo = corpMemberService.getCorpMember(recLoginInfo);
-		model.addAttribute("recLoginInfo", recMemInfo);
-		logger.debug(" 담당자 아이디: "+recMemInfo.getCorpUserId());
-		logger.debug(" 소속 회사명: "+recMemInfo.getCompanyName());
-		logger.debug(" 담당자 이름: "+recMemInfo.getManagerName());
-		logger.debug(" 담당자 이메일: "+recMemInfo.getManagerEmail());
-		
+		Integer member_id = (Integer) session.getAttribute("memberId");
+		//CorpMemberVO recMemInfo = corpMemberService.getCorpMember(recLoginInfo);
+		if(recLoginInfo != null) {
+			CorpMemberVO recMemInfo = corpMemberService.getCorpMember(recLoginInfo);
+			model.addAttribute("recLoginInfo", recMemInfo);
+			logger.debug(" 담당자 아이디: "+recMemInfo.getCorpUserId());
+			logger.debug(" 소속 회사명: "+recMemInfo.getCompanyName());
+			logger.debug(" 담당자 이름: "+recMemInfo.getManagerName());
+			logger.debug(" 담당자 이메일: "+recMemInfo.getManagerEmail());
+			
+		} else if(member_id != null) {
+			logger.debug(" 일반회원 접근 (member_id =" + member_id + ")");
+			model.addAttribute("member_id", member_id);
+
+			// 이력서 목록 전달
+			List<ResumeVO> resumeList = recBoardService.getResumeList(member_id);
+			logger.debug("resumeList 전달 여부 확인: " + (resumeList != null));
+			logger.debug("이력서 리스트: " + resumeList);
+			model.addAttribute("resumeList", resumeList);
+		}else {
+			logger.debug(" 기업회원 로그인 세션이 없습니다.");
+		}
 		// 디비에서 정보 불러오기
 		RecBoardVO resultReadVO = recBoardService.getRecBoard(rec_bno);
 		logger.debug(" resultRead: "+resultReadVO);

@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.ReviewVO;
 
 @Repository
@@ -57,10 +58,13 @@ public class ReviewDAOImpl implements ReviewDAO{
 	
 	// 리뷰 목록 조회
 	@Override
-	public List<ReviewVO> reviewList() throws Exception{
-		List<ReviewVO> list = sqlSession.selectList(NAMESPACE+".reviewList");
-		logger.debug(" 리뷰 목록 조회 완료 ");
-		return list;
+	public List<ReviewVO> getListPaging(Criteria cri) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getListPaging", cri);
+	}
+
+	@Override
+	public int getTotalCount(Criteria cri) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getTotalCount", cri);
 	}
 	
 	// 리뷰 상세 조회
@@ -73,18 +77,24 @@ public class ReviewDAOImpl implements ReviewDAO{
 	
 	// 회원별 리뷰 조회
 	@Override
-	public List<ReviewVO> selectReviewsByMember(int memberId) throws Exception{
-		List<ReviewVO> list = sqlSession.selectList(NAMESPACE+".selectReviewsByMember", memberId);
-		logger.debug(" 회원별 리뷰 조회 완료 ");
-		return list;
+	public List<ReviewVO> getListByMemberPaging(Map<String, Object> param) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getListByMemberPaging", param);
+	}
+
+	@Override
+	public int getTotalByMember(int memberId) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getTotalByMember", memberId);
 	}
 	
 	// 기업별 리뷰 조회
 	@Override
-	public List<ReviewVO> selectReviewsByCorp(int corpId) throws Exception{
-		List<ReviewVO> list = sqlSession.selectList(NAMESPACE+".selectReviewsByCorp", corpId);
-		logger.debug(" 기업별 리뷰 조회 완료 ");
-		return list;
+	public List<ReviewVO> getListByCorpPaging(Map<String, Object> param) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getListByCorpPaging", param);
+	}
+
+	@Override
+	public int getTotalByCorp(int corpId) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getTotalByCorp", corpId);
 	}
 	
 	// 리뷰 작성자 비밀번호 확인용

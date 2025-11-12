@@ -11,11 +11,11 @@
 <%@ include file="../include/Header.jsp"%>
 <h2>기업별 리뷰 목록</h2>
     
-    <c:if test="${empty corpReviewList}">
+    <c:if test="${empty reviewList}">
         <div>등록된 리뷰가 없습니다.</div>
     </c:if>
     
-    <c:forEach var="review" items="${corpReviewList}">
+    <c:forEach var="review" items="${reviewList}">
         <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
             <div>
                 <button type="button"
@@ -32,7 +32,28 @@
             <div>작성자 ID: ${review.memberId}</div>
         </div>
     </c:forEach>
-
+	
+	<div class="pagination" style="text-align:center; margin-top:20px;">
+		<c:if test="${pageVO.prev}">
+			<a href="?page=${pageVO.startPage - 1}&corpId=${corpId}">이전</a>
+		</c:if>
+	
+		<c:forEach var="num" begin="${pageVO.startPage}" end="${pageVO.endPage}">
+			<c:choose>
+				<c:when test="${pageVO.cri.page == num}">
+					<strong>[${num}]</strong>
+				</c:when>
+				<c:otherwise>
+					<a href="?page=${num}&corpId=${corpId}">${num}</a>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+	
+		<c:if test="${pageVO.next}">
+			<a href="?page=${pageVO.endPage + 1}&corpId=${corpId}">다음</a>
+		</c:if>
+	</div>
+	
     <div style="margin-top:15px;">
         <button type="button" onclick="location.href='${pageContext.request.contextPath}/review/reviewList'">
             전체 리뷰 목록으로 돌아가기

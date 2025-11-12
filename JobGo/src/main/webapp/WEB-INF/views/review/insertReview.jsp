@@ -25,7 +25,7 @@
 			</select>
 	
 			<!-- 소분류 -->
-			<select id="bottomCategory" name="jobCode" disabled="disabled">
+			<select id="bottomCategory" name="jobCode">
 				<option value="">소분류 선택</option>
 			</select>
 		</div>
@@ -83,6 +83,9 @@
 	</form>
 	
 	<script>
+	
+	document.querySelector("#bottomCategory").disabled = true;
+	
 			const stars = document.querySelectorAll('#star-rating .star');
 	    	const revRateInput = document.getElementById('revRate');
 	

@@ -27,6 +27,16 @@ public class AdminDAOImpl implements AdminDAO{
 	public List<MemberVO> getAllCorpMembers() throws Exception {
 		return sqlSession.selectList(NAMESPACE + ".getAllCorpMembers");
 	}
+	
+	@Override
+	public int approveCorp(int corpId) throws Exception {
+	    return sqlSession.update(NAMESPACE + ".approveCorp", corpId);
+	}
+
+	@Override
+	public int denyCorp(int corpId) throws Exception {
+	    return sqlSession.update(NAMESPACE + ".denyCorp", corpId);
+	}
 
 	@Override
 	public int deleteMember(int id) throws Exception {

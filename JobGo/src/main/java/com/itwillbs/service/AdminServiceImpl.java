@@ -25,6 +25,16 @@ public class AdminServiceImpl implements AdminService{
 	public List<MemberVO> getAllCorpMembers() throws Exception {
 		return adminDAO.getAllCorpMembers();
 	}
+	
+	@Override
+	public int approveCorp(int corpId) throws Exception {
+	    return adminDAO.approveCorp(corpId);
+	}
+
+	@Override
+	public int denyCorp(int corpId) throws Exception {
+	    return adminDAO.denyCorp(corpId);
+	}
 
 	@Override
 	public int deleteMember(int id) throws Exception {

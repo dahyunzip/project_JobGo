@@ -16,6 +16,12 @@ public interface AdminDAO {
 	
 	// 기업회원 목록 조회
 	List<MemberVO> getAllCorpMembers() throws Exception;
+	
+	// 기업회원 승인
+	int approveCorp(int corpId) throws Exception;
+	
+	// 기업회원 거절
+	int denyCorp(int corpId) throws Exception;
 
 	// 회원 삭제
 	int deleteMember(int id) throws Exception;

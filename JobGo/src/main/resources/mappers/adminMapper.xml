@@ -5,44 +5,74 @@
 
 <mapper namespace="com.itwillbs.mapper.adminMapper">
 
-	<!-- 일반회원 목록 -->
 	<select id="getAllNormalMembers" resultType="com.itwillbs.domain.MemberVO">
-		select id, userid, name, email, phone, membertype
+		select 
+			id,
+			userid,
+			name,
+			email,
+			phone,
+			membertype,
+			is_deleted as isDeleted
 		from member
-		where membertype = 'G'
-		order BY id desc
+		order by id desc
 	</select>
 
 	<!-- 기업회원 목록 -->
 	<select id="getAllCorpMembers" resultType="com.itwillbs.domain.CorpMemberVO">
-		select 
-			corp_id        as id,
-			corp_userid    as userid,
-			manager_name   as name,
-			manager_email  as email,
-			manager_tel    as phone,
-			industry_type  as membertype
+		select
+			corp_id              as corpId,
+			corp_userid          as corpUserId,
+			corp_userpw          as corpUserPw,
+			manager_name         as managerName,
+			manager_email        as managerEmail,
+			manager_tel          as managerTel,
+			company_name         as companyName,
+			business_rno         as businessRno,
+			business_licenseurl  as businessLicenseUrl,
+			ceo_name             as ceoName,
+			company_address      as companyAddress,
+			industry_type        as industryType,
+			business_type        as businessType,
+			corp_joined          as corpJoined,
+			corp_updated         as corpUpdated,
+			status               as status,
+			corp_checkdeleted    as corpCheckDeleted
 		from corpmember
 		order by corp_id desc
 	</select>
+	
+	<!-- 기업회원 승인 -->
+	<update id="approveCorp" parameterType="int">
+		update corpmember
+		set status = 'A'
+		where corp_id = #{corpId}
+	</update>
+	
+	<!-- 기업회원 거절 -->
+	<update id="denyCorp" parameterType="int">
+		update corpmember
+		set status = 'D'
+		where corp_id = #{corpId}
+	</update>
 
 	<!-- 회원 삭제 -->
 	<delete id="deleteMember" parameterType="int">
 		delete from member where id = #{id}
 	</delete>
-	
-	<!-- 리뷰 전체 목록 조회 -->
+
+	<!-- 리뷰 목록 조회 -->
 	<select id="getAllReviews" resultType="com.itwillbs.domain.ReviewVO">
 		select 
-			r.review_id as reviewId,
-			r.member_id as memberId,
-			r.corp_id as corpId,
-			r.job_code as jobCode,
-			r.rev_title as revTitle,
-			r.rev_content as revContent,
-			r.rev_rate as revRate,
-			r.rev_public as revPublic,
-			r.rev_created as revCreated
+			r.review_id    as reviewId,
+			r.member_id    as memberId,
+			r.corp_id      as corpId,
+			r.job_code     as jobCode,
+			r.rev_title    as revTitle,
+			r.rev_content  as revContent,
+			r.rev_rate     as revRate,
+			r.rev_public   as revPublic,
+			r.rev_created  as revCreated
 		from review r
 		order by r.review_id desc
 	</select>

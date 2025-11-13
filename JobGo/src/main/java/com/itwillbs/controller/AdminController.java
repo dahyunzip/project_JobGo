@@ -124,6 +124,34 @@ public class AdminController {
 		return "/admin/userManageMember";
 	}
 	
+	// 기업회원 승인
+	@RequestMapping(value="/approveCorp", method=RequestMethod.GET)
+	public String approveCorp(@RequestParam("id") int id,
+	                          HttpSession session,
+	                          RedirectAttributes rttr) throws Exception {
+
+	    if (session.getAttribute("adminSession") == null) 
+	        return "redirect:/admin/login";
+
+	    adminService.approveCorp(id);
+	    rttr.addFlashAttribute("msg", "approveSuccess");
+	    return "redirect:/admin/userManageCorp";
+	}
+
+	// 기업회원 거절
+	@RequestMapping(value="/denyCorp", method=RequestMethod.GET)
+	public String denyCorp(@RequestParam("id") int id,
+	                       HttpSession session,
+	                       RedirectAttributes rttr) throws Exception {
+
+	    if (session.getAttribute("adminSession") == null)
+	        return "redirect:/admin/login";
+
+	    adminService.denyCorp(id);
+	    rttr.addFlashAttribute("msg", "denySuccess");
+	    return "redirect:/admin/userManageCorp";
+	}
+	
 	// 회원 삭제 (관리자 전용)
 	@RequestMapping(value="/deleteMember", method=RequestMethod.GET)
 	public String deleteMember(@RequestParam("id") int id,

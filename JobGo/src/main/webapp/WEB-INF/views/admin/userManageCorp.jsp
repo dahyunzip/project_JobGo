@@ -15,6 +15,7 @@
 				<th>이메일</th>
 				<th>전화번호</th>
 				<th>산업분류</th>
+				<th>상태</th>
 				<th>관리</th>
 			</tr>
 		</thead>
@@ -22,15 +23,45 @@
 			<c:forEach var="corp" items="${corpList}">
 				<tr>
 					<td>${corp.corpId}</td>
-					<td>${corp.corpUserid}</td>
+					<td>${corp.corpUserId}</td>
 					<td>${corp.companyName}</td>
 					<td>${corp.managerEmail}</td>
 					<td>${corp.managerTel}</td>
 					<td>${corp.industryType}</td>
 					<td>
-						<a href="${pageContext.request.contextPath}/admin/deleteCorp?id=${corp.corpId}"
-						   onclick="return confirm('정말 삭제하시겠습니까?');"
-						   class="btn btn-sm btn-danger">삭제</a>
+    					<c:choose>
+        					<c:when test="${corp.status eq 'W'}">
+        					    <span class="text-warning font-weight-bold">대기중</span>
+        					</c:when>
+        					<c:when test="${corp.status eq 'A'}">
+            					<span class="text-success font-weight-bold">승인됨</span>
+        					</c:when>
+        					<c:when test="${corp.status eq 'D'}">
+        					    <span class="text-danger font-weight-bold">거절됨</span>
+        					</c:when>
+    					</c:choose>
+					</td>
+					<td>
+						<c:choose>
+							<c:when test="${corp.status eq 'W'}">
+            					<a href="${pageContext.request.contextPath}/admin/approveCorp?id=${corp.corpId}"
+								   class="btn btn-sm btn-success">승인</a>
+            					<a href="${pageContext.request.contextPath}/admin/denyCorp?id=${corp.corpId}"
+               					   class="btn btn-sm btn-warning">거절</a>
+        					</c:when>
+
+        					
+        					<c:when test="${corp.status eq 'A'}">
+        					    <a href="${pageContext.request.contextPath}/admin/deleteCorp?id=${corp.corpId}"
+        					       onclick="return confirm('정말 삭제하시겠습니까?');"
+            					   class="btn btn-sm btn-danger">삭제</a>
+        					</c:when>
+
+					       
+        					<c:when test="${corp.status eq 'D'}">
+        					    <span class="text-muted">거절됨</span>
+    					    </c:when>
+    					</c:choose>
 					</td>
 				</tr>
 			</c:forEach>

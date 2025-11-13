@@ -33,6 +33,11 @@ public class ResumeDAOImpl implements ResumeDAO {
     }
 
     @Override
+    public ResumeVO getResumeWithMember(int resumeId) throws Exception {
+        return sqlSession.selectOne(NAMESPACE + "selectResumeWithMember", resumeId);
+    }
+    
+    @Override
     public List<ResumeVO> getResumeList(int memberId) throws Exception{
         return sqlSession.selectList(NAMESPACE + "selectResumeList", memberId);
     }

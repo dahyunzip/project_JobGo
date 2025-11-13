@@ -38,6 +38,26 @@
 	     WHERE resume_id = #{resumeId}
 	</select>
 
+	<!-- ========================================================= -->
+	<!-- [기업회원용] 이력서 상세조회 + 회원 정보 -->
+	<!-- ========================================================= -->
+	<select id="selectResumeWithMember" parameterType="int" resultType="ResumeVO">
+	    SELECT 
+	        r.resume_id AS resumeId,
+	        r.member_id AS memberId,
+	        r.resume_title AS resumeTitle,
+	        r.created_at AS createdAt,
+	        r.updated_at AS updatedAt,
+	        r.status AS status,
+	        m.name AS userName,
+	        m.email AS userEmail,
+	        m.phone AS userPhone,
+	        m.storedFileName AS storedFileName
+	    FROM resume r
+	    JOIN member m ON r.member_id = m.id
+	    WHERE r.resume_id = #{resumeId}
+	</select>
+
 	<select id="selectResumeList" parameterType="int" resultType="ResumeVO">
 	    SELECT 
 		    resume_id AS resumeId,

@@ -59,7 +59,7 @@
 		                <a class="collapse-item" href="/admin/corpBoard">채용공고</a>
 		                <a class="collapse-item" href="/admin/notice">공지사항 관리</a>
 		                <a class="collapse-item" href="/admin/community">커뮤니티 관리</a>
-		                <a class="collapse-item" href="/admin/review">리뷰관리</a>
+		                <a class="collapse-item" href="${pageContext.request.contextPath}/admin/reviewManage">리뷰관리</a>
 		            </div>
 		        </div>
 		    </li>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="header.jsp" %>
 <div class="container-fluid">
 	<h2 class="mb-4">리뷰 관리</h2>
@@ -19,6 +20,7 @@
 				<th>별점</th>
 				<th>공개여부</th>
 				<th>작성일</th>
+				<th>최근 수정일</th>
 				<th>관리</th>
 			</tr>
 		</thead>
@@ -37,7 +39,10 @@
 						</c:choose>
 					</td>
 					<td>
-						<fmt:formatDate value="${review.revCreated}" pattern="yyyy-MM-dd" />
+						<td>${fn:substring(review.revRegdate, 0, 19)}</td>
+					</td>
+					<td>
+						<td>${fn:substring(review.revUpdatedate, 0, 19)}</td>
 					</td>
 					<td>
 						<form action="${pageContext.request.contextPath}/admin/deleteReview" 

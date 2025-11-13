@@ -63,18 +63,19 @@
 
 	<!-- 리뷰 목록 조회 -->
 	<select id="getAllReviews" resultType="com.itwillbs.domain.ReviewVO">
-		select 
-			r.review_id    as reviewId,
-			r.member_id    as memberId,
-			r.corp_id      as corpId,
-			r.job_code     as jobCode,
-			r.rev_title    as revTitle,
-			r.rev_content  as revContent,
-			r.rev_rate     as revRate,
-			r.rev_public   as revPublic,
-			r.rev_created  as revCreated
-		from review r
-		order by r.review_id desc
+	    select 
+	        r.review_id    as reviewId,
+	        r.member_id    as memberId,
+	        r.corp_id      as corpId,
+	        r.job_code     as jobCode,
+	        r.rev_title    as revTitle,
+	        r.rev_content  as revContent,
+	        r.rev_rate     as revRate,
+	        r.rev_public   as revPublic,
+	        r.rev_regdate  as revRegdate,
+	        r.rev_updatedate as revUpdatedate
+	    from review r
+    	order by r.review_id desc
 	</select>
 
 	<!-- 리뷰 삭제 -->

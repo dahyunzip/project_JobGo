@@ -2,13 +2,12 @@ package com.itwillbs.persistence;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.RecBoardVO;
 import com.itwillbs.domain.RecBottomCategoryVO;
 import com.itwillbs.domain.RecTopCategoryVO;
 import com.itwillbs.domain.RecTopLocationVO;
+import com.itwillbs.domain.ResumeVO;
 
 public interface RecBoardDAO {
 	
@@ -45,4 +44,10 @@ public interface RecBoardDAO {
 	
 	// 게시판 특정 글 조회수를 1증가
 	public void recUpdateViewCnt(int rec_bno) throws Exception;
+	
+	// 이력서 가져오기
+	public List<ResumeVO> getResumeList(int member_id) throws Exception;
+	
+	// 이미 지원한 지원자인지 체크
+	public int checkAlreadyApplied(int member_id, int rec_bno) throws Exception;
 }

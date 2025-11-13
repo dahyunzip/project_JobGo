@@ -13,6 +13,7 @@ import com.itwillbs.domain.RecBoardVO;
 import com.itwillbs.domain.RecBottomCategoryVO;
 import com.itwillbs.domain.RecTopCategoryVO;
 import com.itwillbs.domain.RecTopLocationVO;
+import com.itwillbs.domain.ResumeVO;
 import com.itwillbs.persistence.RecBoardDAO;
 
 @Service
@@ -158,6 +159,18 @@ public class RecBoardServiceImpl implements RecBoardService {
 		
 		logger.debug(" increseViewCnt() 끝! ");
 	}
-
+	
+	// 이력서 정보 가져오기
+	@Override
+	public List<ResumeVO> getResumeList(int member_id) throws Exception {
+	    return rbDAO.getResumeList(member_id);
+	}
+	
+	// 지원한 지원자인지 체크
+	@Override
+	public boolean checkAlreadyApplied(int member_id, int rec_bno) throws Exception {
+	    int result = rbDAO.checkAlreadyApplied(member_id, rec_bno);
+	    return result > 0;
+	}
 
 }

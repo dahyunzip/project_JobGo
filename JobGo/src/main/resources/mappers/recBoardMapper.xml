@@ -175,4 +175,19 @@
  		update rec_board set rec_viewcnt = rec_viewcnt + 1 
  		where rec_bno = #{rec_bno}
  	</update>
+ 	
+ 	<select id="getResumeList" resultType="com.itwillbs.domain.ResumeVO">
+	    SELECT resume_id AS resumeId, resume_title AS resumeTitle
+	    FROM resume
+	    WHERE member_id = #{member_id}
+	</select>
+	
+	<!-- 이미 지원했는지 확인 -->
+	<select id="checkAlreadyApplied" resultType="int">
+	    SELECT COUNT(*) 
+	    FROM application
+	    WHERE member_id = #{member_id}
+	      AND rec_bno = #{rec_bno}
+	      AND is_withdrawn = 'N'
+	</select>
  </mapper>

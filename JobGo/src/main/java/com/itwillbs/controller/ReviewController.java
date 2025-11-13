@@ -242,7 +242,11 @@ public class ReviewController {
     // 리뷰 상세
  	@RequestMapping(value = "/reviewDetail", method = RequestMethod.GET)
  	public String reviewDetail(@RequestParam("reviewId") int reviewId, HttpSession session, Model model) throws Exception{
+ 		
+ 		reviewService.updateViewCnt(reviewId);
+ 		
  		ReviewVO review = reviewService.reviewDetail(reviewId);
+ 		
  		if (review == null) {
  			return "error/404";
  		}

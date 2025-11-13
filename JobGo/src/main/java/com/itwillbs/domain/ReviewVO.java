@@ -18,6 +18,7 @@ public class ReviewVO {
 	private String revPublic = "y";
 	private LocalDateTime revRegdate;
 	private LocalDateTime revUpdatedate;
+	private int revViewcnt;
 	
 	private String jobCode;
 	

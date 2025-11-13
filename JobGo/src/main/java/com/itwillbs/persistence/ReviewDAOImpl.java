@@ -115,4 +115,9 @@ public class ReviewDAOImpl implements ReviewDAO{
 		return sqlSession.selectOne(NAMESPACE + ".getCompanyNameByCorpId", corpId);
 	}
 	
+	@Override
+	public void updateViewCnt(int reviewId) {
+		sqlSession.update(NAMESPACE + ".updateViewCnt", reviewId);
+	}
+	
 }

@@ -126,4 +126,9 @@ public class ReviewServiceImpl implements ReviewService{
 		return reviewDAO.getCompanyNameByCorpId(corpId);
 	}
 	
+	@Override
+	public void updateViewCnt(int reviewId) throws Exception {
+		reviewDAO.updateViewCnt(reviewId);
+	}
+	
 }

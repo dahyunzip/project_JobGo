@@ -47,4 +47,7 @@ public interface ReviewDAO {
 	// 회사이름 조회
 	String getCompanyNameByCorpId(int corpId) throws Exception;
 	
+	// 조회수 증가
+	void updateViewCnt(int reviewId);
+	
 }

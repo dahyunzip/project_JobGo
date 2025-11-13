@@ -20,6 +20,7 @@
         	    <th>작성자</th>
         	    <th>별점</th>
         	    <th>작성일</th>
+        	    <th>조회수</th>
         	</tr>
     	</thead>
     	<tbody>
@@ -48,6 +49,7 @@
 						</c:forEach>
     	            </td>
     	            <td>${review.revRegdate}</td>
+    	            <td>${review.revViewcnt}</td>
             	</tr>
         	</c:forEach>
     	</tbody>

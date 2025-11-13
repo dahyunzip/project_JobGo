@@ -28,6 +28,7 @@
                 <c:forEach begin="1" end="${review.revRate}" var="i">★</c:forEach>
                 <c:forEach begin="1" end="${5 - review.revRate}" var="i">☆</c:forEach>
                 <span style="margin-left:10px;">작성일: ${review.revRegdate}</span>
+            	<span style="margin-left:10px;">조회수: ${review.revViewcnt}</span>
             </div>
             <div>작성자 ID: ${review.memberId}</div>
         </div>

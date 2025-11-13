@@ -166,7 +166,13 @@ public class ResumeController {
 	                                Model model,
 	                                RedirectAttributes rttr) throws Exception {
 
-	    ResumeVO resume = rService.getResume(resume_id);
+	    ResumeVO resume = rService.getResumeWithMemberAndSubTables(resume_id);
+	    
+	    if (resume == null) {
+	        rttr.addFlashAttribute("msg", "resumeNotFound");
+	        return "redirect:/application/corp/applicants";
+	    }
+	    
 	    model.addAttribute("resume", resume);
 	    model.addAttribute("application_id", application_id);
 	    

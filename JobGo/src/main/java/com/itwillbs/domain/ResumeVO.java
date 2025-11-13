@@ -20,4 +20,10 @@ public class ResumeVO {
     private List<ResumeTrainingVO> trainingList;
     private List<ResumeCertificationVO> certificationList;
     private ResumeSelfIntroVO selfIntro;
+    
+    // 지원자 정보
+    private String userName;
+    private String userEmail;
+    private String userPhone;
+    private String storedFileName;
 }

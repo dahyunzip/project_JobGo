@@ -119,6 +119,26 @@ public class ResumeServiceImpl implements ResumeService {
         return resumeDAO.getResumeList(memberId);
     }
 
+	@Override
+	public ResumeVO getResumeWithMember(int resumeId) throws Exception {
+	    return resumeDAO.getResumeWithMember(resumeId);
+	}
+	
+	@Override
+    public ResumeVO getResumeWithMemberAndSubTables(int resume_id) throws Exception {
+        ResumeVO resume = resumeDAO.getResumeWithMember(resume_id);
+        if (resume == null) return null;
+
+        // 하위 항목 채워넣기
+        resume.setEducationList(resumeDAO.getEducationList(resume_id));
+        resume.setCareerList(resumeDAO.getCareerList(resume_id));
+        resume.setTrainingList(resumeDAO.getTrainingList(resume_id));
+        resume.setCertificationList(resumeDAO.getCertificationList(resume_id));
+        resume.setSelfIntro(resumeDAO.getSelfIntro(resume_id));
+
+        return resume;
+    }
+	
 	@Transactional
 	@Override
 	public void updateResumeTemp(ResumeVO resume) throws Exception {

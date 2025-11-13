@@ -119,7 +119,7 @@
                     <hr>
 
                     <div class="row">
-                        <div class="col-lg-6 col-12">
+                        <div class="col-lg-12 col-12">
                             <div class="form-group">
                             	<div>
 			                    	<h3 class="single-section-title">(주)${resultReadVO.companyName} 직원 채용 공고문 | incrementStatus: ${incrementStatus }</h3>
@@ -131,6 +131,38 @@
                                         </font>
                                     </font>
                                 </label>
+ 								<c:choose>
+								  <c:when test="${not empty recLoginInfo}">
+								    <p>기업회원 로그인 중입니다: ${resultReadVO.companyName}</p>
+								  </c:when>
+								  
+								  <c:when test="${not empty sessionScope.memberId}">
+								    <c:choose>
+								      <%-- 이미 지원한 경우 --%>
+								      <c:when test="${alreadyApplied}">
+								        <p class="text-danger fw-bold">이미 지원한 채용공고입니다. 지원취소는 <a href="/application/list" class="underline-link">커리어관리 &gt; 지원현황</a>에서 가능합니다.</p>
+								      </c:when>
+								
+								      <%-- 아직 지원 안한 경우 --%>
+								      <c:otherwise>
+								        <form method="post" action="/application/apply">
+								          <input type="hidden" name="rec_bno" value="${resultReadVO.rec_bno}">
+								          <input type="hidden" name="page" value="${page}">
+								          <select name="resume_id">
+								            <c:forEach var="resume" items="${resumeList}">
+								              <option value="${resume.resumeId}">${resume.resumeTitle}</option>
+								            </c:forEach>
+								          </select>
+								          <button type="submit">지원하기</button>
+								        </form>
+								      </c:otherwise>
+								    </c:choose>
+								  </c:when>
+								  
+								  <c:otherwise>
+								    <p>로그인 후 지원이 가능합니다. <a href="/member/login">로그인</a></p>
+								  </c:otherwise>
+								</c:choose>
                             </div>
                         </div>
                     </div>
@@ -252,6 +284,10 @@
 <script type="text/javascript">
 	let recBno = null;
 	$(document).ready(function(){
+		var status = '${msg}';
+		if(status == 'applySuccess'){
+			alert('입사지원 처리 되었습니다!');
+		}
 		
 		const formObj = $("#readForm");
 		

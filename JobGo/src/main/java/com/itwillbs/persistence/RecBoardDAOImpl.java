@@ -16,6 +16,7 @@ import com.itwillbs.domain.RecBoardVO;
 import com.itwillbs.domain.RecBottomCategoryVO;
 import com.itwillbs.domain.RecTopCategoryVO;
 import com.itwillbs.domain.RecTopLocationVO;
+import com.itwillbs.domain.ResumeVO;
 
 @Repository
 public class RecBoardDAOImpl implements RecBoardDAO {
@@ -173,5 +174,20 @@ public class RecBoardDAOImpl implements RecBoardDAO {
 		
 		logger.debug(" recUpdateViewCnt() 끝! ");
 	}
+	
+	// 이력서 가져오기
+	@Override
+	public List<ResumeVO> getResumeList(int member_id) throws Exception {
+	    return sqlSession.selectList(NAMESPACE + "getResumeList", member_id);
+	}
+	
+	@Override
+    public int checkAlreadyApplied(int member_id, int rec_bno) throws Exception {
+        logger.debug("checkAlreadyApplied() 호출 - member_id={}, rec_bno={}", member_id, rec_bno);
+        Map<String, Object> params = new HashMap<>();
+        params.put("member_id", member_id);
+        params.put("rec_bno", rec_bno);
+        return sqlSession.selectOne(NAMESPACE + "checkAlreadyApplied", params);
+    }
 
 }

@@ -10,20 +10,20 @@
 	<!-- [1] 임시저장 INSERT -->
 	<insert id="insertResumeTemp" parameterType="ResumeVO" useGeneratedKeys="true" keyProperty="resumeId">
 	    INSERT INTO resume (member_id, resume_title, status)
-	    VALUES (#{memberId}, #{resumeTitle}, 'TEMP');
+	    VALUES (#{memberId}, #{resumeTitle}, 'TEMP')
 	</insert>
 	
 	<!-- [2] 최종등록 INSERT (최초 등록 시) -->
 	<insert id="insertResumeFinal" parameterType="ResumeVO" useGeneratedKeys="true" keyProperty="resumeId">
 	    INSERT INTO resume (member_id, resume_title, status)
-	    VALUES (#{memberId}, #{resumeTitle}, 'FINAL');
+	    VALUES (#{memberId}, #{resumeTitle}, 'FINAL')
 	</insert>
 	
 	<!-- [3] 임시저장에서 최종등록으로 변경 (UPDATE) -->
 	<update id="updateResumeToFinal" parameterType="int">
 	    UPDATE resume
 	    SET status = 'FINAL', updated_at = CURRENT_TIMESTAMP
-	    WHERE resume_id = #{resumeId};
+	    WHERE resume_id = #{resumeId}
 	</update>
 	
 	<select id="selectResume" parameterType="int" resultType="ResumeVO">

@@ -47,5 +47,15 @@ public class ApplicationServiceImpl implements ApplicationService {
 		logger.debug("지원 취소 시작");
 		return dao.withdrawApplication(application_id) > 0;
 	}
+	
+	@Override
+	public List<ApplicationVO> getApplicantsByCorpId(int corp_id) throws Exception {
+	    return dao.getApplicantsByCorpId(corp_id);
+	}
+	
+	@Override
+	public boolean updateApplicationStatus(int application_id, String status) throws Exception {
+	    return dao.updateApplicationStatus(application_id, status) > 0;
+	}
 
 }

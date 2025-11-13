@@ -20,4 +20,7 @@ public class ApplicationVO {
     private String rec_title;   // 채용공고 제목
     private String corp_name;   // 기업명
     private String resume_title; // 이력서 제목
+    
+    private String applicant_name;   // 지원자 이름
+    private String applicant_email;  // 지원자 이메일
 }

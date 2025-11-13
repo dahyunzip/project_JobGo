@@ -14,4 +14,10 @@ public interface ApplicationService {
 	public List<ApplicationVO> getApplications(int member_id, Criteria cri) throws Exception;
 	// 지원 취소
 	public boolean withdraw(int application_id) throws Exception;
+	
+	// 기업회원 지원자 확인하기
+	public List<ApplicationVO> getApplicantsByCorpId(int corp_id) throws Exception;
+	
+	// 기업회원 - 지원자 상태 변경
+	public boolean updateApplicationStatus(int application_id, String status) throws Exception;
 }

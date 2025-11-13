@@ -69,9 +69,9 @@
 									<%-- 기업회원 메뉴 --%>
 									<c:when test="${not empty sessionScope.corpUserId}">
 										<li class="nav-item"><a href="${pageContext.request.contextPath }/recboard/recListCri">채용 공고 관리</a></li>
-										<li class="nav-item"><a href="#">지원자 현황</a></li>
+										<li class="nav-item"><a href="${pageContext.request.contextPath }/application/corp/applicants">지원자 현황</a></li>
 										<li class="nav-item"><a href="${pageContext.request.contextPath }/review/reviewList">기업리뷰</a></li>
-										<li class="nav-item"><a href="${pageContext.request.contextPath }/comboard/comListCri">커뮤니티</a>
+										<li class="nav-item"><a href="${pageContext.request.contextPath }/notice/list"">커뮤니티</a>
 											<ul class="sub-menu">
 												<li><a href="${pageContext.request.contextPath }/notice/list">공지사항</a></li>
 												<li><a href="${pageContext.request.contextPath }/comboard/comListCri">커뮤니티</a></li>
@@ -90,7 +90,7 @@
 											</ul>
 										</li>
 										<li class="nav-item"><a href="${pageContext.request.contextPath }/review/reviewList">기업리뷰</a></li>
-										<li class="nav-item"><a href="${pageContext.request.contextPath }/comboard/comListCri">커뮤니티</a>
+										<li class="nav-item"><a href="${pageContext.request.contextPath }/notice/list">커뮤니티</a>
 											<ul class="sub-menu">
 												<li><a href="${pageContext.request.contextPath }/notice/list">공지사항</a></li>
 												<li><a href="${pageContext.request.contextPath }/comboard/comListCri">커뮤니티</a></li>
@@ -102,7 +102,7 @@
 									<c:otherwise>
 										<li class="nav-item"><a href="${pageContext.request.contextPath }/recboard/recListCri">채용공고</a></li>
 										<li class="nav-item"><a href="${pageContext.request.contextPath }/review/reviewList">기업리뷰</a></li>
-										<li class="nav-item"><a href="${pageContext.request.contextPath }/comboard/comListCri">커뮤니티</a>
+										<li class="nav-item"><a href="${pageContext.request.contextPath }/notice/list">커뮤니티</a>
 											<ul class="sub-menu">
 												<li><a href="${pageContext.request.contextPath }/notice/list">공지사항</a></li>
 												<li><a href="${pageContext.request.contextPath }/comboard/comListCri">커뮤니티</a></li>

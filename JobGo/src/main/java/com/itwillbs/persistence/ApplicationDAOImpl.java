@@ -59,5 +59,17 @@ public class ApplicationDAOImpl implements ApplicationDAO {
 	public int withdrawApplication(int application_id) throws Exception {
 		return sqlSession.update(NAMESPACE + "withdrawApplication", application_id);
 	}
-
+	
+	@Override
+	public List<ApplicationVO> getApplicantsByCorpId(int corp_id) throws Exception {
+	    return sqlSession.selectList(NAMESPACE + "getApplicantsByCorpId", corp_id);
+	}
+	
+	@Override
+	public int updateApplicationStatus(int application_id, String status) throws Exception {
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("application_id", application_id);
+	    params.put("status", status);
+	    return sqlSession.update(NAMESPACE + "updateApplicationStatus", params);
+	}
 }

@@ -110,7 +110,7 @@
                 <div class="add-resume-inner box">                        
             		<form id="readForm" role="form" >
             			<input type="hidden" name="rec_bno" value="${resultReadVO.rec_bno}">
-                        <input type="hidden" name="page" value="${page}">
+                        <input type="hidden" name="page" value="${page != null ? page : 1}">
                     </form>
                     <div id="com_top" class="post-header align-items-center justify-content-center">
                         <img src="/upload/recfile/${resultReadVO.thumbFileName}" width="100%" height="100px" style="object-fit: cover; display: block;">
@@ -122,7 +122,7 @@
                         <div class="col-lg-6 col-12">
                             <div class="form-group">
                             	<div>
-			                    	<h3 class="single-section-title">(주)${resultReadVO.companyName} 직원 채용 공고문</h3>
+			                    	<h3 class="single-section-title">(주)${resultReadVO.companyName} 직원 채용 공고문 | incrementStatus: ${incrementStatus }</h3>
 			                    </div>
                                 <label class="control-label">
                                     <font dir="auto" style="vertical-align: inherit;">
@@ -263,7 +263,8 @@
 		
 		// 목록 버튼
 		$(".btn-list").click(function(){
-			location.href="/recboard/recListCri?page=${page}";
+			const page = "${page}" || 1;   // page 값이 없으면 자동으로 1
+		    location.href = "/recboard/recListCri?page=" + page;
 		});
 	
 		// 삭제 버튼

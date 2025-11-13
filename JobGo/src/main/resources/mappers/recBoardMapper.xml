@@ -37,6 +37,38 @@
 		order by rb.rec_bno desc 
 		limit #{cri.pageStart},#{cri.pageSize} 
 	</select>
+	
+	<!-- 메인 페이지 게시판 리스트(최신 등록 순) -->
+	<select id="selectRecMainList" resultType="RecBoardVO">
+		select 
+			rb.rec_bno, 
+		    cm.corp_userid as corpUserId, 
+		    cm.company_name as companyName, 
+		    rb.rec_title, 
+		    rb.thumbFileName, 
+		    rb.rec_regdate, 
+		    rb.rec_viewcnt 	 
+		from rec_board rb 
+		join corpmember cm on cm.corp_id = rb.corp_id 
+		order by rb.rec_regdate desc 
+		limit 6
+	</select>
+	
+	<!-- 메인 페이지 게시판 리스트(조회수 순) -->
+	<select id="selectRecMainVIEW" resultType="RecBoardVO">
+		select 
+			rb.rec_bno, 
+		    cm.corp_userid as corpUserId, 
+		    cm.company_name as companyName, 
+		    rb.rec_title, 
+		    rb.thumbFileName, 
+		    rb.rec_regdate, 
+		    rb.rec_viewcnt 	 
+		from rec_board rb 
+		join corpmember cm on cm.corp_id = rb.corp_id 
+		order by rb.rec_viewcnt desc 
+		limit 6
+	</select>
  
  	<!-- 게시판 모든 글 개수 가져오기 -->
  	<select id="selectRecTotalCount" resultType="int">
@@ -137,4 +169,10 @@
  		delete from rec_board 
  		where rec_bno = #{rec_bno}
  	</delete>
+ 	
+ 	<!-- 게시판 특정 글 조회수를 1증가 -->
+ 	<update id="recUpdateViewCnt">
+ 		update rec_board set rec_viewcnt = rec_viewcnt + 1 
+ 		where rec_bno = #{rec_bno}
+ 	</update>
  </mapper>

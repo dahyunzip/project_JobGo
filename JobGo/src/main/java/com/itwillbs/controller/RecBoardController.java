@@ -117,7 +117,7 @@ public class RecBoardController {
 							Model model,
 							HttpSession session) throws Exception {
 
-		logger.debug("▶ recListCri() 실행");
+		logger.debug(" recListCri() 실행");
 		
         String corpUserId = (String) session.getAttribute("corpUserId");
         CorpMemberVO recMemInfo = corpMemberService.getCorpMember(corpUserId);
@@ -149,6 +149,9 @@ public class RecBoardController {
 		model.addAttribute("topCategoryList", topCategoryList);
 		model.addAttribute("topLocationList", topLocationList);
 		model.addAttribute("search", search);
+		
+		// 세션영역에 조회수 증가 여부를 판단하는 상태값을 생성
+		session.setAttribute("incrementStatus", true);
 
 		return "/recboard/recListCri";
 	}
@@ -165,7 +168,7 @@ public class RecBoardController {
 	public String recReadGET(HttpSession session,
 			                 Model model,
 			                 @RequestParam("rec_bno") int rec_bno,
-			                 @ModelAttribute("page") int page) throws Exception {
+			                 @RequestParam(value="page", defaultValue = "1") int page) throws Exception {
 		logger.debug(" recReadGET() 실행! ");
 		
 		// 회원 정보 불러오기
@@ -177,11 +180,28 @@ public class RecBoardController {
 		RecBoardVO resultReadVO = recBoardService.getRecBoard(rec_bno);
 		logger.debug(" resultRead: "+resultReadVO);
 		
+		// 세션영역에 저장된 조회수 변경가능 상태정보를 출력
+		boolean incrementStatus = (boolean) session.getAttribute("incrementStatus");
+		logger.debug(" incrementStatus: "+incrementStatus);
+		
+		// 조회수 상태변경이 가능할때(true)
+		if (incrementStatus) {
+			// 서비스 -> DAO: 특정 번호에 해당하는 글 조회수를 1증가
+			// 특정 번호(bno)에 해당하는 글 정보만 가져오기 전에 글 조회 먼저 처리
+			recBoardService.recIncreseViewCnt(rec_bno);
+			logger.debug(" 조회수 1 증가! ");
+			// 상태 변경 true -> false
+			session.setAttribute("incrementStatus", !incrementStatus);
+		}
+		
 		model.addAttribute("resultReadVO", resultReadVO);
 		logger.debug(" bno 정보: "+resultReadVO.getRec_bno());
 		logger.debug(" 썸네일 정보: "+resultReadVO.getThumbFileName());
 		logger.debug(" 첨부 파일/사진 정보: "+resultReadVO.getAttachFileName());
 		
+		logger.debug(" recReadGET() 실행, page=" + page);
+	    model.addAttribute("page", page);
+
 		logger.debug(" recReadGET() 실행! ");
 		return "/recboard/recRead";
 	}

@@ -383,12 +383,18 @@ public class ComBoardController {
 	@GetMapping("/comUpdate")
 	public void comUpdateBoardGET(HttpSession session,
 			                      Model model,
+			                      @RequestParam("com_bno") int com_bno,
 			                      @RequestParam(value="page", required=false, defaultValue="1") int page) throws Exception {
 		logger.debug(" /comboard/comUpdate -> comUpdateBoardGET() 실행! ");
 		String memberLoginInfo = (String) session.getAttribute("userid");
 		MemberVO memberInfo = memberService.getMember(memberLoginInfo);
+		
+		ComBoardVO resultReadVO = comBoardService.getComBoard(com_bno);
 		model.addAttribute("page", page);
 		model.addAttribute("memberLoginInfo", memberInfo);
+		model.addAttribute("resultReadVO", resultReadVO);
+		logger.debug(" 게시글 제목: "+resultReadVO.getCom_title());
+		logger.debug(" 글 내용: "+resultReadVO.getCom_content());
 	}
 	
 	// 게시글 수정 - POST

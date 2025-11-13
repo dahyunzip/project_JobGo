@@ -63,5 +63,5 @@
 	<context:component-scan base-package="com.itwillbs.component"/>
 	
 	<!-- appdata.properties 파일의 정보를 등록 -->
-	<!-- <context:property-placeholder location="classpath:/config/appdata.properties"/> -->
+	<context:property-placeholder location="classpath:/config/appdata.properties"/>
 </beans>

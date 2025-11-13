@@ -32,7 +32,7 @@ public class ChatGPTClient {
 	@Value("${gpt.API_KEY}")
 	private String APIKEY;
 	
-	public String sendChatGPT(String prompt) {
+	public String sendChatGPT(String systemPrompt, String userPrompt) {
 		
 		// 1. 헤더 정보 설정
 		HttpHeaders headers = new HttpHeaders();
@@ -42,12 +42,12 @@ public class ChatGPTClient {
 		// 2. 요청 파라메터 정보 설정
 		Map<String, String> roleSystem = new HashMap<>();
 		roleSystem.put("role", "system");
-		roleSystem.put("content", "질문에 대한 답변을 깔끔하게 50자 이내로 답변해줘");
+		roleSystem.put("content", systemPrompt);
 		
 		// 사용자 요청정보(질문) 설정
 		Map<String, String> roleUser = new HashMap<>();
 		roleUser.put("role", "user");
-		roleUser.put("content", prompt);
+		roleUser.put("content", userPrompt);
 		
 		// 리스트에 시스템 설정 + 사용자 질문정보 설정 저장
 		List<Map<String, String>> messages = new ArrayList<>();

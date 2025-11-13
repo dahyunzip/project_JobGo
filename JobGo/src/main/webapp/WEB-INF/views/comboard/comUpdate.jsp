@@ -48,6 +48,7 @@
 			                        <input type="text" class="form-control" 
 			                               name="com_title"
 			                               placeholder="게시글 제목을 작성 해주세요."
+			                               value="${resultReadVO.com_title }"
 			                               required >
 			                    </div>
 			                </div>
@@ -75,16 +76,31 @@
 			                       readonly>
 			            </div>
 			            <div class="form-group">
-			                <label class="control-label">
-			                	<font dir="auto" style="vertical-align: inherit;">
-			                		<font dir="auto" style="vertical-align: inherit;">글 내용</font>
-			                	</font>
-			                </label>
-			                <textarea class="form-control" rows="7"
-			                		  name="com_content"
-			                          placeholder="자유롭게 글을 작성하세요!" 
-			                          required></textarea>
-			            </div>
+						    <label class="control-label">
+						        글 내용
+						    </label>
+						
+						    <textarea class="form-control" rows="7"
+						              name="com_content"
+						              id="com_content"
+						              placeholder="자유롭게 글을 작성하세요!"
+						              required>${resultReadVO.com_content }</textarea>
+						
+						    <!-- GPT 첨삭 버튼 -->
+						    <button type="button" class="btn btn-outline-primary btn-sm mt-2" id="gptCheckBtn">
+						        GPT 맞춤법 교정
+						    </button>
+						
+						    <!-- GPT 결과 박스 -->
+						    <div class="gpt-result mt-3 p-3 border rounded bg-white" id="gpt-result-box" style="display:none;">
+						        <h6>GPT 교정 결과</h6>
+						        <pre id="gpt-corrected" style="white-space:pre-wrap;"></pre>
+						
+						        <button type="button" class="btn btn-success btn-sm mt-2" id="useGptResult">
+						            교정된 문장 적용하기
+						        </button>
+						    </div>
+						</div>
 			            <div class="row align-items-center justify-content-center">
 			                <div class="col-lg-6 col-md-5 col-12">
 			                    <div>
@@ -135,6 +151,38 @@
 		});
 		$(".btn-primary").click(function(){
 		    location.href = "/comboard/comListCri?page=${page}";
+		});
+		
+		// GPT 교정 버튼 클릭
+		$("#gptCheckBtn").click(function() {
+		    let content = $("#com_content").val().trim();
+
+		    if (content === "") {
+		        alert("내용을 입력한 후 교정을 요청해주세요!");
+		        return;
+		    }
+
+		    $("#gpt-result-box").show();
+		    $("#gpt-corrected").text("GPT가 교정 중입니다... 잠시만 기다려주세요.");
+
+		    $.ajax({
+		        type: "POST",
+		        url: "/comboard/grammarCheck",
+		        data: { content: content },
+		        success: function(response) {
+		            $("#gpt-corrected").text(response);
+		        },
+		        error: function() {
+		            $("#gpt-corrected").text("GPT 요청 중 오류가 발생했습니다. 다시 시도해주세요.");
+		        }
+		    });
+		});
+
+		// 교정된 문장 textarea에 넣기
+		$("#useGptResult").click(function() {
+		    const corrected = $("#gpt-corrected").text();
+		    $("#com_content").val(corrected);
+		    alert("GPT 교정 내용을 적용했습니다!");
 		});
 	});
 </script>

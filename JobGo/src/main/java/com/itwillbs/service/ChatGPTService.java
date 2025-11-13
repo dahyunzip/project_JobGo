@@ -14,10 +14,10 @@ public class ChatGPTService {
 	@Inject
 	private ChatGPTClient gptClient;
 	
-	public String askChatGPT(String prompt) throws Exception{
+	public String askChatGPT(String systemPrompt, String userPrompt) throws Exception{
 		logger.info("askChatGPT() 실행");
 		// gpt 호출동작 실행
-		String result = gptClient.sendChatGPT(prompt);
+		String result = gptClient.sendChatGPT(systemPrompt, userPrompt);
 	    return result;
 	}
 }

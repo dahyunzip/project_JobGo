@@ -8,6 +8,11 @@
 		align-items: center;
 		margin-bottom: 15px;
 	}
+	.checkbox input[type="checkbox"] {
+	    transform: scale(1) !important;
+	    width: 16px !important;
+	    height: 16px !important;
+	}
 	
 </style>
 <section class="add-resume section" >
@@ -72,17 +77,30 @@
 			                       value="${memberLoginInfo.email }"
 			                       readonly>
 			            </div>
-			            <div class="form-group">
-			                <label class="control-label">
-			                	<font dir="auto" style="vertical-align: inherit;">
-			                		<font dir="auto" style="vertical-align: inherit;">글 내용</font>
-			                	</font>
-			                </label>
-			                <textarea class="form-control" rows="7"
-			                		  name="com_content"
-			                          placeholder="자유롭게 글을 작성하세요!" 
-			                          required></textarea>
-			            </div>
+						<div class="form-group">
+						    <label class="control-label">글 내용</label>
+						    <textarea class="form-control" rows="7"
+						              name="com_content"
+						              id="com_content"
+						              placeholder="자유롭게 글을 작성하세요!"
+						              required></textarea>
+						
+						    <!-- GPT 버튼 -->
+						    <div class="mt-2">
+						        <button type="button" class="btn btn-outline-primary btn-sm" id="gptCheckBtn">
+						            GPT 맞춤법 교정
+						        </button>
+						    </div>
+						
+						    <!-- GPT 결과 박스 -->
+						    <div id="gptResultBox" class="gpt-result mt-3 p-3 border rounded bg-white" style="display:none;">
+						        <h6>GPT 첨삭 결과</h6>
+						        <pre id="gptResultText" style="white-space:pre-wrap;"></pre>
+						        <button type="button" class="btn btn-success btn-sm mt-2" id="applyGptBtn">
+						            첨삭내용 적용하기
+						        </button>
+						    </div>
+						</div>
 			            <div class="row align-items-center justify-content-center">
 			                <div class="col-lg-6 col-md-5 col-12">
 			                    <div class="form-group">
@@ -108,7 +126,7 @@
 			                </div>
 			                <div class="col-lg-6 col-md-7 col-12">
 			                    <div class="add-post-btn float-right">
-			                  		<button type="submit">글쓰기</button>
+			                  		<button type="submit" class="btn btn-primary">글쓰기</button>
 			                    </div>
 			                </div>
 			            </div>
@@ -124,6 +142,39 @@
 		$("#addBtn").click(function(){
 			// alert("버튼 클릭");
 			$("#fileDiv").append("<div><br><input id='cover_img_file_3' type='file' name='storedFileName"+(cnt++)+"' accept='image/*' ></div>")
+		});
+		
+		// GPT 맞춤법 교정 요청
+		$("#gptCheckBtn").on("click", function() {
+		    const content = $("#com_content").val().trim();
+
+		    if (content === "") {
+		        alert("내용을 입력한 후 교정을 요청해주세요!");
+		        return;
+		    }
+
+		    // 결과 박스 보이기 + 로딩 메시지
+		    $("#gptResultBox").show();
+		    $("#gptResultText").text("GPT가 교정 중입니다... 잠시만 기다려주세요.");
+
+		    $.ajax({
+		        type: "POST",
+		        url: "/comboard/grammarCheck",
+		        data: { content: content },
+		        success: function(result) {
+		            $("#gptResultText").text(result);
+		        },
+		        error: function() {
+		            $("#gptResultText").text("GPT 요청 중 오류가 발생했습니다. 다시 시도해주세요.");
+		        }
+		    });
+		});
+
+		// GPT 내용 적용하기
+		$("#applyGptBtn").on("click", function() {
+		    const text = $("#gptResultText").text();
+		    $("#com_content").val(text);
+		    alert("GPT 교정 내용을 적용했습니다!");
 		});
 	});
 </script>

@@ -47,7 +47,7 @@
 								    <c:choose>
 								      <%-- 이미 지원한 경우 --%>
 								      <c:when test="${alreadyApplied}">
-								        <p class="text-danger fw-bold">이미 지원한 채용공고입니다. 지원취소는 커리어관리 &gt; 지원현황에서 가능합니다.</p>
+								        <p class="text-danger fw-bold">이미 지원한 채용공고입니다. 지원취소는 <a href="/application/list" class="underline-link">커리어관리 &gt; 지원현황</a>에서 가능합니다.</p>
 								      </c:when>
 								
 								      <%-- 아직 지원 안한 경우 --%>

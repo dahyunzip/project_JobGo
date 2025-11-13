@@ -50,8 +50,15 @@
 							</a>
 						</nav>
 					</div>
-					<div id="searchBar" class="col-lg-4 col-xs-12">
-						<input type="text" placeholder="검색어를 입력하세요" name="search" class="form-control">
+					<div id="searchBar" class="col-lg-4 col-xs-12" style="display:flex; gap:5px;">
+					    <!-- 검색 종류 선택 -->
+					    <select id="searchType" class="form-control" style="max-width:120px;">
+					        <option value="com">커뮤니티</option>
+					        <option value="rec">채용공고</option>
+					    </select>
+					
+					    <!-- 검색창 -->
+					    <input type="text" id="headerSearchInput" placeholder="<= 게시판 선택 후 검색어 입력" class="form-control">
 					</div>
 				</div>
 				<div class="col-lg-12">
@@ -143,3 +150,38 @@
 	</header>
 	<!-- End Header Area -->
 	<div id="contents">
+	<script>
+		$(document).ready(function(){
+		
+		    // 검색 실행 함수
+		    function doSearch() {
+		        const type = $("#searchType").val(); 
+		        const keyword = $("#headerSearchInput").val().trim();
+		
+		        if(keyword == "") {
+		            alert("검색어를 입력하세요.");
+		            return;
+		        }
+		
+		        let url = "";
+		
+		        if(type == "com") {
+		            // 커뮤니티 게시판
+		            url = "/comboard/comListCri?search=" + encodeURIComponent(keyword);
+		        } else if(type == "rec") {
+		            // 채용공고 게시판
+		            url = "/recboard/recListCri?search=" + encodeURIComponent(keyword);
+		        }
+		
+		        location.href = url;
+		    }
+		
+		    // 엔터키 검색
+		    $("#headerSearchInput").keypress(function(e){
+		        if(e.keyCode == 13){
+		            doSearch();
+		        }
+		    });
+		
+		});
+	</script>

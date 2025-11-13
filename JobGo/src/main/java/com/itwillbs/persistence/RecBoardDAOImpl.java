@@ -19,8 +19,7 @@ import com.itwillbs.domain.RecTopLocationVO;
 
 @Repository
 public class RecBoardDAOImpl implements RecBoardDAO {
-	
-	
+		
 	private static final Logger logger 
 		= LoggerFactory.getLogger(RecBoardDAOImpl.class);
 	
@@ -47,6 +46,29 @@ public class RecBoardDAOImpl implements RecBoardDAO {
 		return resultRecList;
 	}
 
+	// 메인 페이지 게시판 리스트(최신 등록 순)
+	@Override
+	public List<RecBoardVO> selectRecMainList() throws Exception {
+		logger.debug(" selectRecMainList() 실행! ");
+		
+		List<RecBoardVO> resultRecMain 
+			= sqlSession.selectList(NAMESPACE + "selectRecMainList");
+		
+		logger.debug(" selectRecMainList() 끝! ");
+		return resultRecMain;
+	}
+	
+	// 메인 페이지 게시판 리스트(조회수 순)
+	@Override
+	public List<RecBoardVO> selectRecMainVIEW() throws Exception {
+		logger.debug(" selectRecMainVIEW() 실행! ");
+		
+		List<RecBoardVO> resultRecMainVW = sqlSession.selectList(NAMESPACE + "selectRecMainVIEW");
+		
+		logger.debug(" selectRecMainVIEW() 끝! ");
+		return resultRecMainVW;
+	}
+	
 	// 게시판 모든 글 개수 가져오기
 	@Override
 	public int selectRecTotalCount(Integer toplct_id, Integer topctg_id, Integer btmctg_id, String search) throws Exception {
@@ -120,6 +142,7 @@ public class RecBoardDAOImpl implements RecBoardDAO {
 		return resultRBR;
 	}
 
+	// 게시글 수정 
 	@Override
 	public int updateRecBoard(RecBoardVO vo) throws Exception {
 		logger.debug(" updateRecBoard() 실행! ");
@@ -130,6 +153,7 @@ public class RecBoardDAOImpl implements RecBoardDAO {
 		return resultUpdateRB;
 	}
 
+	// 게시글 삭제
 	@Override
 	public int deleteRecBoard(int rec_bno) throws Exception {
 		logger.debug(" deleteRecBoard() 실행! ");
@@ -139,6 +163,15 @@ public class RecBoardDAOImpl implements RecBoardDAO {
 		logger.debug(" deleteRecBoard() 끝! ");
 		return resultDeleteRB;
 	}
-	
+
+	// 게시판 특정 글 조회수를 1증가
+	@Override
+	public void recUpdateViewCnt(int rec_bno) throws Exception {
+		logger.debug(" recUpdateViewCnt() 실행! ");
+		
+		sqlSession.update(NAMESPACE + "recUpdateViewCnt", rec_bno);
+		
+		logger.debug(" recUpdateViewCnt() 끝! ");
+	}
 
 }

@@ -13,6 +13,12 @@ public interface RecBoardService {
 	// 게시판 리스트
 	public List<RecBoardVO> getRecBoardList(Criteria cri, Integer toplct_id, Integer topctg_id, Integer btmctg_id, String search) throws Exception;
 
+	// 메인 페이지 게시판 리스트(최신 등록 순)
+	public List<RecBoardVO> getRecMainList() throws Exception;
+	
+	// 메인 페이지 게시판 리스트(조회수 순)
+	public List<RecBoardVO> getRecMainListVIEW() throws Exception;
+	
 	// 게시판 모든 글 개수 가져오기
 	public int getRecTotalCount(Integer toplct_id, Integer topctg_id, Integer btmctg_id, String search) throws Exception;
 	
@@ -34,4 +40,7 @@ public interface RecBoardService {
 	
 	// 게시글 삭제
 	public int deleteRecBoard(int rec_bno) throws Exception;
+	
+	// 게시판 특정 글 조회수를 1증가
+	public void recIncreseViewCnt(int rec_bno) throws Exception;
 }

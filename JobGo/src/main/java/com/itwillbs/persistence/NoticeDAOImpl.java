@@ -10,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
+import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.NoticeVO;
 
 @Repository
@@ -32,6 +33,26 @@ public class NoticeDAOImpl implements NoticeDAO {
 	@Override
 	public void insert_notice_with_userid(Map<String, Object> noticeData) throws Exception {
 		sqlSession.insert(NAMESPACE + ".insert_notice_with_userid", noticeData);
+	}
+	
+	@Override
+	public List<NoticeVO> getNoticeList(Criteria cri) {
+		return sqlSession.selectList(NAMESPACE + ".getNoticeList", cri);
+	}
+	
+	@Override
+	public int getTotalCount(Criteria cri) {
+		return sqlSession.selectOne(NAMESPACE + ".getTotalCount", cri);
+	}
+	
+	@Override
+	public List<NoticeVO> getNoticeListAll(Criteria cri) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getNoticeListAll", cri);
+	}
+
+	@Override
+	public int getTotalCountAll(Criteria cri) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getTotalCountAll", cri);
 	}
 
 	@Override
@@ -58,16 +79,6 @@ public class NoticeDAOImpl implements NoticeDAO {
 		logger.debug(" updateViewCnt - DAO ");
 		sqlSession.update(NAMESPACE+".updateViewCnt", noticeId);
 		
-	}
-	
-	@Override
-	public List<NoticeVO> getNoticeListPaging(Map<String, Object> map) throws Exception {
-		return sqlSession.selectList(NAMESPACE + ".getNoticeListPaging", map);
-	}
-
-	@Override
-	public int getNoticeCount(Map<String, Object> map) throws Exception {
-		return sqlSession.selectOne(NAMESPACE + ".getNoticeCount", map);
 	}
 	
 }

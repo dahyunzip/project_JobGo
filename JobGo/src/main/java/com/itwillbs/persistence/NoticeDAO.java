@@ -3,6 +3,7 @@ package com.itwillbs.persistence;
 import java.util.List;
 import java.util.Map;
 
+import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.NoticeVO;
 
 public interface NoticeDAO {
@@ -12,6 +13,14 @@ public interface NoticeDAO {
 		// userid로 member.id를 조인해서 insert
 		void insert_notice_with_userid(Map<String, Object> noticeData) throws Exception;
 
+		// 공지 목록 비회원/일반
+		List<NoticeVO> getNoticeList(Criteria cri);
+		int getTotalCount(Criteria cri);
+		
+		// 공지 목록 관리자/기업
+		List<NoticeVO> getNoticeListAll(Criteria cri) throws Exception;
+		int getTotalCountAll(Criteria cri) throws Exception;
+		
 		// 공지 상세 조회
 		NoticeVO getNotice(int noticeId) throws Exception;
 
@@ -24,9 +33,5 @@ public interface NoticeDAO {
 		// 조회수 증가
 		void updateViewCnt(int noticeId) throws Exception;
 		
-		//
-		List<NoticeVO> getNoticeListPaging(Map<String, Object> map) throws Exception;
-		
-		//
-		int getNoticeCount(Map<String, Object> map) throws Exception;
+
 }

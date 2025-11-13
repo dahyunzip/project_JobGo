@@ -60,8 +60,10 @@
 		where m.userid = #{userid}
 	</insert>
 	
-	<!-- 회원별 공지 필터 + 페이징 -->
-	<select id="getNoticeListPaging" parameterType="map" resultType="com.itwillbs.domain.NoticeVO">
+	<!-- 일반회원/비회원용 -->
+	<select id="getNoticeList"
+		parameterType="com.itwillbs.domain.Criteria"
+		resultType="com.itwillbs.domain.NoticeVO">
 		select
 			notice_id        as noticeId,
 			admin_id         as adminId,
@@ -73,49 +75,59 @@
 			notice_updated   as noticeUpdated
 		from notice_board
 		where
-			<choose>
-				<!-- 관리자 -->
-				<when test="memberType != null and memberType.equals('A')">
-					1=1
-				</when>
-	
-				<!-- 기업회원 -->
-				<when test="userType != null and userType.equals('corp')">
-					1=1
-				</when>
-	
-				<!-- 일반회원 또는 비회원 -->
-				<otherwise>
-					notice_title not like '[기업공지]%'
-				</otherwise>
-			</choose>
+			notice_title not like '[기업공지]%'
+		<if test="search != null and search != ''">
+			and notice_title like concat('%', #{search}, '%')
+		</if>
 		order by notice_id desc
-		limit #{cri.pageStart}, #{cri.pageSize}
+		limit #{pageStart}, #{pageSize}
 	</select>
 
-
-	
-	<!-- 전체 개수 -->
-	<select id="getNoticeCount" parameterType="map" resultType="int">
+	<!-- 일반회원/비회원용 -->
+	<select id="getTotalCount"
+		parameterType="com.itwillbs.domain.Criteria"
+		resultType="int">
 		select count(*)
 		from notice_board
 		where
-			<choose>
-				<!-- 관리자 -->
-				<when test="memberType != null and memberType.equals('A')">
-					1=1
-				</when>
-	
-				<!-- 기업회원 -->
-				<when test="userType != null and userType.equals('corp')">
-					1=1
-				</when>
-	
-				<!-- 일반회원 또는 비회원 -->
-				<otherwise>
-					notice_title not like '[기업공지]%'
-				</otherwise>
-			</choose>
+			notice_title not like '[기업공지]%'
+		<if test="search != null and search != ''">
+			and notice_title like concat('%', #{search}, '%')
+		</if>
+	</select>
+
+	<!-- 관리자/기업회원용 -->
+	<select id="getNoticeListAll"
+		parameterType="com.itwillbs.domain.Criteria"
+		resultType="com.itwillbs.domain.NoticeVO">
+		select
+			notice_id        as noticeId,
+			admin_id         as adminId,
+			notice_title     as noticeTitle,
+			notice_content   as noticeContent,
+			storedFileName   as storedFileName,
+			notice_viewcnt   as noticeViewCnt,
+			notice_regdate   as noticeRegdate,
+			notice_updated   as noticeUpdated
+		from notice_board
+		where 1=1
+		<if test="search != null and search != ''">
+			and notice_title like concat('%', #{search}, '%')
+		</if>
+		order by notice_id desc
+		limit #{pageStart}, #{pageSize}
+	</select>
+
+	<!-- 관리자/기업회원용 -->
+	<select id="getTotalCountAll"
+		parameterType="com.itwillbs.domain.Criteria"
+		resultType="int">
+		select count(*)
+		from notice_board
+		where 1=1
+		<if test="search != null and search != ''">
+			and notice_title like concat('%', #{search}, '%')
+		</if>
 	</select>
 
 

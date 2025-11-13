@@ -130,25 +130,37 @@ public class NoticeController {
 	}
 	
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
-	public String getNoticeList(Criteria cri, Model model, HttpSession session) throws Exception {
-		String memberType = (String) session.getAttribute("membertype");
-		String userType = (String) session.getAttribute("userType");
+	public String getNoticeList(Criteria cri,
+			@RequestParam(value="search", required=false) String search,
+			HttpSession session,
+			Model model) throws Exception {
+		cri.setSearch(search);
 		
+		String memberType = (String) session.getAttribute("membertype");	// 예: "A"
+		String corpSession = (String) session.getAttribute("corpSession");	// 기업 로그인 여부
+
+		boolean isAdmin = "A".equals(memberType);
+		boolean isCorp = (corpSession != null);
+
+		List<NoticeVO> noticeList = nService.getNoticeList(cri);
+		int totalCount = nService.getTotalCount(cri);
 		
-		Map<String, Object> param = new HashMap<>();
-		param.put("cri", cri);
-		param.put("memberType", memberType);
-		param.put("userType", userType);
-
-		List<NoticeVO> noticeList = nService.getNoticeListPaging(param);
-		int totalCount = nService.getNoticeCount(param);
-
+		if (isAdmin || isCorp) {
+			noticeList = nService.getNoticeListAll(cri);
+			totalCount = nService.getTotalCountAll(cri);
+		} else {
+			noticeList = nService.getNoticeList(cri);
+			totalCount = nService.getTotalCount(cri);
+		}
+		
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
 		pageVO.setTotalCount(totalCount);
 
+		model.addAttribute("search", search);
 		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("pageVO", pageVO);
+
 		return "/notice/list";
 	}
 	

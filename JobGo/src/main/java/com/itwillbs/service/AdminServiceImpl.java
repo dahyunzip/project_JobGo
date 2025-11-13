@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MemberVO;
 import com.itwillbs.domain.ReviewVO;
 import com.itwillbs.persistence.AdminDAO;
@@ -17,13 +18,23 @@ public class AdminServiceImpl implements AdminService{
 	private AdminDAO adminDAO;
 
 	@Override
-	public List<MemberVO> getAllNormalMembers() throws Exception {
-		return adminDAO.getAllNormalMembers();
+	public List<MemberVO> getAllNormalMembers(Criteria cri) throws Exception {
+		return adminDAO.getAllNormalMembers(cri);
+	}
+	
+	@Override
+	public int getNormalMemberTotalCount() throws Exception {
+		return adminDAO.getNormalMemberTotalCount();
 	}
 
 	@Override
-	public List<MemberVO> getAllCorpMembers() throws Exception {
-		return adminDAO.getAllCorpMembers();
+	public List<MemberVO> getAllCorpMembers(Criteria cri) throws Exception {
+		return adminDAO.getAllCorpMembers(cri);
+	}
+	
+	@Override
+	public int getCorpMemberTotalCount() throws Exception {
+		return adminDAO.getCorpMemberTotalCount();
 	}
 	
 	@Override
@@ -42,8 +53,13 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<ReviewVO> getAllReviews() throws Exception {
-		return adminDAO.getAllReviews();
+	public List<ReviewVO> getAllReviews(Criteria cri) throws Exception {
+		return adminDAO.getAllReviews(cri);
+	}
+	
+	@Override
+	public int getReviewTotalCount() throws Exception {
+		return adminDAO.getReviewTotalCount();
 	}
 
 	@Override

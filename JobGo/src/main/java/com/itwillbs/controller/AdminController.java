@@ -14,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MemberVO;
+import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.ReviewVO;
 import com.itwillbs.service.AdminService;
 import com.itwillbs.service.MemberService;
@@ -100,28 +102,46 @@ public class AdminController {
 		return "/admin/corpBoard";
 	}
 	
-	// 기업회원 관리
-	@RequestMapping(value="/userManageCorp", method=RequestMethod.GET)
-	public String userManageCorp(HttpSession session, Model model) throws Exception {
-		String adminUserid = (String) session.getAttribute("adminSession");
-		if (adminUserid == null) return "redirect:/admin/login";
-
-		List<MemberVO> corpList = adminService.getAllCorpMembers();
-		model.addAttribute("corpList", corpList);
-
-		return "/admin/userManageCorp";
-	}
-
 	// 일반회원 관리
 	@RequestMapping(value="/userManageMember", method=RequestMethod.GET)
-	public String userManageMember(HttpSession session, Model model) throws Exception {
-		String adminUserid = (String) session.getAttribute("adminSession");
-		if (adminUserid == null) return "redirect:/admin/login";
+	public String userManageMember(HttpSession session, Criteria cri, Model model) throws Exception {
 		
-		List<MemberVO> memberList = adminService.getAllNormalMembers();
-		model.addAttribute("memberList", memberList);
+		if (session.getAttribute("adminSession") == null) {
+	        return "redirect:/admin/login";
+	    }
+		
+		List<MemberVO> memberList = adminService.getAllNormalMembers(cri);
+	    int totalCount = adminService.getNormalMemberTotalCount();
+		
+	    PageVO pageVO = new PageVO();
+	    pageVO.setCri(cri);
+	    pageVO.setTotalCount(totalCount);
+		
+	    model.addAttribute("memberList", memberList);
+	    model.addAttribute("pageVO", pageVO);
+		
+	    return "/admin/userManageMember";
+	}
+	
+	// 기업회원 관리
+	@RequestMapping(value="/userManageCorp", method=RequestMethod.GET)
+	public String userManageCorp(HttpSession session, Criteria cri, Model model) throws Exception {
+		
+		if (session.getAttribute("adminSession") == null) {
+	        return "redirect:/admin/login";
+	    }
 
-		return "/admin/userManageMember";
+	    List<MemberVO> corpList = adminService.getAllCorpMembers(cri);
+	    int totalCount = adminService.getCorpMemberTotalCount();
+
+	    PageVO pageVO = new PageVO();
+	    pageVO.setCri(cri);
+	    pageVO.setTotalCount(totalCount);
+
+	    model.addAttribute("corpList", corpList);
+	    model.addAttribute("pageVO", pageVO);
+
+	    return "/admin/userManageCorp";
 	}
 	
 	// 기업회원 승인
@@ -176,14 +196,23 @@ public class AdminController {
 	
 	// 리뷰 관리
 	@RequestMapping(value="/reviewManage", method=RequestMethod.GET)
-	public String reviewManage(HttpSession session, Model model) throws Exception {
-		String adminUserid = (String) session.getAttribute("adminSession");
-		if (adminUserid == null) return "redirect:/admin/login";
+	public String reviewManage(HttpSession session, Criteria cri, Model model) throws Exception {
+		
+		if (session.getAttribute("adminSession") == null) {
+	        return "redirect:/admin/login";
+	    }
 
-		List<ReviewVO> reviewList = adminService.getAllReviews();
-		model.addAttribute("reviewList", reviewList);
+	    List<ReviewVO> reviewList = adminService.getAllReviews(cri);
+	    int totalCount = adminService.getReviewTotalCount();
 
-		return "/admin/reviewManage";
+	    PageVO pageVO = new PageVO();
+	    pageVO.setCri(cri);
+	    pageVO.setTotalCount(totalCount);
+
+	    model.addAttribute("reviewList", reviewList);
+	    model.addAttribute("pageVO", pageVO);
+
+	    return "/admin/reviewManage";
 	}
 	
 	// 리뷰 삭제 (관리자 전용)

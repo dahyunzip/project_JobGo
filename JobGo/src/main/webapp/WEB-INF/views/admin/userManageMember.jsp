@@ -37,6 +37,40 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	<div class="d-flex justify-content-center mt-4">
+		<ul class="pagination">
+	
+			<!-- 이전 버튼 -->
+			<c:if test="${pageVO.prev}">
+				<li class="page-item">
+					<a class="page-link"
+					   href="?page=${pageVO.startPage - 1}&pageSize=${pageVO.cri.pageSize}">
+						이전
+					</a>
+				</li>
+			</c:if>
+	
+			<!-- 페이지 번호 -->
+			<c:forEach var="num" begin="${pageVO.startPage}" end="${pageVO.endPage}">
+				<li class="page-item ${pageVO.cri.page == num ? 'active' : ''}">
+					<a class="page-link"
+					   href="?page=${num}&pageSize=${pageVO.cri.pageSize}">
+						${num}
+					</a>
+				</li>
+			</c:forEach>
+	
+			<!-- 다음 버튼 -->
+			<c:if test="${pageVO.next}">
+				<li class="page-item">
+					<a class="page-link"
+					   href="?page=${pageVO.endPage + 1}&pageSize=${pageVO.cri.pageSize}">
+						다음
+					</a>
+				</li>
+			</c:if>
+		</ul>
+	</div>
 </div>
 
 <%@ include file="footer.jsp"%>

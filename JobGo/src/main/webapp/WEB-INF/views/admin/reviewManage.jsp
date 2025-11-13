@@ -30,19 +30,30 @@
 					<td>${review.reviewId}</td>
 					<td>${review.memberId}</td>
 					<td>${review.corpId}</td>
-					<td class="text-left">${review.revTitle}</td>
-					<td>${review.revRate}</td>
+					<td class="text-left">
+						<a href="${pageContext.request.contextPath}/review/reviewDetail?reviewId=${review.reviewId}">
+							${review.revTitle}
+						</a>
+					</td>
+					<td>
+						<c:forEach begin="1" end="5" var="i">
+							<c:choose>
+								<c:when test="${i <= review.revRate}">★</c:when>
+								<c:otherwise>☆</c:otherwise>
+							</c:choose>
+						</c:forEach>
+					</td>
 					<td>
 						<c:choose>
-							<c:when test="${review.revPublic eq 'Y'}">공개</c:when>
+							<c:when test="${review.revPublic eq 'y'}">공개</c:when>
 							<c:otherwise>비공개</c:otherwise>
 						</c:choose>
 					</td>
 					<td>
-						<td>${fn:substring(review.revRegdate, 0, 19)}</td>
+						${fn:replace(review.revRegdate, 'T', ' ')}
 					</td>
 					<td>
-						<td>${fn:substring(review.revUpdatedate, 0, 19)}</td>
+						${fn:replace(review.revUpdatedate, 'T', ' ')}
 					</td>
 					<td>
 						<form action="${pageContext.request.contextPath}/admin/deleteReview" 
@@ -59,6 +70,40 @@
 			</c:forEach>
 		</tbody>
 	</table>
+	<div class="d-flex justify-content-center mt-4">
+		<ul class="pagination">
+	
+			<!-- 이전 버튼 -->
+			<c:if test="${pageVO.prev}">
+				<li class="page-item">
+					<a class="page-link"
+					   href="?page=${pageVO.startPage - 1}&pageSize=${pageVO.cri.pageSize}">
+						이전
+					</a>
+				</li>
+			</c:if>
+	
+			<!-- 페이지 번호 -->
+			<c:forEach var="num" begin="${pageVO.startPage}" end="${pageVO.endPage}">
+				<li class="page-item ${pageVO.cri.page == num ? 'active' : ''}">
+					<a class="page-link"
+					   href="?page=${num}&pageSize=${pageVO.cri.pageSize}">
+						${num}
+					</a>
+				</li>
+			</c:forEach>
+	
+			<!-- 다음 버튼 -->
+			<c:if test="${pageVO.next}">
+				<li class="page-item">
+					<a class="page-link"
+					   href="?page=${pageVO.endPage + 1}&pageSize=${pageVO.cri.pageSize}">
+						다음
+					</a>
+				</li>
+			</c:if>
+		</ul>
+	</div>
 </div>
 
 <%@ include file="footer.jsp" %>

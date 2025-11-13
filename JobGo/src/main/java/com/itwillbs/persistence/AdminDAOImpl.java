@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MemberVO;
 import com.itwillbs.domain.ReviewVO;
 
@@ -19,18 +20,28 @@ public class AdminDAOImpl implements AdminDAO{
 	private SqlSession sqlSession;
 
 	@Override
-	public List<MemberVO> getAllNormalMembers() throws Exception {
-		return sqlSession.selectList(NAMESPACE + ".getAllNormalMembers");
+	public List<MemberVO> getAllNormalMembers(Criteria cri) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getAllNormalMembers", cri);
+	}
+	
+	@Override
+	public int getNormalMemberTotalCount() {
+		return sqlSession.selectOne(NAMESPACE + ".getNormalMemberTotalCount");
 	}
 
 	@Override
-	public List<MemberVO> getAllCorpMembers() throws Exception {
-		return sqlSession.selectList(NAMESPACE + ".getAllCorpMembers");
+	public List<MemberVO> getAllCorpMembers(Criteria cri) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getAllCorpMembers", cri);
 	}
 	
 	@Override
 	public int approveCorp(int corpId) throws Exception {
 	    return sqlSession.update(NAMESPACE + ".approveCorp", corpId);
+	}
+	
+	@Override
+	public int getCorpMemberTotalCount() {
+		return sqlSession.selectOne(NAMESPACE + ".getCorpMemberTotalCount");
 	}
 
 	@Override
@@ -44,8 +55,13 @@ public class AdminDAOImpl implements AdminDAO{
 	}
 	
 	@Override
-	public List<ReviewVO> getAllReviews() throws Exception {
-		return sqlSession.selectList(NAMESPACE + ".getAllReviews");
+	public List<ReviewVO> getAllReviews(Criteria cri) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getAllReviews", cri);
+	}
+	
+	@Override
+	public int getReviewTotalCount() {
+		return sqlSession.selectOne(NAMESPACE + ".getReviewTotalCount");
 	}
 
 	@Override

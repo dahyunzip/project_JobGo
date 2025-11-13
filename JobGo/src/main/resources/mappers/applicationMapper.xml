@@ -69,5 +69,33 @@
 	      AND rec_bno = #{rec_bno}
 	      AND is_withdrawn = 'N'
 	</select>
+	
+	<!-- 기업회원 : 지원자 리스트 조회 -->
+	<select id="getApplicantsByCorpId" resultType="ApplicationVO">
+	    SELECT 
+	        a.application_id AS application_id,
+	        a.rec_bno AS rec_bno,
+	        rb.rec_title AS rec_title,
+	        a.member_id AS member_id,
+	        m.name AS applicant_name,     
+	        m.email AS applicant_email,   
+	        r.resume_id AS resume_id,         
+	        r.resume_title AS resume_title,   
+	        a.status AS status,
+	        a.applied_at AS applied_at
+	    FROM application a
+	    JOIN rec_board rb ON a.rec_bno = rb.rec_bno
+	    JOIN member m ON a.member_id = m.id
+	    JOIN resume r ON a.resume_id = r.resume_id
+	    WHERE rb.corp_id = #{corp_id}
+	    ORDER BY a.applied_at DESC
+	</select>
 
+	<!-- 기업회원 : 지원자 상태값 변경 -->
+	<update id="updateApplicationStatus">
+	    UPDATE application
+	    SET status = #{status},
+	        update_at = NOW()
+	    WHERE application_id = #{application_id}
+	</update>
 </mapper>

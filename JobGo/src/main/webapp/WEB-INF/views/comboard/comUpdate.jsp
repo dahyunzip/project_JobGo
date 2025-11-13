@@ -131,7 +131,7 @@
 			                <div class="col-lg-6 col-md-7 col-12">
 			                    <div class="add-post-btn float-right">
 			                  		<button type="submit" class="btn btn-primary">수정</button>
-			                  		<button type="button" class="btn btn-primary">목록으로</button>
+			                  		<button type="button" class="btn btn-primary" id="goListBtn" >목록으로</button>
 			                    </div>
 			                </div>
 			            </div>
@@ -149,7 +149,7 @@
 			// alert("버튼 클릭");
 			$("#fileDiv").append("<div><br><input id='cover_img_file_3' type='file' name='storedFileName"+(cnt++)+"' accept='image/*' ></div>")
 		});
-		$(".btn-primary").click(function(){
+		$("#goListBtn").click(function() {
 		    location.href = "/comboard/comListCri?page=${page}";
 		});
 		

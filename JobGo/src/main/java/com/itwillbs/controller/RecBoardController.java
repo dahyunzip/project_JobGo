@@ -205,17 +205,20 @@ public class RecBoardController {
 		logger.debug(" resultRead: "+resultReadVO);
 		
 		// 세션영역에 저장된 조회수 변경가능 상태정보를 출력
-		boolean incrementStatus = (boolean) session.getAttribute("incrementStatus");
-		logger.debug(" incrementStatus: "+incrementStatus);
-		
-		// 조회수 상태변경이 가능할때(true)
-		if (incrementStatus) {
-			// 서비스 -> DAO: 특정 번호에 해당하는 글 조회수를 1증가
-			// 특정 번호(bno)에 해당하는 글 정보만 가져오기 전에 글 조회 먼저 처리
-			recBoardService.recIncreseViewCnt(rec_bno);
-			logger.debug(" 조회수 1 증가! ");
-			// 상태 변경 true -> false
-			session.setAttribute("incrementStatus", !incrementStatus);
+		Boolean incrementStatus = (Boolean) session.getAttribute("incrementStatus");
+
+		if (incrementStatus == null) {
+		    incrementStatus = true;  // 기본 true로 초기화
+		    session.setAttribute("incrementStatus", true);
+		}
+
+		logger.debug(" incrementStatus: " + incrementStatus);
+
+		if (Boolean.TRUE.equals(incrementStatus)) {
+		    recBoardService.recIncreseViewCnt(rec_bno);
+		    logger.debug(" 조회수 1 증가! ");
+
+		    session.setAttribute("incrementStatus", false);
 		}
 		
 		model.addAttribute("resultReadVO", resultReadVO);

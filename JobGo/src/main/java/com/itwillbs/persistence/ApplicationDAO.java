@@ -2,6 +2,8 @@ package com.itwillbs.persistence;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.itwillbs.domain.ApplicationVO;
 
 public interface ApplicationDAO {
@@ -12,7 +14,11 @@ public interface ApplicationDAO {
 	public List<ApplicationVO> getApplicationsByMemberId(int member_id) throws Exception;
 	
 	// 중복 지원 확인
-	public Long checkDuplicate(ApplicationVO vo) throws Exception;
+	public int checkDuplicate(ApplicationVO vo) throws Exception;
+	
+	// 이미 지원했는지 확인 (조회 시점)
+	public int checkAlreadyApplied(@Param("member_id") int member_id, 
+	                               @Param("rec_bno") int rec_bno) throws Exception;
 	
 	// 지원 취소
 	public int withdrawApplication(int application_id) throws Exception;

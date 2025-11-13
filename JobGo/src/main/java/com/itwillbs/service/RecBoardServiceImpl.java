@@ -110,8 +110,12 @@ public class RecBoardServiceImpl implements RecBoardService {
 	    return rbDAO.getResumeList(member_id);
 	}
 	
-
-	
+	// 지원한 지원자인지 체크
+	@Override
+	public boolean checkAlreadyApplied(int member_id, int rec_bno) throws Exception {
+	    int result = rbDAO.checkAlreadyApplied(member_id, rec_bno);
+	    return result > 0;
+	}
 	
 
 

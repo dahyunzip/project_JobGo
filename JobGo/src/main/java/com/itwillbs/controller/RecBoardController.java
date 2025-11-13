@@ -164,12 +164,16 @@ public class RecBoardController {
 		} else if(member_id != null) {
 			logger.debug(" 일반회원 접근 (member_id =" + member_id + ")");
 			model.addAttribute("member_id", member_id);
+			
+			// 이미 지원했는지 확인
+			boolean alreadyApplied = recBoardService.checkAlreadyApplied(member_id, rec_bno);
+			model.addAttribute("alreadyApplied", alreadyApplied);
 
 			// 이력서 목록 전달
 			List<ResumeVO> resumeList = recBoardService.getResumeList(member_id);
-			logger.debug("resumeList 전달 여부 확인: " + (resumeList != null));
 			logger.debug("이력서 리스트: " + resumeList);
 			model.addAttribute("resumeList", resumeList);
+			
 		}else {
 			logger.debug(" 기업회원 로그인 세션이 없습니다.");
 		}

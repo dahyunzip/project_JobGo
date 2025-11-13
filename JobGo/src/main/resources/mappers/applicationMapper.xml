@@ -12,7 +12,7 @@
     </insert>
 
 	<!-- 중복 지원 확인 -->
-    <select id="checkDuplicate" resultType="java.lang.Long">
+    <select id="checkDuplicate" resultType="int">
         SELECT COUNT(*)
         FROM application
         WHERE member_id = #{member_id}
@@ -34,7 +34,7 @@
 	        a.corp_memo,
 	        a.update_at,
 	        rb.rec_title AS rec_title,
-	        c.corp_name AS corp_name,
+	        c.company_name AS corp_name,
 	        r.resume_title AS resume_title
 	    FROM application a
 	    JOIN rec_board rb ON a.rec_bno = rb.rec_bno
@@ -51,5 +51,14 @@
         SET is_withdrawn = 'Y', status = 'REJECTED'
         WHERE application_id = #{application_id}
     </update>
+    
+    <!-- 이미 지원했는지 확인 -->
+	<select id="checkAlreadyApplied" resultType="int">
+	    SELECT COUNT(*)
+	    FROM application
+	    WHERE member_id = #{member_id}
+	      AND rec_bno = #{rec_bno}
+	      AND is_withdrawn = 'N'
+	</select>
 
 </mapper>

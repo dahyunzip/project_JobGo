@@ -1,6 +1,8 @@
 package com.itwillbs.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -23,7 +25,6 @@ public class ApplicationDAOImpl implements ApplicationDAO {
 	
 	@Override
 	public void insertApplication(ApplicationVO vo) throws Exception {
-		logger.debug("insertApplication() 실행 - member_id: " + vo.getMember_id());
 		sqlSession.insert(NAMESPACE + "insertApplication", vo);
 	}
 
@@ -33,9 +34,16 @@ public class ApplicationDAOImpl implements ApplicationDAO {
 	}
 
 	@Override
-	public Long checkDuplicate(ApplicationVO vo) throws Exception {
-		Long result = sqlSession.selectOne(NAMESPACE + "checkDuplicate", vo);
-		return (result != null) ? result : 0L;
+	public int checkDuplicate(ApplicationVO vo) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + "checkDuplicate", vo);
+	}
+	
+	@Override
+	public int checkAlreadyApplied(int member_id, int rec_bno) throws Exception {
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("member_id", member_id);
+	    params.put("rec_bno", rec_bno);
+	    return sqlSession.selectOne(NAMESPACE + "checkAlreadyApplied", params);
 	}
 
 	@Override

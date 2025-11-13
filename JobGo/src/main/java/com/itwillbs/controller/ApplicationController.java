@@ -26,15 +26,18 @@ public class ApplicationController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(ApplicationController.class);
 	
-	@RequestMapping(value="/apply", method=RequestMethod.GET)
-	public String applyGET(@RequestParam("rec_bno") int rec_bno, RedirectAttributes rttr) {
-	    logger.debug("applyGET() 실행 - rec_bno=" + rec_bno);
-	    rttr.addFlashAttribute("msg", "잘못된 접근입니다.");
-	    return "redirect:/recboard/recRead?rec_bno=" + rec_bno;
-	}
+//	@RequestMapping(value="/apply", method=RequestMethod.GET)
+//	public String applyGET(@RequestParam("rec_bno") int  rec_bno, RedirectAttributes rttr) {
+//		logger.debug("applyGET() 실행 - rec_bno=" + rec_bno);
+//	    rttr.addFlashAttribute("msg", "잘못된 접근입니다.");
+//	    return "redirect:/recboard/recRead?rec_bno=" + rec_bno;
+//	}
 	
 	@RequestMapping(value="/apply", method=RequestMethod.POST)
-	public String applyPOST(ApplicationVO vo, HttpSession session, RedirectAttributes rttr) throws Exception {
+	public String applyPOST(ApplicationVO vo,
+							HttpSession session,
+							@RequestParam(value = "page", defaultValue = "1") int page,
+							RedirectAttributes rttr) throws Exception {
         Integer member_id = (Integer) session.getAttribute("memberId");
         if (member_id == null) {
             rttr.addFlashAttribute("msg", "로그인이 필요합니다.");
@@ -46,11 +49,12 @@ public class ApplicationController {
 
         try {
             aService.apply(vo);
-            rttr.addFlashAttribute("msg", "지원이 완료되었습니다!");
+            rttr.addFlashAttribute("msg", "applySuccess");
         } catch (IllegalStateException e) {
             rttr.addFlashAttribute("msg", e.getMessage());
         }
-        return "redirect:/recboard/recRead?rec_bno=" + vo.getRec_bno();
+        //return "redirect:/application/list";
+        return "redirect:/recboard/recRead?rec_bno=" + vo.getRec_bno() + "&page=" + page;
     }
 	
 	// 지원 내역 보기

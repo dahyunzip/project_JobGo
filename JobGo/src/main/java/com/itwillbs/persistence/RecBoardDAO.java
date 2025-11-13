@@ -33,5 +33,8 @@ public interface RecBoardDAO {
 	public RecBoardVO selectRecBoardRead(int rec_bno)throws Exception; 
 	
 	// 이력서 가져오기
-	List<ResumeVO> getResumeList(int member_id) throws Exception;
+	public List<ResumeVO> getResumeList(int member_id) throws Exception;
+	
+	// 이미 지원한 지원자인지 체크
+	public int checkAlreadyApplied(int member_id, int rec_bno) throws Exception;
 }

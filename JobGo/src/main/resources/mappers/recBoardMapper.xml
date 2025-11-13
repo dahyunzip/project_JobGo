@@ -104,4 +104,13 @@
 	    FROM resume
 	    WHERE member_id = #{member_id}
 	</select>
+	
+	<!-- 이미 지원했는지 확인 -->
+	<select id="checkAlreadyApplied" resultType="int">
+	    SELECT COUNT(*) 
+	    FROM application
+	    WHERE member_id = #{member_id}
+	      AND rec_bno = #{rec_bno}
+	      AND is_withdrawn = 'N'
+	</select>
  </mapper>

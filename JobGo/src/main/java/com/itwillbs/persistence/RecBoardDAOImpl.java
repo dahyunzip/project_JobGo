@@ -1,6 +1,8 @@
 package com.itwillbs.persistence;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -114,4 +116,12 @@ public class RecBoardDAOImpl implements RecBoardDAO {
 	    return sqlSession.selectList(NAMESPACE + "getResumeList", member_id);
 	}
 
+	@Override
+    public int checkAlreadyApplied(int member_id, int rec_bno) throws Exception {
+        logger.debug("checkAlreadyApplied() 호출 - member_id={}, rec_bno={}", member_id, rec_bno);
+        Map<String, Object> params = new HashMap<>();
+        params.put("member_id", member_id);
+        params.put("rec_bno", rec_bno);
+        return sqlSession.selectOne(NAMESPACE + "checkAlreadyApplied", params);
+    }
 }

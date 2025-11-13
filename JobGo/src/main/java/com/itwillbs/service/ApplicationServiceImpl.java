@@ -17,12 +17,13 @@ public class ApplicationServiceImpl implements ApplicationService {
 	
 	@Override
 	public void apply(ApplicationVO vo) throws Exception {
-		Long duplicate = dao.checkDuplicate(vo);
-		if (duplicate == null || duplicate == 0) {
+		int duplicate = dao.checkDuplicate(vo);
+		if (duplicate == 0) {
 			dao.insertApplication(vo);
 		} else {
 			throw new IllegalStateException("이미 해당 공고에 지원한 이력서입니다.");
 		}
+		//dao.insertApplication(vo);
 	}
 
 	@Override

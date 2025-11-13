@@ -75,7 +75,13 @@
 									<%-- 일반회원 메뉴 --%>
 									<c:when test="${not empty sessionScope.userid}">
 										<li class="nav-item"><a href="${pageContext.request.contextPath }/recboard/recListCri">채용공고</a></li>
-										<li class="nav-item"><a href="${pageContext.request.contextPath }/resume/list?memberId=${sessionScope.memberId}">커리어관리</a></li>
+										<li class="nav-item">
+											<a href="${pageContext.request.contextPath }/resume/list?memberId=${sessionScope.memberId}">커리어관리</a>
+											<ul class="sub-menu">
+												<li><a href="${pageContext.request.contextPath }/application/list">지원현황</a></li>
+												<li><a href="${pageContext.request.contextPath }/resume/list?memberId=${sessionScope.memberId}">나의 이력서</a></li>
+											</ul>
+										</li>
 										<li class="nav-item"><a href="${pageContext.request.contextPath }/review/reviewList">기업리뷰</a></li>
 										<li class="nav-item"><a href="${pageContext.request.contextPath }/comboard/comListCri">커뮤니티</a>
 											<ul class="sub-menu">

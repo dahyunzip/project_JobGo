@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.ApplicationVO;
+import com.itwillbs.domain.Criteria;
 
 @Repository
 public class ApplicationDAOImpl implements ApplicationDAO {
@@ -29,8 +30,16 @@ public class ApplicationDAOImpl implements ApplicationDAO {
 	}
 
 	@Override
-	public List<ApplicationVO> getApplicationsByMemberId(int member_id) throws Exception {
-		return sqlSession.selectList(NAMESPACE + "getApplicationsByMemberId", member_id);
+	public List<ApplicationVO> getApplicationsByMemberId(int member_id, Criteria cri) throws Exception {
+		Map<String, Object> param = new HashMap<>();
+		param.put("member_id", member_id);
+		param.put("cri", cri);
+		return sqlSession.selectList(NAMESPACE + "getApplicationsByMemberId", param);
+	}
+	
+	@Override
+	public int selectTotalCount(int member_id) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + "selectTotalCount", member_id);
 	}
 
 	@Override

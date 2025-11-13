@@ -1,57 +1,92 @@
-<%@ page contentType="text/html; charset=UTF-8" %>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html; charset=UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ include file="../include/Header.jsp"%>
+<script>
+	$(document).ready(function(){
+		var status = '${msg}';
+		if(status == 'drawSuccess'){
+			alert('입사지원이 취소되었습니다.');
+		}else if(status == 'drawFail'){
+			alert('취소 실패. 다시 시도해주세요.');
+		}
+	});
+</script>
+<section class="section resume-list-section py-5">
+	<div class="container">
+		<h2>나의 지원 내역</h2>
+		<h3>내 지원 내역</h3>
+		<p>총 <strong>${totalCount}</strong>건의 지원 내역이 있습니다.</p>
+		<hr>
+		<c:if test="${empty applications}">
+			<p>지원한 공고가 없습니다.</p>
+		</c:if>
 
-<html>
-<head>
-    <title>지원 내역</title>
-    <style>
-        .application-item {
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            padding: 12px;
-            margin: 10px 0;
-        }
-        .application-item h3 {
-            margin: 0;
-        }
-        .application-item p {
-            margin: 4px 0;
-        }
-        button {
-            background-color: #f25c5c;
-            color: white;
-            border: none;
-            padding: 6px 12px;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: #d94343;
-        }
-    </style>
-</head>
-<body>
-
-<h2>나의 지원 내역</h2>
-
-<c:if test="${empty applications}">
-    <p>지원한 공고가 없습니다.</p>
-</c:if>
-
-<c:forEach var="app" items="${applications}">
-    <div class="application-item">
-        <h3>${app.rec_title}</h3>
-        <p>기업명: ${app.corp_name}</p>
-        <p>이력서: ${app.resume_title}</p>
-        <p>지원일: ${app.applied_at}</p>
-        <p>상태: ${app.status}</p>
-
-        <form method="post" action="/application/withdraw">
-            <input type="hidden" name="application_id" value="${app.application_id}">
-            <button type="submit">지원 취소</button>
-        </form>
-    </div>
-</c:forEach>
-
-</body>
-</html>
+		<!-- 지원공고 테이블 -->
+		<!-- 이력서 목록 테이블 -->
+		<div class="table-responsive">
+			<table class="table table-hover align-middle text-center">
+				<thead class="thead-light">
+					<tr>
+						<th>채용공고</th>
+						<th>기업명</th>
+						<th>제출 이력서 제목</th>
+						<th>지원일</th>
+						<th>상태</th>
+						<th>기능</th>
+					</tr>
+				</thead>
+				<tbody>
+					<c:forEach var="app" items="${applications}">
+						<tr>
+							<td>${app.rec_title}</td>
+							<td>${app.corp_name}</td>
+							<td>${app.resume_title}</td>
+							<td>${app.applied_at}</td>
+							<td>
+								<c:choose>
+									<c:when test="${app.status eq 'APPLIED'}">지원완료</c:when>
+									<c:when test="${app.status eq 'REVIEWING'}">서류 검토중</c:when>
+									<c:when test="${app.status eq 'REJECTED'}">불합격</c:when>
+									<c:when test="${app.status eq 'PASSED'}">합격</c:when>
+									<c:when test="${app.status eq 'HIRED'}">채용완료</c:when>
+								</c:choose></td>
+							<td>
+								<c:if test="${app.status eq 'APPLIED'}">
+									<form method="post" action="/application/withdraw">
+										<input type="hidden" name="application_id"
+											value="${app.application_id}">
+										<button type="submit">지원 취소</button>
+									</form>
+								</c:if>
+							</td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+		</div>
+		<!-- Pagination -->
+		<div class="row">
+			<div class="col-12">
+				<div class="pagination center">
+				    <ul class="pagination-list">
+				        <c:if test="${pageVO.prev}">
+				            <li><a href="/application/list?page=${pageVO.startPage - 1}"><i class="lni lni-arrow-left"></i></a></li>
+				        </c:if>
+				
+				        <c:forEach var="i" begin="${pageVO.startPage}" end="${pageVO.endPage}" step="1">
+				            <li class="${cri.page == i ? 'active' : ''}">
+				                <a href="/application/list?page=${i}">${i}</a>
+				            </li>
+				        </c:forEach>
+				
+				        <c:if test="${pageVO.next}">
+				            <li><a href="/application/list?page=${pageVO.endPage + 1}"><i class="lni lni-arrow-right"></i></a></li>
+				        </c:if>
+				    </ul>
+				</div>
+			</div>
+		</div>
+		<!--/ End Pagination -->
+	</div>
+</section>
+<%@ include file="../include/Footer.jsp"%>

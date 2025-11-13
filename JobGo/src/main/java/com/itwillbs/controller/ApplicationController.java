@@ -15,6 +15,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.ApplicationVO;
+import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.PageVO;
 import com.itwillbs.service.ApplicationService;
 
 @Controller
@@ -59,25 +61,46 @@ public class ApplicationController {
 	
 	// 지원 내역 보기
     @RequestMapping(value="/list", method=RequestMethod.GET)
-    public String list(HttpSession session, Model model, RedirectAttributes rttr) throws Exception {
+    public String list(HttpSession session,
+			    		Model model,
+			    		RedirectAttributes rttr,
+			    		Criteria cri) throws Exception {
+    	// 회원정보 가져오기
         Integer member_id = (Integer) session.getAttribute("memberId");
+        
+        // 회원별 전체 지원 개수
+        int totalCount = aService.getTotalCount(member_id);
+        
+        // 페이징 처리 객체 PageVO 생성
+        PageVO pageVO = new PageVO();
+        pageVO.setCri(cri);
+        pageVO.setTotalCount(totalCount);
+        
         if (member_id == null) {
             rttr.addFlashAttribute("msg", "로그인이 필요합니다.");
             return "redirect:/member/login";
         }
-
-        List<ApplicationVO> list = aService.getApplications(member_id);
+        
+        // 목록 조회
+        List<ApplicationVO> list = aService.getApplications(member_id, cri);
+        
+        model.addAttribute(pageVO);
+        model.addAttribute("cri", cri);
         model.addAttribute("applications", list);
+        model.addAttribute("totalCount", totalCount);
         return "/application/list";
     }
     
     // 지원 취소
     @RequestMapping(value="/withdraw", method=RequestMethod.POST)
     public String withdraw(@RequestParam("application_id") int application_id, RedirectAttributes rttr) throws Exception {
+    	logger.debug("withdraw() 실행! ");
         if (aService.withdraw(application_id)) {
-            rttr.addFlashAttribute("msg", "지원이 취소되었습니다.");
+            rttr.addFlashAttribute("msg", "drawSuccess");
+            logger.debug("withdraw() 성공! ");
         } else {
-            rttr.addFlashAttribute("msg", "취소 실패. 다시 시도해주세요.");
+            rttr.addFlashAttribute("msg", "drawFail");
+            logger.debug("withdraw() 실패! ");
         }
         return "redirect:/application/list";
     }

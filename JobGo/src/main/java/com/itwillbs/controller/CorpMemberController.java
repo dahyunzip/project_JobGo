@@ -93,7 +93,7 @@ public class CorpMemberController {
 			session.setAttribute("userType", "corp");
 			rttr.addFlashAttribute("msg", "loginSuccess");
 			logger.debug(" 로그인 성공 ");
-			return "redirect:/corp/main";
+			return "redirect:/";
 		}else {
 			logger.debug(" 로그인 실패 ");
 			model.addAttribute("msg", "loginFail");
@@ -104,12 +104,12 @@ public class CorpMemberController {
 	@RequestMapping(value="/logout", method=RequestMethod.GET)
 	public String logout(HttpSession session) {
 		session.invalidate();
-		return "redirect:/corp/main";
+		return "redirect:/";
 	}
 	
 	@RequestMapping(value="/main", method=RequestMethod.GET)
 	public String main() {
-		return "/corp/main";
+		return "redirect:/";
 	}
 	
 	// 마이페이지 (내 정보 조회)

@@ -17,6 +17,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MemberVO;
 import com.itwillbs.domain.PageVO;
+import com.itwillbs.domain.RecBoardVO;
 import com.itwillbs.domain.ReviewVO;
 import com.itwillbs.service.AdminService;
 import com.itwillbs.service.MemberService;
@@ -97,9 +98,41 @@ public class AdminController {
 	
 	// 관리자 채용공고 관리
 	@RequestMapping(value="/corpBoard", method=RequestMethod.GET)
-	public String adminCorpBoard() throws Exception {
-		
-		return "/admin/corpBoard";
+	public String adminCorpBoard(HttpSession session, Criteria cri, Model model) throws Exception {
+
+	    if (session.getAttribute("adminSession") == null)
+	        return "redirect:/admin/login";
+
+	    String search = cri.getSearch();
+
+	    List<RecBoardVO> recList = adminService.getRecBoardList(cri);
+
+	    
+	    int totalCount = adminService.getRecTotalCount(search);
+
+	    PageVO pageVO = new PageVO();
+	    pageVO.setCri(cri);
+	    pageVO.setTotalCount(totalCount);
+
+	    model.addAttribute("recList", recList);
+	    model.addAttribute("pageVO", pageVO);
+
+	    return "/admin/corpBoard";
+	}
+	
+	// 채용공고 삭제
+	@RequestMapping(value="/deleteRecBoard", method=RequestMethod.GET)
+	public String deleteRecBoard(@RequestParam("rec_bno") int rec_bno,
+	                             HttpSession session,
+	                             RedirectAttributes rttr) throws Exception {
+
+	    if (session.getAttribute("adminSession") == null)
+	        return "redirect:/admin/login";
+
+	    adminService.deleteRecBoard(rec_bno);
+	    rttr.addFlashAttribute("msg", "deleteSuccess");
+
+	    return "redirect:/admin/corpBoard";
 	}
 	
 	// 일반회원 관리

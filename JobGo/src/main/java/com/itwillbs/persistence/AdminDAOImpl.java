@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MemberVO;
+import com.itwillbs.domain.RecBoardVO;
 import com.itwillbs.domain.ReviewVO;
 
 @Repository
@@ -18,7 +19,22 @@ public class AdminDAOImpl implements AdminDAO{
 
 	@Inject
 	private SqlSession sqlSession;
+	
+	 @Override
+	    public List<RecBoardVO> getRecBoardList(Criteria cri) throws Exception {
+	        return sqlSession.selectList(NAMESPACE + ".getRecBoardList", cri);
+	    }
 
+	    @Override
+	    public int getRecTotalCount(String search) throws Exception {
+	        return sqlSession.selectOne(NAMESPACE + ".getRecTotalCount", search);
+	    }
+
+	    @Override
+	    public int deleteRecBoard(int rec_bno) throws Exception {
+	        return sqlSession.delete(NAMESPACE + ".deleteRecBoard", rec_bno);
+	    }
+	
 	@Override
 	public List<MemberVO> getAllNormalMembers(Criteria cri) throws Exception {
 		return sqlSession.selectList(NAMESPACE + ".getAllNormalMembers", cri);

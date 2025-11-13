@@ -5,6 +5,56 @@
 
 <mapper namespace="com.itwillbs.mapper.adminMapper">
 	
+	<!-- 채용공고 목록 -->
+	<select id="getRecBoardList" resultType="com.itwillbs.domain.RecBoardVO">
+    	select
+    	    r.rec_bno,
+        	r.corp_id,
+        	r.rec_title,
+        	r.rec_maintask,
+        	r.rec_preference,
+        	r.rec_benefit,
+        	r.topctg_id,
+        	r.btmctg_id,
+        	r.toplct_id,
+        	r.rec_inputlct,
+        	r.rec_qualification,
+        	r.rec_deadline,
+        	r.rec_viewcnt,
+        	r.rec_regdate,
+        	r.rec_updatedate,
+       		r.thumbFileName,
+       		r.attachFileName,
+	        c.company_name as companyName
+	    from rec_board r
+	    left join corpmember c
+        	on r.corp_id = c.corp_id
+	    <where>
+	        <if test="search != null and search != ''">
+	            rec_title like concat('%', #{search}, '%')
+	        </if>
+	    </where>
+	    order by r.rec_bno desc
+	    limit #{pageStart}, #{pageSize}
+	</select>
+	
+	<select id="getRecTotalCount" resultType="int">
+    	select count(*)
+    	from rec_board
+    	<where>
+    	    <if test="_parameter != null and _parameter != ''">
+    	        rec_title like concat('%', #{_parameter}, '%')
+    	    </if>
+    	</where>
+	</select>
+	
+	<!-- 채용공고 삭제 -->
+	<delete id="deleteRecBoard" parameterType="int">
+    	delete from rec_board
+    	where rec_bno = #{rec_bno}
+	</delete>
+	
+	
 	<!-- 일반회원 목록 -->
 	<select id="getAllNormalMembers" resultType="com.itwillbs.domain.MemberVO">
 		select 

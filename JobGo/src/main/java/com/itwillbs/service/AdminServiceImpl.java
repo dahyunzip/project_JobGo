@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MemberVO;
+import com.itwillbs.domain.RecBoardVO;
 import com.itwillbs.domain.ReviewVO;
 import com.itwillbs.persistence.AdminDAO;
 
@@ -17,6 +18,21 @@ public class AdminServiceImpl implements AdminService{
 	@Inject
 	private AdminDAO adminDAO;
 
+	@Override
+    public List<RecBoardVO> getRecBoardList(Criteria cri) throws Exception {
+        return adminDAO.getRecBoardList(cri);
+    }
+
+    @Override
+    public int getRecTotalCount(String search) throws Exception {
+        return adminDAO.getRecTotalCount(search);
+    }
+
+    @Override
+    public int deleteRecBoard(int com_bno) throws Exception {
+        return adminDAO.deleteRecBoard(com_bno);
+    }
+	
 	@Override
 	public List<MemberVO> getAllNormalMembers(Criteria cri) throws Exception {
 		return adminDAO.getAllNormalMembers(cri);

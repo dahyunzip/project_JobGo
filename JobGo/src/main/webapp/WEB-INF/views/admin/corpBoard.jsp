@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="header.jsp"%>
 <div class="container-fluid">
 	<!-- 페이지 제목 -->
@@ -19,7 +20,7 @@
 						<div class="col-sm-12 col-md-6">
 							<form action="${pageContext.request.contextPath}/admin/corpBoard" method="get" class="d-flex align-items-center">
 								<label>Search:</label>
-								<input type="text" name="search" value="${param.search}"
+								<input type="text" name="search" value="${pageVO.cri.search}"
 									   class="form-control form-control-sm" placeholder="제목 또는 회사명 입력" style="width:200px;">
 								<button type="submit" class="btn btn-primary btn-sm ml-2">검색</button>
 							</form>
@@ -66,13 +67,13 @@
 													<td class="text-center">${rec.rec_bno}</td>
 													<td><a href="#">${rec.rec_title}</a></td>
 													<td>${rec.companyName}</td>
-													<td><fmt:formatDate value="${rec.rec_regdate}" pattern="yyyy-MM-dd"/></td>
+													<td>${fn:replace(rec.rec_regdate, 'T', ' ')}</td>
 													<td><fmt:formatDate value="${rec.rec_deadline}" pattern="yyyy-MM-dd"/></td>
 													<td class="text-center">${rec.rec_viewcnt}</td>
 													
 													<td class="text-center">
 														<a href="#" class="btn btn-info btn-sm">수정</a>
-														<a href="${pageContext.request.contextPath}/admin/recDelete?rec_bno=${rec.rec_bno}" 
+														<a href="${pageContext.request.contextPath}/admin/deleteRecBoard?rec_bno=${rec.rec_bno}"
 															class="btn btn-danger btn-sm"
 															onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>
 													</td>
@@ -86,31 +87,33 @@
 					</div>
 					<div class="row">
 						<div class="col-sm-12 col-md-7">
-							<div class="dataTables_paginate paging_simple_numbers"
-								id="dataTable_paginate">
+							<div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
 								<ul class="pagination">
-								
+
+									<!-- 이전 버튼 -->
 									<c:if test="${pageVO.prev}">
-										<li class="paginate_button page-item previous" id="dataTable_previous">
-											<a href="?page=${pageVO.startPage - 1}" aria-controls="dataTable" data-dt-idx="0" tabindex="0"
-												class="page-link">Previous</a>
+										<li class="paginate_button page-item previous">
+											<a href="?page=${pageVO.startPage - 1}&search=${pageVO.cri.search}"
+											   class="page-link">Previous</a> <!-- ★추가 -->
 										</li>
 									</c:if>
 
+									<!-- 페이지 번호 -->
 									<c:forEach var="num" begin="${pageVO.startPage}" end="${pageVO.endPage}">
 										<li class="paginate_button page-item ${pageVO.cri.page == num ? 'active' : ''}">
-											<a href="?page=${num}" aria-controls="dataTable" data-dt-idx="${num}" tabindex="0"
-												class="page-link">${num}</a>
+											<a href="?page=${num}&search=${pageVO.cri.search}"
+											   class="page-link">${num}</a> <!-- ★추가 -->
 										</li>
 									</c:forEach>
 
+									<!-- 다음 버튼 -->
 									<c:if test="${pageVO.next}">
-										<li class="paginate_button page-item next" id="dataTable_next">
-											<a href="?page=${pageVO.endPage + 1}" aria-controls="dataTable" data-dt-idx="7" tabindex="0"
-												class="page-link">Next</a>
+										<li class="paginate_button page-item next">
+											<a href="?page=${pageVO.endPage + 1}&search=${pageVO.cri.search}"
+											   class="page-link">Next</a> <!-- ★추가 -->
 										</li>
 									</c:if>
-								
+
 								</ul>
 							</div>
 						</div>

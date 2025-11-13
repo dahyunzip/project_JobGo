@@ -4,13 +4,17 @@ import java.util.List;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MemberVO;
+import com.itwillbs.domain.RecBoardVO;
 import com.itwillbs.domain.ReviewVO;
 
 public interface AdminDAO {
 	
 	// 채용게시판 공고 조회
+	List<RecBoardVO> getRecBoardList(Criteria cri) throws Exception;
+	int getRecTotalCount(String search) throws Exception;
 	
 	// 채용게시판 공고 삭제
+	int deleteRecBoard(int rec_bno) throws Exception;
 	
 	// 일반회원 목록 조회
 	List<MemberVO> getAllNormalMembers(Criteria cri) throws Exception;

@@ -12,6 +12,8 @@
 				<th>ID</th>
 				<th>아이디</th>
 				<th>회사명</th>
+				<th>사업자번호</th>
+				<th>사업자등록증</th>
 				<th>이메일</th>
 				<th>전화번호</th>
 				<th>산업분류</th>
@@ -25,6 +27,8 @@
 					<td>${corp.corpId}</td>
 					<td>${corp.corpUserId}</td>
 					<td>${corp.companyName}</td>
+					<td>${corp.businessRno}</td>
+					<td>사업자등록증?</td>
 					<td>${corp.managerEmail}</td>
 					<td>${corp.managerTel}</td>
 					<td>${corp.industryType}</td>

@@ -46,6 +46,7 @@
 		<div>장점: ${reviewDetail.revPros }</div>
 		<div>단점: ${reviewDetail.revCons }</div>
 		<div>공개 여부: ${reviewDetail.revPublic }</div>
+		<div>조회수: ${reviewDetail.revViewcnt}</div>
 		<div>작성 일자: ${reviewDetail.revRegdate }</div>
 		<div>수정 일자: ${reviewDetail.revUpdatedate }</div>
 	</div>

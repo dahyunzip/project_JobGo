@@ -82,8 +82,8 @@ public class ReviewDAOImpl implements ReviewDAO{
 	}
 
 	@Override
-	public int getTotalByMember(int memberId) throws Exception {
-		return sqlSession.selectOne(NAMESPACE + ".getTotalByMember", memberId);
+	public int getTotalByMember(Map<String, Object> param) throws Exception {
+	    return sqlSession.selectOne(NAMESPACE + ".getTotalByMember", param);
 	}
 	
 	// 기업별 리뷰 조회
@@ -93,8 +93,8 @@ public class ReviewDAOImpl implements ReviewDAO{
 	}
 
 	@Override
-	public int getTotalByCorp(int corpId) throws Exception {
-		return sqlSession.selectOne(NAMESPACE + ".getTotalByCorp", corpId);
+	public int getTotalByCorp(Map<String, Object> param) throws Exception {
+	    return sqlSession.selectOne(NAMESPACE + ".getTotalByCorp", param);
 	}
 	
 	// 리뷰 작성자 비밀번호 확인용
@@ -113,6 +113,11 @@ public class ReviewDAOImpl implements ReviewDAO{
 	@Override
 	public String getCompanyNameByCorpId(int corpId) throws Exception {
 		return sqlSession.selectOne(NAMESPACE + ".getCompanyNameByCorpId", corpId);
+	}
+	
+	@Override
+	public void updateViewCnt(int reviewId) {
+		sqlSession.update(NAMESPACE + ".updateViewCnt", reviewId);
 	}
 	
 }

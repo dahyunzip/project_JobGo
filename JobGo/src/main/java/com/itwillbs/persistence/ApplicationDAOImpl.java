@@ -1,0 +1,75 @@
+package com.itwillbs.persistence;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.inject.Inject;
+
+import org.apache.ibatis.session.SqlSession;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
+
+import com.itwillbs.domain.ApplicationVO;
+import com.itwillbs.domain.Criteria;
+
+@Repository
+public class ApplicationDAOImpl implements ApplicationDAO {
+
+	@Inject
+    private SqlSession sqlSession;
+	
+	private static final String NAMESPACE = "com.itwillbs.mapper.ApplicationMapper.";
+	
+	private static final Logger logger = LoggerFactory.getLogger(ApplicationDAOImpl.class);
+	
+	@Override
+	public void insertApplication(ApplicationVO vo) throws Exception {
+		sqlSession.insert(NAMESPACE + "insertApplication", vo);
+	}
+
+	@Override
+	public List<ApplicationVO> getApplicationsByMemberId(int member_id, Criteria cri) throws Exception {
+		Map<String, Object> param = new HashMap<>();
+		param.put("member_id", member_id);
+		param.put("cri", cri);
+		return sqlSession.selectList(NAMESPACE + "getApplicationsByMemberId", param);
+	}
+	
+	@Override
+	public int selectTotalCount(int member_id) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + "selectTotalCount", member_id);
+	}
+
+	@Override
+	public int checkDuplicate(ApplicationVO vo) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + "checkDuplicate", vo);
+	}
+	
+	@Override
+	public int checkAlreadyApplied(int member_id, int rec_bno) throws Exception {
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("member_id", member_id);
+	    params.put("rec_bno", rec_bno);
+	    return sqlSession.selectOne(NAMESPACE + "checkAlreadyApplied", params);
+	}
+
+	@Override
+	public int withdrawApplication(int application_id) throws Exception {
+		return sqlSession.update(NAMESPACE + "withdrawApplication", application_id);
+	}
+	
+	@Override
+	public List<ApplicationVO> getApplicantsByCorpId(int corp_id) throws Exception {
+	    return sqlSession.selectList(NAMESPACE + "getApplicantsByCorpId", corp_id);
+	}
+	
+	@Override
+	public int updateApplicationStatus(int application_id, String status) throws Exception {
+	    Map<String, Object> params = new HashMap<>();
+	    params.put("application_id", application_id);
+	    params.put("status", status);
+	    return sqlSession.update(NAMESPACE + "updateApplicationStatus", params);
+	}
+}

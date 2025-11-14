@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+ "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+<mapper namespace="com.itwillbs.mapper.recBoardMapper">
+
+	<!-- 게시판 리스트 -->
+	<select id="selectRecBoardList" resultType="RecBoardVO">
+		select  
+			rb.rec_bno, 
+		    cm.corp_userid as corpUserId, 
+		    cm.company_name as companyName, 
+		    rb.rec_title, 
+		    rb.thumbFileName, 
+		    rb.rec_regdate, 
+		    rb.rec_viewcnt 
+		from rec_board rb 
+		join corpmember cm on cm.corp_id = rb.corp_id 
+		where 1=1 
+		<if test="toplct_id != null">
+			AND rb.toplct_id = #{toplct_id}
+		</if>
+		<if test="topctg_id != null">
+			AND rb.topctg_id = #{topctg_id}
+		</if>
+		<if test="btmctg_id != null">
+			AND rb.btmctg_id = #{btmctg_id}
+		</if>
+		<if test="search != null and search != ''">
+			and  
+			(rb.rec_title like concat('%',#{search},'%') 
+			or cm.company_name like concat('%',#{search},'%')
+			or cm.corp_userid like concat('%',#{search},'%') 
+			or rb.rec_regdate like concat('%',#{search},'%'))
+		</if>
+		order by rb.rec_bno desc 
+		limit #{cri.pageStart},#{cri.pageSize} 
+	</select>
+	
+	<!-- 메인 페이지 게시판 리스트(최신 등록 순) -->
+	<select id="selectRecMainList" resultType="RecBoardVO">
+		select 
+			rb.rec_bno, 
+		    cm.corp_userid as corpUserId, 
+		    cm.company_name as companyName, 
+		    rb.rec_title, 
+		    rb.thumbFileName, 
+		    rb.rec_regdate, 
+		    rb.rec_viewcnt 	 
+		from rec_board rb 
+		join corpmember cm on cm.corp_id = rb.corp_id 
+		order by rb.rec_regdate desc 
+		limit 6
+	</select>
+	
+	<!-- 메인 페이지 게시판 리스트(조회수 순) -->
+	<select id="selectRecMainVIEW" resultType="RecBoardVO">
+		select 
+			rb.rec_bno, 
+		    cm.corp_userid as corpUserId, 
+		    cm.company_name as companyName, 
+		    rb.rec_title, 
+		    rb.thumbFileName, 
+		    rb.rec_regdate, 
+		    rb.rec_viewcnt 	 
+		from rec_board rb 
+		join corpmember cm on cm.corp_id = rb.corp_id 
+		order by rb.rec_viewcnt desc 
+		limit 6
+	</select>
+ 
+ 	<!-- 게시판 모든 글 개수 가져오기 -->
+ 	<select id="selectRecTotalCount" resultType="int">
+ 		select count(rb.rec_bno) from rec_board rb 
+ 		join corpmember cm on rb.corp_id = cm.corp_id
+ 		where 1=1 
+		<if test="toplct_id != null">AND toplct_id = #{toplct_id}</if>
+		<if test="topctg_id != null">AND topctg_id = #{topctg_id}</if>
+		<if test="btmctg_id != null">AND btmctg_id = #{btmctg_id}</if>
+ 		<if test="search != null and search != ''">
+			and  
+			(rb.rec_title like concat('%',#{search},'%') 
+			or cm.company_name like concat('%',#{search},'%')
+			or cm.corp_userid like concat('%',#{search},'%') 
+			or rb.rec_regdate like concat('%',#{search},'%'))
+		</if>
+ 	</select>
+ 	
+ 	<!-- 게시글 작성 (대분류 리스트) -->
+ 	<select id="selectTopCategoryList" resultType="RecTopCategoryVO">
+ 		select * from top_category 
+ 		order by topctg_id
+ 	</select>
+ 	<select id="selectTopLocationList" resultType="RecTopLocationVO">
+ 		select * from top_location 
+ 		order by toplct_id 
+ 	</select>
+ 	
+ 	<!-- 게시글 작성 (소분류 리스트) -->
+ 	<select id="selectBottomCategoryList" resultType="RecBottomCategoryVO">
+ 		select * from bottom_category 
+ 		where topctg_id = #{topctg_id} 
+ 	</select>
+ 	
+ 	<!-- 작성한 게시글 업로드 -->
+ 	<insert id="insertRecBoard">
+ 		insert into rec_board (
+ 			corp_id, rec_title, rec_maintask, rec_benefit, 
+ 			topctg_id, btmctg_id, toplct_id, rec_qualification, 
+ 			rec_deadline, thumbFileName, attachFileName, 
+ 			rec_preference, rec_inputlct 
+ 		) values (
+ 			#{corp_id}, #{rec_title}, #{rec_maintask}, #{rec_benefit}, 
+ 			#{topctg_id}, #{btmctg_id}, #{toplct_id}, #{rec_qualification}, 
+ 			#{rec_deadline}, #{thumbFileName}, #{attachFileName}, 
+ 			#{rec_preference}, #{rec_inputlct}
+ 		)
+ 	</insert>
+ 	
+ 	<!-- 게시글 보기 -->
+ 	<select id="selectRecBoardRead" resultType="RecBoardVO">
+ 		select 
+ 			rb.rec_bno,
+ 			rb.topctg_id,
+ 			rb.btmctg_id,
+ 			rb.toplct_id,
+ 			rb.rec_viewcnt,
+ 			cm.corp_userid as corpUserId,
+ 			cm.company_name as companyName,
+ 			cm.manager_name as managerName,
+ 			cm.manager_email as managerEmail,
+ 			rb.rec_title,
+ 			rb.rec_maintask,
+ 			rb.rec_preference,
+ 			rb.rec_benefit,
+ 			rb.rec_inputlct,
+ 			rb.rec_qualification,
+ 			rb.thumbFileName,
+ 			rb.attachFileName,
+ 			rb.rec_deadline,
+ 			rb.rec_regdate
+ 		from rec_board rb 
+ 		join corpmember cm on cm.corp_id = rb.corp_id 
+ 		where rb.rec_bno = #{rec_bno}
+ 	</select>
+ 	
+ 	<!-- 게시글 수정 -->
+ 	<update id="updateRecBoard">
+ 		update rec_board set 
+ 			rec_title = #{rec_title}, 
+ 			rec_maintask = #{rec_maintask},  
+ 			rec_preference = #{rec_preference}, 
+ 			rec_benefit = #{rec_benefit}, 
+ 			rec_qualification = #{rec_qualification}, 
+ 			rec_inputlct = #{rec_inputlct},
+ 			rec_deadline = #{rec_deadline},
+ 			thumbFileName = #{thumbFileName}, 
+ 			attachFileName = #{attachFileName}, 
+ 			topctg_id = #{topctg_id}, 
+ 			btmctg_id = #{btmctg_id}, 
+ 			toplct_id = #{toplct_id}, 
+ 			rec_updatedate = now() 
+ 		where rec_bno = #{rec_bno} 
+ 	</update>
+ 	
+ 	<!-- 게시글 삭제 -->
+ 	<delete id="deleteRecBoard">
+ 		delete from rec_board 
+ 		where rec_bno = #{rec_bno}
+ 	</delete>
+ 	
+ 	<!-- 게시판 특정 글 조회수를 1증가 -->
+ 	<update id="recUpdateViewCnt">
+ 		update rec_board set rec_viewcnt = rec_viewcnt + 1 
+ 		where rec_bno = #{rec_bno}
+ 	</update>
+ 	
+ 	<select id="getResumeList" resultType="com.itwillbs.domain.ResumeVO">
+	    SELECT resume_id AS resumeId, resume_title AS resumeTitle
+	    FROM resume
+	    WHERE member_id = #{member_id}
+	</select>
+	
+	<!-- 이미 지원했는지 확인 -->
+	<select id="checkAlreadyApplied" resultType="int">
+	    SELECT COUNT(*) 
+	    FROM application
+	    WHERE member_id = #{member_id}
+	      AND rec_bno = #{rec_bno}
+	      AND is_withdrawn = 'N'
+	</select>
+ </mapper>

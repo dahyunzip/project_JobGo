@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.itwillbs.mapper.ApplicationMapper">
+
+	<!-- 지원 등록 -->
+    <insert id="insertApplication">
+        INSERT INTO application (member_id, resume_id, rec_bno)
+        VALUES (#{member_id}, #{resume_id}, #{rec_bno})
+    </insert>
+
+	<!-- 중복 지원 확인 -->
+    <select id="checkDuplicate" resultType="int">
+        SELECT COUNT(*)
+        FROM application
+        WHERE member_id = #{member_id}
+          AND resume_id = #{resume_id}
+          AND rec_bno = #{rec_bno}
+          AND is_withdrawn = 'N'
+    </select>
+
+	<!-- 게시판 모든 글 개수 가져오기 -->
+ 	<select id="selectTotalCount" resultType="int">
+ 		SELECT COUNT(*) 
+	    FROM application
+	    WHERE member_id = #{member_id}
+	      AND is_withdrawn = 'N'
+ 	</select>
+
+    <!-- 회원별 지원 내역 조회 -->
+	<select id="getApplicationsByMemberId" resultType="ApplicationVO">
+	    SELECT 
+	        a.application_id,
+	        a.member_id,
+	        a.resume_id,
+	        a.rec_bno,
+	        a.applied_at,
+	        a.status,
+	        a.is_withdrawn,
+	        a.corp_memo,
+	        a.update_at,
+	        rb.rec_title AS rec_title,
+	        c.company_name AS corp_name,
+	        r.resume_title AS resume_title
+	    FROM application a
+	    JOIN rec_board rb ON a.rec_bno = rb.rec_bno
+	    JOIN corpmember c ON rb.corp_id = c.corp_id
+	    JOIN resume r ON a.resume_id = r.resume_id
+	    WHERE a.member_id = #{member_id}
+	      AND a.is_withdrawn = 'N'
+	    ORDER BY a.applied_at DESC
+	    LIMIT #{cri.pageStart}, #{cri.pageSize}
+	</select>
+
+    <!-- 지원 취소 -->
+    <update id="withdrawApplication">
+        UPDATE application
+        SET is_withdrawn = 'Y', status = 'REJECTED'
+        WHERE application_id = #{application_id}
+    </update>
+    
+    <!-- 이미 지원했는지 확인 -->
+	<select id="checkAlreadyApplied" resultType="int">
+	    SELECT COUNT(*)
+	    FROM application
+	    WHERE member_id = #{member_id}
+	      AND rec_bno = #{rec_bno}
+	      AND is_withdrawn = 'N'
+	</select>
+	
+	<!-- 기업회원 : 지원자 리스트 조회 -->
+	<select id="getApplicantsByCorpId" resultType="ApplicationVO">
+	    SELECT 
+	        a.application_id AS application_id,
+	        a.rec_bno AS rec_bno,
+	        rb.rec_title AS rec_title,
+	        a.member_id AS member_id,
+	        m.name AS applicant_name,     
+	        m.email AS applicant_email,   
+	        r.resume_id AS resume_id,         
+	        r.resume_title AS resume_title,   
+	        a.status AS status,
+	        a.applied_at AS applied_at
+	    FROM application a
+	    JOIN rec_board rb ON a.rec_bno = rb.rec_bno
+	    JOIN member m ON a.member_id = m.id
+	    JOIN resume r ON a.resume_id = r.resume_id
+	    WHERE rb.corp_id = #{corp_id}
+	    ORDER BY a.applied_at DESC
+	</select>
+
+	<!-- 기업회원 : 지원자 상태값 변경 -->
+	<update id="updateApplicationStatus">
+	    UPDATE application
+	    SET status = #{status},
+	        update_at = NOW()
+	    WHERE application_id = #{application_id}
+	</update>
+</mapper>

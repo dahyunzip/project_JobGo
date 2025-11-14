@@ -14,7 +14,7 @@ public class EmailSenderUtil {
 	@Autowired
 	private JavaMailSender mailSender;
 	
-	@Value("${spring.mail.username}")
+	//@Value("${spring.mail.username}")
 	private String fromAddress;
 	
 	private static final Logger logger = LoggerFactory.getLogger(EmailSenderUtil.class);

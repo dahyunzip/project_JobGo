@@ -22,6 +22,10 @@
 .form-join #pwdError, #useridCheckMsg, #phoneError, #emailCodeMsg{color:red;}
 #checkID, #sendMail, #verifyCode{padding:8px; width:100%;}
 .replyList td{word-break:break-all;}
+.essential{color:#ff2300; margin-left:4px; display:inline-block; font-style:normal;}
+
+/*기타*/
+.underline-link{color:inherit; text-decoration: underline;}
 
 /* mypage */
 #mypage .user-img > a{display: block; width:120px; height:120px; overflow:hidden;}

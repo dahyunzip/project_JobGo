@@ -34,4 +34,13 @@ public interface MemberDAO {
 	// 탈퇴 회원 상태 변경
 	public void updateIsDeleted(String userid) throws Exception;
 	
+	// 이메일로 아이디 찾기
+	public String findUseridByEmail(String email) throws Exception;
+	
+	// 이메일로 회원 조회 (비밀번호 찾기용)
+	public MemberVO findMemberByEmail(String email) throws Exception;
+	
+	// 이메일로 비밀번호 변경
+	public void updatePasswordByEmail(MemberVO vo) throws Exception;
+	
 }

@@ -1,0 +1,176 @@
+package com.itwillbs.service;
+
+import java.util.List;
+
+import javax.inject.Inject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+
+import com.itwillbs.domain.Criteria;
+import com.itwillbs.domain.RecBoardVO;
+import com.itwillbs.domain.RecBottomCategoryVO;
+import com.itwillbs.domain.RecTopCategoryVO;
+import com.itwillbs.domain.RecTopLocationVO;
+import com.itwillbs.domain.ResumeVO;
+import com.itwillbs.persistence.RecBoardDAO;
+
+@Service
+public class RecBoardServiceImpl implements RecBoardService {
+	
+	private static final Logger logger 
+		= LoggerFactory.getLogger(RecBoardServiceImpl.class);
+	
+	@Inject private RecBoardDAO rbDAO;
+
+	// 게시판 리스트
+	@Override
+	public List<RecBoardVO> getRecBoardList(Criteria cri, Integer toplct_id, Integer topctg_id, Integer btmctg_id, String search) throws Exception {
+		logger.debug(" getRecBoardListPage() 실행! ");
+		
+		List<RecBoardVO> resultRecList 
+			= rbDAO.selectRecBoardList(cri, toplct_id, topctg_id, btmctg_id, search);
+		
+		logger.debug(" getRecBoardListPage() 끝! ");
+		return resultRecList;
+	}
+
+	// 메인 페이지 게시판 리스트(최신 등록 순)
+	@Override
+	public List<RecBoardVO> getRecMainList() throws Exception {
+		logger.debug(" getRecMainList() 실행! ");
+		
+		List<RecBoardVO> resultRecMain 
+			= rbDAO.selectRecMainList();
+		
+		logger.debug(" getRecMainList() 끝! ");
+		return resultRecMain;
+	}
+
+	// 메인 페이지 게시판 리스트(조회수 순)
+	@Override
+	public List<RecBoardVO> getRecMainListVIEW() throws Exception {
+		logger.debug(" getRecMainListVIEW() 실행! ");
+		
+		List<RecBoardVO> resultRecMainVW 
+			= rbDAO.selectRecMainVIEW();
+		
+		logger.debug(" getRecMainListVIEW() 끝! ");
+		return resultRecMainVW;
+	}
+
+	// 게시판 모든 글 개수 가져오기
+	@Override
+	public int getRecTotalCount(Integer toplct_id, Integer topctg_id, Integer btmctg_id, String search) throws Exception {
+		logger.debug(" getRecTotalCount() 실행! ");
+		
+		int resultRecCnt 
+			= rbDAO.selectRecTotalCount(toplct_id, topctg_id, btmctg_id, search);
+		
+		logger.debug(" getRecTotalCount() 끝! ");
+		return resultRecCnt;
+	}
+
+	// 게시글 작성 (대분류 리스트)
+	@Override
+	public List<RecTopCategoryVO> getRecTopCategoryList() {
+		logger.debug(" getRecTopCategoryList() 실행! ");
+		
+		List<RecTopCategoryVO> resultTCL 
+			= rbDAO.selectTopCategoryList();
+		
+		logger.debug(" getRecTopCategoryList() 끝! ");
+		return resultTCL;
+	}
+	@Override
+	public List<RecTopLocationVO> getRecTopLocationList() {
+		logger.debug(" getRecTopLocationList() 실행! ");
+		
+		List<RecTopLocationVO> resultTLL
+			= rbDAO.selectTopLocationList();
+		
+		logger.debug(" getRecTopLocationList() 끝! ");
+		return resultTLL;
+	}
+
+	// 게시글 작성 (소분류 리스트)
+	@Override
+	public List<RecBottomCategoryVO> getRecBottomCategoryList(int topctg_id) {
+		logger.debug(" getRecBottomCategoryList() 실행!");
+		
+		List<RecBottomCategoryVO> resultBCL 
+			= rbDAO.selectBottomCategoryList(topctg_id);
+		
+		logger.debug(" getRecBottomCategoryList() 끝!");
+		return resultBCL;
+	}
+
+	// 작성한 게시글 업로드
+	@Override
+	public void recUploadBoard(RecBoardVO vo) throws Exception {
+		logger.debug(" recUploadBoard() 실행! ");
+		
+		rbDAO.insertRecBoard(vo);
+		
+		logger.debug(" recUploadBoard() 끝! ");
+		
+	}
+
+	// 게시글 보기
+	@Override
+	public RecBoardVO getRecBoard(int rec_bno) throws Exception {
+		logger.debug(" getRecBoard() 실행! ");
+		
+		RecBoardVO resultRB = rbDAO.selectRecBoardRead(rec_bno);
+		
+		logger.debug(" getRecBoard() 끝! ");
+		return resultRB;
+	}
+
+	// 게시글 수정
+	@Override
+	public int updateRecBoard(RecBoardVO vo) throws Exception {
+		logger.debug(" getRecBoard() 실행! ");
+		
+		int resultUpdateRB = rbDAO.updateRecBoard(vo);
+		
+		logger.debug(" getRecBoard() 끝! ");
+		return resultUpdateRB;
+	}
+
+	// 게시글 삭제
+	@Override
+	public int deleteRecBoard(int rec_bno) throws Exception {
+		logger.debug(" deleteRecBoard() 실행! ");
+		
+		int resultDeleteRB = rbDAO.deleteRecBoard(rec_bno);
+		
+		logger.debug(" deleteRecBoard() 끝! ");
+		return resultDeleteRB;
+	}
+
+	// 게시판 특정 글 조회수를 1증가
+	@Override
+	public void recIncreseViewCnt(int rec_bno) throws Exception {
+		logger.debug(" increseViewCnt() 실행! ");
+		
+		rbDAO.recUpdateViewCnt(rec_bno);
+		
+		logger.debug(" increseViewCnt() 끝! ");
+	}
+	
+	// 이력서 정보 가져오기
+	@Override
+	public List<ResumeVO> getResumeList(int member_id) throws Exception {
+	    return rbDAO.getResumeList(member_id);
+	}
+	
+	// 지원한 지원자인지 체크
+	@Override
+	public boolean checkAlreadyApplied(int member_id, int rec_bno) throws Exception {
+	    int result = rbDAO.checkAlreadyApplied(member_id, rec_bno);
+	    return result > 0;
+	}
+
+}

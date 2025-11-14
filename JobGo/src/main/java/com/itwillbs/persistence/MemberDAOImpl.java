@@ -89,4 +89,22 @@ public class MemberDAOImpl implements MemberDAO {
 		sqlSession.update(NAMESPACE+"updateIsDeleted", userid);
 		
 	}
+	
+	@Override
+	public String findUseridByEmail(String email) throws Exception {
+		logger.debug("findUseridByEmail() 호출 - email : " + email);
+		return sqlSession.selectOne(NAMESPACE + "findUseridByEmail", email);
+	}
+
+	@Override
+	public MemberVO findMemberByEmail(String email) throws Exception {
+		logger.debug("findMemberByEmail() 호출 - email : " + email);
+		return sqlSession.selectOne(NAMESPACE + "findMemberByEmail", email);
+	}
+
+	@Override
+	public void updatePasswordByEmail(MemberVO vo) throws Exception {
+		logger.debug("updatePasswordByEmail() 호출 - email : " + vo.getEmail());
+		sqlSession.update(NAMESPACE + "updatePasswordByEmail", vo);
+	}
 }

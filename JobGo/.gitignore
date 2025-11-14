@@ -6,6 +6,8 @@
 *.class
 target/
 bin/
+config/
+*.properties
 
 ### 로그 파일 ###
 *.log

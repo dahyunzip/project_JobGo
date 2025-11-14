@@ -26,9 +26,24 @@ public interface MemberService {
 	
 	// 회원 프로필 사진 업데이트
 	public String uploadPhoto(MemberVO vo) throws Exception; 
-
+	
+	// 회원 탈퇴 상태 변경
 	public void dropMember(String userid) throws Exception;
 	
+	// 이메일로 아이디 찾기
+    public String findUseridByEmail(String email) throws Exception;
+
+    // 이메일로 회원 조회
+    public MemberVO findMemberByEmail(String email) throws Exception;
+
+    // 비밀번호 업데이트
+    public void updatePasswordByEmail(String email, String newPw) throws Exception;
+
+    // 인증 메일 전송
+    public void sendResetMail(String toEmail, String token);
+	
+    String getEmailByToken(String token);
+    void invalidateToken(String token);
 	
 }
 

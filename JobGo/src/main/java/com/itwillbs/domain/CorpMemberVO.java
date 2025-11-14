@@ -2,6 +2,8 @@ package com.itwillbs.domain;
 
 import java.sql.Timestamp;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import lombok.Data;
 
 @Data
@@ -26,4 +28,10 @@ public class CorpMemberVO {
     private String corpAgreeLocation;         // 위치정보동의 (Y/N)
     private String corpAgreeEmail;            // 이메일 수신동의 (Y/N)
     private String corpAgreeSms;              // 문자 수신동의 (Y/N)
+    private String originalFileName;
+    private String storedFileName;
+    private MultipartFile upload;
+    private String corpProfileOriginal;  // 기업 대표 이미지 원본명
+    private String corpProfileStored;    // 기업 대표 이미지 저장명
+    private MultipartFile corpProfileUpload; // 업로드 시 사용
 }

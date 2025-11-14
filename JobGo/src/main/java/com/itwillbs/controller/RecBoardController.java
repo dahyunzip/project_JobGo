@@ -46,7 +46,8 @@ public class RecBoardController {
 	// 게시글 작성 (대분류 리스트)
 	@GetMapping("/recWrite")
 	public String recWriteGET(Model model,
-							  HttpSession session) throws Exception {
+							  HttpSession session,
+							  @RequestParam(value="page", required=false, defaultValue="1") int page) throws Exception {
 		logger.debug(" recWriteGET() 실행! ");
 		
 		// DB에서 대분류, 지역 목록 불러와 JSP로 전달
@@ -59,6 +60,7 @@ public class RecBoardController {
 		logger.debug(" 기업 회원 정보: "+recLoginInfo);
 		
 		model.addAttribute("recLoginInfo", recMemInfo);
+		model.addAttribute("page", page);
 		logger.debug(" recWriteGET() 끝! ");
 		return "/recboard/recWrite";
 	}

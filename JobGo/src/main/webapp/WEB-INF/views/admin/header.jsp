@@ -57,8 +57,6 @@
 		            <div class="bg-white py-2 collapse-inner rounded">
 		                <h6 class="collapse-header">게시판관리</h6>
 		                <a class="collapse-item" href="/admin/corpBoard">채용공고</a>
-		                <a class="collapse-item" href="/admin/notice">공지사항 관리</a>
-		                <a class="collapse-item" href="/admin/community">커뮤니티 관리</a>
 		                <a class="collapse-item" href="${pageContext.request.contextPath}/admin/reviewManage">리뷰관리</a>
 		            </div>
 		        </div>

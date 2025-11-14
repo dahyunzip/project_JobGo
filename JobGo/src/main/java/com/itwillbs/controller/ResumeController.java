@@ -159,4 +159,23 @@ public class ResumeController {
 	    return "redirect:/resume/detail?resumeId=" + resume.getResumeId();
 	}
 
+	// 기업회원용 이력서 상세보기
+	@RequestMapping(value="/corp/view", method=RequestMethod.GET)
+	public String viewResumeForCorp(@RequestParam("resume_id") int resume_id,
+	                                @RequestParam("application_id") int application_id,
+	                                Model model,
+	                                RedirectAttributes rttr) throws Exception {
+
+	    ResumeVO resume = rService.getResumeWithMemberAndSubTables(resume_id);
+	    
+	    if (resume == null) {
+	        rttr.addFlashAttribute("msg", "resumeNotFound");
+	        return "redirect:/application/corp/applicants";
+	    }
+	    
+	    model.addAttribute("resume", resume);
+	    model.addAttribute("application_id", application_id);
+	    
+	    return "/resume/resumeDetailForCorp";
+	}
 }

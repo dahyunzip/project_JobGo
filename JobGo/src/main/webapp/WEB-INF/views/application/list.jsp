@@ -48,7 +48,8 @@
 									<c:when test="${app.status eq 'REJECTED'}">불합격</c:when>
 									<c:when test="${app.status eq 'PASSED'}">합격</c:when>
 									<c:when test="${app.status eq 'HIRED'}">채용완료</c:when>
-								</c:choose></td>
+								</c:choose>
+							</td>
 							<td>
 								<c:if test="${app.status eq 'APPLIED'}">
 									<form method="post" action="/application/withdraw">

@@ -2,11 +2,12 @@ package com.itwillbs.controller;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -17,7 +18,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
+import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.NoticeVO;
+import com.itwillbs.domain.PageVO;
 import com.itwillbs.service.NoticeService;
 
 @Controller
@@ -30,13 +33,13 @@ public class NoticeController {
 	private static final String UPLOAD_PATH = "c:\\spring\\upload";
 	
 	//관리자 체크
-	private boolean isAdmin(HttpSession session) {
+	private boolean isAdmin(HttpSession session) throws Exception{
 		String type = (String) session.getAttribute("membertype");
 		return type != null && type.equals("A");
 	}
 	
 	@RequestMapping(value = "/write", method=RequestMethod.GET)
-	public String writeForm(HttpSession session) {
+	public String writeForm(HttpSession session) throws Exception{
 		if(!isAdmin(session)) {
 			return "redirect:/notice/list";
 		}
@@ -46,13 +49,15 @@ public class NoticeController {
 	@RequestMapping(value = "/write", method=RequestMethod.POST)
 	public String insertNotice(NoticeVO vo,
 		@RequestParam(value="file", required=false) MultipartFile file,
-		HttpSession session) {
-
+		@RequestParam(value="corpNotice", required=false, defaultValue="A") String corpNotice,
+		HttpSession session) throws Exception {
+		
 		if(!isAdmin(session)) {
 			return "redirect:/notice/list";
 		}
 
-		vo.setAdminId(Integer.parseInt(session.getAttribute("id").toString()));
+		String userid = (String) session.getAttribute("userid");
+		if (userid == null) return "redirect:/member/login";
 
 		if(file != null && !file.isEmpty()) {
 			String uploadPath = session.getServletContext().getRealPath("/resources/upload/");
@@ -61,15 +66,21 @@ public class NoticeController {
 
 			String origin = file.getOriginalFilename();
 			String fileName = System.currentTimeMillis() + "_" + origin;
-			try {
-				file.transferTo(new File(uploadPath, fileName));
-				vo.setStoredFileName(fileName);
-			} catch(Exception e) {
-				e.printStackTrace();
-			}
+			file.transferTo(new File(uploadPath, fileName));
+			vo.setStoredFileName(fileName);
 		}
+		
+		if ("corp".equals(corpNotice) && !vo.getNoticeTitle().startsWith("[기업공지]")) {
+			vo.setNoticeTitle("[기업공지] " + vo.getNoticeTitle());
+		}
+		
+		Map<String, Object> noticeData = new HashMap<>();
+		noticeData.put("userid", userid);
+		noticeData.put("noticeTitle", vo.getNoticeTitle());
+		noticeData.put("noticeContent", vo.getNoticeContent());
+		noticeData.put("storedFileName", vo.getStoredFileName());
 
-		nService.insertNotice(vo);
+		nService.insert_notice_with_userid(noticeData);
 		return "redirect:/notice/list";
 	}
 	
@@ -99,25 +110,62 @@ public class NoticeController {
 	}
 	
 	@RequestMapping(value = "/detail", method=RequestMethod.GET)
-	public String getNotice(@RequestParam("noticeId") int noticeId, Model model) {
+	public String getNotice(@RequestParam("noticeId") int noticeId, Model model, HttpSession session) throws Exception{
 		
+		NoticeVO notice = nService.getNotice(noticeId);
+		String memberType = (String) session.getAttribute("membertype");
+		String userType = (String) session.getAttribute("userType");
+		
+		boolean isCorpNotice = notice.getNoticeTitle() != null && notice.getNoticeTitle().contains("[기업공지]");
+
+		// 일반회원(G) 또는 비회원이고 userType도 corp이 아니면 차단
+		if (isCorpNotice && (memberType == null && userType == null ||
+				!( "A".equals(memberType) || "corp".equals(userType) ))) {
+				return "redirect:/error/403";
+			}
+
 		nService.updateViewCnt(noticeId);
-		
-		model.addAttribute("notice", nService.getNotice(noticeId));
+		model.addAttribute("notice", notice);
 		return "/notice/detail";
 	}
 	
-	@RequestMapping(value = "/list", method=RequestMethod.GET)
-	public String getNoticeList(Model model) {
-		List<NoticeVO> list = nService.getNoticeList();
-	    System.out.println("===== Notice list size: " + list.size());
-	    for(NoticeVO vo : list) System.out.println(vo);
-		model.addAttribute("noticeList", nService.getNoticeList());
+	@RequestMapping(value = "/list", method = RequestMethod.GET)
+	public String getNoticeList(Criteria cri,
+			@RequestParam(value="search", required=false) String search,
+			HttpSession session,
+			Model model) throws Exception {
+		cri.setSearch(search);
+		
+		String memberType = (String) session.getAttribute("membertype");	// 예: "A"
+		String corpSession = (String) session.getAttribute("corpSession");	// 기업 로그인 여부
+
+		boolean isAdmin = "A".equals(memberType);
+		boolean isCorp = (corpSession != null);
+
+		List<NoticeVO> noticeList = nService.getNoticeList(cri);
+		int totalCount = nService.getTotalCount(cri);
+		
+		if (isAdmin || isCorp) {
+			noticeList = nService.getNoticeListAll(cri);
+			totalCount = nService.getTotalCountAll(cri);
+		} else {
+			noticeList = nService.getNoticeList(cri);
+			totalCount = nService.getTotalCount(cri);
+		}
+		
+		PageVO pageVO = new PageVO();
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(totalCount);
+
+		model.addAttribute("search", search);
+		model.addAttribute("noticeList", noticeList);
+		model.addAttribute("pageVO", pageVO);
+
 		return "/notice/list";
 	}
 	
 	@RequestMapping(value = "/edit", method=RequestMethod.GET)
-	public String updateNoticeForm(@RequestParam("noticeId") int noticeId, Model model, HttpSession session) {
+	public String updateNoticeForm(@RequestParam("noticeId") int noticeId, Model model, HttpSession session) throws Exception{
 		
 		if(!isAdmin(session)) {
 			return "redirect:/notice/list";
@@ -130,7 +178,7 @@ public class NoticeController {
 	@RequestMapping(value = "/edit", method=RequestMethod.POST)
 	public String updateNotice(NoticeVO vo,
 		@RequestParam(value="file", required=false) MultipartFile file,
-		HttpSession session) {
+		HttpSession session) throws Exception{
 
 		if(!isAdmin(session)) {
 			return "redirect:/notice/list";
@@ -156,7 +204,7 @@ public class NoticeController {
 	}
 	
 	@RequestMapping(value = "/delete", method=RequestMethod.POST)
-	public String deleteNotice(@RequestParam("noticeId") int noticeId, HttpSession session) {
+	public String deleteNotice(@RequestParam("noticeId") int noticeId, HttpSession session) throws Exception{
 		
 		if(!isAdmin(session)) {
 			return "redirect:/notice/list";

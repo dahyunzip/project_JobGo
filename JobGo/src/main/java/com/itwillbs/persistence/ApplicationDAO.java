@@ -26,4 +26,10 @@ public interface ApplicationDAO {
 	
 	// 지원 취소
 	public int withdrawApplication(int application_id) throws Exception;
+	
+	// 기업회원 : 지원자 리스트 조회
+	public List<ApplicationVO> getApplicantsByCorpId(int corp_id) throws Exception;
+	
+	public int updateApplicationStatus(@Param("application_id") int application_id,
+            @Param("status") String status) throws Exception;
 }

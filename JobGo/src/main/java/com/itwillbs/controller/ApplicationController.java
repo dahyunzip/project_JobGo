@@ -12,12 +12,16 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.ApplicationVO;
+import com.itwillbs.domain.CorpMemberVO;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.service.ApplicationService;
+import com.itwillbs.service.CorpMemberService;
+import com.itwillbs.service.CorpMemberServiceImpl;
 
 @Controller
 @RequestMapping("/application/*")
@@ -25,6 +29,9 @@ public class ApplicationController {
 	
 	@Inject
 	private ApplicationService aService;
+	
+	@Inject
+	private CorpMemberService cService;
 	
 	private static final Logger logger = LoggerFactory.getLogger(ApplicationController.class);
 	
@@ -103,5 +110,27 @@ public class ApplicationController {
             logger.debug("withdraw() 실패! ");
         }
         return "redirect:/application/list";
+    }
+    
+    // 기업회원 지원자 조회
+    @RequestMapping(value="/corp/applicants")
+    public String corpApplicants(HttpSession session, Model model) throws Exception {
+        String corpUserId = (String) session.getAttribute("corpUserId");
+        if (corpUserId == null) return "redirect:/corp/login";
+
+        CorpMemberVO corp = cService.getCorpMember(corpUserId);
+        List<ApplicationVO> applicants = aService.getApplicantsByCorpId(corp.getCorpId());
+        logger.debug("지원자 리스트: " + applicants);
+        
+        model.addAttribute("applicants", applicants);
+        return "/application/corpApplicants";
+    }
+    
+    @RequestMapping(value="corp/updateStatus", method=RequestMethod.POST)
+    @ResponseBody
+    public String updateStatus(@RequestParam("application_id") int application_id,
+                               @RequestParam("status") String status) throws Exception {
+        boolean result = aService.updateApplicationStatus(application_id, status);
+        return result ? "success" : "fail";
     }
 }

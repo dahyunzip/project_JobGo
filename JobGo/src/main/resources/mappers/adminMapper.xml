@@ -66,12 +66,15 @@
 			membertype,
 			is_deleted as isDeleted
 		from member
+		where is_deleted = 0
 		order by id desc
 		limit #{pageStart}, #{pageSize}
 	</select>
 
 	<select id="getNormalMemberTotalCount" resultType="int">
-		select count(*) from member
+		select count(*) 
+		from member
+		where is_deleted = 0
 	</select>
 
 	<!-- 기업회원 목록 -->
@@ -95,12 +98,15 @@
 			status               as status,
 			corp_checkdeleted    as corpCheckDeleted
 		from corpmember
+		where corp_checkdeleted = 0
 		order by corp_id desc
 		limit #{pageStart}, #{pageSize}
 	</select>
 
 	<select id="getCorpMemberTotalCount" resultType="int">
-		select count(*) from corpmember
+		select count(*) 
+		from corpmember
+		where corp_checkdeleted = 0
 	</select>
 	
 	<!-- 기업회원 승인 -->
@@ -116,11 +122,20 @@
 		set status = 'D'
 		where corp_id = #{corpId}
 	</update>
+	
+	<!-- 기업회원 삭제 -->
+	<update id="deleteCorpMember">
+    	update corpmember
+    	set corp_checkdeleted = 1
+    	where corp_id = #{corpId}
+	</update>
 
 	<!-- 회원 삭제 -->
-	<delete id="deleteMember" parameterType="int">
-		delete from member where id = #{id}
-	</delete>
+	<update id="deleteMember">
+		update member
+    	set is_deleted = 1
+    	where id = #{id}
+	</update>
 
 	<!-- 리뷰 목록 조회 -->
 	<select id="getAllReviews" resultType="com.itwillbs.domain.ReviewVO">

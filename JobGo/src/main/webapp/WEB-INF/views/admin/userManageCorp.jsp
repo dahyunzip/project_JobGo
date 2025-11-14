@@ -3,6 +3,13 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="header.jsp" %>
 
+<style>
+    .row-deleted {
+        opacity: 0.4;
+        color: #888;
+    }
+</style>
+
 <div class="container-fluid">
 	<h2 class="mb-4">기업회원 관리</h2>
 
@@ -12,6 +19,8 @@
 				<th>ID</th>
 				<th>아이디</th>
 				<th>회사명</th>
+				<th>사업자번호</th>
+				<th>사업자등록증</th>
 				<th>이메일</th>
 				<th>전화번호</th>
 				<th>산업분류</th>
@@ -21,24 +30,38 @@
 		</thead>
 		<tbody>
 			<c:forEach var="corp" items="${corpList}">
-				<tr>
+				<tr class="${corp.corpCheckDeleted ? 'row-deleted' : ''}">
 					<td>${corp.corpId}</td>
 					<td>${corp.corpUserId}</td>
 					<td>${corp.companyName}</td>
+					<td>${corp.businessRno}</td>
+					<td>사업자등록증?</td>
 					<td>${corp.managerEmail}</td>
 					<td>${corp.managerTel}</td>
 					<td>${corp.industryType}</td>
 					<td>
     					<c:choose>
-        					<c:when test="${corp.status eq 'W'}">
-        					    <span class="text-warning font-weight-bold">대기중</span>
+    						<c:when test="${corp.corpCheckDeleted}">
+            					<span class="text-muted">삭제됨</span>
         					</c:when>
         					<c:when test="${corp.status eq 'A'}">
-            					<span class="text-success font-weight-bold">승인됨</span>
-        					</c:when>
+            					<a href="${pageContext.request.contextPath}/admin/denyCorp?id=${corp.corpId}"
+               						onclick="return confirm('해당 기업을 비활성화하시겠습니까?');"
+               						class="btn btn-sm btn-warning">
+                					비활성화
+            					</a>
+	        				</c:when>
         					<c:when test="${corp.status eq 'D'}">
-        					    <span class="text-danger font-weight-bold">거절됨</span>
+            					<a href="${pageContext.request.contextPath}/admin/approveCorp?id=${corp.corpId}"
+               					onclick="return confirm('해당 기업을 승인(활성화)하시겠습니까?');"
+               					class="btn btn-sm btn-success">
+                					활성화
+            					</a>
         					</c:when>
+        					<c:otherwise>
+            					<span class="text-muted">대기중</span>
+        					</c:otherwise>
+
     					</c:choose>
 					</td>
 					<td>

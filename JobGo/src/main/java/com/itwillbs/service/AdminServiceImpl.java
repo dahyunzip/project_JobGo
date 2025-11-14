@@ -62,6 +62,11 @@ public class AdminServiceImpl implements AdminService{
 	public int denyCorp(int corpId) throws Exception {
 	    return adminDAO.denyCorp(corpId);
 	}
+	
+	@Override
+	public int deleteCorpMember(int corpId) throws Exception {
+	    return adminDAO.deleteCorpMember(corpId);
+	}
 
 	@Override
 	public int deleteMember(int id) throws Exception {

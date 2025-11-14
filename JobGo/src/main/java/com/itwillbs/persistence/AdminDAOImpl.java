@@ -64,6 +64,11 @@ public class AdminDAOImpl implements AdminDAO{
 	public int denyCorp(int corpId) throws Exception {
 	    return sqlSession.update(NAMESPACE + ".denyCorp", corpId);
 	}
+	
+	@Override
+	public int deleteCorpMember(int corpId) throws Exception {
+		return sqlSession.update(NAMESPACE + ".deleteCorpMember", corpId);
+	}
 
 	@Override
 	public int deleteMember(int id) throws Exception {

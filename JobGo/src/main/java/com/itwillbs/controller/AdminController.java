@@ -205,6 +205,27 @@ public class AdminController {
 	    return "redirect:/admin/userManageCorp";
 	}
 	
+	// 기업회원 삭제
+	@RequestMapping(value="/deleteCorp", method=RequestMethod.GET)
+	public String deleteCorpMember(@RequestParam("id") int corpId,
+	                               HttpSession session,
+	                               RedirectAttributes rttr) throws Exception {
+
+	    if (session.getAttribute("adminSession") == null) {
+	        return "redirect:/admin/login";
+	    }
+
+	    int result = adminService.deleteCorpMember(corpId);
+
+	    if (result > 0) {
+	        rttr.addFlashAttribute("msg", "deleteSuccess");
+	    } else {
+	        rttr.addFlashAttribute("msg", "deleteFail");
+	    }
+
+	    return "redirect:/admin/userManageCorp";
+	}
+	
 	// 회원 삭제 (관리자 전용)
 	@RequestMapping(value="/deleteMember", method=RequestMethod.GET)
 	public String deleteMember(@RequestParam("id") int id,

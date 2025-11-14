@@ -30,6 +30,9 @@ public interface AdminService {
 	// 기업회원 거절
 	int denyCorp(int corpId) throws Exception;
 	
+	// 기업회원 삭제
+	public int deleteCorpMember(int corpId) throws Exception;
+	
 	// 회원 삭제
 	int deleteMember(int id) throws Exception;
 	

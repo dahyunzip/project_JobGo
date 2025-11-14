@@ -11,8 +11,10 @@
 <body>
 	<h2>리뷰 상세</h2>
 	
-	<c:if test="${not empty errorMsg}">
-		<p style="color:red; font-weight:bold;">${errorMsg}</p>
+	<c:if test="${not empty flash.errorMsg or not empty errorMsg}">
+		<script>
+    		alert("${errorMsg}");
+		</script>
 	</c:if>
 	
 	<div>

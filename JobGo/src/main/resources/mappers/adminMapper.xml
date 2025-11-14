@@ -66,7 +66,6 @@
 			membertype,
 			is_deleted as isDeleted
 		from member
-		where is_deleted = 0
 		order by id desc
 		limit #{pageStart}, #{pageSize}
 	</select>
@@ -80,25 +79,26 @@
 	<!-- 기업회원 목록 -->
 	<select id="getAllCorpMembers" resultType="com.itwillbs.domain.CorpMemberVO">
 		select
-			corp_id              as corpId,
-			corp_userid          as corpUserId,
-			corp_userpw          as corpUserPw,
-			manager_name         as managerName,
-			manager_email        as managerEmail,
-			manager_tel          as managerTel,
-			company_name         as companyName,
-			business_rno         as businessRno,
-			business_licenseurl  as businessLicenseUrl,
-			ceo_name             as ceoName,
-			company_address      as companyAddress,
-			industry_type        as industryType,
-			business_type        as businessType,
-			corp_joined          as corpJoined,
-			corp_updated         as corpUpdated,
-			status               as status,
-			corp_checkdeleted    as corpCheckDeleted
-		from corpmember
-		where corp_checkdeleted = 0
+	        corp_id                 as corpId,
+	        corp_userid             as corpUserId,
+	        corp_userpw             as corpUserPw,
+	        manager_name            as managerName,
+	        manager_email           as managerEmail,
+	        manager_tel             as managerTel,
+	        company_name            as companyName,
+	
+	        business_rno            as businessRno,
+	        business_licenseurl     as businessLicenseUrl,
+
+    	    ceo_name                as ceoName,
+    	    company_address         as companyAddress,
+    	    industry_type           as industryType,
+    	    business_type           as businessType,
+    	    corp_joined             as corpJoined,
+    	    corp_updated            as corpUpdated,
+    	    status                  as status,
+    	    corp_checkdeleted       as corpCheckDeleted
+    	from corpmember
 		order by corp_id desc
 		limit #{pageStart}, #{pageSize}
 	</select>
@@ -113,14 +113,14 @@
 	<update id="approveCorp" parameterType="int">
 		update corpmember
 		set status = 'A'
-		where corp_id = #{corpId}
+		where corp_id = #{value}
 	</update>
 	
 	<!-- 기업회원 거절 -->
 	<update id="denyCorp" parameterType="int">
 		update corpmember
 		set status = 'D'
-		where corp_id = #{corpId}
+		where corp_id = #{value}
 	</update>
 	
 	<!-- 기업회원 삭제 -->

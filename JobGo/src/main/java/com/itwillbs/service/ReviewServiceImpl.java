@@ -79,36 +79,36 @@ public class ReviewServiceImpl implements ReviewService{
 
 	@Override
 	public List<ReviewVO> getListByMemberPaging(int memberId, Criteria cri) throws Exception {
-		Map<String, Object> param = new HashMap<>();
-		param.put("memberId", memberId);
-		param.put("cri", cri);
-		List<ReviewVO> list = reviewDAO.getListByMemberPaging(param);
-		logger.debug("회원별 리뷰 목록 조회 완료 - {} - 서비스", list.size());
-		return list;
+	    Map<String, Object> param = new HashMap<>();
+	    param.put("memberId", memberId);
+	    param.put("cri", cri);
+	    param.put("search", cri.getSearch());
+	    return reviewDAO.getListByMemberPaging(param);
 	}
 
 	@Override
-	public int getTotalByMember(int memberId) throws Exception {
-		int total = reviewDAO.getTotalByMember(memberId);
-		logger.debug("회원별 리뷰 총 개수: ({}개) - 서비스", total);
-		return total;
+	public int getTotalByMember(int memberId, String search) throws Exception {
+	    Map<String,Object> param = new HashMap<>();
+	    param.put("memberId", memberId);
+	    param.put("search", search);
+	    return reviewDAO.getTotalByMember(param);
 	}
 
 	@Override
 	public List<ReviewVO> getListByCorpPaging(int corpId, Criteria cri) throws Exception {
-		Map<String, Object> param = new HashMap<>();
-		param.put("corpId", corpId);
-		param.put("cri", cri);
-		List<ReviewVO> list = reviewDAO.getListByCorpPaging(param);
-		logger.debug("기업별 리뷰 조회 완료 - {} - 서비스", list.size());
-		return list;
+	    Map<String, Object> param = new HashMap<>();
+	    param.put("corpId", corpId);
+	    param.put("cri", cri);
+	    param.put("search", cri.getSearch());
+	    return reviewDAO.getListByCorpPaging(param);
 	}
 
 	@Override
-	public int getTotalByCorp(int corpId) throws Exception {
-		int total = reviewDAO.getTotalByCorp(corpId);
-		logger.debug("기업별 리뷰 총 개수: ({}개) - 서비스", total);
-		return total;
+	public int getTotalByCorp(int corpId, String search) throws Exception {
+	    Map<String,Object> param = new HashMap<>();
+	    param.put("corpId", corpId);
+	    param.put("search", search);
+	    return reviewDAO.getTotalByCorp(param);
 	}
 
 	@Override

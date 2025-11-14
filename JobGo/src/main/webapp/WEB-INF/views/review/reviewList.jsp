@@ -12,6 +12,14 @@
 	
 	<h2>리뷰 목록</h2>
 	
+	<form method="get" action="reviewList" style="margin-bottom:20px;">
+		<input type="text" name="search" value="${param.search}" placeholder="검색어 입력" />
+		<button type="submit">검색</button>
+	</form>
+	
+	<c:set var="rowNum" 
+	       value="${pageVO.totalCount - ((pageVO.cri.page - 1) * pageVO.cri.pageSize)}" />
+	
 	<table border="1">
     	<thead>
         	<tr>
@@ -31,13 +39,13 @@
 					<td colspan="5">등록된 리뷰가 없습니다.</td>
 				</tr>
 			</c:if>
-    	
+    		
     	    <c:forEach var="review" items="${reviewList}">
     	        <tr>
-    	            <td>${review.reviewId}</td>
+    	        	<td>${rowNum}</td>
+					<c:set var="rowNum" value="${rowNum - 1}" />
     	            <td>
     	            	<a href="${pageContext.request.contextPath}/review/reviewDetail?reviewId=${review.reviewId}">${review.revTitle}</a>
-    	            	<!-- <input type="hidden" name="reviewId" value="${reviewDetail.reviewId}">-->
     	            </td>
     	            <td>${review.memberId}</td>
     	            <td>

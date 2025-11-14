@@ -223,11 +223,16 @@ public class ReviewController {
 
     // 리뷰 목록
     @RequestMapping(value="/reviewList", method = RequestMethod.GET)
-    public String reviewList(Criteria cri, Model model) throws Exception {
+    public String reviewList(Criteria cri,
+    						 @RequestParam(value="search", required=false) String search,
+    						 Model model) throws Exception {
 		
+    	cri.setSearch(search);
+    	
 		List<ReviewVO> reviewList = reviewService.getListPaging(cri);
 		model.addAttribute("reviewList", reviewList);
-
+		model.addAttribute("search", search);
+		
 		int total = reviewService.getTotalCount(cri);
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
@@ -274,16 +279,17 @@ public class ReviewController {
 
     // 회원별 리뷰
     @RequestMapping(value="/memberReviewList", method = RequestMethod.GET)
-    public String selectReviewsByMember(@RequestParam("memberId") int memberId, Criteria cri, Model model) throws Exception{
+    public String selectReviewsByMember(int memberId, Criteria cri, Model model) throws Exception{
     	List<ReviewVO> reviewList = reviewService.getListByMemberPaging(memberId, cri);
-		model.addAttribute("reviewList", reviewList);
+        model.addAttribute("reviewList", reviewList);
 
-		int total = reviewService.getTotalByMember(memberId);
-		PageVO pageVO = new PageVO();
-		pageVO.setCri(cri);
-		pageVO.setTotalCount(total);
-		model.addAttribute("pageVO", pageVO);
-		model.addAttribute("memberId", memberId);
+        int total = reviewService.getTotalByMember(memberId, cri.getSearch());
+        PageVO pageVO = new PageVO();
+        pageVO.setCri(cri);
+        pageVO.setTotalCount(total);
+
+        model.addAttribute("pageVO", pageVO);
+        model.addAttribute("memberId", memberId);
 
 		logger.debug(" 회원별 리뷰 목록 조회 완료 - 총 {}개", total);
 		return "review/reviewsByMember";
@@ -293,15 +299,16 @@ public class ReviewController {
     @RequestMapping(value="/corpReviewList", method = RequestMethod.GET)
     public String reviewListByCorp(@RequestParam("corpId") int corpId, Criteria cri, Model model) throws Exception {
 		
-		List<ReviewVO> reviewList = reviewService.getListByCorpPaging(corpId, cri);
-		model.addAttribute("reviewList", reviewList);
+    	List<ReviewVO> reviewList = reviewService.getListByCorpPaging(corpId, cri);
+        model.addAttribute("reviewList", reviewList);
 
-		int total = reviewService.getTotalByCorp(corpId);
-		PageVO pageVO = new PageVO();
-		pageVO.setCri(cri);
-		pageVO.setTotalCount(total);
-		model.addAttribute("pageVO", pageVO);
-		model.addAttribute("corpId", corpId);
+        int total = reviewService.getTotalByCorp(corpId, cri.getSearch());
+        PageVO pageVO = new PageVO();
+        pageVO.setCri(cri);
+        pageVO.setTotalCount(total);
+
+        model.addAttribute("pageVO", pageVO);
+        model.addAttribute("corpId", corpId);
 
 		logger.debug(" 기업별 리뷰 목록 조회 완료 - 총 {}개", total);
         return "review/reviewsByCorp";

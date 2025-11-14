@@ -55,6 +55,8 @@
 					    <select id="searchType" class="form-control" style="max-width:120px;">
 					        <option value="com">커뮤니티</option>
 					        <option value="rec">채용공고</option>
+					        <option value="rev">리뷰</option>
+					        <option value="noti">공지사항</option>
 					    </select>
 					
 					    <!-- 검색창 -->
@@ -177,7 +179,15 @@
 		        } else if(type == "rec") {
 		            // 채용공고 게시판
 		            url = "/recboard/recListCri?search=" + encodeURIComponent(keyword);
+		        } else if(type == "rev") {
+		        	// 리뷰 게시판
+		        	url = "/review/reviewList?search=" + encodeURIComponent(keyword);
+		        	
+		        } else if(type == "noti") {
+		        	// 공지사항 게시판
+		        	url = "/notice/list?search=" + encodeURIComponent(keyword);
 		        }
+
 		
 		        location.href = url;
 		    }

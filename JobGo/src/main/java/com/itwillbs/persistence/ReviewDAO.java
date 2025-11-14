@@ -31,12 +31,12 @@ public interface ReviewDAO {
 	ReviewVO reviewDetail(int reviewId) throws Exception;
 	
 	// 회원별 리뷰 조회
-	List<ReviewVO> getListByMemberPaging(Map<String, Object> param) throws Exception;
-	int getTotalByMember(int memberId) throws Exception;
+	List<ReviewVO> getListByMemberPaging(Map<String,Object> param) throws Exception;
+    int getTotalByMember(Map<String,Object> param) throws Exception;
 	
 	// 기업별 리뷰 조회
 	List<ReviewVO> getListByCorpPaging(Map<String, Object> param) throws Exception;
-	int getTotalByCorp(int corpId) throws Exception;
+	int getTotalByCorp(Map<String,Object> param) throws Exception;
 	
 	// 리뷰 작성자 비밀번호 확인용
 	String getMemberPasswordByReviewId(int reviewId) throws Exception;

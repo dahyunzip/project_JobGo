@@ -10,13 +10,25 @@
 <body>
 <%@ include file="../include/Header.jsp"%>
 <h2>기업별 리뷰 목록</h2>
+
+<form method="get" action="${pageContext.request.contextPath}/review/CorpReviewList">
+	<input type="hidden" name="corpId" value="${corpId}">
+	<input type="text" name="search" value="${param.search}" placeholder="검색어 입력">
+	<button type="submit">검색</button>
+</form>
     
     <c:if test="${empty reviewList}">
         <div>등록된 리뷰가 없습니다.</div>
     </c:if>
     
+    <c:set var="rowNum" value="${pageVO.totalCount - ((pageVO.cri.page - 1) * pageVO.cri.pageSize)}" />
+    
     <c:forEach var="review" items="${reviewList}">
         <div style="border:1px solid #ccc; padding:10px; margin-bottom:10px;">
+            
+            <div><strong>번호: ${rowNum}</strong></div>
+        	<c:set var="rowNum" value="${rowNum - 1}" />
+            
             <div>
                 <button type="button"
 					onclick="location.href='${pageContext.request.contextPath}/review/reviewDetail?reviewId=${review.reviewId}&origin=corp&corpId=${corpId}'">
@@ -42,11 +54,11 @@
 		<c:forEach var="num" begin="${pageVO.startPage}" end="${pageVO.endPage}">
 			<c:choose>
 				<c:when test="${pageVO.cri.page == num}">
-					<strong>[${num}]</strong>
-				</c:when>
-				<c:otherwise>
-					<a href="?page=${num}&corpId=${corpId}">${num}</a>
-				</c:otherwise>
+                	<strong>[${num}]</strong>
+            	</c:when>
+            	<c:otherwise>
+            	    <a href="?page=${num}&corpId=${corpId}">${num}</a>
+            	</c:otherwise>
 			</c:choose>
 		</c:forEach>
 	

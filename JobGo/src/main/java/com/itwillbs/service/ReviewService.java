@@ -32,11 +32,11 @@ public interface ReviewService {
 	
 	// 회원별 페이징 목록
 	List<ReviewVO> getListByMemberPaging(int memberId, Criteria cri) throws Exception;
-	int getTotalByMember(int memberId) throws Exception;
+	int getTotalByMember(int memberId, String search) throws Exception;
 
 	// 기업별 페이징 목록
 	List<ReviewVO> getListByCorpPaging(int corpId, Criteria cri) throws Exception;
-	int getTotalByCorp(int corpId) throws Exception;
+	int getTotalByCorp(int corpId, String search) throws Exception;
 	
 	// 리뷰 작성자 비밀번호 확인용
 	String getMemberPasswordByReviewId(int reviewId) throws Exception;

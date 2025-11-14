@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MemberVO;
@@ -207,12 +208,12 @@ public class ReviewController {
 
  		// 비밀번호 일치 여부 확인
  		String dbPw = reviewService.getMemberPasswordByReviewId(reviewId);
- 		if (dbPw == null || !dbPw.equals(password)) {
- 			model.addAttribute("reviewDetail", review);
- 			model.addAttribute("isOwner", true);
- 			model.addAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
- 			return "review/reviewDetail";
- 		}
+ 	    if (dbPw == null || !dbPw.equals(password)) {
+ 	        model.addAttribute("reviewDetail", review);
+ 	        model.addAttribute("isOwner", true);
+ 	        model.addAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
+ 	        return "review/reviewDetail";
+ 	    }
 
  		// 리뷰 삭제 실행
  		reviewService.deleteReview(reviewId);

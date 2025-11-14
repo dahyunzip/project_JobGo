@@ -1,6 +1,6 @@
 package com.itwillbs.domain;
 
-import java.time.LocalDateTime;
+import java.util.Date;
 
 import lombok.Data;
 
@@ -16,8 +16,8 @@ public class ReviewVO {
 	private String revPros;
 	private String revCons;
 	private String revPublic = "y";
-	private LocalDateTime revRegdate;
-	private LocalDateTime revUpdatedate;
+	private Date revRegdate;
+	private Date revUpdatedate;
 	private int revViewcnt;
 	
 	private String jobCode;

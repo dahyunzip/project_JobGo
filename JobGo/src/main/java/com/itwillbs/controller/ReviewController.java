@@ -175,7 +175,7 @@ public class ReviewController {
  	@RequestMapping(value = "/deleteReview", method = RequestMethod.POST)
  	public String deleteReview(@RequestParam("reviewId") int reviewId,
  							   @RequestParam("password") String password,
- 							   HttpSession session, Model model) throws Exception{
+ 							   HttpSession session, Model model, RedirectAttributes rttr) throws Exception{
  		String userid = (String) session.getAttribute("userid");
  		logger.debug("세션 userid = {}", userid);
 
@@ -208,15 +208,15 @@ public class ReviewController {
 
  		// 비밀번호 일치 여부 확인
  		String dbPw = reviewService.getMemberPasswordByReviewId(reviewId);
- 	    if (dbPw == null || !dbPw.equals(password)) {
- 	        model.addAttribute("reviewDetail", review);
- 	        model.addAttribute("isOwner", true);
- 	        model.addAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
- 	        return "review/reviewDetail";
- 	    }
+ 		if (dbPw == null || !dbPw.equals(password)) {
+ 			model.addAttribute("isOwner", true);
+ 			rttr.addFlashAttribute("errorMsg", "비밀번호가 일치하지 않습니다.");
+ 			return "redirect:/review/reviewDetail?reviewId=" + reviewId;
+ 		}
 
  		// 리뷰 삭제 실행
  		reviewService.deleteReview(reviewId);
+ 		rttr.addFlashAttribute("successMsg", "리뷰가 정상적으로 삭제되었습니다.");
  		logger.debug("리뷰 삭제 완료 - reviewId: {}", reviewId);
 
  		return "redirect:/review/reviewList";

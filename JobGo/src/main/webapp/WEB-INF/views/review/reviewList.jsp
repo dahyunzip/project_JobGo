@@ -13,6 +13,12 @@
 	
 	<h2>리뷰 목록</h2>
 	
+	<c:if test="${not empty successMsg}">
+    	<script>
+    	    alert("${successMsg}");
+    	</script>
+	</c:if>
+	
 	<form method="get" action="reviewList" style="margin-bottom:20px;">
 		<input type="text" name="search" value="${param.search}" placeholder="검색어 입력" />
 		<button type="submit">검색</button>

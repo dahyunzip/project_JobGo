@@ -180,6 +180,7 @@
 	    SELECT resume_id AS resumeId, resume_title AS resumeTitle
 	    FROM resume
 	    WHERE member_id = #{member_id}
+          AND status = 'FINAL'
 	</select>
 	
 	<!-- 이미 지원했는지 확인 -->

@@ -142,18 +142,20 @@
 								      <c:when test="${alreadyApplied}">
 								        <p class="text-danger fw-bold">이미 지원한 채용공고입니다. 지원취소는 <a href="/application/list" class="underline-link">커리어관리 &gt; 지원현황</a>에서 가능합니다.</p>
 								      </c:when>
-								
+										<c:when test="${empty resumeList }">
+											<p>지원가능한 상태의 이력서가 없습니다. 임시저장 상태의 이력서는 지원할 수 없습니다.</p>
+										</c:when>
 								      <%-- 아직 지원 안한 경우 --%>
 								      <c:otherwise>
 								        <form method="post" action="/application/apply">
 								          <input type="hidden" name="rec_bno" value="${resultReadVO.rec_bno}">
 								          <input type="hidden" name="page" value="${page}">
-								          <select name="resume_id">
-								            <c:forEach var="resume" items="${resumeList}">
-								              <option value="${resume.resumeId}">${resume.resumeTitle}</option>
-								            </c:forEach>
-								          </select>
-								          <button type="submit">지원하기</button>
+									          <select name="resume_id">
+									            <c:forEach var="resume" items="${resumeList}">
+									              <option value="${resume.resumeId}">${resume.resumeTitle}</option>
+									            </c:forEach>
+								          	  </select>
+								          	  <button type="submit">지원하기</button>
 								        </form>
 								      </c:otherwise>
 								    </c:choose>

@@ -36,7 +36,7 @@
 			or rb.rec_regdate like concat('%',#{search},'%'))
 		</if>
 		order by rb.rec_bno desc 
-		limit #{cri.pageStart},#{cri.pageSize} 
+		limit #{cri.recPageStart},#{cri.recPageSize} 
 	</select>
 	
 	<!-- 메인 페이지 게시판 리스트(최신 등록 순) -->

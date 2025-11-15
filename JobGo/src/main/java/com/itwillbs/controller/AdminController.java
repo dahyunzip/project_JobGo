@@ -1,8 +1,14 @@
 package com.itwillbs.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
+import java.net.URLEncoder;
 import java.util.List;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
@@ -14,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.itwillbs.domain.CorpMemberVO;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MemberVO;
 import com.itwillbs.domain.PageVO;
@@ -175,6 +182,99 @@ public class AdminController {
 	    model.addAttribute("pageVO", pageVO);
 
 	    return "/admin/userManageCorp";
+	}
+	
+	// PDF 파일 조회 (스트림 방식)
+	@RequestMapping(value="/viewBusinessLicense", method=RequestMethod.GET)
+	public void viewBusinessLicense(@RequestParam("corpId") int corpId,
+	                                 HttpServletResponse response,
+	                                 HttpSession session) throws Exception {
+	    
+	    if (session.getAttribute("adminSession") == null) {
+	        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+	        return;
+	    }
+	    
+	    // 기업 정보 조회
+	    CorpMemberVO corp = adminService.getCorpMemberById(corpId);
+	    
+	    if (corp == null || corp.getBusinessLicenseUrl() == null) {
+	        response.sendError(HttpServletResponse.SC_NOT_FOUND, "파일이 존재하지 않습니다.");
+	        return;
+	    }
+	    
+	    String storedFileName = corp.getBusinessLicenseUrl();
+	    String filePath = "C:\\upload\\business_license\\" + storedFileName;
+	    File file = new File(filePath);
+	    
+	    if (!file.exists()) {
+	        response.sendError(HttpServletResponse.SC_NOT_FOUND, "파일을 찾을 수 없습니다.");
+	        return;
+	    }
+	    
+	    // PDF를 브라우저에서 바로 볼 수 있도록 설정
+	    response.setContentType("application/pdf");
+	    response.setHeader("Content-Disposition", "inline; filename=\"" + 
+	                      URLEncoder.encode(corp.getOriginalFileName(), "UTF-8") + "\"");
+	    response.setContentLengthLong(file.length());
+	    
+	    // 파일 스트림 전송
+	    try (FileInputStream fis = new FileInputStream(file);
+	         OutputStream os = response.getOutputStream()) {
+	        byte[] buffer = new byte[4096];
+	        int bytesRead;
+	        while ((bytesRead = fis.read(buffer)) != -1) {
+	            os.write(buffer, 0, bytesRead);
+	        }
+	        os.flush();
+	    } catch (IOException e) {
+	        logger.error("PDF 파일 전송 중 오류 발생", e);
+	        throw e;
+	    }
+	}
+	
+	// PDF 다운로드
+	@RequestMapping(value="/downloadBusinessLicense", method=RequestMethod.GET)
+	public void downloadBusinessLicense(@RequestParam("corpId") int corpId,
+	                                     HttpServletResponse response,
+	                                     HttpSession session) throws Exception {
+	    
+	    if (session.getAttribute("adminSession") == null) {
+	        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+	        return;
+	    }
+	    
+	    CorpMemberVO corp = adminService.getCorpMemberById(corpId);
+	    
+	    if (corp == null || corp.getBusinessLicenseUrl() == null) {
+	        response.sendError(HttpServletResponse.SC_NOT_FOUND);
+	        return;
+	    }
+	    
+	    String storedFileName = corp.getBusinessLicenseUrl();
+	    String filePath = "C:\\upload\\business_license\\" + storedFileName;
+	    File file = new File(filePath);
+	    
+	    if (!file.exists()) {
+	        response.sendError(HttpServletResponse.SC_NOT_FOUND);
+	        return;
+	    }
+	    
+	    // 다운로드 방식
+	    response.setContentType("application/pdf");
+	    response.setHeader("Content-Disposition", "attachment; filename=\"" + 
+	                      URLEncoder.encode(corp.getOriginalFileName(), "UTF-8") + "\"");
+	    response.setContentLengthLong(file.length());
+	    
+	    try (FileInputStream fis = new FileInputStream(file);
+	         OutputStream os = response.getOutputStream()) {
+	        byte[] buffer = new byte[4096];
+	        int bytesRead;
+	        while ((bytesRead = fis.read(buffer)) != -1) {
+	            os.write(buffer, 0, bytesRead);
+	        }
+	        os.flush();
+	    }
 	}
 	
 	// 기업회원 승인

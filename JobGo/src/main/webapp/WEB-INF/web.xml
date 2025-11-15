@@ -47,4 +47,30 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
 	<!-- 한글처리 인코딩(UTF-8) 필터 -->
+	
+	<!-- 에러 페이지 설정 -->
+	<!-- 404 에러 -->
+    <error-page>
+        <error-code>404</error-code>
+        <location>/WEB-INF/views/error/404.jsp</location>
+    </error-page>
+    
+    <!-- 500 에러 -->
+    <error-page>
+        <error-code>500</error-code>
+        <location>/WEB-INF/views/error/404.jsp</location>
+    </error-page>
+    
+    <!-- 403 에러 (권한 없음) -->
+    <error-page>
+        <error-code>403</error-code>
+        <location>/WEB-INF/views/error/404.jsp</location>
+    </error-page>
+    
+    <!-- 일반 예외 처리 -->
+    <error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/WEB-INF/views/error/404.jsp</location>
+    </error-page>
+    
 </web-app>

@@ -7,6 +7,7 @@ import javax.inject.Inject;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
+import com.itwillbs.domain.CorpMemberVO;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MemberVO;
 import com.itwillbs.domain.RecBoardVO;
@@ -48,6 +49,11 @@ public class AdminDAOImpl implements AdminDAO{
 	@Override
 	public List<MemberVO> getAllCorpMembers(Criteria cri) throws Exception {
 		return sqlSession.selectList(NAMESPACE + ".getAllCorpMembers", cri);
+	}
+	
+	@Override
+	public CorpMemberVO getCorpMemberById(int corpId) throws Exception {
+	    return sqlSession.selectOne(NAMESPACE + ".getCorpMemberById", corpId);
 	}
 	
 	@Override

@@ -70,31 +70,39 @@ public class ResumeServiceImpl implements ResumeService {
     // ===== [공통: 하위항목 등록 메서드] =====
     private void insertSubTables(ResumeVO resume, int resumeId) throws Exception {
         if (resume.getEducationList() != null) {
-            for (ResumeEducationVO edu : resume.getEducationList()) {
+        	int seq = 1;
+        	for (ResumeEducationVO edu : resume.getEducationList()) {
                 edu.setResumeId(resumeId);
+                edu.setEducationSeq(seq++);
                 resumeDAO.insertEducation(edu);
             }
         }
         if (resume.getCareerList() != null) {
-            for (ResumeCareerVO career : resume.getCareerList()) {
+        	int seq = 1;
+        	for (ResumeCareerVO career : resume.getCareerList()) {
                 career.setResumeId(resumeId);
+                career.setCareerSeq(seq++);
                 resumeDAO.insertCareer(career);
             }
         }
         if (resume.getTrainingList() != null) {
-            for (ResumeTrainingVO tr : resume.getTrainingList()) {
+        	int seq = 1;
+        	for (ResumeTrainingVO tr : resume.getTrainingList()) {
                 tr.setResumeId(resumeId);
+                tr.setTrainingSeq(seq++);
                 resumeDAO.insertTraining(tr);
             }
         }
         if (resume.getCertificationList() != null) {
-            for (ResumeCertificationVO cert : resume.getCertificationList()) {
+        	int seq = 1;
+        	for (ResumeCertificationVO cert : resume.getCertificationList()) {
                 cert.setResumeId(resumeId);
+                cert.setCertSeq(seq++);
                 resumeDAO.insertCertification(cert);
             }
         }
         if (resume.getSelfIntro() != null) {
-            ResumeSelfIntroVO intro = resume.getSelfIntro();
+        	ResumeSelfIntroVO intro = resume.getSelfIntro();
             intro.setResumeId(resumeId);
             resumeDAO.insertSelfIntro(intro);
         }
@@ -164,7 +172,7 @@ public class ResumeServiceImpl implements ResumeService {
 	@Override
 	public void updateResumeFinal(ResumeVO resume) throws Exception {
 		// 기본 정보 수정 + status='TEMP'
-	    resume.setStatus("TEMP");
+	    resume.setStatus("FINAL");
 	    resumeDAO.updateResume(resume);
 	    
 	    // 하위 테이블은 그대로 둬도 되지만,

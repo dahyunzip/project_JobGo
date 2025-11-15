@@ -292,12 +292,12 @@
 							<div class="row">
 								<div class="col-lg-6 col-12 mb-20">
 									<div class="form-group">
-										<label class="control-label">이름</label> <input type="text"
+										<label class="control-label">이름<i class="essential">*</i></label> <input type="text"
 											class="form-control" placeholder="이름을 입력하세요." name="name">
 									</div>
 								</div>
 								<div class="col-lg-6 col-12 mb-20">
-									<label class="control-label">아이디</label>
+									<label class="control-label">아이디<i class="essential">*</i></label>
 									<div class="row">
 										<div class="form-group col-8">
 											<input type="text" class="form-control"
@@ -311,14 +311,14 @@
 								</div>
 								<div class="col-lg-6 col-12 mb-20">
 									<div class="form-group">
-										<label class="control-label">비밀번호</label> <input
+										<label class="control-label">비밀번호<i class="essential">*</i></label> <input
 											type="password" class="form-control"
 											placeholder="비밀번호를 입력하세요." name="userpw" id="pwd" required>
 									</div>
 								</div>
 								<div class="col-lg-6 col-12 mb-20">
 									<div class="form-group">
-										<label class="control-label">비밀번호 확인</label> <input
+										<label class="control-label">비밀번호 확인<i class="essential">*</i></label> <input
 											type="password" class="form-control"
 											placeholder="비밀번호를 입력하세요." name="userpwConfirm"
 											id="pwdConfirm" required>
@@ -326,7 +326,7 @@
 								</div>
 								<div id="pwdError" class="col-lg-12 col-12 mb-10"></div>
 								<div class="col-lg-6 col-12 mb-20">
-									<label class="control-label">E-mail</label>
+									<label class="control-label">E-mail<i class="essential">*</i></label>
 									<div class="row">
 										<div class="form-group col-8">
 											<input type="email" class="form-control"
@@ -352,9 +352,9 @@
 								</div>
 								<div class="col-lg-6 col-12 mb-20">
 									<div class="form-group">
-										<label class="control-label">핸드폰 번호</label> <input type="text"
+										<label class="control-label">핸드폰 번호<i class="essential">*</i></label> <input type="text"
 											class="form-control" placeholder="'-' 빼고 작성하세요." name="phone"
-											id="phone">
+											id="phone" required>
 										<div id="phoneError"></div>
 									</div>
 								</div>

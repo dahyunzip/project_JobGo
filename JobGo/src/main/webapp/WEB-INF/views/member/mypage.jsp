@@ -33,6 +33,7 @@
 	                    </div>
 	                    <div class="content col">
 	                        <h5 class="title">${user.name }님 안녕하세요.</h5>
+	                        ${user }
 	                    </div>
 	                </div>
 	                <div class="job-details-body">

@@ -22,7 +22,8 @@
 	<!-- [3] 임시저장에서 최종등록으로 변경 (UPDATE) -->
 	<update id="updateResumeToFinal" parameterType="int">
 	    UPDATE resume
-	    SET status = 'FINAL', updated_at = CURRENT_TIMESTAMP
+	    SET status = 'FINAL', updated_at = CURRENT_TIMESTAMP,
+	    resume_title = #{resumeTitle}
 	    WHERE resume_id = #{resumeId}
 	</update>
 	

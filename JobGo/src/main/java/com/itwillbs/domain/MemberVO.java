@@ -15,7 +15,6 @@ public class MemberVO {
     private String name;
     private String phone;
     private String addr;
-    private String pfImage;
     private Timestamp joinedAt;
     private Timestamp updateAt;
     private boolean isDeleted;

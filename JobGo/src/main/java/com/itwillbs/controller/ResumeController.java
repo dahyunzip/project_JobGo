@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.itwillbs.domain.ResumeCareerVO;
 import com.itwillbs.domain.ResumeVO;
 import com.itwillbs.service.ResumeService;
 
@@ -114,17 +115,32 @@ public class ResumeController {
 		logger.debug("resume : {}", resume);
 		rService.createFinalResume(resume);
 		rttr.addFlashAttribute("msg", "writeDone");
+		
+		logger.debug("CareerList is null? {}", resume.getCareerList() == null);
+		if(resume.getCareerList() != null) {
+		    logger.debug("CareerList size = {}", resume.getCareerList().size());
+		    for(ResumeCareerVO c : resume.getCareerList()) {
+		        logger.debug("career item = {}", c);
+		    }
+		}
+		
 		return "redirect:/resume/list?memberId=" + resume.getMemberId();
 	}
 	
 
 	// 임시저장된 것 -> 최종등록으로 바꿀 때
 	@RequestMapping(value="/submitFinal", method=RequestMethod.POST)
-	public String submitFinal(@RequestParam("resumeId") int resumeId,
+	public String submitFinal(@ModelAttribute ResumeVO resume,
 	                          RedirectAttributes rttr) throws Exception {
-	    rService.updateToFinal(resumeId);
+	    logger.debug("submitFinal 진입 / resumeId = {}", resume.getResumeId());
+	    logger.debug("submitFinal resume : {}", resume);
+	    
+	    // 임시저장된 이력서를 수정하면서 최종 저장
+	    resume.setStatus("FINAL");
+	    rService.updateResumeFinal(resume);
+	    
 	    rttr.addFlashAttribute("msg", "writeDone");
-	    return "redirect:/resume/detail?resumeId=" + resumeId;
+	    return "redirect:/resume/detail?resumeId=" + resume.getResumeId();
 	}
 	
 	// 이력서 삭제

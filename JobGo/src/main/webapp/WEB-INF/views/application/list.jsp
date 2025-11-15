@@ -19,7 +19,6 @@
 		<c:if test="${empty applications}">
 			<p>지원한 공고가 없습니다.</p>
 		</c:if>
-
 		<!-- 지원공고 테이블 -->
 		<!-- 이력서 목록 테이블 -->
 		<div class="table-responsive">
@@ -37,7 +36,7 @@
 				<tbody>
 					<c:forEach var="app" items="${applications}">
 						<tr>
-							<td>${app.rec_title}</td>
+							<td><a href="/recboard/recRead?rec_bno=${app.rec_bno }">${app.rec_title}</a></td>
 							<td>${app.corp_name}</td>
 							<td>${app.resume_title}</td>
 							<td><fmt:formatDate value="${app.applied_at}" pattern="yyyy.MM.dd"/></td>

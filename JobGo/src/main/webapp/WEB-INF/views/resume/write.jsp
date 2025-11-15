@@ -24,119 +24,128 @@
 	                        <div class="col-lg-12 col-12">
 	                            <div class="form-group">
 	                                <label class="control-label">이력서 제목</label>
-	                                <input type="text" class="form-control" name="resumeTitle" placeholder="예: 신입 웹퍼블리셔 이력서" required>
+	                                <input type="text" class="form-control" name="resumeTitle" placeholder="이력서 제목을 입력하세요." required>
 	                            </div>
 	                        </div>
 	                    </div>
 	                    <hr>
 	                    <!-- 학력사항 -->
-	                    <h4 class="single-section-title mt-4">학력사항</h4>
-	                    <div id="educationSection">
-	                        <div class="edu-item border p-3 rounded mb-3 bg-light">
-	                            <div class="form-row">
-	                                <div class="form-group col-md-6">
-	                                    <label>학교명</label>
-	                                    <input type="text" class="form-control" name="educationList[0].schoolName" placeholder="예: 부산대학교">
-	                                </div>
-	                                <div class="form-group col-md-6">
-	                                    <label>전공</label>
-	                                    <input type="text" class="form-control" name="educationList[0].major" placeholder="예: 컴퓨터공학과">
-	                                </div>
-	                            </div>
-	                            <div class="form-row">
-	                                <div class="form-group col-md-6">
-	                                    <label>입학일</label>
-	                                    <input type="date" class="form-control" name="educationList[0].fromDate">
-	                                </div>
-	                                <div class="form-group col-md-6">
-	                                    <label>졸업일</label>
-	                                    <input type="date" class="form-control" name="educationList[0].toDate">
-	                                </div>
-	                            </div>
-	                            <div class="form-group">
-	                                <label>졸업 여부</label>
-	                                <select class="form-control" name="educationList[0].isGraduated">
-	                                    <option value="Y">졸업</option>
-	                                    <option value="N">재학/중퇴</option>
-	                                </select>
-	                            </div>
-	                        </div>
-	                        <button type="button" class="btn btn-secondary btn-sm add-edu"><i class="lni lni-add-files"></i> 학력 추가</button>
-	                    </div>
-	                    <hr>
-	                    <!-- 경력사항 -->
-	                    <h4 class="single-section-title mt-4">경력사항</h4>
-	                    <div id="careerSection">
-	                        <div class="career-item border p-3 rounded mb-3 bg-light">
-	                            <div class="form-row">
-	                                <div class="form-group col-md-6">
-	                                    <label>회사명</label>
-	                                    <input type="text" class="form-control" name="careerList[0].companyName" placeholder="예: 네이버">
-	                                </div>
-	                                <div class="form-group col-md-6">
-	                                    <label>담당 업무</label>
-	                                    <input type="text" class="form-control" name="careerList[0].responsibility" placeholder="예: 웹퍼블리싱">
-	                                </div>
-	                            </div>
-	                            <div class="form-row">
-	                                <div class="form-group col-md-6">
-	                                    <label>입사일</label>
-	                                    <input type="date" class="form-control" name="careerList[0].fromDate">
-	                                </div>
-	                                <div class="form-group col-md-6">
-	                                    <label>퇴사일</label>
-	                                    <input type="date" class="form-control" name="careerList[0].toDate">
-	                                </div>
-	                            </div>
-	                        </div>
-	                        <button type="button" class="btn btn-secondary btn-sm add-career"><i class="lni lni-add-files"></i> 경력 추가</button>
-	                    </div>
-	                    <hr>
-	                    <!-- 교육이력 -->
-	                    <h4 class="single-section-title mt-4">교육이력</h4>
-	                    <div id="trainingSection">
-	                        <div class="training-item border p-3 rounded mb-3 bg-light">
-	                            <div class="form-row">
-	                                <div class="form-group col-md-6">
-	                                    <label>기관명</label>
-	                                    <input type="text" class="form-control" name="trainingList[0].institution" placeholder="예: ITWILL 부산교육센터">
-	                                </div>
-	                                <div class="form-group col-md-6">
-	                                    <label>교육 내용</label>
-	                                    <input type="text" class="form-control" name="trainingList[0].content" placeholder="예: 웹퍼블리셔 과정">
-	                                </div>
-	                            </div>
-	                            <div class="form-row">
-	                                <div class="form-group col-md-6">
-	                                    <label>시작일</label>
-	                                    <input type="date" class="form-control" name="trainingList[0].fromDate">
-	                                </div>
-	                                <div class="form-group col-md-6">
-	                                    <label>종료일</label>
-	                                    <input type="date" class="form-control" name="trainingList[0].toDate">
-	                                </div>
-	                            </div>
-	                        </div>
-	                        <button type="button" class="btn btn-secondary btn-sm add-training"><i class="lni lni-add-files"></i> 교육 추가</button>
-	                    </div>
-	                    <hr>
-	                    <!-- 자격사항 -->
-	                    <h4 class="single-section-title mt-4">자격사항</h4>
-	                    <div id="certSection">
-	                        <div class="cert-item border p-3 rounded mb-3 bg-light">
-	                            <div class="form-row">
-	                                <div class="form-group col-md-8">
-	                                    <label>자격명</label>
-	                                    <input type="text" class="form-control" name="certificationList[0].certificationName" placeholder="예: 정보처리기사">
-	                                </div>
-	                                <div class="form-group col-md-4">
-	                                    <label>취득일</label>
-	                                    <input type="date" class="form-control" name="certificationList[0].acquiredDate">
-	                                </div>
-	                            </div>
-	                        </div>
-	                        <button type="button" class="btn btn-secondary btn-sm add-cert"><i class="lni lni-add-files"></i> 자격 추가</button>
-	                    </div>
+						<h4 class="single-section-title mt-4">학력사항</h4>
+						<div id="educationSection">
+						    <div class="edu-item border p-3 rounded mb-3 bg-light">
+						        <div class="form-row">
+						            <div class="form-group col-md-6">
+						                <label>학교명</label>
+						                <input type="text" class="form-control" name="educationList[0].schoolName" placeholder="학교명">
+						            </div>
+						            <div class="form-group col-md-6">
+						                <label>전공</label>
+						                <input type="text" class="form-control" name="educationList[0].major" placeholder="전공명">
+						            </div>
+						        </div>
+						        <div class="form-row">
+						            <div class="form-group col-md-6">
+						                <label>입학일</label>
+						                <input type="date" class="form-control" name="educationList[0].fromDate">
+						            </div>
+						            <div class="form-group col-md-6">
+						                <label>졸업일</label>
+						                <input type="date" class="form-control" name="educationList[0].toDate">
+						            </div>
+						        </div>
+						        <div class="form-group">
+						            <label>졸업 여부</label>
+						            <select class="form-control" name="educationList[0].isGraduated">
+						                <option value="Y">졸업</option>
+						                <option value="N">재학/중퇴</option>
+						            </select>
+						        </div>
+						    </div>
+						    <button type="button" class="btn btn-secondary btn-sm add-edu">
+						        <i class="lni lni-add-files"></i> 학력 추가
+						    </button>
+						</div>
+						
+						<!-- 경력사항 -->
+						<h4 class="single-section-title mt-4">경력사항</h4>
+						<div id="careerSection">
+						    <div class="career-item border p-3 rounded mb-3 bg-light">
+						        <!-- educationSeq 제거 -->
+						        <div class="form-row">
+						            <div class="form-group col-md-6">
+						                <label>회사명</label>
+						                <input type="text" class="form-control" name="careerList[0].companyName" placeholder="회사명">
+						            </div>
+						            <div class="form-group col-md-6">
+						                <label>담당 업무</label>
+						                <input type="text" class="form-control" name="careerList[0].responsibility" placeholder="담당업무">
+						            </div>
+						        </div>
+						        <div class="form-row">
+						            <div class="form-group col-md-6">
+						                <label>입사일</label>
+						                <input type="date" class="form-control" name="careerList[0].fromDate">
+						            </div>
+						            <div class="form-group col-md-6">
+						                <label>퇴사일</label>
+						                <input type="date" class="form-control" name="careerList[0].toDate">
+						            </div>
+						        </div>
+						    </div>
+						    <button type="button" class="btn btn-secondary btn-sm add-career">
+						        <i class="lni lni-add-files"></i> 경력 추가
+						    </button>
+						</div>
+						
+						<!-- 교육이력 -->
+						<h4 class="single-section-title mt-4">교육이력</h4>
+						<div id="trainingSection">
+						    <div class="training-item border p-3 rounded mb-3 bg-light">
+						        <div class="form-row">
+						            <div class="form-group col-md-6">
+						                <label>기관명</label>
+						                <input type="text" class="form-control" name="trainingList[0].institution" placeholder="교육기관명">
+						            </div>
+						            <div class="form-group col-md-6">
+						                <label>교육 내용</label>
+						                <input type="text" class="form-control" name="trainingList[0].content" placeholder="교육내용">
+						            </div>
+						        </div>
+						        <div class="form-row">
+						            <div class="form-group col-md-6">
+						                <label>시작일</label>
+						                <input type="date" class="form-control" name="trainingList[0].fromDate">
+						            </div>
+						            <div class="form-group col-md-6">
+						                <label>종료일</label>
+						                <input type="date" class="form-control" name="trainingList[0].toDate">
+						            </div>
+						        </div>
+						    </div>
+						    <button type="button" class="btn btn-secondary btn-sm add-training">
+						        <i class="lni lni-add-files"></i> 교육 추가
+						    </button>
+						</div>
+						
+						<!-- 자격사항 -->
+						<h4 class="single-section-title mt-4">자격사항</h4>
+						<div id="certSection">
+						    <div class="cert-item border p-3 rounded mb-3 bg-light">
+						        <div class="form-row">
+						            <div class="form-group col-md-8">
+						                <label>자격명</label>
+						                <input type="text" class="form-control" name="certificationList[0].certificationName" placeholder="취득 자격을 입력하세요.">
+						            </div>
+						            <div class="form-group col-md-4">
+						                <label>취득일</label>
+						                <input type="date" class="form-control" name="certificationList[0].acquiredDate">
+						            </div>
+						        </div>
+						    </div>
+						    <button type="button" class="btn btn-secondary btn-sm add-cert">
+						        <i class="lni lni-add-files"></i> 자격 추가
+						    </button>
+						</div>
 	                    <hr>
 	                    <!-- 자기소개서 -->
 	                    <h4 class="single-section-title mt-4">자기소개서</h4>
@@ -222,116 +231,223 @@
 $(document).ready(function(){
 	let eduIdx = 1, careerIdx = 1, trainIdx = 1, certIdx = 1;
 
+	// ===== 학력 추가 =====
     $('.add-edu').on('click', function() {
-        let html = `
-            <div class="edu-item border p-3 rounded mb-3 bg-light">
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label>학교명</label>
-                        <input type="text" class="form-control" name="educationList[" + eduIdx + "].schoolName">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>전공</label>
-                        <input type="text" class="form-control" name="educationList[" + eduIdx + "].major">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label>입학일</label>
-                        <input type="date" class="form-control" name="educationList[" + eduIdx + "].fromDate">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>졸업일</label>
-                        <input type="date" class="form-control" name="educationList[" + eduIdx + "].toDate">
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>졸업 여부</label>
-                    <select class="form-control" name="educationList[" + eduIdx + "].isGraduated">
-                        <option value="Y">졸업</option>
-                        <option value="N">재학/중퇴</option>
-                    </select>
-                </div>
-            </div>`;
+        console.log('현재 eduIdx:', eduIdx); // 디버깅용
+        
+        let html = '<div class="edu-item border p-3 rounded mb-3 bg-light">' +
+                '<div class="form-row">' +
+                    '<div class="form-group col-md-6">' +
+                        '<label>학교명</label>' +
+                        '<input type="text" class="form-control" name="educationList[' + eduIdx + '].schoolName" placeholder="학교명">' +
+                    '</div>' +
+                    '<div class="form-group col-md-6">' +
+                        '<label>전공</label>' +
+                        '<input type="text" class="form-control" name="educationList[' + eduIdx + '].major" placeholder="전공명">' +
+                    '</div>' +
+                '</div>' +
+                '<div class="form-row">' +
+                    '<div class="form-group col-md-6">' +
+                        '<label>입학일</label>' +
+                        '<input type="date" class="form-control" name="educationList[' + eduIdx + '].fromDate">' +
+                    '</div>' +
+                    '<div class="form-group col-md-6">' +
+                        '<label>졸업일</label>' +
+                        '<input type="date" class="form-control" name="educationList[' + eduIdx + '].toDate">' +
+                    '</div>' +
+                '</div>' +
+                '<div class="form-group">' +
+                    '<label>졸업 여부</label>' +
+                    '<select class="form-control" name="educationList[' + eduIdx + '].isGraduated">' +
+                        '<option value="Y">졸업</option>' +
+                        '<option value="N">재학/중퇴</option>' +
+                    '</select>' +
+                '</div>' +
+                '<button type="button" class="btn btn-danger btn-sm remove-edu">' +
+                    '<i class="lni lni-trash"></i> 삭제' +
+                '</button>' +
+            '</div>';
+            
         $('#educationSection .add-edu').before(html);
+        
+        // 추가 후 확인
+        console.log('추가된 항목의 name:', 
+            $('#educationSection .edu-item:last input:first').attr('name'));
+        
         eduIdx++;
     });
 
+    // ===== 학력 삭제 =====
+    $(document).on('click', '.remove-edu', function() {
+        if ($('.edu-item').length > 1) {
+            $(this).closest('.edu-item').remove();
+            reindexItems('.edu-item', 'educationList');
+        } else {
+            alert('최소 1개의 학력은 유지되어야 합니다.');
+        }
+    });
+
+    // ===== 경력 추가 =====
     $('.add-career').on('click', function() {
-        let html = `
-            <div class="career-item border p-3 rounded mb-3 bg-light">
-                <hr>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label>회사명</label>
-                        <input type="text" class="form-control" name="careerList[" + careerIdx + "].companyName">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>담당 업무</label>
-                        <input type="text" class="form-control" name="careerList[" + careerIdx + "].responsibility">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label>입사일</label>
-                        <input type="date" class="form-control" name="careerList[" + careerIdx + "].fromDate">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>퇴사일</label>
-                        <input type="date" class="form-control" name="careerList[" + careerIdx + "].toDate">
-                    </div>
-                </div>
-            </div>`;
+        console.log('현재 careerIdx:', careerIdx);
+        
+        let html = '<div class="career-item border p-3 rounded mb-3 bg-light">' +
+                '<div class="form-row">' +
+                    '<div class="form-group col-md-6">' +
+                        '<label>회사명</label>' +
+                        '<input type="text" class="form-control" name="careerList[' + careerIdx + '].companyName" placeholder="회사명">' +
+                    '</div>' +
+                    '<div class="form-group col-md-6">' +
+                        '<label>담당 업무</label>' +
+                        '<input type="text" class="form-control" name="careerList[' + careerIdx + '].responsibility" placeholder="담당업무">' +
+                    '</div>' +
+                '</div>' +
+                '<div class="form-row">' +
+                    '<div class="form-group col-md-6">' +
+                        '<label>입사일</label>' +
+                        '<input type="date" class="form-control" name="careerList[' + careerIdx + '].fromDate">' +
+                    '</div>' +
+                    '<div class="form-group col-md-6">' +
+                        '<label>퇴사일</label>' +
+                        '<input type="date" class="form-control" name="careerList[' + careerIdx + '].toDate">' +
+                    '</div>' +
+                '</div>' +
+                '<button type="button" class="btn btn-danger btn-sm remove-career">' +
+                    '<i class="lni lni-trash"></i> 삭제' +
+                '</button>' +
+            '</div>';
+            
         $('#careerSection .add-career').before(html);
         careerIdx++;
     });
 
+    // ===== 경력 삭제 =====
+    $(document).on('click', '.remove-career', function() {
+        if ($('.career-item').length > 1) {
+            $(this).closest('.career-item').remove();
+            reindexItems('.career-item', 'careerList');
+        } else {
+            alert('최소 1개의 경력은 유지되어야 합니다.');
+        }
+    });
+
+    // ===== 교육이력 추가 =====
     $('.add-training').on('click', function() {
-        let html = `
-            <div class="training-item border p-3 rounded mb-3 bg-light">
-                <hr>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label>기관명</label>
-                        <input type="text" class="form-control" name="trainingList[" + trainIdx + "].institution">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>내용</label>
-                        <input type="text" class="form-control" name="trainingList[" + trainIdx + "].content">
-                    </div>
-                </div>
-                <div class="form-row">
-                    <div class="form-group col-md-6">
-                        <label>시작일</label>
-                        <input type="date" class="form-control" name="trainingList[" + trainIdx + "].fromDate">
-                    </div>
-                    <div class="form-group col-md-6">
-                        <label>종료일</label>
-                        <input type="date" class="form-control" name="trainingList[" + trainIdx + "].toDate">
-                    </div>
-                </div>
-            </div>`;
+        console.log('현재 trainIdx:', trainIdx);
+        
+        let html = '<div class="training-item border p-3 rounded mb-3 bg-light">' +
+                '<div class="form-row">' +
+                    '<div class="form-group col-md-6">' +
+                        '<label>기관명</label>' +
+                        '<input type="text" class="form-control" name="trainingList[' + trainIdx + '].institution" placeholder="교육기관명">' +
+                    '</div>' +
+                    '<div class="form-group col-md-6">' +
+                        '<label>교육 내용</label>' +
+                        '<input type="text" class="form-control" name="trainingList[' + trainIdx + '].content" placeholder="교육내용">' +
+                    '</div>' +
+                '</div>' +
+                '<div class="form-row">' +
+                    '<div class="form-group col-md-6">' +
+                        '<label>시작일</label>' +
+                        '<input type="date" class="form-control" name="trainingList[' + trainIdx + '].fromDate">' +
+                    '</div>' +
+                    '<div class="form-group col-md-6">' +
+                        '<label>종료일</label>' +
+                        '<input type="date" class="form-control" name="trainingList[' + trainIdx + '].toDate">' +
+                    '</div>' +
+                '</div>' +
+                '<button type="button" class="btn btn-danger btn-sm remove-training">' +
+                    '<i class="lni lni-trash"></i> 삭제' +
+                '</button>' +
+            '</div>';
+            
         $('#trainingSection .add-training').before(html);
         trainIdx++;
     });
 
+    // ===== 교육이력 삭제 =====
+    $(document).on('click', '.remove-training', function() {
+        if ($('.training-item').length > 1) {
+            $(this).closest('.training-item').remove();
+            reindexItems('.training-item', 'trainingList');
+        } else {
+            alert('최소 1개의 교육이력은 유지되어야 합니다.');
+        }
+    });
+
+    // ===== 자격 추가 =====
     $('.add-cert').on('click', function() {
-        let html = `
-            <div class="cert-item border p-3 rounded mb-3 bg-light">
-                <hr>
-                <div class="form-row">
-                    <div class="form-group col-md-8">
-                        <label>자격명</label>
-                        <input type="text" class="form-control" name="certificationList[" + certIdx + "].certificationName">
-                    </div>
-                    <div class="form-group col-md-4">
-                        <label>취득일</label>
-                        <input type="date" class="form-control" name="certificationList[" + certIdx + "].acquiredDate">
-                    </div>
-                </div>
-            </div>`;
+        console.log('현재 certIdx:', certIdx);
+        
+        let html = '<div class="cert-item border p-3 rounded mb-3 bg-light">' +
+                '<div class="form-row">' +
+                    '<div class="form-group col-md-8">' +
+                        '<label>자격명</label>' +
+                        '<input type="text" class="form-control" name="certificationList[' + certIdx + '].certificationName" placeholder="취득 자격명을 입력하세요.">' +
+                    '</div>' +
+                    '<div class="form-group col-md-4">' +
+                        '<label>취득일</label>' +
+                        '<input type="date" class="form-control" name="certificationList[' + certIdx + '].acquiredDate">' +
+                    '</div>' +
+                '</div>' +
+                '<button type="button" class="btn btn-danger btn-sm remove-cert">' +
+                    '<i class="lni lni-trash"></i> 삭제' +
+                '</button>' +
+            '</div>';
+            
         $('#certSection .add-cert').before(html);
         certIdx++;
+    });
+
+    // ===== 자격 삭제 =====
+    $(document).on('click', '.remove-cert', function() {
+        if ($('.cert-item').length > 1) {
+            $(this).closest('.cert-item').remove();
+            reindexItems('.cert-item', 'certificationList');
+        } else {
+            alert('최소 1개의 자격은 유지되어야 합니다.');
+        }
+    });
+
+    // ===== 인덱스 재정렬 함수 =====
+    function reindexItems(itemClass, listName) {
+        console.log('재정렬 시작:', itemClass, listName);
+        
+        $(itemClass).each(function(index) {
+            console.log('재정렬 index:', index);
+            $(this).find('input, select, textarea').each(function() {
+                let oldName = $(this).attr('name');
+                if (oldName && oldName.includes(listName)) {
+                    let newName = oldName.replace(/\[\d*\]/, '[' + index + ']');
+                    $(this).attr('name', newName);
+                    console.log('변경:', oldName, '->', newName);
+                }
+            });
+        });
+    }
+
+    // ===== 폼 제출 전 확인 =====
+    $('form.form-ad').on('submit', function(e) {
+        console.log('=== 폼 제출 전 name 속성 확인 ===');
+        
+        $('input[name^="educationList"], select[name^="educationList"]').each(function() {
+            console.log('학력:', $(this).attr('name'), '=', $(this).val());
+        });
+        
+        $('input[name^="careerList"]').each(function() {
+            console.log('경력:', $(this).attr('name'), '=', $(this).val());
+        });
+        
+        $('input[name^="trainingList"]').each(function() {
+            console.log('교육:', $(this).attr('name'), '=', $(this).val());
+        });
+        
+        $('input[name^="certificationList"]').each(function() {
+            console.log('자격:', $(this).attr('name'), '=', $(this).val());
+        });
+        
+        // 실제 제출은 진행
+        // return false; // 테스트 시에는 이 줄의 주석을 해제하세요
     });
     
     // -------------- GPT 첨삭 기능

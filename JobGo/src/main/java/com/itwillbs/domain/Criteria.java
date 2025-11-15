@@ -9,7 +9,7 @@ public class Criteria {
 	
 	public Criteria() {	    // 기본값 설정: 1페이지 10개씩 출력
 		this.page = 1;
-		this.pageSize = 10;
+		this.pageSize = 12;
 	}
 
 	// SET
@@ -23,7 +23,7 @@ public class Criteria {
 
 	public void setPageSize(int pageSize) {
 		if(pageSize <= 0 || pageSize >= 100) {			
-			this.pageSize = 10;
+			this.pageSize = 12;
 		}
 		this.pageSize = pageSize;
 	}

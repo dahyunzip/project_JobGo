@@ -43,7 +43,7 @@
 
 				<!-- 글쓰기 폼 시작 -->
 				<form class="form-ad" method="post" enctype="multipart/form-data">
-					<input type="hidden" name="page" value="${page }">
+					<input type="hidden" name="recPage" value="${recPage}">
 					<input type="hidden" name="rec_bno" value="${resultReadVO.rec_bno}">
 					<h3 class="single-section-title">공고 수정</h3>
 
@@ -309,8 +309,8 @@
 	    });
 	    
 	    $(".listBtn").click(function(){
-		    location.href = "/recboard/recListCri?page=${page}";
-		});
+	        location.href = "/recboard/recListCri?recPage=${recPage}";
+	    });
 	    
 	 	// GPT 첨삭 버튼
 	    $(".gptBtn").click(function () {

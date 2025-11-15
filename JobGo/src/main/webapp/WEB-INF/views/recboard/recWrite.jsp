@@ -34,7 +34,7 @@
 
 				<!-- 글쓰기 폼 시작 -->
 				<form class="form-ad" method="post" enctype="multipart/form-data">
-					<input type="hidden" name="page" value="${page}">
+					<input type="hidden" name="recPage" value="${recPage}">
 					<h3 class="single-section-title">공고 작성</h3>
 
 					<!-- 기본 정보 영역 -->
@@ -281,8 +281,8 @@
 		});
 		
 		// 목록으로
-	    $(".btn-primary").click(function(){
-		    location.href = "/recboard/recListCri?page=${page}";
+		$(".btn-primary").click(function(){
+		    location.href = "/recboard/recListCri?recPage=${recPage}";
 		});
 		
 	 	// GPT 첨삭 버튼

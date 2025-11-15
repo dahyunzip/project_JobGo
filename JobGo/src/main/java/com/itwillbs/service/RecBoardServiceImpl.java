@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.RecBoardVO;
 import com.itwillbs.domain.RecBottomCategoryVO;
+import com.itwillbs.domain.RecCriteria;
 import com.itwillbs.domain.RecTopCategoryVO;
 import com.itwillbs.domain.RecTopLocationVO;
 import com.itwillbs.domain.ResumeVO;
@@ -26,7 +27,7 @@ public class RecBoardServiceImpl implements RecBoardService {
 
 	// 게시판 리스트
 	@Override
-	public List<RecBoardVO> getRecBoardList(Criteria cri, Integer toplct_id, Integer topctg_id, Integer btmctg_id, String search) throws Exception {
+	public List<RecBoardVO> getRecBoardList(RecCriteria cri, Integer toplct_id, Integer topctg_id, Integer btmctg_id, String search) throws Exception {
 		logger.debug(" getRecBoardListPage() 실행! ");
 		
 		List<RecBoardVO> resultRecList 

@@ -43,7 +43,7 @@
 							<div class="form-group">
 								<label>채용 공고 명</label>
 								<input type="text" class="form-control" name="rec_title"
-									   placeholder="예) [회사명] 공고 제목 입력주요 업무 소개 내용" required>
+									   placeholder="예) [회사명] 공고 제목 입력 및 주요 업무 소개 내용을 기입해주세요." required>
 							</div>
 						</div>
 						<div class="col-lg-6 col-12">

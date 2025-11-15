@@ -134,10 +134,10 @@
 						 	<div class="thumb-area">
 						        <img src="/upload/recfile/${vo.thumbFileName}">
 						        <div class="overlay-text">
-						            <h3 class="company">${vo.companyName}</h3>
-						            <p class="title">${vo.rec_title}</p>
+						            <h3 class="company">${vo.rec_title}</h3>
+						            <p class="title">${vo.companyName}</p>
 						            <div class="info">
-						                <span>작성자: ${vo.corpUserId}</span>
+						                <span>근무지: ${vo.rec_inputlct}</span>
 						                <span>작성일: <fmt:formatDate value="${vo.rec_regdate}" pattern="yyyy.MM.dd"/></span>
 						                <span>조회수: ${vo.rec_viewcnt}</span>
 						            </div>

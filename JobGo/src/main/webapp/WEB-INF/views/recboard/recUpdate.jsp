@@ -246,7 +246,7 @@
 						<div class="col-lg-6 col-md-7 col-12">
 							<div class="add-post-btn float-right">
 								<button type="submit" class="btn btn-primary">공고 수정</button>
-								<button type="button" class="btn btn-primary">목록으로</button>
+								<button type="button" class="btn btn-primary listBtn">목록으로</button>
 							</div>
 						</div>
 					</div>
@@ -308,7 +308,7 @@
 	        $("#fileDiv").append("<div><br><input type='file' name='attachFiles' accept='image/*'></div>");
 	    });
 	    
-	    $(".btn-primary").click(function(){
+	    $(".listBtn").click(function(){
 		    location.href = "/recboard/recListCri?page=${page}";
 		});
 	    

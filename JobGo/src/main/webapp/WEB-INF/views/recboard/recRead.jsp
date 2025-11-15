@@ -122,12 +122,12 @@
                         <div class="col-lg-12 col-12">
                             <div class="form-group">
                             	<div>
-			                    	<h3 class="single-section-title">(주)${resultReadVO.companyName} 직원 채용 공고문 | incrementStatus: ${incrementStatus }</h3>
+			                    	<h3 class="single-section-title">(주)${resultReadVO.rec_title} 직원 채용 공고문</h3>
 			                    </div>
                                 <label class="control-label">
                                     <font dir="auto" style="vertical-align: inherit;">
                                         <font dir="auto" style="vertical-align: inherit;">
-                                            ${resultReadVO.rec_title} / 모집 담당자: ${resultReadVO.managerName}(${resultReadVO.managerEmail})
+                                            소속: ${resultReadVO.companyName} / 모집 담당자: ${resultReadVO.managerName}(${resultReadVO.managerEmail})님
                                         </font>
                                     </font>
                                 </label>

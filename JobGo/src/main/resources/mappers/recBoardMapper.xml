@@ -13,6 +13,7 @@
 		    cm.company_name as companyName, 
 		    rb.rec_title, 
 		    rb.thumbFileName, 
+		    rb.rec_inputlct, 
 		    rb.rec_regdate, 
 		    rb.rec_viewcnt 
 		from rec_board rb 

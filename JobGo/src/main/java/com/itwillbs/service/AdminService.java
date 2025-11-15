@@ -2,6 +2,7 @@ package com.itwillbs.service;
 
 import java.util.List;
 
+import com.itwillbs.domain.CorpMemberVO;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MemberVO;
 import com.itwillbs.domain.RecBoardVO;
@@ -23,6 +24,9 @@ public interface AdminService {
 	// 기업회원 목록 조회
 	List<MemberVO> getAllCorpMembers(Criteria cri) throws Exception;
 	int getCorpMemberTotalCount() throws Exception;
+	
+	// Id로 기업회원정보 가져오기 
+	public CorpMemberVO getCorpMemberById(int corpId) throws Exception;
 	
 	// 기업회원 승인
 	int approveCorp(int corpId) throws Exception;

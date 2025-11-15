@@ -6,6 +6,7 @@ import javax.inject.Inject;
 
 import org.springframework.stereotype.Service;
 
+import com.itwillbs.domain.CorpMemberVO;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MemberVO;
 import com.itwillbs.domain.RecBoardVO;
@@ -46,6 +47,11 @@ public class AdminServiceImpl implements AdminService{
 	@Override
 	public List<MemberVO> getAllCorpMembers(Criteria cri) throws Exception {
 		return adminDAO.getAllCorpMembers(cri);
+	}
+	
+	@Override
+	public CorpMemberVO getCorpMemberById(int corpId) throws Exception {
+	    return adminDAO.getCorpMemberById(corpId);
 	}
 	
 	@Override

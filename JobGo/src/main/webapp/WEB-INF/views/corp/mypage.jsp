@@ -15,24 +15,12 @@ $(document).ready(function(){
 </script>
 
 <div class="job-details section" id="mypage">
+	<h2 class="pageTitle">마이페이지</h2>
     <div class="container">
         <div class="row mb-n5">
-            
-            <!-- Sidebar -->
-            <div class="col-lg-4 col-12">
-                <div class="dashbord-sidebar">
-                    <ul>
-                        <li class="heading">마이페이지</li>
-                        <li><a class="active" href="/corp/mypage"><i class="lni lni-user"></i> 내 정보 확인</a></li>
-                        <li><a href="/corp/modify"><i class="lni lni-pencil"></i> 내 정보 수정</a></li>
-                    </ul>
-                </div>
-            </div>
-
             <!-- Main Content -->
-            <div class="col-lg-8 col-12">
+            <div class="col-lg-12 col-12">
                 <div class="job-details-inner box">
-
                     <!-- Header -->
                     <div class="job-details-head row mx-0 align-items-center">
                         <div class="user-img col-auto">

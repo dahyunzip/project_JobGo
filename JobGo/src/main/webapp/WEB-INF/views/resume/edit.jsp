@@ -1,290 +1,285 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ include file="../include/Header.jsp"%>
-
-<section class="add-resume section">
-    <div class="section-title">
-        <h2>이력서 수정</h2>
-    </div>
-    <div class="container my-5">
-        <div class="row">
-            <div class="col-lg-10 offset-lg-1 col-12">
-                <div class="add-resume-inner box p-4 shadow-sm bg-white rounded">
-                    <div class="post-header text-center mb-4">
-                        <h3>이력서 수정</h3>
-                        <p>기존 정보를 수정하거나 새로운 내용을 추가하세요.</p>
-                    </div>
-
-                    <!-- FORM -->
-                    <form class="form-ad" action="/resume/edit" method="post">
-                        <input type="hidden" name="resumeId" value="${resume.resumeId}" />
-                        <input type="hidden" name="memberId" value="${resume.memberId}" />
-	                    <input type="hidden" name="status" value="${resume.status}" />
-
-                        <!-- 기본 정보 -->
-                        <h4 class="mb-3">기본 정보</h4>
-                        <div class="row">
-                            <div class="col-lg-12 col-12">
-                                <div class="form-group">
-                                    <label class="control-label">이력서 제목</label>
-                                    <input type="text" class="form-control" name="resumeTitle" 
-                                           value="${resume.resumeTitle}" required>
-                                </div>
-                            </div>
-                        </div>
-
-                        <hr>
-
-                        <!-- 학력사항 -->
-                        <h4 class="single-section-title mt-4">학력사항</h4>
-                        <div id="educationSection">
-                            <c:forEach var="edu" items="${resume.educationList}" varStatus="st">
-                                <div class="edu-item border p-3 rounded mb-3 bg-light">
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label>학교명</label>
-                                            <input type="text" class="form-control" 
-                                                   name="educationList[${st.index}].schoolName" 
-                                                   value="${edu.schoolName}">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label>전공</label>
-                                            <input type="text" class="form-control" 
-                                                   name="educationList[${st.index}].major" 
-                                                   value="${edu.major}">
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label>입학일</label>
-                                            <input type="date" class="form-control"
-                                                   name="educationList[${st.index}].fromDate"
-                                                   value="<fmt:formatDate value='${edu.fromDate}' pattern='yyyy-MM-dd'/>">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label>졸업일</label>
-                                            <input type="date" class="form-control"
-                                                   name="educationList[${st.index}].toDate"
-                                                   value="<fmt:formatDate value='${edu.toDate}' pattern='yyyy-MM-dd'/>">
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <label>졸업 여부</label>
-                                        <select class="form-control" name="educationList[${st.index}].isGraduated">
-                                            <option value="Y" ${edu.isGraduated eq 'Y' ? 'selected' : ''}>졸업</option>
-                                            <option value="N" ${edu.isGraduated eq 'N' ? 'selected' : ''}>재학/중퇴</option>
-                                        </select>
-                                    </div>
-                                    <button type="button" class="btn btn-danger btn-sm remove-edu">
-					                    <i class="lni lni-trash"></i> 삭제
-					                </button>
-                                </div>
-                            </c:forEach>
-                            <button type="button" class="btn btn-secondary btn-sm add-edu">
-                                <i class="lni lni-add-files"></i> 학력 추가
-                            </button>
-                        </div>
-
-                        <hr>
-
-                        <!-- 경력사항 -->
-                        <h4 class="single-section-title mt-4">경력사항</h4>
-                        <div id="careerSection">
-                            <c:forEach var="career" items="${resume.careerList}" varStatus="st">
-                                <div class="career-item border p-3 rounded mb-3 bg-light">
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label>회사명</label>
-                                            <input type="text" class="form-control"
-                                                   name="careerList[${st.index}].companyName" 
-                                                   value="${career.companyName}">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label>담당 업무</label>
-                                            <input type="text" class="form-control"
-                                                   name="careerList[${st.index}].responsibility" 
-                                                   value="${career.responsibility}">
-                                        </div>
-                                    </div>
-                                    <div class="form-row">
-                                        <div class="form-group col-md-6">
-                                            <label>입사일</label>
-                                            <input type="date" class="form-control"
-                                                   name="careerList[${st.index}].fromDate"
-                                                   value="<fmt:formatDate value='${career.fromDate}' pattern='yyyy-MM-dd'/>">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <label>퇴사일</label>
-                                            <input type="date" class="form-control"
-                                                   name="careerList[${st.index}].toDate"
-                                                   value="<fmt:formatDate value='${career.toDate}' pattern='yyyy-MM-dd'/>">
-                                        </div>
-                                    </div>
-                                    <button type="button" class="btn btn-danger btn-sm remove-career">
-					                    <i class="lni lni-trash"></i> 삭제
-					                </button>
-                                </div>
-                            </c:forEach>
-                            <button type="button" class="btn btn-secondary btn-sm add-career">
-                                <i class="lni lni-add-files"></i> 경력 추가
-                            </button>
-                        </div>
-
-                        <hr>
-
-						<!-- 교육이력 -->
-						<h4 class="single-section-title mt-4">교육이력</h4>
-						<div id="trainingSection">
-						    <c:forEach var="training" items="${resume.trainingList}" varStatus="st">
-						        <div class="training-item border p-3 rounded mb-3 bg-light">
-						            <div class="form-row">
-						                <div class="form-group col-md-6">
-						                    <label>기관명</label>
-						                    <input type="text" class="form-control" 
-						                           name="trainingList[${st.index}].institution" 
-						                           value="${training.institution}"
-						                           placeholder="예: ITWILL 부산교육센터">
-						                </div>
-						                <div class="form-group col-md-6">
-						                    <label>교육 내용</label>
-						                    <input type="text" class="form-control" 
-						                           name="trainingList[${st.index}].content" 
-						                           value="${training.content}"
-						                           placeholder="예: 웹퍼블리셔 과정">
-						                </div>
-						            </div>
-						            <div class="form-row">
-						                <div class="form-group col-md-6">
-						                    <label>시작일</label>
-						                    <input type="date" class="form-control" 
-						                           name="trainingList[${st.index}].fromDate"
-						                           value="<fmt:formatDate value='${training.fromDate}' pattern='yyyy-MM-dd'/>">
-						                </div>
-						                <div class="form-group col-md-6">
-						                    <label>종료일</label>
-						                    <input type="date" class="form-control" 
-						                           name="trainingList[${st.index}].toDate"
-						                           value="<fmt:formatDate value='${training.toDate}' pattern='yyyy-MM-dd'/>">
-						                </div>
-						            </div>
-                                    <button type="button" class="btn btn-danger btn-sm remove-training">
-					                    <i class="lni lni-trash"></i> 삭제
-					                </button>
-						        </div>
-						    </c:forEach>
-						    <button type="button" class="btn btn-secondary btn-sm add-training">
-						        <i class="lni lni-add-files"></i> 교육 추가
-						    </button>
+<section class="section">
+	<h2 class="pageTitle">이력서 수정</h2>
+	<div class="container my-5">
+		<div class="row">
+			<div class="col-lg-10 offset-lg-1 col-12">
+				<form class="form-ad" action="/resume/edit" method="post">
+					<input type="hidden" name="resumeId" value="${resume.resumeId}" />
+					<input type="hidden" name="memberId" value="${resume.memberId}" />
+					<input type="hidden" name="status" value="${resume.status}" />
+					<!-- 기본 정보 -->
+					<h4 class="mb-3">기본 정보</h4>
+					<div class="row">
+						<div class="col-lg-12 col-12">
+							<div class="form-group">
+								<label class="control-label">이력서 제목</label> <input type="text"
+									class="form-control" name="resumeTitle"
+									value="${resume.resumeTitle}" required>
+							</div>
 						</div>
-							
-                        <!-- 자격사항 -->
-                        <h4 class="single-section-title mt-4">자격사항</h4>
-                        <div id="certSection">
-                            <c:forEach var="cert" items="${resume.certificationList}" varStatus="st">
-                                <div class="cert-item border p-3 rounded mb-3 bg-light">
-                                    <div class="form-row">
-                                        <div class="form-group col-md-8">
-                                            <label>자격명</label>
-                                            <input type="text" class="form-control"
-                                                   name="certificationList[${st.index}].certificationName" 
-                                                   value="${cert.certificationName}">
-                                        </div>
-                                        <div class="form-group col-md-4">
-                                            <label>취득일</label>
-                                            <input type="date" class="form-control"
-                                                   name="certificationList[${st.index}].acquiredDate"
-                                                   value="<fmt:formatDate value='${cert.acquiredDate}' pattern='yyyy-MM-dd'/>">
-                                        </div>
-                                    </div>
-                                    <button type="button" class="btn btn-danger btn-sm remove-cert">
-					                    <i class="lni lni-trash"></i> 삭제
-					                </button>
-                                </div>
-                            </c:forEach>
-                            <button type="button" class="btn btn-secondary btn-sm add-cert">
-                                <i class="lni lni-add-files"></i> 자격 추가
-                            </button>
-                        </div>
+					</div>
+					<hr>
+					<!-- 학력사항 -->
+					<h4 class="single-section-title mt-4">학력사항</h4>
+					<div id="educationSection">
+						<c:forEach var="edu" items="${resume.educationList}"
+							varStatus="st">
+							<div class="edu-item border p-3 rounded mb-3 bg-light">
+								<div class="row">
+									<div class="form-group col-md-6 col-xs-12">
+										<label>학교명</label> <input type="text" class="form-control"
+											name="educationList[${st.index}].schoolName"
+											value="${edu.schoolName}">
+									</div>
+									<div class="form-group col-md-6 col-xs-12">
+										<label>전공</label> <input type="text" class="form-control"
+											name="educationList[${st.index}].major" value="${edu.major}">
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-md-6 col-xs-12">
+										<label>입학일</label> <input type="date" class="form-control"
+											name="educationList[${st.index}].fromDate"
+											value="<fmt:formatDate value='${edu.fromDate}' pattern='yyyy-MM-dd'/>">
+									</div>
+									<div class="form-group col-md-6 col-xs-12">
+										<label>졸업일</label> <input type="date" class="form-control"
+											name="educationList[${st.index}].toDate"
+											value="<fmt:formatDate value='${edu.toDate}' pattern='yyyy-MM-dd'/>">
+									</div>
+								</div>
+								<div class="form-group">
+									<label>졸업 여부</label> <select class="form-control"
+										name="educationList[${st.index}].isGraduated">
+										<option value="Y" ${edu.isGraduated eq 'Y' ? 'selected' : ''}>졸업</option>
+										<option value="N" ${edu.isGraduated eq 'N' ? 'selected' : ''}>재학/중퇴</option>
+									</select>
+								</div>
+								<button type="button" class="btn btn-danger btn-sm remove-edu mt-10">
+									<i class="lni lni-trash"></i> 삭제
+								</button>
+							</div>
+						</c:forEach>
+						<button type="button" class="btn btn-secondary btn-sm add-edu">
+							<i class="lni lni-add-files"></i> 학력 추가
+						</button>
+					</div>
 
-                        <hr>
+					<hr>
 
-                        <!-- 자기소개서 -->
-						<h4 class="single-section-title mt-4">자기소개서</h4>
-						<div class="border p-3 rounded bg-light mb-4">
-						    <div class="form-group">
-						        <label>지원 동기</label>
-						        <textarea class="form-control" rows="4" name="selfIntro.motivation" id="motivation">${resume.selfIntro.motivation}</textarea>
-						        <div class="mt-2">
-						            <button type="button" class="btn btn-outline-primary btn-sm gpt-request" data-target="motivation">
-						                GPT 첨삭 요청
-						            </button>
-						        </div>
-						        <!-- GPT 첨삭 결과 영역 -->
-						        <div class="gpt-result mt-3 p-3 border rounded bg-white" id="gpt-result-motivation" style="display:none;">
-						            <h6>GPT 첨삭 결과</h6>
-						            <pre id="gpt-content-motivation" style="white-space:pre-wrap;"></pre>
-						            <button type="button" class="btn btn-success btn-sm mt-2 use-gpt" data-target="motivation">첨삭내용 사용하기</button>
-						        </div>
-						    </div>
-						    <div class="form-group">
-						        <label>강점 및 역량</label>
-						        <textarea class="form-control" rows="4" name="selfIntro.strengths" id="strengths">${resume.selfIntro.strengths}</textarea>
-						        <div class="mt-2">
-						            <button type="button" class="btn btn-outline-primary btn-sm gpt-request" data-target="strengths">
-						                GPT 첨삭 요청
-						            </button>
-						        </div>
-						        <!-- GPT 첨삭 결과 영역 -->
-						        <div class="gpt-result mt-3 p-3 border rounded bg-white" id="gpt-result-strengths" style="display:none;">
-						            <h6>GPT 첨삭 결과</h6>
-						            <pre id="gpt-content-strengths" style="white-space:pre-wrap;"></pre>
-						            <button type="button" class="btn btn-success btn-sm mt-2 use-gpt" data-target="strengths">첨삭내용 사용하기</button>
-						        </div>
-						    </div>
-						    <div class="form-group">
-						        <label>성과나 중요한 경험</label>
-						        <textarea class="form-control" rows="4" name="selfIntro.keyExperience" id="keyExperience">${resume.selfIntro.keyExperience}</textarea>
-						        <div class="mt-2">
-						            <button type="button" class="btn btn-outline-primary btn-sm gpt-request" data-target="keyExperience">
-						                GPT 첨삭 요청
-						            </button>
-						        </div>
-						        <!-- GPT 첨삭 결과 영역 -->
-						        <div class="gpt-result mt-3 p-3 border rounded bg-white" id="gpt-result-keyExperience" style="display:none;">
-						            <h6>GPT 첨삭 결과</h6>
-						            <pre id="gpt-content-keyExperience" style="white-space:pre-wrap;"></pre>
-						            <button type="button" class="btn btn-success btn-sm mt-2 use-gpt" data-target="keyExperience">첨삭내용 사용하기</button>
-						        </div>
-						    </div>
-						    <div class="form-group">
-						        <label>입사 후 포부</label>
-						        <textarea class="form-control" rows="4" name="selfIntro.futurePlan" id="futurePlan">${resume.selfIntro.futurePlan}</textarea>
-						        <div class="mt-2">
-						            <button type="button" class="btn btn-outline-primary btn-sm gpt-request" data-target="futurePlan">
-						                GPT 첨삭 요청
-						            </button>
-						        </div>
-						        <!-- GPT 첨삭 결과 영역 -->
-						        <div class="gpt-result mt-3 p-3 border rounded bg-white" id="gpt-result-futurePlan" style="display:none;">
-						            <h6>GPT 첨삭 결과</h6>
-						            <pre id="gpt-content-futurePlan" style="white-space:pre-wrap;"></pre>
-						            <button type="button" class="btn btn-success btn-sm mt-2 use-gpt" data-target="futurePlan">첨삭내용 사용하기</button>
-						        </div>
-						    </div>
+					<!-- 경력사항 -->
+					<h4 class="single-section-title mt-4">경력사항</h4>
+					<div id="careerSection">
+						<c:forEach var="career" items="${resume.careerList}"
+							varStatus="st">
+							<div class="career-item border p-3 rounded mb-3 bg-light">
+								<div class="row">
+									<div class="form-group col-md-6 col-xs-12">
+										<label>회사명</label> <input type="text" class="form-control"
+											name="careerList[${st.index}].companyName"
+											value="${career.companyName}">
+									</div>
+									<div class="form-group col-md-6 col-xs-12">
+										<label>담당 업무</label> <input type="text" class="form-control"
+											name="careerList[${st.index}].responsibility"
+											value="${career.responsibility}">
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-md-6 col-xs-12">
+										<label>입사일</label> <input type="date" class="form-control"
+											name="careerList[${st.index}].fromDate"
+											value="<fmt:formatDate value='${career.fromDate}' pattern='yyyy-MM-dd'/>">
+									</div>
+									<div class="form-group col-md-6 col-xs-12">
+										<label>퇴사일</label> <input type="date" class="form-control"
+											name="careerList[${st.index}].toDate"
+											value="<fmt:formatDate value='${career.toDate}' pattern='yyyy-MM-dd'/>">
+									</div>
+								</div>
+								<button type="button"
+									class="btn btn-danger btn-sm remove-career mt-10">
+									<i class="lni lni-trash"></i> 삭제
+								</button>
+							</div>
+						</c:forEach>
+						<button type="button" class="btn btn-secondary btn-sm add-career">
+							<i class="lni lni-add-files"></i> 경력 추가
+						</button>
+					</div>
+
+					<hr>
+
+					<!-- 교육이력 -->
+					<h4 class="single-section-title mt-4">교육이력</h4>
+					<div id="trainingSection">
+						<c:forEach var="training" items="${resume.trainingList}"
+							varStatus="st">
+							<div class="training-item border p-3 rounded mb-3 bg-light">
+								<div class="row">
+									<div class="form-group col-md-6 col-xs-12">
+										<label>기관명</label> <input type="text" class="form-control"
+											name="trainingList[${st.index}].institution"
+											value="${training.institution}"
+											placeholder="예: ITWILL 부산교육센터">
+									</div>
+									<div class="form-group col-md-6 col-xs-12">
+										<label>교육 내용</label> <input type="text" class="form-control"
+											name="trainingList[${st.index}].content"
+											value="${training.content}" placeholder="예: 웹퍼블리셔 과정">
+									</div>
+								</div>
+								<div class="form-row">
+									<div class="form-group col-md-6 col-xs-12">
+										<label>시작일</label> <input type="date" class="form-control"
+											name="trainingList[${st.index}].fromDate"
+											value="<fmt:formatDate value='${training.fromDate}' pattern='yyyy-MM-dd'/>">
+									</div>
+									<div class="form-group col-md-6 col-xs-12">
+										<label>종료일</label> <input type="date" class="form-control"
+											name="trainingList[${st.index}].toDate"
+											value="<fmt:formatDate value='${training.toDate}' pattern='yyyy-MM-dd'/>">
+									</div>
+								</div>
+								<button type="button"
+									class="btn btn-danger btn-sm remove-training mt-10">
+									<i class="lni lni-trash"></i> 삭제
+								</button>
+							</div>
+						</c:forEach>
+						<button type="button"
+							class="btn btn-secondary btn-sm add-training">
+							<i class="lni lni-add-files"></i> 교육 추가
+						</button>
+					</div>
+
+					<!-- 자격사항 -->
+					<h4 class="single-section-title mt-4">자격사항</h4>
+					<div id="certSection">
+						<c:forEach var="cert" items="${resume.certificationList}"
+							varStatus="st">
+							<div class="cert-item border p-3 rounded mb-3 bg-light">
+								<div class="row">
+									<div class="form-group col-md-8 col-xs-12">
+										<label>자격명</label> <input type="text" class="form-control"
+											name="certificationList[${st.index}].certificationName"
+											value="${cert.certificationName}">
+									</div>
+									<div class="form-group col-md-4 col-xs-12">
+										<label>취득일</label> <input type="date" class="form-control"
+											name="certificationList[${st.index}].acquiredDate"
+											value="<fmt:formatDate value='${cert.acquiredDate}' pattern='yyyy-MM-dd'/>">
+									</div>
+								</div>
+								<button type="button" class="btn btn-danger btn-sm remove-cert mt-10">
+									<i class="lni lni-trash"></i> 삭제
+								</button>
+							</div>
+						</c:forEach>
+						<button type="button" class="btn btn-secondary btn-sm add-cert">
+							<i class="lni lni-add-files"></i> 자격 추가
+						</button>
+					</div>
+
+					<hr>
+
+					<!-- 자기소개서 -->
+					<h4 class="single-section-title mt-4">자기소개서</h4>
+					<div class="border p-3 rounded bg-light mb-4">
+						<div class="form-group">
+							<label>지원 동기</label>
+							<textarea class="form-control" rows="4"
+								name="selfIntro.motivation" id="motivation">${resume.selfIntro.motivation}</textarea>
+							<div class="text-right mt-2">
+								<button type="button"
+									class="btn btn-primary btn-sm gpt-request"
+									data-target="motivation">GPT 첨삭 요청</button>
+							</div>
+							<!-- GPT 첨삭 결과 영역 -->
+							<div class="gpt-result mt-3 p-3 border rounded bg-white"
+								id="gpt-result-motivation" style="display: none;">
+								<h6>GPT 첨삭 결과</h6>
+								<pre id="gpt-content-motivation" style="white-space: pre-wrap;"></pre>
+								<button type="button"
+									class="btn btn-success btn-sm mt-2 use-gpt"
+									data-target="motivation">첨삭내용 사용하기</button>
+							</div>
 						</div>
+						<div class="form-group">
+							<label>강점 및 역량</label>
+							<textarea class="form-control" rows="4"
+								name="selfIntro.strengths" id="strengths">${resume.selfIntro.strengths}</textarea>
+							<div class="text-right mt-2">
+								<button type="button"
+									class="btn btn-primary btn-sm gpt-request"
+									data-target="strengths">GPT 첨삭 요청</button>
+							</div>
+							<!-- GPT 첨삭 결과 영역 -->
+							<div class="gpt-result mt-3 p-3 border rounded bg-white"
+								id="gpt-result-strengths" style="display: none;">
+								<h6>GPT 첨삭 결과</h6>
+								<pre id="gpt-content-strengths" style="white-space: pre-wrap;"></pre>
+								<button type="button"
+									class="btn btn-success btn-sm mt-2 use-gpt"
+									data-target="strengths">첨삭내용 사용하기</button>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>성과나 중요한 경험</label>
+							<textarea class="form-control" rows="4"
+								name="selfIntro.keyExperience" id="keyExperience">${resume.selfIntro.keyExperience}</textarea>
+							<div class="text-right mt-2">
+								<button type="button"
+									class="btn btn-primary btn-sm gpt-request"
+									data-target="keyExperience">GPT 첨삭 요청</button>
+							</div>
+							<!-- GPT 첨삭 결과 영역 -->
+							<div class="gpt-result mt-3 p-3 border rounded bg-white"
+								id="gpt-result-keyExperience" style="display: none;">
+								<h6>GPT 첨삭 결과</h6>
+								<pre id="gpt-content-keyExperience"
+									style="white-space: pre-wrap;"></pre>
+								<button type="button"
+									class="btn btn-success btn-sm mt-2 use-gpt"
+									data-target="keyExperience">첨삭내용 사용하기</button>
+							</div>
+						</div>
+						<div class="form-group">
+							<label>입사 후 포부</label>
+							<textarea class="form-control" rows="4"
+								name="selfIntro.futurePlan" id="futurePlan">${resume.selfIntro.futurePlan}</textarea>
+							<div class="text-right mt-2">
+								<button type="button"
+									class="btn btn-primary btn-sm gpt-request"
+									data-target="futurePlan">GPT 첨삭 요청</button>
+							</div>
+							<!-- GPT 첨삭 결과 영역 -->
+							<div class="gpt-result mt-3 p-3 border rounded bg-white"
+								id="gpt-result-futurePlan" style="display: none;">
+								<h6>GPT 첨삭 결과</h6>
+								<pre id="gpt-content-futurePlan" style="white-space: pre-wrap;"></pre>
+								<button type="button"
+									class="btn btn-success btn-sm mt-2 use-gpt"
+									data-target="futurePlan">첨삭내용 사용하기</button>
+							</div>
+						</div>
+					</div>
 
-                        <!-- Submit -->
-                        <div class="text-center mt-4">
-                            <button type="submit" formaction="/resume/tempSave" class="btn btn-secondary btn-lg">임시 저장</button>
-                            <button type="submit" formaction="/resume/submitFinal" class="btn btn-primary btn-lg">최종 저장</button>
-                            <a href="/resume/detail?resumeId=${resume.resumeId}" class="btn btn-outline-secondary btn-lg">취소</a>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
+					<!-- Submit -->
+					<div class="text-center mt-4 button">
+						<button type="submit" formaction="/resume/tempSave" class="btn btn-secondary">임시 저장</button>
+						<button type="submit" formaction="/resume/submitFinal" class="btn btn-primary">최종 저장</button>
+						<a href="/resume/detail?resumeId=${resume.resumeId}" class="btn btn-secondary">취소</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </section>
 
 
@@ -332,7 +327,7 @@ $(document).ready(function(){
               '</button>' +
           '</div>';
           
-      $('#educationSection .add-edu').before(html);
+      $('#educationSection').append(html);
       
       // 추가 후 확인
       console.log('추가된 항목의 name:', 
@@ -381,7 +376,7 @@ $(document).ready(function(){
               '</button>' +
           '</div>';
           
-      $('#careerSection .add-career').before(html);
+      $('#careerSection').append(html);
       careerIdx++;
   });
 
@@ -425,7 +420,7 @@ $(document).ready(function(){
               '</button>' +
           '</div>';
           
-      $('#trainingSection .add-training').before(html);
+      $('#trainingSection').append(html);
       trainIdx++;
   });
 
@@ -459,7 +454,7 @@ $(document).ready(function(){
               '</button>' +
           '</div>';
           
-      $('#certSection .add-cert').before(html);
+      $('#certSection').append(html);
       certIdx++;
   });
 

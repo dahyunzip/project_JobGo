@@ -1,17 +1,17 @@
 @charset "UTF-8";
 
-#contents{padding-top:102px;}
+#contents{padding-top:112px;}
 
 #tab-li{max-width:500px; margin:0 auto 50px auto;  border:3px solid #ebebeb; border-radius: 24px; background:#ebebeb;}
 #tab-li ul li{width:1%; display:table-cell;}
-#tab-li ul li.on a{background:#2042e3; color:#fff;}
+#tab-li ul li.on a{background: var(--main-color); color:#fff;}
 #tab-li ul li a{display: block; text-align:center; padding:16px 0; background:#ebebeb; color:#5a5a5a; border-radius: 20px; font-size:16px; font-weight:500;}
-/* #tab-li ul li a:hover{background:#2042e3; transition:all .3s ease; color:#fff;} */
+/* #tab-li ul li a:hover{background: var(--main-color); transition:all .3s ease; color:#fff;} */
 /* 로그인 */
 #login .memberDiv{display:flex; flex-wrap:wrap; margin-bottom:50px;}
 #login .memberDiv > a{width:50%; text-align:center; color:#b7b7b7; font-weight:500; font-size:20px; position:relative;}
 #login .memberDiv > a:first-child::after{content:''; width:1px; height:60%; position:absolute; right:0; top:50%; transform:translateY(-50%); background:#dcdcdc;}
-#login .memberDiv > a.active{color:#2042e3}
+#login .memberDiv > a.active{color: var(--main-color)}
 #login .button .btn{width:100%;}
 #login .section-title{margin-bottom:50px; padding:0;}
 #login .loginBox{max-width:460px; margin: 0 auto;}
@@ -26,7 +26,117 @@
 
 /*기타*/
 .underline-link{color:inherit; text-decoration: underline;}
+.layout-right{display: flex; justify-content:end}
 
 /* mypage */
 #mypage .user-img > a{display: block; width:120px; height:120px; overflow:hidden;}
 #mypage .user-img img{width:100%; height:auto;}
+
+.pageTitle{text-align:center; margin-bottom:50px;}
+.footSearch{display:flex; justify-content:center;}
+#subSearch{margin:30px 0; text-align:center; max-width: 500px; position:relative; display: flex; justify-content:center; width:100%;}
+#subSearch input{border-radius: 8px; height:48px; width:100%;}
+#subSearch .btn{position:absolute; right:10px; top:4px; right:0;}
+/*채용공고*/
+.job-wrap {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: space-between;
+}
+	
+.single-job {
+    position: relative;
+    width: calc(50% - 10px);
+    border-radius: 30px;
+    overflow: hidden;
+    margin: 10px 0;
+    cursor: pointer;
+    transition: transform 0.2s ease-in-out;
+    background: #000;
+}
+
+.single-job:hover img{ 
+	transform: scale(1.2);
+	transition: all .3s ease;
+}
+
+.thumb-area {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow:hidden;
+    border-radius: 16px;
+    margin-bottom:20px;
+    border:1px solid #e5e5e5;
+}
+.thumb-area img {
+    width: 100%;
+    height:100%;
+    object-fit: cover;
+    display: block;
+	transition: all .3s ease;
+}
+.overlay-text .company {
+    font-size: 18px;
+    font-weight: 700;
+    margin: 0;
+}
+.overlay-text .title {
+    font-size: 14px;
+    margin: 4px 0 8px;
+}
+.overlay-text .info {
+    font-size: 12px;
+    opacity: 0.9;
+}
+.overlay-text .info span {
+    margin-right: 8px;
+}
+.filter-section{
+	background:#f7f7f7; padding:20px; border-radius: 16px
+}
+.filter-section select { 
+	border-radius: 10px; 
+}
+
+/* 리뷰 */
+.reviewList{display:flex; flex-wrap:wrap; justify-content:space-between}
+.reviewList li{width:48%; border:1px solid #ededed; border-radius: 16px; margin-bottom:30px; transition:all .3s ease;}
+.reviewList li:hover{border-color:#5a5a5a; transition:all .3s ease;}
+.reviewList li a{display:block; padding:24px 36px;}
+.reviewList li a > span{display:block; color:inherit}
+.rvScore{color:#ffc107 !important;}
+.reviewList .rvTitle{font-weight:500; color:#222; font-size:20px; margin:10px 0;}
+.reviewList .rvDate{color:#5a5a5a; font-size:16px;}
+
+/*디테일뷰*/
+.detailView{display:flex; flex-wrap:wrap; border-top:2px solid #000; justify-content:center; align-items:center;}
+.detailView dl{width:50%; border-bottom:1px solid #ededed; display:flex; flex-wrap:wrap; align-items:center; justify-content:center; margin-bottom:0;}
+.detailView dt{width:250px; font-weight:500; font-size:16px; color:#222; padding:20px 8px;}
+.detailView dd{width:calc(100% - 250px); color:#333; font-size:16px; padding: 20px 8px; margin-bottom:0;}
+.detailView dl:last-child{width:100%;}
+.detailView dl.w100{width:100%;}
+
+/*table-default*/
+.table-default{width:100%;}
+.table-default th, .table-default td{padding:15px; text-align:center; font-size:16px}
+.table-default thead{background:#f7f7f7;}
+.table-default tbody tr{border-bottom:1px solid #ededed;}
+.table-default th{color:#222; font-weight:500;}
+.table-default td, .table-default .text-left a{color:#333;}
+
+.boardHeader{border-top:2px solid #000; padding:30px 0 20px 0; border-bottom:1px solid #e5e5e5; text-align:center}
+.boardHeader h2{margin-bottom:16px; font-size:30px}
+.boardBody{padding:50px; color:#333; font-size:16px; min-height:400px}
+
+.comment{display:flex; flex-wrap:wrap; justify-content:space-between; align-items:center;}
+.comment h5{width:100px}
+.comment #replyArea{width:calc(100% - 230px);}
+.comment #replyArea input{height:50px}
+
+.card-body * {font-size:16px; color:#333;}
+
+.applicant-profile{display:flex; flex-wrap:wrap; gap:20px}
+.applicant-profile .pfImg{width:120px; height:120px; background:#e5e5e5; margin:0 auto 10px auto;}
+.applicant-profile .pfTxt{width:100%;}

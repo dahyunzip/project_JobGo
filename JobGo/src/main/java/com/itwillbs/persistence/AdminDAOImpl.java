@@ -47,7 +47,7 @@ public class AdminDAOImpl implements AdminDAO{
 	}
 
 	@Override
-	public List<MemberVO> getAllCorpMembers(Criteria cri) throws Exception {
+	public List<CorpMemberVO> getAllCorpMembers(Criteria cri) throws Exception {
 		return sqlSession.selectList(NAMESPACE + ".getAllCorpMembers", cri);
 	}
 	

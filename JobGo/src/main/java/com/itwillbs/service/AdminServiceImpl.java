@@ -45,7 +45,7 @@ public class AdminServiceImpl implements AdminService{
 	}
 
 	@Override
-	public List<MemberVO> getAllCorpMembers(Criteria cri) throws Exception {
+	public List<CorpMemberVO> getAllCorpMembers(Criteria cri) throws Exception {
 		return adminDAO.getAllCorpMembers(cri);
 	}
 	

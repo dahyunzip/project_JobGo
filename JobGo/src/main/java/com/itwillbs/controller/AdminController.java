@@ -171,7 +171,7 @@ public class AdminController {
 	        return "redirect:/admin/login";
 	    }
 
-	    List<MemberVO> corpList = adminService.getAllCorpMembers(cri);
+	    List<CorpMemberVO> corpList = adminService.getAllCorpMembers(cri);
 	    int totalCount = adminService.getCorpMemberTotalCount();
 
 	    PageVO pageVO = new PageVO();

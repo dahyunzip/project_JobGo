@@ -22,7 +22,7 @@ public interface AdminDAO {
 	int getNormalMemberTotalCount();
 	
 	// 기업회원 목록 조회
-	List<MemberVO> getAllCorpMembers(Criteria cri) throws Exception;
+	List<CorpMemberVO> getAllCorpMembers(Criteria cri) throws Exception;
 	int getCorpMemberTotalCount();
 	
 	public CorpMemberVO getCorpMemberById(int corpId) throws Exception;

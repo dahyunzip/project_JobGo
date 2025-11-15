@@ -22,7 +22,7 @@ public interface AdminService {
 	int getNormalMemberTotalCount() throws Exception;
 	
 	// 기업회원 목록 조회
-	List<MemberVO> getAllCorpMembers(Criteria cri) throws Exception;
+	List<CorpMemberVO> getAllCorpMembers(Criteria cri) throws Exception;
 	int getCorpMemberTotalCount() throws Exception;
 	
 	// Id로 기업회원정보 가져오기 

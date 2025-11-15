@@ -5,6 +5,7 @@ import java.util.List;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.RecBoardVO;
 import com.itwillbs.domain.RecBottomCategoryVO;
+import com.itwillbs.domain.RecCriteria;
 import com.itwillbs.domain.RecTopCategoryVO;
 import com.itwillbs.domain.RecTopLocationVO;
 import com.itwillbs.domain.ResumeVO;
@@ -12,7 +13,7 @@ import com.itwillbs.domain.ResumeVO;
 public interface RecBoardDAO {
 	
 	// 게시판 리스트
-	public List<RecBoardVO> selectRecBoardList(Criteria cri, Integer toplct_id, Integer topctg_id, Integer btmctg_id, String search) throws Exception;
+	public List<RecBoardVO> selectRecBoardList(RecCriteria cri, Integer toplct_id, Integer topctg_id, Integer btmctg_id, String search) throws Exception;
 
 	// 메인 페이지 게시판 리스트(최신 등록 순)
 	public List<RecBoardVO> selectRecMainList() throws Exception;

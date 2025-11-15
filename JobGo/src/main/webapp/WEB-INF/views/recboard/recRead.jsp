@@ -110,7 +110,7 @@
                 <div class="add-resume-inner box">                        
             		<form id="readForm" role="form" >
             			<input type="hidden" name="rec_bno" value="${resultReadVO.rec_bno}">
-                        <input type="hidden" name="page" value="${page != null ? page : 1}">
+                        <input type="hidden" name="recPage" value="${recPage != null ? recPage : 1}">
                     </form>
                     <div id="com_top" class="post-header align-items-center justify-content-center">
                         <img src="/upload/recfile/${resultReadVO.thumbFileName}" width="100%" height="100px" style="object-fit: cover; display: block;">
@@ -122,12 +122,12 @@
                         <div class="col-lg-12 col-12">
                             <div class="form-group">
                             	<div>
-			                    	<h3 class="single-section-title">(주)${resultReadVO.companyName} 직원 채용 공고문 | incrementStatus: ${incrementStatus }</h3>
+			                    	<h3 class="single-section-title">(주)${resultReadVO.rec_title} 직원 채용 공고문</h3>
 			                    </div>
                                 <label class="control-label">
                                     <font dir="auto" style="vertical-align: inherit;">
                                         <font dir="auto" style="vertical-align: inherit;">
-                                            ${resultReadVO.rec_title} / 모집 담당자: ${resultReadVO.managerName}(${resultReadVO.managerEmail})
+                                            소속: ${resultReadVO.companyName} / 모집 담당자: ${resultReadVO.managerName}(${resultReadVO.managerEmail})님
                                         </font>
                                     </font>
                                 </label>
@@ -149,7 +149,7 @@
 								      <c:otherwise>
 								        <form method="post" action="/application/apply">
 								          <input type="hidden" name="rec_bno" value="${resultReadVO.rec_bno}">
-								          <input type="hidden" name="page" value="${page}">
+								          <input type="hidden" name="recPage" value="${recPage}">
 									          <select name="resume_id">
 									            <c:forEach var="resume" items="${resumeList}">
 									              <option value="${resume.resumeId}">${resume.resumeTitle}</option>
@@ -284,7 +284,7 @@
 	</div>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f741118517088ca2272cc9689f78f15e&libraries=services"></script>
 <script type="text/javascript">
-	let recBno = null;
+	let recBno = "${resultReadVO.rec_bno}";
 	$(document).ready(function(){
 		var status = '${msg}';
 		if(status == 'applySuccess'){
@@ -301,8 +301,8 @@
 		
 		// 목록 버튼
 		$(".btn-list").click(function(){
-			const page = "${page}" || 1;   // page 값이 없으면 자동으로 1
-		    location.href = "/recboard/recListCri?page=" + page;
+			const recPage = "${recPage}" || 1;
+			location.href = "/recboard/recListCri?recPage=" + recPage;
 		});
 	
 		// 삭제 버튼

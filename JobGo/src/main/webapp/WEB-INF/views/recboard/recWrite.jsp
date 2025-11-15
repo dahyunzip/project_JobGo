@@ -34,7 +34,7 @@
 
 				<!-- 글쓰기 폼 시작 -->
 				<form class="form-ad" method="post" enctype="multipart/form-data">
-					<input type="hidden" name="page" value="${page}">
+					<input type="hidden" name="recPage" value="${recPage}">
 					<h3 class="single-section-title">공고 작성</h3>
 
 					<!-- 기본 정보 영역 -->
@@ -43,7 +43,7 @@
 							<div class="form-group">
 								<label>채용 공고 명</label>
 								<input type="text" class="form-control" name="rec_title"
-									   placeholder="예) [회사명] 공고 제목 입력주요 업무 소개 내용" required>
+									   placeholder="예) [회사명] 공고 제목 입력 및 주요 업무 소개 내용을 기입해주세요." required>
 							</div>
 						</div>
 						<div class="col-lg-6 col-12">
@@ -281,8 +281,8 @@
 		});
 		
 		// 목록으로
-	    $(".btn-primary").click(function(){
-		    location.href = "/recboard/recListCri?page=${page}";
+		$(".btn-primary").click(function(){
+		    location.href = "/recboard/recListCri?recPage=${recPage}";
 		});
 		
 	 	// GPT 첨삭 버튼

@@ -43,7 +43,7 @@
 
 				<!-- 글쓰기 폼 시작 -->
 				<form class="form-ad" method="post" enctype="multipart/form-data">
-					<input type="hidden" name="page" value="${page }">
+					<input type="hidden" name="recPage" value="${recPage}">
 					<input type="hidden" name="rec_bno" value="${resultReadVO.rec_bno}">
 					<h3 class="single-section-title">공고 수정</h3>
 
@@ -246,7 +246,7 @@
 						<div class="col-lg-6 col-md-7 col-12">
 							<div class="add-post-btn float-right">
 								<button type="submit" class="btn btn-primary">공고 수정</button>
-								<button type="button" class="btn btn-primary">목록으로</button>
+								<button type="button" class="btn btn-primary listBtn">목록으로</button>
 							</div>
 						</div>
 					</div>
@@ -308,9 +308,9 @@
 	        $("#fileDiv").append("<div><br><input type='file' name='attachFiles' accept='image/*'></div>");
 	    });
 	    
-	    $(".btn-primary").click(function(){
-		    location.href = "/recboard/recListCri?page=${page}";
-		});
+	    $(".listBtn").click(function(){
+	        location.href = "/recboard/recListCri?recPage=${recPage}";
+	    });
 	    
 	 	// GPT 첨삭 버튼
 	    $(".gptBtn").click(function () {

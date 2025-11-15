@@ -8,9 +8,14 @@
 		align-items: center;
 		margin-bottom: 15px;
 	}
-	
+	.checkbox input[type="checkbox"] {
+	    transform: scale(1) !important;
+	    width: 16px !important;
+	    height: 16px !important;
+	}
 </style>
-<section class="add-resume section" >
+<section class="section" >
+<h2 class="pageTitle">커뮤니티</h2>
 <c:if test="${empty memberLoginInfo }">
 	<script type="text/javascript">
 		alert("로그인 후 이용 가능합니다.");
@@ -21,24 +26,23 @@
 		<div class="row">
 			<div class="col-lg-10 offset-lg-1 col-12">
 			    <div class="add-resume-inner box">
-			        <div id="com_top" class="post-header align-items-center justify-content-center">
+			        <%-- <div id="com_top" class="post-header align-items-center justify-content-center">
 			            <h3 id="title">
 			            	<font dir="auto" style="vertical-align: inherit;">
 			            		<font dir="auto" style="vertical-align: inherit;">${memberLoginInfo.name }</font>
 			            	</font>
 			            </h3>
-			        </div>
-			        <hr>
+			        </div> --%>
 			        <form class="form-ad" method="post" enctype="multipart/form-data">
 			        	<!-- 페이지 이동시(수정,삭제) 필요한 정보를 가져가기위한 from태그 -->
-			            <h3 class="single-section-title">
+			            <%-- <h3 class="single-section-title">
 			            	<input type="hidden" name="page" value="${page}">
 			            	<font dir="auto" style="vertical-align: inherit;">
 			            		<font dir="auto" style="vertical-align: inherit;">글 작성</font>
 			            	</font>
-			            </h3>
+			            </h3> --%>
 			            <div class="row">
-			                <div class="col-lg-6 col-12">
+			                <div class="col-lg-12 col-12">
 			                    <div class="form-group">
 			                        <label class="control-label">
 			                        	<font dir="auto" style="vertical-align: inherit;">
@@ -52,7 +56,7 @@
 			                               required >
 			                    </div>
 			                </div>
-			                <div class="col-lg-6 col-12">
+			                <div class="col-lg-12 col-12">
 			                    <div class="form-group">
 			                        <label class="control-label">
 			                        	<font dir="auto" style="vertical-align: inherit;">
@@ -65,7 +69,7 @@
 			                    </div>
 			                </div>
 			            </div>
-			            <div class="form-group">
+			            <%-- <div class="form-group">
 			                <label class="control-label">
 			                	<font dir="auto" style="vertical-align: inherit;">
 			                		<font dir="auto" style="vertical-align: inherit;">E-mail</font>
@@ -74,7 +78,7 @@
 			                <input type="text" class="form-control" 
 			                       value="${memberLoginInfo.email }"
 			                       readonly>
-			            </div>
+			            </div> --%>
 			            <div class="form-group">
 						    <label class="control-label">
 						        글 내용
@@ -87,9 +91,11 @@
 						              required>${resultReadVO.com_content }</textarea>
 						
 						    <!-- GPT 첨삭 버튼 -->
-						    <button type="button" class="btn btn-outline-primary btn-sm mt-2" id="gptCheckBtn">
-						        GPT 맞춤법 교정
-						    </button>
+						    <div class="mt-2 button text-right">
+							    <button type="button" class="btn btn-outline-primary btn-sm mt-2" id="gptCheckBtn">
+							        GPT 맞춤법 교정
+							    </button>
+						    </div>
 						
 						    <!-- GPT 결과 박스 -->
 						    <div class="gpt-result mt-3 p-3 border rounded bg-white" id="gpt-result-box" style="display:none;">
@@ -97,16 +103,16 @@
 						        <pre id="gpt-corrected" style="white-space:pre-wrap;"></pre>
 						
 						        <button type="button" class="btn btn-success btn-sm mt-2" id="useGptResult">
-						            교정된 문장 적용하기
+						            교정내용 적용하기
 						        </button>
 						    </div>
 						</div>
 			            <div class="row align-items-center justify-content-center">
-			                <div class="col-lg-6 col-md-5 col-12">
+			                <div class="col-lg-12 col-md-12 col-12">
 			                    <div>
 			                        <div class="button-group">
 			                            <div class="action-buttons">
-			                                <div class="upload-button button">
+			                                <div class="">
 												<!-- 체크박스 영역 -->
 												<div class="checkbox">
 													<input type="checkbox" id="confirmCheck" required>
@@ -115,24 +121,21 @@
 												<hr>
 											
 												<!-- 파일 입력 영역 -->
-												<div>
-													<input id="cover_img_file_3" type="file" name="storedFileName" accept="image/*">
-													<label for="cover_img_file_3">첨부파일 ➕</label>
-													<input type="button" value="추가하기" id="addBtn">
-												</div>
-												<div id="fileDiv">
-												
-												</div>
+												<div class="text-right">
+													<input type="button" value=" 첨부파일 추가하기" id="addBtn" class="btn-success mb-10 btn">
+				                                    <input id="cover_img_file_3" type="file" name="storedFileName" accept="image/*" class="form-control">
+			                                    </div>
+			                                    <div id="fileDiv">
+			                                    
+			                                    </div>
 			                            	</div>
 			                        	</div>
 			                    	</div>
 			                	</div>
 			                </div>
-			                <div class="col-lg-6 col-md-7 col-12">
-			                    <div class="add-post-btn float-right">
-			                  		<button type="submit" class="btn btn-primary">수정</button>
-			                  		<button type="button" class="btn btn-primary" id="goListBtn" >목록으로</button>
-			                    </div>
+			                <div class="button col-12 text-center mt-20">
+		                  		<button type="submit" class="btn btn-primary">수정</button>
+		                  		<button type="button" class="btn btn-primary" id="goListBtn" >목록으로</button>
 			                </div>
 			            </div>
 			        </form>
@@ -147,7 +150,7 @@
 		var formObj = $("form[role='form']");
 		$("#addBtn").click(function(){
 			// alert("버튼 클릭");
-			$("#fileDiv").append("<div><br><input id='cover_img_file_3' type='file' name='storedFileName"+(cnt++)+"' accept='image/*' ></div>")
+			$("#fileDiv").append("<div><br><input id='cover_img_file_3' type='file' name='storedFileName"+(cnt++)+"' accept='image/*' class='form-control'></div>")
 		});
 		$("#goListBtn").click(function() {
 		    location.href = "/comboard/comListCri?page=${page}";

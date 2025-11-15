@@ -14,22 +14,27 @@
 	
 	<!-- ========================= CSS here ========================= -->
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/bootstrap.min.css" />
-	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/LineIcons.2.0.css" />
+	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/icons.css" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/animate.css" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/tiny-slider.css" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/glightbox.min.css" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/reset.css" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/common.css" />
 	<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/template.css" />
-	<c:if test='${pageContext.request.requestURI != "/"}'>
-		<link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/sub.css" />
-	</c:if>
+	<c:set var="uri" value="${requestScope['javax.servlet.forward.request_uri']}" />
+	<c:choose>
+	 <c:when test="${uri == '/'}">
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" />
+	 </c:when>
+	 <c:otherwise>
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sub.css" />
+	 </c:otherwise>
+	</c:choose>
 	
 	<!-- ========================= JS here ========================= -->
 	<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js" type="text/javascript"></script>
 </head>
 <body>
-	<c:set var="uri" value="${requestScope['javax.servlet.forward.request_uri']}" />
 	<div id="loading-area"></div>
 	<!-- Start Header Area -->
 	<header class="header <c:if test='${uri != "/"}'>other-page</c:if>">
@@ -39,28 +44,30 @@
 					<div class="col-lg-8 col-xs-12">
 						<nav class="navbar navbar-expand-lg">
 							<a class="navbar-brand logo" href="/">
-								<h3>
+								<img src="/resources/images/logo/logo.svg" alt="JobGo 로고">
+								<%-- <h3>
 								<c:choose>
 									<c:when test="${not empty sessionScope.corpUserId}">기업회원</c:when>
 									<c:when test="${not empty sessionScope.userid}">일반회원</c:when>
 									<c:otherwise>JobGo</c:otherwise>
 								</c:choose>
 								&nbsp;페이지
-								</h3>
+								</h3> --%>
 							</a>
 						</nav>
 					</div>
-					<div id="searchBar" class="col-lg-4 col-xs-12" style="display:flex; gap:5px;">
+					<div id="searchBar" class="col-lg-4 col-xs-12">
 					    <!-- 검색 종류 선택 -->
 					    <select id="searchType" class="form-control" style="max-width:120px;">
-					        <option value="com">커뮤니티</option>
 					        <option value="rec">채용공고</option>
 					        <option value="rev">리뷰</option>
+					        <option value="com">커뮤니티</option>
 					        <option value="noti">공지사항</option>
 					    </select>
 					
 					    <!-- 검색창 -->
-					    <input type="text" id="headerSearchInput" placeholder="<= 게시판 선택 후 검색어 입력" class="form-control">
+					    <input type="text" id="headerSearchInput" placeholder="검색어 입력" class="form-control">
+					    <a href="#" class="searchBtn"><i class="lni lni-24 lni-search-1"></i></a>
 					</div>
 				</div>
 				<div class="col-lg-12">
@@ -197,6 +204,10 @@
 		        if(e.keyCode == 13){
 		            doSearch();
 		        }
+		    });
+		    
+		    $(".searchBtn").click(function(){
+		    	doSearch();
 		    });
 		
 		});

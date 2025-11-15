@@ -22,7 +22,7 @@
 					<h1>페이지를 찾을 수 없습니다</h1>
 					<p>죄송합니다, 찾으시는 페이지를 찾을 수 없어요.</p>
 					<div class="button">
-						<a href="javascript:history.back();" class="btn">Go To Home</a>
+						<a href="javascript:history.back();" class="btn">돌아가기</a>
 					</div>
 				</div>
 			</div>

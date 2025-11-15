@@ -1,10 +1,10 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="../include/Header.jsp"%>
-<section class="section resume-list-section py-5">
+<section class="section">
+	<h2 class="pageTitle">우리 회사 지원자 현황</h2>
 	<div class="container">
-		<h2>우리 회사 지원자 현황</h2>
-		<table class="table table-bordered text-center">
+		<table class="table-default table-responsive">
 		    <thead>
 		        <tr>
 		            <th>공고명</th>
@@ -21,7 +21,7 @@
 		                <td>${a.rec_title}</td>
 		                <td>${a.applicant_name}</td>
 		                <td>${a.applicant_email}</td>
-		                <td><a href="/resume/corp/view?resume_id=${a.resume_id}&application_id=${a.application_id}" class="resume-link">${a.resume_title}</a></td>
+		                <td class="text-left"><a href="/resume/corp/view?resume_id=${a.resume_id}&application_id=${a.application_id}" class="resume-link">${a.resume_title}</a></td>
 		                <%-- <td class="status-text">
 		                	<c:choose>
 								<c:when test="${a.status eq 'APPLIED'}">미열람</c:when>

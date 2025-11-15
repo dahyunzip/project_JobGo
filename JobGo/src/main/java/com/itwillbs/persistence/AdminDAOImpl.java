@@ -1,6 +1,7 @@
 package com.itwillbs.persistence;
 
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Repository;
 import com.itwillbs.domain.CorpMemberVO;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MemberVO;
+import com.itwillbs.domain.NoticeVO;
 import com.itwillbs.domain.RecBoardVO;
 import com.itwillbs.domain.ReviewVO;
 
@@ -21,20 +23,20 @@ public class AdminDAOImpl implements AdminDAO{
 	@Inject
 	private SqlSession sqlSession;
 	
-	 @Override
-	    public List<RecBoardVO> getRecBoardList(Criteria cri) throws Exception {
-	        return sqlSession.selectList(NAMESPACE + ".getRecBoardList", cri);
-	    }
+	@Override
+	public List<RecBoardVO> getRecBoardList(Criteria cri) throws Exception {
+	    return sqlSession.selectList(NAMESPACE + ".getRecBoardList", cri);
+	}
 
-	    @Override
-	    public int getRecTotalCount(String search) throws Exception {
-	        return sqlSession.selectOne(NAMESPACE + ".getRecTotalCount", search);
-	    }
+	@Override
+	public int getRecTotalCount(String search) throws Exception {
+	    return sqlSession.selectOne(NAMESPACE + ".getRecTotalCount", search);
+	}
 
-	    @Override
-	    public int deleteRecBoard(int rec_bno) throws Exception {
-	        return sqlSession.delete(NAMESPACE + ".deleteRecBoard", rec_bno);
-	    }
+	@Override
+	public int deleteRecBoard(int rec_bno) throws Exception {
+	    return sqlSession.delete(NAMESPACE + ".deleteRecBoard", rec_bno);
+	}
 	
 	@Override
 	public List<MemberVO> getAllNormalMembers(Criteria cri) throws Exception {
@@ -94,6 +96,36 @@ public class AdminDAOImpl implements AdminDAO{
 	@Override
 	public int deleteReview(int reviewId) throws Exception {
 		return sqlSession.delete(NAMESPACE + ".deleteReview", reviewId);
+	}
+	
+	@Override
+	public List<NoticeVO> getNoticeListAll(Criteria cri) throws Exception {
+		return sqlSession.selectList(NAMESPACE + ".getNoticeListAll", cri);
+	}
+
+	@Override
+	public int getTotalCountAll(Criteria cri) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getTotalCountAll", cri);
+	}
+
+	@Override
+	public NoticeVO getNotice(int noticeId) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getNotice", noticeId);
+	}
+	
+	@Override
+	public void insertNotice(Map<String, Object> map) throws Exception {
+		sqlSession.insert(NAMESPACE + ".insertNotice", map);
+	}
+
+	@Override
+	public void updateNotice(NoticeVO vo) throws Exception {
+		sqlSession.update(NAMESPACE + ".updateNotice", vo);
+	}
+
+	@Override
+	public void deleteNotice(int noticeId) throws Exception {
+		sqlSession.delete(NAMESPACE + ".deleteNotice", noticeId);
 	}
 	
 }

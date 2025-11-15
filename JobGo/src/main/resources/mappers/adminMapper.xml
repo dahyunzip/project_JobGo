@@ -182,5 +182,90 @@
 		delete from review where review_id = #{reviewId}
 	</delete>
 	
+	<!-- 공지사항 목록 -->
+	<select id="getNoticeListAll" resultType="com.itwillbs.domain.NoticeVO">
+		select
+			notice_id			as noticeId,
+			admin_id			as adminId,
+			notice_title		as noticeTitle,
+			notice_content		as noticeContent,
+			storedFileName		as storedFileName,
+			notice_viewcnt		as noticeViewCnt,
+			notice_regdate		as noticeRegdate,
+			notice_updated		as noticeUpdated
+		from notice_board
+		<where>
+			<if test="search != null and search != ''">
+				notice_title like concat('%', #{search}, '%')
+			</if>
+		</where>
+		order by notice_id desc
+		limit #{pageStart}, #{pageSize}
+	</select>
+	
+	
+	<!-- 공지사항 총 개수 -->
+	<select id="getTotalCountAll" resultType="int">
+		select count(*)
+		from notice_board
+		<where>
+			<if test="search != null and search != ''">
+				notice_title like concat('%', #{search}, '%')
+			</if>
+		</where>
+	</select>
+	
+	
+	<!-- 공지사항 상세 조회 -->
+	<select id="getNotice" resultType="com.itwillbs.domain.NoticeVO">
+		select
+			notice_id			as noticeId,
+			admin_id			as adminId,
+			notice_title		as noticeTitle,
+			notice_content		as noticeContent,
+			storedFileName		as storedFileName,
+			notice_viewcnt		as noticeViewCnt,
+			notice_regdate		as noticeRegdate,
+			notice_updated		as noticeUpdated
+		from notice_board
+		where notice_id = #{noticeId}
+	</select>
+	
+	
+	<!-- 공지사항 작성 -->
+	<insert id="insertNotice" parameterType="map">
+		insert into notice_board (
+			admin_id,
+			notice_title,
+			notice_content,
+			storedFileName
+		)
+		select 
+			id,
+			#{noticeTitle},
+			#{noticeContent},
+			#{storedFileName}
+		from member
+		where userid = #{userid}
+	</insert>
+	
+	
+	<!-- 공지사항 수정 -->
+	<update id="updateNotice" parameterType="com.itwillbs.domain.NoticeVO">
+		update notice_board
+		set
+			notice_title = #{noticeTitle},
+			notice_content = #{noticeContent},
+			storedFileName = #{storedFileName}
+		where notice_id = #{noticeId}
+	</update>
+	
+	
+	<!-- 공지사항 삭제 -->
+	<delete id="deleteNotice" parameterType="int">
+		delete from notice_board
+		where notice_id = #{noticeId}
+	</delete>
+	
 
 </mapper>

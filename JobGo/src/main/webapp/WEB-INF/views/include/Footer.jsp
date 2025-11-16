@@ -4,7 +4,7 @@
 <footer class="footer">
 	<!-- Start Middle Top -->
 	<div class="footer-middle">
-		<div class="container">
+		<div class="fix-layout">
 			<div class="row">
 				<div class="col-lg-8 col-md-6 col-12">
 					<!-- Single Widget -->

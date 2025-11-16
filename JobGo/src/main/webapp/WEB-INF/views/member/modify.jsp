@@ -20,7 +20,7 @@
 	                	<div class="col-lg-12 col-12">
                             <div class="form-group">
                             	<div><img src="/upload/${imageName }" height="100"></div>
-                                <c:set var="imageName" value="${empty user.storedFileName ? 'default.jpg' : user.storedFileName }" />
+                                <c:set var="imageName" value="${empty user.storedFileName ? 'default_image.jpg' : user.storedFileName }" />
                                 <label class="control-label">프로필 이미지</label>
                                 <input type="file" class="form-control" name="upload" value="${user.upload }">
                             </div>

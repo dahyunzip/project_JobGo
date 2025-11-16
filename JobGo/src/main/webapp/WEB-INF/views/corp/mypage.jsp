@@ -24,7 +24,7 @@ $(document).ready(function(){
                     <!-- Header -->
                     <div class="job-details-head row mx-0 align-items-center">
                         <div class="user-img col-auto">
-                            <c:set var="corpLogo" value="${empty corpuser.corpProfileStored ? 'default.jpg' : corpuser.corpProfileStored}" />
+                            <c:set var="corpLogo" value="${empty corpuser.corpProfileStored ? 'default_image.jpg' : corpuser.corpProfileStored}" />
                             <div style="border-radius: 4px; overflow: hidden; width:100px; height:100px;">
                                 <img src="/upload/${corpLogo}" style="object-fit:cover;" alt="기업 로고">
                             </div>

@@ -16,7 +16,7 @@
 								style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-right: 20px;">
 						</c:when>
 						<c:otherwise>
-							<img src="/upload/default_profile.png" alt="기본 프로필"
+							<img src="/upload/default_image.png" alt="기본 프로필"
 								style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; margin-right: 20px;">
 						</c:otherwise>
 					</c:choose>

@@ -38,6 +38,12 @@
 	     FROM resume
 	     WHERE resume_id = #{resumeId}
 	</select>
+	
+	<select id="countResumeByMember" resultType="int">
+	    SELECT COUNT(*)
+	    FROM resume
+	    WHERE member_id = #{memberId}
+	</select>
 
 	<!-- ========================================================= -->
 	<!-- [기업회원용] 이력서 상세조회 + 회원 정보 -->
@@ -217,4 +223,5 @@
 	<delete id="deleteSelfIntro" parameterType="int">
 	    DELETE FROM resume_self_intro WHERE resume_id = #{resumeId}
 	</delete>
+	
 </mapper>

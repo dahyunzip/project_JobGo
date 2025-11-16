@@ -389,59 +389,89 @@ public class AdminController {
 		return "redirect:/admin/reviewManage";
 	}
 	
-	@RequestMapping(value="/noticelist", method=RequestMethod.GET)
-	public String noticeList(@RequestParam(value="search", required=false) String search,
-	                         Criteria cri,
-	                         HttpSession session,
-	                         Model model) throws Exception {
+	//공지사항
+	@RequestMapping(value="/noticeManage", method=RequestMethod.GET)
+	public String adminNoticeList(
+			@RequestParam(value="search", required=false) String search,
+			Criteria cri,
+			HttpSession session,
+			Model model) throws Exception {
 
-		if (session.getAttribute("adminSession") == null)
+		// 관리자 체크
+		if (session.getAttribute("adminSession") == null) {
 			return "redirect:/admin/login";
+		}
 
+		// 검색어 세팅
 		cri.setSearch(search);
 
-		List<NoticeVO> list = noticeService.getNoticeListAll(cri);
-		int totalCount = noticeService.getTotalCountAll(cri);
+		// 목록 조회
+		List<NoticeVO> noticeList = adminService.getNoticeListAll(cri);
+		int totalCount = adminService.getTotalCountAll(cri);
 
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);
 		pageVO.setTotalCount(totalCount);
 
 		model.addAttribute("search", search);
-		model.addAttribute("noticeList", list);
+		model.addAttribute("noticeList", noticeList);
 		model.addAttribute("pageVO", pageVO);
 
-		return "/admin/noticelist";
-	}
-
-	//   공지사항 작성 폼
-	@RequestMapping(value="/noticewrite", method=RequestMethod.GET)
-	public String noticeWriteForm(HttpSession session, Model model) {
-
-		if (session.getAttribute("adminSession") == null)
-			return "redirect:/admin/login";
-		
-		model.addAttribute("pageType", "write");
-		
 		return "/admin/noticeManage";
 	}
 
-	//   공지사항 작성 처리
-	@RequestMapping(value="/noticewrite", method=RequestMethod.POST)
-	public String noticeWrite(NoticeVO vo,
-	                          @RequestParam(value="file", required=false) MultipartFile file,
-	                          HttpSession session) throws Exception {
+	// 공지 상세
+	@RequestMapping(value="/noticeDetail", method=RequestMethod.GET)
+	public String adminNoticeDetail(
+			@RequestParam("noticeId") int noticeId,
+			HttpSession session,
+			Model model) throws Exception {
 
-		if (session.getAttribute("adminSession") == null)
+		if (session.getAttribute("adminSession") == null) {
 			return "redirect:/admin/login";
+		}
+
+		NoticeVO notice = adminService.getNotice(noticeId);
+		model.addAttribute("notice", notice);
+
+		return "/admin/noticeDetail";
+	}
+
+	// 공지 작성
+	@RequestMapping(value="/noticeWrite", method=RequestMethod.GET)
+	public String adminNoticeWriteForm(HttpSession session, Model model) {
+
+	    if (session.getAttribute("adminSession") == null) {
+	        return "redirect:/admin/login";
+	    }
+
+	    return "/admin/noticeWrite";
+	}
+
+	// 공지 작성
+	@RequestMapping(value="/noticeWrite", method=RequestMethod.POST)
+	public String adminNoticeWrite(
+			NoticeVO vo,
+			@RequestParam(value="file", required=false) MultipartFile file,
+			@RequestParam("corpNotice") String corpNotice,
+			HttpSession session) throws Exception {
+
+		if (session.getAttribute("adminSession") == null) {
+			return "redirect:/admin/login";
+		}
 
 		String userid = (String) session.getAttribute("adminSession");
+		
+		if ("corp".equals(corpNotice)) {
+	        vo.setNoticeTitle("[기업공지] " + vo.getNoticeTitle());
+	    }
 
-		// 파일업로드
+		// 파일 업로드
 		if (file != null && !file.isEmpty()) {
+
 			String uploadPath = session.getServletContext().getRealPath("/resources/upload/");
 			File dir = new File(uploadPath);
-			if (!dir.exists()) dir.mkdirs();
+			if(!dir.exists()) dir.mkdirs();
 
 			String origin = file.getOriginalFilename();
 			String fileName = System.currentTimeMillis() + "_" + origin;
@@ -456,54 +486,42 @@ public class AdminController {
 		map.put("noticeContent", vo.getNoticeContent());
 		map.put("storedFileName", vo.getStoredFileName());
 
-		noticeService.insert_notice_with_userid(map);
+		adminService.insertNotice(map);
 
-		return "redirect:/admin/noticelist";
+		return "redirect:/admin/noticeManage";
 	}
 
-	//   공지사항 상세보기
-	@RequestMapping(value="/noticedetail", method=RequestMethod.GET)
-	public String noticeDetail(@RequestParam("noticeId") int noticeId,
-	                           HttpSession session,
-	                           Model model) throws Exception {
+	// 공지 수정 (GET)
+	@RequestMapping(value="/noticeEdit", method=RequestMethod.GET)
+	public String adminNoticeEditForm(
+			@RequestParam("noticeId") int noticeId,
+			HttpSession session,
+			Model model) throws Exception {
 
-		if (session.getAttribute("adminSession") == null)
+		if (session.getAttribute("adminSession") == null) {
 			return "redirect:/admin/login";
+		}
 
-		NoticeVO vo = noticeService.getNotice(noticeId);
-		model.addAttribute("notice", vo);
+		NoticeVO notice = adminService.getNotice(noticeId);
+		model.addAttribute("notice", notice);
 
-		model.addAttribute("pageType", "detail");
-		return "/admin/noticeManage";
+		return "/admin/noticeEdit";
 	}
 
-	//   공지사항 수정 폼
-	@RequestMapping(value="/noticeedit", method=RequestMethod.GET)
-	public String noticeEditForm(@RequestParam("noticeId") int noticeId,
-	                             HttpSession session,
-	                             Model model) throws Exception {
+	// 공지 수정 (POST)
+	@RequestMapping(value="/noticeEdit", method=RequestMethod.POST)
+	public String adminNoticeEdit(
+			NoticeVO vo,
+			@RequestParam(value="file", required=false) MultipartFile file,
+			HttpSession session) throws Exception {
 
-		if (session.getAttribute("adminSession") == null)
+		if (session.getAttribute("adminSession") == null) {
 			return "redirect:/admin/login";
+		}
 
-		NoticeVO vo = noticeService.getNotice(noticeId);
-		model.addAttribute("notice", vo);
-
-		model.addAttribute("pageType", "edit");
-		return "/admin/noticeManage";
-	}
-
-	//   공지사항 수정 처리
-	@RequestMapping(value="/noticeedit", method=RequestMethod.POST)
-	public String noticeEdit(NoticeVO vo,
-	                         @RequestParam(value="file", required=false) MultipartFile file,
-	                         HttpSession session) throws Exception {
-
-		if (session.getAttribute("adminSession") == null)
-			return "redirect:/admin/login";
-
-		// 파일업로드 
+		// 파일 업로드
 		if (file != null && !file.isEmpty()) {
+
 			String uploadPath = session.getServletContext().getRealPath("/resources/upload/");
 			File dir = new File(uploadPath);
 			if (!dir.exists()) dir.mkdirs();
@@ -515,23 +533,27 @@ public class AdminController {
 			vo.setStoredFileName(fileName);
 		}
 
-		noticeService.updateNotice(vo);
+		adminService.updateNotice(vo);
 
-		return "redirect:/admin/noticedetail?noticeId=" + vo.getNoticeId();
+		return "redirect:/admin/noticeDetail?noticeId=" + vo.getNoticeId();
 	}
 
-	//   공지사항 삭제
-	@RequestMapping(value="/noticedelete", method=RequestMethod.POST)
-	public String noticeDelete(@RequestParam("noticeId") int noticeId,
-	                           HttpSession session) throws Exception {
+	// 공지 삭제
+	@RequestMapping(value="/noticeDelete", method=RequestMethod.POST)
+	public String adminNoticeDelete(
+			@RequestParam("noticeId") int noticeId,
+			HttpSession session) throws Exception {
 
-		if (session.getAttribute("adminSession") == null)
+		if (session.getAttribute("adminSession") == null) {
 			return "redirect:/admin/login";
+		}
 
-		noticeService.deleteNotice(noticeId);
+		adminService.deleteNotice(noticeId);
 
-		return "redirect:/admin/noticelist";
+		return "redirect:/admin/noticeManage";
 	}
+	
+	
 
 	
 	

@@ -8,7 +8,7 @@
 
     <!-- 공지사항 등록 버튼 -->
     <div class="mb-3 text-right">
-        <a href="${pageContext.request.contextPath}/admin/noticewrite"
+       <a href="${pageContext.request.contextPath}/admin/noticeWrite"
            class="btn btn-primary btn-sm">
             <i class="fas fa-plus"></i> 공지 작성
         </a>
@@ -47,22 +47,21 @@
                         <tr>
                             <td>${n.noticeId}</td>
 
-                            <!-- 제목 → 상세보기 -->
+                            
                             <td>
-                                <a href="${pageContext.request.contextPath}/admin/noticedetail?noticeId=${n.noticeId}">
+                                <a href="${pageContext.request.contextPath}/admin/noticeDetail?noticeId=${n.noticeId}">
                                     ${n.noticeTitle}
                                 </a>
                             </td>
 
-                            <!-- 파일 존재 시 다운로드 버튼 -->
                             <td>
     							<c:choose>
         							<c:when test="${not empty n.storedFileName}">
             							<a href="${pageContext.request.contextPath}/resources/upload/${n.storedFileName}"
-               							download="${n.storedFileName}"
-               							class="text-primary font-weight-bold">
-                							${n.storedFileName}
-            							</a>
+   										   download="${n.storedFileName}"
+   										   class="text-primary font-weight-bold">
+    									   ${n.storedFileName}
+										</a>
         							</c:when>
         							<c:otherwise>
             							<span class="text-muted">없음</span>
@@ -78,10 +77,10 @@
 
                             <!-- 관리 버튼 -->
                             <td>
-                                <a href="${pageContext.request.contextPath}/admin/noticeedit?noticeId=${n.noticeId}"
+                                <a href="${pageContext.request.contextPath}/admin/noticeEdit?noticeId=${n.noticeId}"
                                    class="btn btn-sm btn-warning">수정</a>
 
-                                <form action="${pageContext.request.contextPath}/admin/noticedelete"
+                                 <form action="${pageContext.request.contextPath}/admin/noticeDelete"
                                       method="post"
                                       style="display:inline-block;"
                                       onsubmit="return confirm('정말 삭제하시겠습니까?');">
@@ -114,7 +113,7 @@
             <c:forEach var="num" begin="${pageVO.startPage}" end="${pageVO.endPage}">
                 <li class="page-item ${pageVO.cri.page == num ? 'active' : ''}">
                     <a class="page-link"
-                       href="?page=${num}&pageSize=${pageVO.cri.pageSize}&search=${pageVO.cri.pageSize}">
+                       href="?page=${num}&pageSize=${pageVO.cri.pageSize}&search=${pageVO.cri.search}">
                         ${num}
                     </a>
                 </li>

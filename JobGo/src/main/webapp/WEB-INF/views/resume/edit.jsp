@@ -7,7 +7,7 @@
 	<h2 class="pageTitle">이력서 수정</h2>
 	<div class="container my-5">
 		<div class="row">
-			<div class="col-lg-10 offset-lg-1 col-12">
+			<div class="col-12">
 				<form class="form-ad" action="/resume/edit" method="post">
 					<input type="hidden" name="resumeId" value="${resume.resumeId}" />
 					<input type="hidden" name="memberId" value="${resume.memberId}" />
@@ -25,8 +25,13 @@
 					</div>
 					<hr>
 					<!-- 학력사항 -->
-					<h4 class="single-section-title mt-4">학력사항</h4>
+					<h4 class="single-section-title mt-4 mb-3">학력사항</h4>
 					<div id="educationSection">
+						<div class="text-right mb-10">
+						    <button type="button" class="btn btn-secondary btn-sm add-edu">
+						        <i class="lni lni-add-files"></i> 학력 추가
+						    </button>
+					    </div>
 						<c:forEach var="edu" items="${resume.educationList}"
 							varStatus="st">
 							<div class="edu-item border p-3 rounded mb-3 bg-light">
@@ -65,16 +70,17 @@
 								</button>
 							</div>
 						</c:forEach>
-						<button type="button" class="btn btn-secondary btn-sm add-edu">
-							<i class="lni lni-add-files"></i> 학력 추가
-						</button>
 					</div>
-
 					<hr>
 
 					<!-- 경력사항 -->
-					<h4 class="single-section-title mt-4">경력사항</h4>
+					<h4 class="single-section-title mt-4 mb-3">경력사항</h4>
 					<div id="careerSection">
+						<div class="text-right mb-10">
+						    <button type="button" class="btn btn-secondary btn-sm add-career">
+								<i class="lni lni-add-files"></i> 경력 추가
+							</button>
+					    </div>
 						<c:forEach var="career" items="${resume.careerList}"
 							varStatus="st">
 							<div class="career-item border p-3 rounded mb-3 bg-light">
@@ -108,18 +114,18 @@
 								</button>
 							</div>
 						</c:forEach>
-						<button type="button" class="btn btn-secondary btn-sm add-career">
-							<i class="lni lni-add-files"></i> 경력 추가
-						</button>
 					</div>
-
 					<hr>
 
 					<!-- 교육이력 -->
-					<h4 class="single-section-title mt-4">교육이력</h4>
+					<h4 class="single-section-title mt-4 mb-3">교육이력</h4>
 					<div id="trainingSection">
-						<c:forEach var="training" items="${resume.trainingList}"
-							varStatus="st">
+						<div class="text-right mb-10">
+						    <button type="button" class="btn btn-secondary btn-sm add-training">
+								<i class="lni lni-add-files"></i> 교육 추가
+							</button>
+					    </div>
+						<c:forEach var="training" items="${resume.trainingList}" varStatus="st">
 							<div class="training-item border p-3 rounded mb-3 bg-light">
 								<div class="row">
 									<div class="form-group col-md-6 col-xs-12">
@@ -152,15 +158,17 @@
 								</button>
 							</div>
 						</c:forEach>
-						<button type="button"
-							class="btn btn-secondary btn-sm add-training">
-							<i class="lni lni-add-files"></i> 교육 추가
-						</button>
+						
 					</div>
 
 					<!-- 자격사항 -->
-					<h4 class="single-section-title mt-4">자격사항</h4>
+					<h4 class="single-section-title mt-4 mb-3">자격사항</h4>
 					<div id="certSection">
+						<div class="text-right mb-10">
+							<button type="button" class="btn btn-secondary btn-sm add-cert">
+								<i class="lni lni-add-files"></i> 자격 추가
+							</button>
+					    </div>
 						<c:forEach var="cert" items="${resume.certificationList}"
 							varStatus="st">
 							<div class="cert-item border p-3 rounded mb-3 bg-light">
@@ -181,15 +189,11 @@
 								</button>
 							</div>
 						</c:forEach>
-						<button type="button" class="btn btn-secondary btn-sm add-cert">
-							<i class="lni lni-add-files"></i> 자격 추가
-						</button>
 					</div>
-
 					<hr>
 
 					<!-- 자기소개서 -->
-					<h4 class="single-section-title mt-4">자기소개서</h4>
+					<h4 class="single-section-title mt-4 mb-3">자기소개서</h4>
 					<div class="border p-3 rounded bg-light mb-4">
 						<div class="form-group">
 							<label>지원 동기</label>
@@ -273,8 +277,8 @@
 					<!-- Submit -->
 					<div class="text-center mt-4 button">
 						<button type="submit" formaction="/resume/tempSave" class="btn btn-secondary">임시 저장</button>
-						<button type="submit" formaction="/resume/submitFinal" class="btn btn-primary">최종 저장</button>
 						<a href="/resume/detail?resumeId=${resume.resumeId}" class="btn btn-secondary">취소</a>
+						<button type="submit" formaction="/resume/submitFinal" class="btn btn-primary">최종 저장</button>
 					</div>
 				</form>
 			</div>
@@ -322,7 +326,7 @@ $(document).ready(function(){
                       '<option value="N">재학/중퇴</option>' +
                   '</select>' +
               '</div>' +
-              '<button type="button" class="btn btn-danger btn-sm remove-edu">' +
+              '<button type="button" class="btn btn-danger btn-sm remove-edu mt-10">' +
                   '<i class="lni lni-trash"></i> 삭제' +
               '</button>' +
           '</div>';
@@ -351,12 +355,12 @@ $(document).ready(function(){
       console.log('현재 careerIdx:', careerIdx);
       
       let html = '<div class="career-item border p-3 rounded mb-3 bg-light">' +
-              '<div class="form-row">' +
-                  '<div class="form-group col-md-6">' +
+              '<div class="row">' +
+                  '<div class="form-group col-md-6 col-xs-12">' +
                       '<label>회사명</label>' +
                       '<input type="text" class="form-control" name="careerList[' + careerIdx + '].companyName" placeholder="회사명">' +
                   '</div>' +
-                  '<div class="form-group col-md-6">' +
+                  '<div class="form-group col-md-6 col-xs-12">' +
                       '<label>담당 업무</label>' +
                       '<input type="text" class="form-control" name="careerList[' + careerIdx + '].responsibility" placeholder="담당업무">' +
                   '</div>' +
@@ -371,7 +375,7 @@ $(document).ready(function(){
                       '<input type="date" class="form-control" name="careerList[' + careerIdx + '].toDate">' +
                   '</div>' +
               '</div>' +
-              '<button type="button" class="btn btn-danger btn-sm remove-career">' +
+              '<button type="button" class="btn btn-danger btn-sm remove-career mt-10">' +
                   '<i class="lni lni-trash"></i> 삭제' +
               '</button>' +
           '</div>';
@@ -395,12 +399,12 @@ $(document).ready(function(){
       console.log('현재 trainIdx:', trainIdx);
       
       let html = '<div class="training-item border p-3 rounded mb-3 bg-light">' +
-              '<div class="form-row">' +
-                  '<div class="form-group col-md-6">' +
+              '<div class="row">' +
+                  '<div class="form-group col-md-6 col-xs-12">' +
                       '<label>기관명</label>' +
                       '<input type="text" class="form-control" name="trainingList[' + trainIdx + '].institution" placeholder="교육기관명">' +
                   '</div>' +
-                  '<div class="form-group col-md-6">' +
+                  '<div class="form-group col-md-6 col-xs-12">' +
                       '<label>교육 내용</label>' +
                       '<input type="text" class="form-control" name="trainingList[' + trainIdx + '].content" placeholder="교육내용">' +
                   '</div>' +
@@ -415,7 +419,7 @@ $(document).ready(function(){
                       '<input type="date" class="form-control" name="trainingList[' + trainIdx + '].toDate">' +
                   '</div>' +
               '</div>' +
-              '<button type="button" class="btn btn-danger btn-sm remove-training">' +
+              '<button type="button" class="btn btn-danger btn-sm remove-training mt-10">' +
                   '<i class="lni lni-trash"></i> 삭제' +
               '</button>' +
           '</div>';
@@ -439,7 +443,7 @@ $(document).ready(function(){
       console.log('현재 certIdx:', certIdx);
       
       let html = '<div class="cert-item border p-3 rounded mb-3 bg-light">' +
-              '<div class="form-row">' +
+              '<div class="row">' +
                   '<div class="form-group col-md-8">' +
                       '<label>자격명</label>' +
                       '<input type="text" class="form-control" name="certificationList[' + certIdx + '].certificationName" placeholder="취득 자격명">' +
@@ -449,7 +453,7 @@ $(document).ready(function(){
                       '<input type="date" class="form-control" name="certificationList[' + certIdx + '].acquiredDate">' +
                   '</div>' +
               '</div>' +
-              '<button type="button" class="btn btn-danger btn-sm remove-cert">' +
+              '<button type="button" class="btn btn-danger btn-sm remove-cert mt-10">' +
                   '<i class="lni lni-trash"></i> 삭제' +
               '</button>' +
           '</div>';

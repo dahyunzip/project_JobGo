@@ -16,8 +16,44 @@
 	<div class="container">
 		<p class="mb-10">총 <strong>${totalCount}</strong>건의 지원 내역이 있습니다.</p>
 		<!-- 지원공고 테이블 -->
-		<!-- 이력서 목록 테이블 -->
-		<table class="table-responsive table-default">
+		
+		<div id="applyWrap">
+			<c:forEach var="app" items="${applications}">
+			<a href="/recboard/recRead?rec_bno=${app.rec_bno }">
+				<div class="applyList">
+					
+					<div class="info">
+						<h5>${app.rec_title}
+							<c:choose>
+								<c:when test="${app.status eq 'APPLIED'}"><span class="badge bg-primary text-white">지원완료</span></c:when>
+								<c:when test="${app.status eq 'REVIEWING'}"><span class="badge bg-info">서류 검토중</span></c:when>
+								<c:when test="${app.status eq 'REJECTED'}"><span class="badge bg-danger">불합격</span></c:when>
+								<c:when test="${app.status eq 'PASSED'}"><span class="badge bg-success">합격</span></c:when>
+								<c:when test="${app.status eq 'HIRED'}"><span class="badge bg-success">채용완료</span></c:when>
+							</c:choose></h5>
+						<p>기업명 : ${app.corp_name}</p>
+						<p>제출 이력서 : ${app.resume_title}</p>
+						<p>지원일 : <fmt:formatDate value="${app.applied_at}" pattern="yyyy.MM.dd"/></p>
+					</div>
+					<div class="manage">
+						<c:if test="${app.status eq 'APPLIED'}">
+							<form method="post" action="/application/withdraw">
+								<input type="hidden" name="application_id"
+									value="${app.application_id}">
+								<button class="btn btn-danger">지원취소</button>
+							</form>
+						</c:if>
+					</div>
+				</div>
+			</a>
+			</c:forEach>
+			<c:if test="${empty applications}">
+				<div class="resultNone">
+					<p>지원한 공고가 없습니다.</p>
+				</div>
+			</c:if>
+		</div>
+		<%-- <table class="table-responsive table-default">
 			<colgroup>
 				<col width="30%">
 				<col width="*%">
@@ -69,7 +105,7 @@
 					</tr>
 				</c:if>
 			</tbody>
-		</table>
+		</table> --%>
 		<!-- Pagination -->
 		<div class="row">
 			<div class="col-12">

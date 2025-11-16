@@ -24,13 +24,51 @@
 <section class="section resume-list-section py-5">
     <h2 class="pageTitle">내 이력서 목록</h2>
     <div class="container">
+        
+        <div id="applyWrap">
+	        <c:forEach var="resume" items="${resumeList}" varStatus="status">
+			<a href="/resume/detail?resumeId=${resume.resumeId}">
+				<div class="applyList">
+					<div class="info">
+						<h5>${resume.resumeTitle}
+							<c:if test="${resume.status eq 'TEMP'}">
+						        <span class="badge bg-warning text-dark">임시저장</span>
+						    </c:if>
+	                        <c:if test="${resume.status eq 'FINAL'}">
+						        <span class="badge bg-primary text-white">작성완료</span>
+						    </c:if>
+					    </h5>
+						<p>최초 작성일 : <fmt:formatDate value="${resume.createdAt}" pattern="yyyy-MM-dd HH:mm" /></p>
+						<p>수정일 : <fmt:formatDate value="${resume.updatedAt}" pattern="yyyy-MM-dd HH:mm" /></p>
+					</div>
+					<div class="manage">
+						<div class="btn-group">
+	                           <button onclick="location.href='/resume/edit?resumeId=${resume.resumeId}'" class="btn btn-sm btn-warning mr-10">수정</button>
+	                           <form action="/resume/delete" method="post" style="display:inline;">
+	                               <input type="hidden" name="resumeId" value="${resume.resumeId}">
+	                               <input type="hidden" name="memberId" value="${resume.memberId}">
+	                               <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('정말 삭제하시겠습니까?');"> 삭제</button>
+	                           </form>
+	                       </div>
+					</div>
+				</div>
+			</a>
+			</c:forEach>
+			<c:if test="${empty resumeList}">
+				<div class="resultNone">
+					<p>아직 등록된 이력서가 없습니다.</p>
+				</div>
+			</c:if>
+        </div>
+        
+        
         <!-- 등록 버튼 -->
-        <div class="text-right mb-4 button">
-            <a href="/resume/write" class="btn btn-primary">
+        <div class="text-right mb-4 button mt-10">
+            <a href="/resume/write" class="btn btn-info">
                 <i class="lni lni-add-files"></i> 새 이력서 작성
             </a>
         </div>
-        <!-- 이력서 목록 테이블 -->
+        <%-- <!-- 이력서 목록 테이블 -->
         <table class="table-responsive table-default">
             <thead class="thead-light">
                 <tr>
@@ -89,7 +127,7 @@
                     </c:otherwise>
                 </c:choose>
             </tbody>
-        </table>
+        </table> --%>
     </div>
 </section>
 

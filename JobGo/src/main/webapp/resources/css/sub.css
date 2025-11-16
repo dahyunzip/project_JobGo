@@ -182,3 +182,6 @@
 	#com_top .comTopInfo{width:100%; margin-bottom:30px;}
 	#com_top .comTopThumb{width:100%; margin-bottom:10px}
 }
+
+#mypage .user-img{width:150px; height:150px; border-radius: 50%; overflow:hidden; margin:0 auto;}
+#mypage .user-img img{width:100%; height:100%; object-fit:cover;}

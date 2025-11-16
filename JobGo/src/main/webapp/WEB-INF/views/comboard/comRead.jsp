@@ -210,9 +210,11 @@
 							<p>불편을 드려 죄송합니다 (┬┬﹏┬┬) 일반회원만 댓글 작성이 가능합니다.</p>
 						</c:if>
 					</div>
-					<div class="button">
-						<button class="btn">등록</button>
-					</div>
+					<c:if test="${!empty loginUserId}">
+						<div class="button">
+							<button class="btn">등록</button>
+						</div>
+					</c:if>
 				</div>
                 <hr>
 				<table class="table-default table-responsive" style="word-break: break-word;">
@@ -227,9 +229,7 @@
 							<th>작성자</th>
 							<th>내용</th>
 							<th>작성일</th>
-							<c:if test="${!empty loginUserId}">									
-								<th>기능</th>
-							</c:if>
+							<th><c:if test="${!empty loginUserId}">기능</c:if></th>
 						</tr>
 					</thead>
 					<tbody class="replyList">

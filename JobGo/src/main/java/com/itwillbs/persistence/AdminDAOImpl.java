@@ -128,4 +128,51 @@ public class AdminDAOImpl implements AdminDAO{
 		sqlSession.delete(NAMESPACE + ".deleteNotice", noticeId);
 	}
 	
+	// (S) 관리자 대시보드용 쿼리
+	@Override
+    public int getTotalMembers() throws Exception {
+        return sqlSession.selectOne(NAMESPACE + ".getTotalMembers");
+    }
+
+    @Override
+    public int getGeneralMembers() throws Exception {
+        return sqlSession.selectOne(NAMESPACE + ".getGeneralMembers");
+    }
+
+    @Override
+    public int getCorpMembers() throws Exception {
+        return sqlSession.selectOne(NAMESPACE + ".getCorpMembers");
+    }
+
+    @Override
+    public int getTotalRecruits() throws Exception {
+        return sqlSession.selectOne(NAMESPACE + ".getTotalRecruits");
+    }
+
+    @Override
+    public int getWeeklyRecruits() throws Exception {
+        return sqlSession.selectOne(NAMESPACE + ".getWeeklyRecruits");
+    }
+
+    @Override
+    public int getTotalNoticeCount() throws Exception {
+        return sqlSession.selectOne(NAMESPACE + ".getTotalNoticeCount");
+    }
+
+    @Override
+    public String getLatestNoticeTitle() throws Exception {
+        return sqlSession.selectOne(NAMESPACE + ".getLatestNoticeTitle");
+    }
+
+    @Override
+    public int getTotalReviewCount() throws Exception {
+        return sqlSession.selectOne(NAMESPACE + ".getTotalReviewCount");
+    }
+
+    @Override
+    public int getTodayReviewCount() throws Exception {
+        return sqlSession.selectOne(NAMESPACE + ".getTodayReviewCount");
+    }
+
+	// (E) 관리자 대시보드용 쿼리
 }

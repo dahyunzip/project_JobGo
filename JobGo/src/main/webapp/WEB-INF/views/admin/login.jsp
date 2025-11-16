@@ -12,6 +12,7 @@
         rel="stylesheet">
 
     <!-- Custom styles for this template-->
+    <link href="${pageContext.request.contextPath }/resources/css/adminSub.css" rel="stylesheet">
     <link href="${pageContext.request.contextPath }/resources/css/sb-admin-2.min.css" rel="stylesheet">
 </head>
 <body class="bg-gradient-primary">
@@ -27,8 +28,8 @@
                     <div class="card-body p-0">
                         <!-- Nested Row within Card Body -->
                         <div class="row">
-                            <div class="col-lg-6 d-none d-lg-block bg-login-image">
-                            	<img src="${pageContext.request.contextPath }/resources/images/jobgo_XL.png" style="width:100%;">
+                            <div class="col-lg-6 bg-login-image">
+                            	<img src="${pageContext.request.contextPath }/resources/images/logo/logo.svg" style="width:50%;">
                             </div>
                             <div class="col-lg-6">
                                 <div class="p-5">

@@ -267,5 +267,58 @@
 		where notice_id = #{noticeId}
 	</delete>
 	
-
+	<!-- (S) 대시보트 통계용 쿼리 모음 -->
+		<!-- 전체 회원 수 -->
+	    <select id="getTotalMembers" resultType="int">
+	        SELECT COUNT(*) FROM member
+	    </select>
+	
+	    <!-- 일반 회원 수 -->
+	    <select id="getGeneralMembers" resultType="int">
+	        SELECT COUNT(*) FROM member WHERE is_deleted = '0'
+	    </select>
+	
+	    <!-- 기업 회원 수 -->
+	    <select id="getCorpMembers" resultType="int">
+	        SELECT COUNT(*) FROM corpmember where status = 'A'
+	    </select>
+	
+	    <!-- 전체 채용공고 수 -->
+	    <select id="getTotalRecruits" resultType="int">
+	        SELECT COUNT(*) FROM rec_board
+	    </select>
+	
+	    <!-- 이번 주 신규 채용공고 수 -->
+	    <select id="getWeeklyRecruits" resultType="int">
+	        SELECT COUNT(*)
+	        FROM rec_board
+	        WHERE rec_regdate >= DATE_SUB(CURDATE(), INTERVAL 7 DAY)
+	    </select>
+	
+	    <!-- 전체 공지 수 -->
+	    <select id="getTotalNoticeCount" resultType="int">
+	        SELECT COUNT(*) FROM notice_board
+	    </select>
+	
+	    <!-- 가장 최근 공지 제목 -->
+	    <select id="getLatestNoticeTitle" resultType="string">
+	        SELECT notice_title
+	        FROM notice_board
+	        ORDER BY notice_id DESC
+	        LIMIT 1
+	    </select>
+	
+	    <!-- 전체 리뷰 수 -->
+	    <select id="getTotalReviewCount" resultType="int">
+	        SELECT COUNT(*) FROM review
+	    </select>
+	
+	    <!-- 오늘 등록된 리뷰 수 -->
+	    <select id="getTodayReviewCount" resultType="int">
+	        SELECT COUNT(*)
+	        FROM review
+	        WHERE DATE(rev_regdate) = CURDATE()
+	    </select>
+	<!-- (E) 대시보트 통계용 쿼리 모음 -->
+	
 </mapper>

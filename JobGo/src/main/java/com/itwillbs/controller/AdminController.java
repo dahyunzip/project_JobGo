@@ -89,7 +89,7 @@ public class AdminController {
 	
 	// 관리자 대시보드
 	@RequestMapping(value="/home", method=RequestMethod.GET)
-	public String adminDashboard(HttpSession session, Model model) {
+	public String adminDashboard(HttpSession session, Model model) throws Exception {
 		
 		String adminId = (String) session.getAttribute("adminSession");
 		
@@ -98,6 +98,18 @@ public class AdminController {
 			return "redirect:/admin/login";
 		}
 		
+		model.addAttribute("totalMembers", adminService.getTotalMembers());
+        model.addAttribute("generalMembers", adminService.getGeneralMembers());
+        model.addAttribute("corpMembers", adminService.getCorpMembers());
+
+        model.addAttribute("totalRecruits", adminService.getTotalRecruits());
+        model.addAttribute("weeklyRecruits", adminService.getWeeklyRecruits());
+
+        model.addAttribute("totalNotice", adminService.getTotalNoticeCount());
+        model.addAttribute("latestNotice", adminService.getLatestNoticeTitle());
+
+        model.addAttribute("totalReview", adminService.getTotalReviewCount());
+        model.addAttribute("todayReview", adminService.getTodayReviewCount());
 		model.addAttribute("adminId", adminId);
 		return "/admin/home";
 	}

@@ -229,10 +229,12 @@ public class ComBoardController {
 	// 게시글 보기
 	@GetMapping("/comRead")
 	public String comReadGET(@RequestParam("com_bno") int com_bno,
-			                 @ModelAttribute("page") int page,
+							@RequestParam(value = "page", required = false, defaultValue = "1") int page,
 			                 Model model,
 			                 HttpSession session) throws Exception {
 		logger.debug(" /comboard/comRead -> comReadGET 실행! ");
+		
+		model.addAttribute("page", page);
 		
 		// 일반회원 세션 조회용
 		String loginUserId = (String) session.getAttribute("userid");
@@ -262,7 +264,6 @@ public class ComBoardController {
 		logger.debug(" 로그인 회원 아이디: "+resultReadVO.getUserid());
 		logger.debug(" 로그인 회원 이름: "+resultReadVO.getWriter());
 		logger.debug(" 로그인 회원 메일 주소: "+resultReadVO.getEmail());
-		
 		return "/comboard/comRead";
 	}
 	

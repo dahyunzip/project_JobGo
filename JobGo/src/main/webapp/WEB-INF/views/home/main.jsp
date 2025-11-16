@@ -238,7 +238,7 @@ $(document).ready(function(){
 		                <ul>
 		                    <c:forEach var="c" items="${communityList}">
 		                        <li class="wow fadeInUp">
-		                            <a href="/community/detail?postId=${c.com_bno}">
+		                            <a href="/comboard/comRead?com_bno=${c.com_bno}">
 		                                ${c.com_title}
 		                            </a>
 		                            <span class="date">

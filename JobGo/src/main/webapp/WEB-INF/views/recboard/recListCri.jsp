@@ -52,7 +52,7 @@
 								<div class="single-job"
 									onclick="location.href='/recboard/recRead?rec_bno=${vo.rec_bno}&recPage=${cri.recPage}'">
 									<div class="thumb-area">
-										<img src="/upload/recfile/${vo.thumbFileName}">
+										<img src="/upload/recfile/${vo.thumbFileName}" onerror="this.onerror=null; this.src='/resources/images/default_image.jpg'">
 									</div>
 									<div class="overlay-text">
 										<h3 class="company">${vo.rec_title}</h3>

@@ -151,7 +151,7 @@
 .card-body * {font-size:16px; color:#333;}
 
 .applicant-profile{display:flex; flex-wrap:wrap; gap:20px}
-.applicant-profile .pfImg{width:120px; height:120px; background:#e5e5e5; margin:0 auto 10px auto;}
+.applicant-profile .pfImg{width:120px; height:120px; margin:0 auto 10px auto;}
 .applicant-profile .pfTxt{width:100%;}
 
 #applyWrap > a{display:block; margin-bottom:30px; }

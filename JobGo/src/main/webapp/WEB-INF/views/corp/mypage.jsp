@@ -22,19 +22,17 @@ $(document).ready(function(){
             <div class="col-lg-12 col-12">
                 <div class="job-details-inner box">
                     <!-- Header -->
-                    <div class="job-details-head row mx-0 align-items-center">
-                        <div class="user-img col-auto">
+                    <div class="mb-10 text-center">
+                      	<div class="user-img">
                             <c:set var="corpLogo" value="${empty corpuser.corpProfileStored ? 'default_image.jpg' : corpuser.corpProfileStored}" />
-                            <div style="border-radius: 4px; overflow: hidden; width:100px; height:100px;">
-                                <img src="/upload/${corpLogo}" style="object-fit:cover;" alt="기업 로고">
-                            </div>
+                            <img src="/upload/${corpLogo}" style="object-fit:cover;" alt="기업 로고" onerror="this.onerror=null; this.src='/resources/images/default_image.jpg'">
                         </div>
-                        <div class="content col">
+                        <div class="content mt-20">
                             <h5 class="title">${corpuser.managerName} 님 안녕하세요.</h5>
                             <p class="mb-0">${corpuser.companyName}</p>
                         </div>
+		                <hr>
                     </div>
-
                     <!-- Body -->
                     <div class="job-details-body mt-4">
                         <h6 class="mb-3">기업 회원 정보</h6>

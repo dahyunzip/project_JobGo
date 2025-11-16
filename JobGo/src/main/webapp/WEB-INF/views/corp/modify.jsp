@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="../include/Header.jsp"%>
-<section class="job-details section">
+<section class="job-details section" id="mypage">
 	<h2 class="pageTitle">내 정보 수정</h2>
 	<div class="container">
 	    <div class="row">
@@ -14,10 +14,11 @@
 	                	<input type="hidden" name="corpUserPw" value="${corpuser.corpUserPw}">
 	                    <div class="col-lg-12 col-12">
                             <div class="form-group">
-                            	<div>
-                                    <img src="/upload/${corpLogo}" height="100" class="mb-2" alt="기업 로고 미리보기">
+                            	<div class="user-img">
+	                                <c:set var="corpLogo" value="${empty corpuser.corpProfileStored ? 'default_image.jpg' : corpuser.corpProfileStored}" />
+                                    <img src="/upload/${corpLogo}" height="100" class="mb-2" alt="기업 로고 미리보기" onerror="this.onerror=null; this.src='/resources/images/default_image.jpg'">
                                 </div>
-                                <c:set var="corpLogo" value="${empty corpuser.corpProfileStored ? 'default_image.jpg' : corpuser.corpProfileStored}" />
+                                <label class="control-label">프로필 이미지 수정</label>
                                 <input type="file" class="form-control" name="corpProfileUpload" accept="image/*">
                             </div>
                         </div>

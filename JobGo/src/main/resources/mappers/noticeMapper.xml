@@ -33,10 +33,10 @@
 		where notice_id = #{noticeId}
 	</update>
 
-	<update id="deleteNotice">
+	<delete id="deleteNotice">
 		delete from notice_board
 		where notice_id = #{noticeId}
-	</update>
+	</delete>
 
 	<update id="updateViewCnt">
 		update notice_board

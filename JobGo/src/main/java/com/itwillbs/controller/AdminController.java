@@ -5,7 +5,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletResponse;
@@ -18,16 +20,19 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.itwillbs.domain.CorpMemberVO;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.MemberVO;
+import com.itwillbs.domain.NoticeVO;
 import com.itwillbs.domain.PageVO;
 import com.itwillbs.domain.RecBoardVO;
 import com.itwillbs.domain.ReviewVO;
 import com.itwillbs.service.AdminService;
 import com.itwillbs.service.MemberService;
+import com.itwillbs.service.NoticeService;
 
 @Controller
 @RequestMapping(value="/admin")
@@ -39,6 +44,9 @@ public class AdminController {
 	
 	@Inject
 	private AdminService adminService;
+	
+	@Inject
+	private NoticeService noticeService;
 	
 	@RequestMapping(value="/login", method=RequestMethod.GET)
 	public String adminLoginGET() {
@@ -171,7 +179,7 @@ public class AdminController {
 	        return "redirect:/admin/login";
 	    }
 
-	    List<MemberVO> corpList = adminService.getAllCorpMembers(cri);
+	    List<CorpMemberVO> corpList = adminService.getAllCorpMembers(cri);
 	    int totalCount = adminService.getCorpMemberTotalCount();
 
 	    PageVO pageVO = new PageVO();
@@ -381,6 +389,172 @@ public class AdminController {
 		return "redirect:/admin/reviewManage";
 	}
 	
+	//공지사항
+	@RequestMapping(value="/noticeManage", method=RequestMethod.GET)
+	public String adminNoticeList(
+			@RequestParam(value="search", required=false) String search,
+			Criteria cri,
+			HttpSession session,
+			Model model) throws Exception {
+
+		// 관리자 체크
+		if (session.getAttribute("adminSession") == null) {
+			return "redirect:/admin/login";
+		}
+
+		// 검색어 세팅
+		cri.setSearch(search);
+
+		// 목록 조회
+		List<NoticeVO> noticeList = adminService.getNoticeListAll(cri);
+		int totalCount = adminService.getTotalCountAll(cri);
+
+		PageVO pageVO = new PageVO();
+		pageVO.setCri(cri);
+		pageVO.setTotalCount(totalCount);
+
+		model.addAttribute("search", search);
+		model.addAttribute("noticeList", noticeList);
+		model.addAttribute("pageVO", pageVO);
+
+		return "/admin/noticeManage";
+	}
+
+	// 공지 상세
+	@RequestMapping(value="/noticeDetail", method=RequestMethod.GET)
+	public String adminNoticeDetail(
+			@RequestParam("noticeId") int noticeId,
+			HttpSession session,
+			Model model) throws Exception {
+
+		if (session.getAttribute("adminSession") == null) {
+			return "redirect:/admin/login";
+		}
+
+		NoticeVO notice = adminService.getNotice(noticeId);
+		model.addAttribute("notice", notice);
+
+		return "/admin/noticeDetail";
+	}
+
+	// 공지 작성
+	@RequestMapping(value="/noticeWrite", method=RequestMethod.GET)
+	public String adminNoticeWriteForm(HttpSession session, Model model) {
+
+	    if (session.getAttribute("adminSession") == null) {
+	        return "redirect:/admin/login";
+	    }
+
+	    return "/admin/noticeWrite";
+	}
+
+	// 공지 작성
+	@RequestMapping(value="/noticeWrite", method=RequestMethod.POST)
+	public String adminNoticeWrite(
+			NoticeVO vo,
+			@RequestParam(value="file", required=false) MultipartFile file,
+			@RequestParam("corpNotice") String corpNotice,
+			HttpSession session) throws Exception {
+
+		if (session.getAttribute("adminSession") == null) {
+			return "redirect:/admin/login";
+		}
+
+		String userid = (String) session.getAttribute("adminSession");
+		
+		if ("corp".equals(corpNotice)) {
+	        vo.setNoticeTitle("[기업공지] " + vo.getNoticeTitle());
+	    }
+
+		// 파일 업로드
+		if (file != null && !file.isEmpty()) {
+
+			String uploadPath = session.getServletContext().getRealPath("/resources/upload/");
+			File dir = new File(uploadPath);
+			if(!dir.exists()) dir.mkdirs();
+
+			String origin = file.getOriginalFilename();
+			String fileName = System.currentTimeMillis() + "_" + origin;
+
+			file.transferTo(new File(uploadPath, fileName));
+			vo.setStoredFileName(fileName);
+		}
+
+		Map<String, Object> map = new HashMap<>();
+		map.put("userid", userid);
+		map.put("noticeTitle", vo.getNoticeTitle());
+		map.put("noticeContent", vo.getNoticeContent());
+		map.put("storedFileName", vo.getStoredFileName());
+
+		adminService.insertNotice(map);
+
+		return "redirect:/admin/noticeManage";
+	}
+
+	// 공지 수정 (GET)
+	@RequestMapping(value="/noticeEdit", method=RequestMethod.GET)
+	public String adminNoticeEditForm(
+			@RequestParam("noticeId") int noticeId,
+			HttpSession session,
+			Model model) throws Exception {
+
+		if (session.getAttribute("adminSession") == null) {
+			return "redirect:/admin/login";
+		}
+
+		NoticeVO notice = adminService.getNotice(noticeId);
+		model.addAttribute("notice", notice);
+
+		return "/admin/noticeEdit";
+	}
+
+	// 공지 수정 (POST)
+	@RequestMapping(value="/noticeEdit", method=RequestMethod.POST)
+	public String adminNoticeEdit(
+			NoticeVO vo,
+			@RequestParam(value="file", required=false) MultipartFile file,
+			HttpSession session) throws Exception {
+
+		if (session.getAttribute("adminSession") == null) {
+			return "redirect:/admin/login";
+		}
+
+		// 파일 업로드
+		if (file != null && !file.isEmpty()) {
+
+			String uploadPath = session.getServletContext().getRealPath("/resources/upload/");
+			File dir = new File(uploadPath);
+			if (!dir.exists()) dir.mkdirs();
+
+			String origin = file.getOriginalFilename();
+			String fileName = System.currentTimeMillis() + "_" + origin;
+
+			file.transferTo(new File(uploadPath, fileName));
+			vo.setStoredFileName(fileName);
+		}
+
+		adminService.updateNotice(vo);
+
+		return "redirect:/admin/noticeDetail?noticeId=" + vo.getNoticeId();
+	}
+
+	// 공지 삭제
+	@RequestMapping(value="/noticeDelete", method=RequestMethod.POST)
+	public String adminNoticeDelete(
+			@RequestParam("noticeId") int noticeId,
+			HttpSession session) throws Exception {
+
+		if (session.getAttribute("adminSession") == null) {
+			return "redirect:/admin/login";
+		}
+
+		adminService.deleteNotice(noticeId);
+
+		return "redirect:/admin/noticeManage";
+	}
+	
+	
+
 	
 	
 }

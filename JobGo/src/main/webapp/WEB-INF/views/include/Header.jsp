@@ -34,6 +34,8 @@
 	</c:choose>
 	
 	<!-- ========================= JS here ========================= -->
+	<script src="${pageContext.request.contextPath }/resources/js/tiny-slider.js" type="text/javascript"></script>
+	<script src="${pageContext.request.contextPath }/resources/js/wow.min.js" type="text/javascript"></script>
 	<script src="${pageContext.request.contextPath }/resources/js/jquery-3.7.1.js" type="text/javascript"></script>
 </head>
 <body>
@@ -56,6 +58,11 @@
 								&nbsp;페이지
 								</h3> --%>
 							</a>
+							<button class="navbar-toggler collapsed" id="mobileBtn" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+	                            <span class="toggler-icon"></span>
+	                            <span class="toggler-icon"></span>
+	                            <span class="toggler-icon"></span>
+	                        </button>
 						</nav>
 					</div>
 					<div id="searchBar" class="col-lg-4 col-xs-12">
@@ -73,7 +80,7 @@
 					</div>
 				</div>
 				<div class="col-lg-12">
-					<nav class="navbar navbar-expand-lg">
+					<nav class="navbar navbar-expand-lg" id="gnb">
 						<div class="collapse navbar-collapse sub-menu-bar" id="navbarSupportedContent">
 							<ul id="nav" class="navbar-nav">
 								<c:choose>
@@ -211,6 +218,7 @@
 		    $(".searchBtn").click(function(){
 		    	doSearch();
 		    });
-		
+		    
+		    new WOW().init();
 		});
 	</script>

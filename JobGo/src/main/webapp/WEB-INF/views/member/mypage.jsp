@@ -18,7 +18,7 @@
 	            <div class="job-details-inner">
 	                <div class="job-details-head row mx-0">
 	                    <div class="user-img col-auto">
-	                    	<c:set var="imageName" value="${empty user.storedFileName ? 'default.jpg' : user.storedFileName }" />
+	                    	<c:set var="imageName" value="${empty user.storedFileName ? 'default_image.jpg' : user.storedFileName }" />
 	                        <a href="#" style="border-radius: 4px; overflow: hidden;"><img src="/upload/${imageName }"  alt="기본 프로필 사진"></a>
 	                    </div>
 	                    <div class="content col">

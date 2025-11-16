@@ -41,6 +41,11 @@ public class ResumeDAOImpl implements ResumeDAO {
     public List<ResumeVO> getResumeList(int memberId) throws Exception{
         return sqlSession.selectList(NAMESPACE + "selectResumeList", memberId);
     }
+    
+    @Override
+    public int countResumeByMember(int memberId) {
+        return sqlSession.selectOne(NAMESPACE + "countResumeByMember", memberId);
+    }
 
     @Override
     public void updateResume(ResumeVO resume) throws Exception{

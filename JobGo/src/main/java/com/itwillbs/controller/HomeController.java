@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import javax.inject.Inject;
+import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,9 +14,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.itwillbs.domain.MemberVO;
+import com.itwillbs.service.ApplicationService;
 import com.itwillbs.service.ComBoardService;
+import com.itwillbs.service.MemberService;
 import com.itwillbs.service.NoticeService;
 import com.itwillbs.service.RecBoardService;
+import com.itwillbs.service.ResumeService;
 import com.itwillbs.service.ReviewService;
 
 /**
@@ -31,6 +36,9 @@ public class HomeController {
 
     @Inject
     private ComBoardService communityService;
+    
+    @Inject
+    private MemberService memberService;
 
     @Inject
     private ReviewService reviewService;
@@ -38,8 +46,27 @@ public class HomeController {
     @Inject
     private RecBoardService recBoardService;
 
+    @Inject
+    private ResumeService resumeService;
+    
+    @Inject
+    private ApplicationService applyService;
+
     @RequestMapping(value = "/", method = RequestMethod.GET)
-    public String main(Model model) throws Exception {
+    public String main(Model model, HttpSession session) throws Exception {
+    	String userid = (String) session.getAttribute("userid");
+    	
+    	if (userid != null) {
+    	    MemberVO vo = memberService.getMember(userid);
+
+    	    int resumeCount = resumeService.getResumeCount(vo.getId());
+    	    int applyCount = applyService.getTotalCount(vo.getId());
+
+    	    model.addAttribute("loginMember", vo);
+    	    model.addAttribute("resumeCount", resumeCount);
+    	    model.addAttribute("applyCount", applyCount);
+    	}
+    	
     	model.addAttribute("recMainList", recBoardService.getRecMainList());
     	model.addAttribute("recMainListVW", recBoardService.getRecMainListVIEW());
         model.addAttribute("noticeList", noticeService.getRecentNotices());

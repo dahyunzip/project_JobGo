@@ -122,6 +122,10 @@ public class ResumeServiceImpl implements ResumeService {
         return resume;
 	}
 
+	public int getResumeCount(int memberId) {
+	    return resumeDAO.countResumeByMember(memberId);
+	}
+	
 	@Override
 	public List<ResumeVO> getResumeList(int memberId) throws Exception {
         return resumeDAO.getResumeList(memberId);

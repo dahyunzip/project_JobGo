@@ -17,7 +17,7 @@
                             	<div>
                                     <img src="/upload/${corpLogo}" height="100" class="mb-2" alt="기업 로고 미리보기">
                                 </div>
-                                <c:set var="corpLogo" value="${empty corpuser.corpProfileStored ? 'default.jpg' : corpuser.corpProfileStored}" />
+                                <c:set var="corpLogo" value="${empty corpuser.corpProfileStored ? 'default_image.jpg' : corpuser.corpProfileStored}" />
                                 <input type="file" class="form-control" name="corpProfileUpload" accept="image/*">
                             </div>
                         </div>

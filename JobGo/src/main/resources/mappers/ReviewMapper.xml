@@ -216,4 +216,24 @@
     	where review_id = #{reviewId}
 	</update>
 	
+	<select id="getRecentReviews" resultType="com.itwillbs.domain.ReviewVO">
+        SELECT 
+	        r.review_id AS reviewId,
+	        r.rev_title AS revTitle,
+	        r.rev_content AS revContent,
+	        r.rev_rate AS revRate,
+	        r.rev_regdate AS revRegdate,
+	        
+	        
+	        m.id AS userid,
+	        m.originalFileName AS originalFileName,
+	        m.storedFileName AS storedFileName
+	        
+	    FROM review r
+	    LEFT JOIN member m 
+	        ON r.member_id = m.id 
+	        
+	    ORDER BY r.rev_regdate DESC
+	    LIMIT 4
+    </select>
 </mapper>

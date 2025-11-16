@@ -120,4 +120,9 @@ public class ReviewDAOImpl implements ReviewDAO{
 		sqlSession.update(NAMESPACE + ".updateViewCnt", reviewId);
 	}
 	
+	@Override
+    public List<ReviewVO> getRecentReviews() {
+        return sqlSession.selectList(NAMESPACE + ".getRecentReviews");
+    }
+	
 }

@@ -50,4 +50,5 @@ public interface ReviewService {
 	// 조회수 증가
 	void updateViewCnt(int reviewId) throws Exception;
 	
+	public List<ReviewVO> getRecentReviews();
 }

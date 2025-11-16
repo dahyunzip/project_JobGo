@@ -91,5 +91,10 @@ public class ComBoardDAOImpl implements ComBoardDAO {
 		
 		logger.debug(" updateViewCnt() 끝! ");
 	}
+	
+	@Override
+    public List<ComBoardVO> getRecentCommunityPosts() {
+        return sqlSession.selectList(NAMESPACE + "getRecentCommunityPosts");
+    }
 
 }

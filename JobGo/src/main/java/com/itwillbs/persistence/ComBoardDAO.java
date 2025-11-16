@@ -28,4 +28,6 @@ public interface ComBoardDAO {
 	// 게시판 특정 글 조회수 1증가
 	public void updateViewCnt(int com_bno) throws Exception;
 	
+	public List<ComBoardVO> getRecentCommunityPosts();
+	
 }

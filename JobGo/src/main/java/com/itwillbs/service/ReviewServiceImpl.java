@@ -131,4 +131,9 @@ public class ReviewServiceImpl implements ReviewService{
 		reviewDAO.updateViewCnt(reviewId);
 	}
 	
+	@Override
+    public List<ReviewVO> getRecentReviews() {
+        return reviewDAO.getRecentReviews();
+    }
+	
 }

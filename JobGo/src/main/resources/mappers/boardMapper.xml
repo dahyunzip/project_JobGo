@@ -84,4 +84,12 @@
 		update com_board set com_viewcnt = com_viewcnt + 1 
 		where com_bno = #{com_bno}
 	</update>
+	
+	<select id="getRecentCommunityPosts" resultType="com.itwillbs.domain.ComBoardVO">
+        SELECT cb.com_bno, cb.com_title, cb.com_content, m.name as writer, cb.com_regdate
+        FROM com_board cb
+        Join member m on m.id = cb.member_id
+        ORDER BY com_regdate DESC
+        LIMIT 5
+    </select>
 </mapper>

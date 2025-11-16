@@ -50,4 +50,5 @@ public interface ReviewDAO {
 	// 조회수 증가
 	void updateViewCnt(int reviewId);
 	
+	public List<ReviewVO> getRecentReviews();
 }

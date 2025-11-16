@@ -126,4 +126,33 @@ public class AdminServiceImpl implements AdminService{
 		adminDAO.deleteNotice(noticeId);
 	}
 	
+	// (S) 관리자 메인 대시보드
+	@Override
+    public int getTotalMembers() throws Exception { return adminDAO.getTotalMembers(); }
+
+    @Override
+    public int getGeneralMembers() throws Exception { return adminDAO.getGeneralMembers(); }
+
+    @Override
+    public int getCorpMembers() throws Exception { return adminDAO.getCorpMembers(); }
+
+    @Override
+    public int getTotalRecruits() throws Exception { return adminDAO.getTotalRecruits(); }
+
+    @Override
+    public int getWeeklyRecruits() throws Exception { return adminDAO.getWeeklyRecruits(); }
+
+    @Override
+    public int getTotalNoticeCount() throws Exception { return adminDAO.getTotalNoticeCount(); }
+
+    @Override
+    public String getLatestNoticeTitle() throws Exception { return adminDAO.getLatestNoticeTitle(); }
+
+    @Override
+    public int getTotalReviewCount() throws Exception { return adminDAO.getTotalReviewCount(); }
+
+    @Override
+    public int getTodayReviewCount() throws Exception { return adminDAO.getTodayReviewCount(); }
+    // (E) 관리자 메인 대시보드
+	
 }

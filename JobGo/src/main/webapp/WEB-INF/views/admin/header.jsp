@@ -14,6 +14,7 @@
 
     <!-- Custom styles for this template-->
     <link href="${pageContext.request.contextPath }/resources/css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="${pageContext.request.contextPath }/resources/css/icons.css" />
     <link href="${pageContext.request.contextPath }/resources/css/adminSub.css" rel="stylesheet">
     
     <!-- ========================= JS here ========================= -->

@@ -192,17 +192,17 @@
             </div>
         </div>
         
-        <div class="mt-3 text-right">
-            <a href="/resume/list?memberId=${resume.memberId}" class="btn btn-outline-secondary">
+        <div class="mt-3 text-center button">
+            <a href="/resume/list?memberId=${resume.memberId}" class="btn btn-secondary">
                 <i class="lni lni-arrow-left"></i> 목록으로
             </a>
-            <a href="/resume/edit?resumeId=${resume.resumeId}" class="btn btn-outline-primary">
+            <a href="/resume/edit?resumeId=${resume.resumeId}" class="btn btn-warning">
                 <i class="lni lni-pencil"></i> 수정
             </a>
             <form action="/resume/delete" method="post" style="display:inline;">
                 <input type="hidden" name="resumeId" value="${resume.resumeId}">
                 <input type="hidden" name="memberId" value="${resume.memberId}">
-                <button type="submit" class="btn btn-outline-danger" onclick="return confirm('정말 삭제하시겠습니까?');">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?');">
                     <i class="lni lni-trash-can"></i> 삭제
                 </button>
             </form>

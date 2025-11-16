@@ -1196,6 +1196,11 @@ ol {
           box-shadow: 0 1rem 3rem rgba(35, 38, 45, 0.15) !important;
 }
 
+.button .btn.btn-secondary{background:#6c757d; color:#fff;}
+.button .btn.btn-info{background:#17a2b8; color:#fff;}
+.button .btn.btn-danger{background:#dc3545; color:#fff;}
+.button .btn.btn-warning{background:#ffc107; color:#333;}
+
 .button .btn-alt {
   background-color: #081828;
   color: #fff;
@@ -5717,7 +5722,6 @@ blockquote .shape {
   }
   .find-job .single-job {
     padding: 0 !important;
-    padding: 40px !important;
   }
   .find-job .single-job .job-image {
     margin: 0;

@@ -215,10 +215,10 @@
 					    <button type="submit" formaction="/resume/tempSave" class="btn btn-secondary">
 					        임시 저장
 					    </button>
+					    <a href="/resume/list?memberId=${sessionScope.memberId}" class="btn btn-outline-secondary btn-lg">취소</a>
 					    <button type="submit" formaction="/resume/write" class="btn btn-primary">
 					        최종 등록
 					    </button>
-                           <a href="/resume/list?memberId=${sessionScope.memberId}" class="btn btn-outline-secondary btn-lg">취소</a>
 					</div>
                 </form>
 	        </div>

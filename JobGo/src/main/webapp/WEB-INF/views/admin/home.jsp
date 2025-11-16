@@ -1,114 +1,137 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="header.jsp"%>
-	
-			<!-- Begin Page Content -->
-			<div class="container-fluid">
-	
-				<!-- Page Heading -->
-				<div
-					class="d-sm-flex align-items-center justify-content-between mb-4">
-					<h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
-					<a href="#"
-						class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm"><i
-						class="fas fa-download fa-sm text-white-50"></i> Generate Report</a>
+<!-- Begin Page Content -->
+<div class="container-fluid mb-5">
+	<div class="container mt-4">
+		<h2>
+			<strong>관리자 대시보드</strong>
+		</h2>
+
+		<!-- ================== 회원 현황 ================== -->
+		<div class="section-title">회원 현황</div>
+		<div class="dashboard-grid">
+
+			<div class="stat-card">
+				<div class="stat-icon bg-blue">
+					<i class="lni lni-user-4"></i>
 				</div>
-	
-				<!-- Content Row -->
-				<div class="row">
-	
-					<!-- Earnings (Monthly) Card Example -->
-					<div class="col-xl-3 col-md-6 mb-4">
-						<div class="card border-left-primary shadow h-100 py-2">
-							<div class="card-body">
-								<div class="row no-gutters align-items-center">
-									<div class="col mr-2">
-										<div
-											class="text-xs font-weight-bold text-primary text-uppercase mb-1">
-											Earnings (Monthly)</div>
-										<div class="h5 mb-0 font-weight-bold text-gray-800">$40,000</div>
-									</div>
-									<div class="col-auto">
-										<i class="fas fa-calendar fa-2x text-gray-300"></i>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-	
-					<!-- Earnings (Monthly) Card Example -->
-					<div class="col-xl-3 col-md-6 mb-4">
-						<div class="card border-left-success shadow h-100 py-2">
-							<div class="card-body">
-								<div class="row no-gutters align-items-center">
-									<div class="col mr-2">
-										<div
-											class="text-xs font-weight-bold text-success text-uppercase mb-1">
-											Earnings (Annual)</div>
-										<div class="h5 mb-0 font-weight-bold text-gray-800">$215,000</div>
-									</div>
-									<div class="col-auto">
-										<i class="fas fa-dollar-sign fa-2x text-gray-300"></i>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-	
-					<!-- Earnings (Monthly) Card Example -->
-					<div class="col-xl-3 col-md-6 mb-4">
-						<div class="card border-left-info shadow h-100 py-2">
-							<div class="card-body">
-								<div class="row no-gutters align-items-center">
-									<div class="col mr-2">
-										<div
-											class="text-xs font-weight-bold text-info text-uppercase mb-1">Tasks
-										</div>
-										<div class="row no-gutters align-items-center">
-											<div class="col-auto">
-												<div class="h5 mb-0 mr-3 font-weight-bold text-gray-800">50%</div>
-											</div>
-											<div class="col">
-												<div class="progress progress-sm mr-2">
-													<div class="progress-bar bg-info" role="progressbar"
-														style="width: 50%" aria-valuenow="50" aria-valuemin="0"
-														aria-valuemax="100"></div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="col-auto">
-										<i class="fas fa-clipboard-list fa-2x text-gray-300"></i>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-	
-					<!-- Pending Requests Card Example -->
-					<div class="col-xl-3 col-md-6 mb-4">
-						<div class="card border-left-warning shadow h-100 py-2">
-							<div class="card-body">
-								<div class="row no-gutters align-items-center">
-									<div class="col mr-2">
-										<div
-											class="text-xs font-weight-bold text-warning text-uppercase mb-1">
-											Pending Requests</div>
-										<div class="h5 mb-0 font-weight-bold text-gray-800">18</div>
-									</div>
-									<div class="col-auto">
-										<i class="fas fa-comments fa-2x text-gray-300"></i>
-									</div>
-								</div>
-							</div>
-						</div>
+				<div>
+					<div class="stat-title">전체 회원</div>
+					<div class="stat-value">${totalMembers}명</div>
+				</div>
+			</div>
+
+			<div class="stat-card">
+				<div class="stat-icon bg-green">
+					<i class="lni lni-user-4"></i>
+				</div>
+				<div>
+					<div class="stat-title">일반 회원</div>
+					<div class="stat-value">${generalMembers}명</div>
+				</div>
+			</div>
+
+			<div class="stat-card">
+				<div class="stat-icon bg-purple">
+					<i class="lni lni-user-4"></i>
+				</div>
+				<div>
+					<div class="stat-title">기업 회원</div>
+					<div class="stat-value">${corpMembers}명</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- ================== 채용공고 현황 ================== -->
+		<div class="section-title">채용공고 현황</div>
+		<div class="dashboard-grid">
+
+			<div class="stat-card">
+				<div class="stat-icon bg-orange">
+					<i class="lni lni-buildings-1"></i>
+				</div>
+				<div>
+					<div class="stat-title">전체 공고</div>
+					<div class="stat-value">${totalRecruits}건</div>
+				</div>
+			</div>
+
+			<div class="stat-card">
+				<div class="stat-icon bg-green">
+					<i class="lni lni-buildings-1"></i>
+				</div>
+				<div>
+					<div class="stat-title">이번 주 신규 공고</div>
+					<div class="stat-value">${weeklyRecruits}건</div>
+				</div>
+			</div>
+		</div>
+
+
+		<!-- ================== 공지사항 ================== -->
+		<div class="section-title">공지사항</div>
+		<div class="dashboard-grid">
+
+			<div class="stat-card">
+				<div class="stat-icon bg-purple">
+					<i class="lni lni-bell-1"></i>
+				</div>
+				<div>
+					<div class="stat-title">전체 공지</div>
+					<div class="stat-value">${totalNotice}개</div>
+				</div>
+			</div>
+
+			<div class="stat-card">
+				<div class="stat-icon bg-gray">
+					<i class="lni lni-bell-1"></i>
+				</div>
+				<div>
+					<div class="stat-title">최근 공지</div>
+					<div class="stat-value" style="font-size: 16px;">
+						<c:if test="${not empty latestNotice}">
+                        ${latestNotice}
+                    </c:if>
+						<c:if test="${empty latestNotice}">
+                        등록된 공지가 없습니다.
+                    </c:if>
 					</div>
 				</div>
 			</div>
-			<!-- /.container-fluid -->
-	
 		</div>
-		<!-- End of Main Content -->
+
+
+		<!-- ================== 리뷰 현황 ================== -->
+		<div class="section-title">리뷰 현황</div>
+		<div class="dashboard-grid">
+
+			<div class="stat-card">
+				<div class="stat-icon bg-orange">
+					<i class="lni lni-pencil-1"></i>
+				</div>
+				<div>
+					<div class="stat-title">전체 리뷰</div>
+					<div class="stat-value">${totalReview}개</div>
+				</div>
+			</div>
+
+			<div class="stat-card">
+				<div class="stat-icon bg-green">
+					<i class="lni lni-pencil-1"></i>
+				</div>
+				<div>
+					<div class="stat-title">오늘 등록 리뷰</div>
+					<div class="stat-value">${todayReview}개</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+<!-- /.container-fluid -->
 
 <!-- #wrapper 끝 -->
 <%@ include file="footer.jsp"%>

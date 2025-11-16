@@ -64,4 +64,18 @@ public interface AdminDAO {
 	// 공지 삭제
 	void deleteNotice(int noticeId) throws Exception;
 	
+	// (S) 관리자 대시보드용 쿼리
+	public int getTotalMembers() throws Exception;
+	public int getGeneralMembers() throws Exception;
+	public int getCorpMembers() throws Exception;
+
+	public int getTotalRecruits() throws Exception;
+	public int getWeeklyRecruits() throws Exception;
+
+	public int getTotalNoticeCount() throws Exception;
+	public String getLatestNoticeTitle() throws Exception;
+
+	public int getTotalReviewCount() throws Exception;
+	public int getTodayReviewCount() throws Exception;
+	// (E) 관리자 대시보드용 쿼리
 }

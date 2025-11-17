@@ -77,7 +77,20 @@ $(document).ready(function(){
 				        	</li>
 				        </ul>
 				    </c:when>
-				
+			        <c:when test="${not empty corpUserId}">
+			            <div class="user-dashboard">
+			                <h4>${managerName} 님 환영합니다!</h4>
+			            </div>
+			
+			            <ul class="quickMenu">
+			                <li style="width:48%">
+			                    <a href="/application/corp/applicants"><i>📊</i>지원현황(기업)</a>
+			                </li>
+			                <li style="width:48%">
+			                    <a href="/corp/mypage"><i>⚙️</i>마이페이지</a>
+			                </li>
+			            </ul>
+			        </c:when>
 				    <c:otherwise>
 				        <div class="user-dashboard guest">
 				            <h4>반가워요! 👋</h4>

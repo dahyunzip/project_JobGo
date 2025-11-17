@@ -29,7 +29,7 @@
 		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/main.css" />
 	 </c:when>
 	 <c:otherwise>
-		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sub.css" />
+		<link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/sub.css?ver=1.1" />
 	 </c:otherwise>
 	</c:choose>
 	

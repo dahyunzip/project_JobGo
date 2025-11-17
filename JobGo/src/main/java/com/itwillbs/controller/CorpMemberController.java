@@ -90,6 +90,7 @@ public class CorpMemberController {
 			logger.debug("loginVO.getCorpUserId() : " + loginVO.getCorpUserId());
 			session.setAttribute("corpUserId", loginVO.getCorpUserId());
 			session.setAttribute("companyName", loginVO.getCompanyName());
+			session.setAttribute("managerName", loginVO.getManagerName());
 			session.setAttribute("userType", "corp");
 			rttr.addFlashAttribute("msg", "loginSuccess");
 			logger.debug(" 로그인 성공 ");

@@ -48,15 +48,15 @@
 	                    	<h5 class="mb-20">${user.name }님, 정말 탈퇴하시겠어요?</h5>
 	                    	<p class="mb-20">탈퇴를 원하신다면, 약관 동의 후 '<strong style="color:red">탈퇴하겠습니다.</strong>' 를 입력해주세요.</p>
 	                    	<div class="form-group">
-	                    		<div class="agree-box">
+	                    		<div class="agree-box mb-10">
 	                        		JobGo는 회원정보를 2년간 수집하고 자동 파기합니다. 
 	                        	</div>
-	                        	<label for="agreeDrop">
+	                        	<label for="agreeCheck">
 	                        		<input type="checkbox" name="agreeCheck" id="agreeCheck"> 약관에 동의합니다.
 	                        	</label>
 	                    	</div>
 	                    	<div class="form-group">
-	                    		<input type="text" placeholder="입력해주세요." class="text-center" id="confirmText" name="confirmText">
+	                    		<input type="text" placeholder="입력해주세요." class="text-center form-control" id="confirmText" name="confirmText">
 	                    	</div>
 	                        
 	                    </div>

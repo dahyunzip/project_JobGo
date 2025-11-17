@@ -30,7 +30,7 @@
 .layout-right{display: flex; justify-content:end}
 
 /* mypage */
-#mypage .user-img > a{display: block; width:120px; height:120px; overflow:hidden;}
+#mypage .user-img > a{display: block; width:170px; height:220px; border-radius:4px; overflow:hidden;}
 #mypage .user-img img{width:100%; height:auto;}
 
 .pageTitle{text-align:center; margin-bottom:50px;}
@@ -184,5 +184,5 @@
 	#com_top .comTopThumb{width:100%; margin-bottom:10px}
 }
 
-#mypage .user-img{width:150px; height:150px; border-radius: 50%; overflow:hidden; margin:0 auto;}
+#mypage .user-img{ width:170px; height:220px; border-radius:4px; overflow:hidden; margin:30px auto;}
 #mypage .user-img img{width:100%; height:100%; object-fit:cover;}

@@ -19,7 +19,7 @@
 		</div>
 		<div class="boardBody">${fn:escapeXml(notice.noticeContent)}</div>
 		<div class="boardFile">
-			<c:if test="${fn:length(fn:trim(notice.storedFileName)) > 0}">
+			<c:if test="${notice.storedFileName != null && fn:length(fn:trim(notice.storedFileName)) > 0}">
 				<p style="font-weight:600; margin-bottom:6px;">첨부파일</p>
 				<c:forEach var="file" items="${fn:split(fn:trim(notice.storedFileName), ',')}">
 					<a href="${pageContext.request.contextPath}/resources/upload/${file}" download

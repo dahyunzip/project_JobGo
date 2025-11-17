@@ -255,8 +255,10 @@
 		update notice_board
 		set
 			notice_title = #{noticeTitle},
-			notice_content = #{noticeContent},
-			storedFileName = #{storedFileName}
+			notice_content = #{noticeContent}
+			<if test="storedFileName != null">
+				, storedFileName = #{storedFileName}
+			</if>
 		where notice_id = #{noticeId}
 	</update>
 	

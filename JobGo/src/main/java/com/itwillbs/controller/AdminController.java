@@ -465,7 +465,6 @@ public class AdminController {
 	public String adminNoticeWrite(
 			NoticeVO vo,
 			@RequestParam(value="file", required=false) MultipartFile file,
-			@RequestParam("corpNotice") String corpNotice,
 			HttpSession session) throws Exception {
 
 		if (session.getAttribute("adminSession") == null) {
@@ -473,10 +472,6 @@ public class AdminController {
 		}
 
 		String userid = (String) session.getAttribute("adminSession");
-		
-		if ("corp".equals(corpNotice)) {
-	        vo.setNoticeTitle("[기업공지] " + vo.getNoticeTitle());
-	    }
 
 		// 파일 업로드
 		if (file != null && !file.isEmpty()) {

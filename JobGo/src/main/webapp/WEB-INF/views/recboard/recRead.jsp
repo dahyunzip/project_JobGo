@@ -174,8 +174,13 @@
 
 									<c:otherwise>
 										<p>
-											로그인 후 지원이 가능합니다. <a href="/member/login">로그인</a>
+											로그인 후 지원이 가능합니다. <a id="loginLink">로그인</a>
 										</p>
+										<script>
+										const returnOldPath = "/recboard/recRead?rec_bno=${resultReadVO.rec_bno}&page=${page}";
+										const encoded = encodeURIComponent(returnOldPath);
+										document.getElementById("loginLink").href = "/member/login?oldPath=" + encoded;
+										</script>
 									</c:otherwise>
 								</c:choose>
 							</div>
@@ -364,7 +369,7 @@
 			}
 		});
 		
-		
+	
 		
 	});
 </script>

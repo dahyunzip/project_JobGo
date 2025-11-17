@@ -44,19 +44,19 @@
 
 	<!-- 리뷰 수정 -->
 	<update id="updateReview" parameterType="com.itwillbs.domain.ReviewVO">
-		update review
-		join bottom_category b on r.job_code = b.btmctg_id
-		join top_category t on b.topctg_id = t.topctg_id
-		set 
-			r.rev_title = #{revTitle},
-			r.rev_content = #{revContent},
-			r.rev_rate = #{revRate},
-			r.rev_pros = #{revPros},
-			r.rev_cons = #{revCons},
-			r.rev_public = #{revPublic},
-			r.job_code = #{jobCode},
-			rev_updatedate = now()
-		where r.review_id = #{reviewId}
+	    UPDATE review r
+	    JOIN bottom_category b ON r.job_code = b.btmctg_id
+	    JOIN top_category t ON b.topctg_id = t.topctg_id
+	    SET 
+	        r.rev_title = #{revTitle},
+	        r.rev_content = #{revContent},
+	        r.rev_rate = #{revRate},
+	        r.rev_pros = #{revPros},
+	        r.rev_cons = #{revCons},
+	        r.rev_public = #{revPublic},
+	        r.job_code = #{jobCode},
+	        r.rev_updatedate = NOW()
+	    WHERE r.review_id = #{reviewId}
 	</update>
 
 	<!-- 리뷰 삭제 -->

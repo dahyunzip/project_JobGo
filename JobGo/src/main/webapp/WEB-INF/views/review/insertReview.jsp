@@ -55,7 +55,8 @@
 			</div>
 			<div class="mb-10">
 				<label>내용</label>
-				<textarea name="revContent" class="form-control"></textarea>
+				<textarea name="revContent" id="revContent" class="form-control"></textarea>
+				<span id="content-error" style="color:red; font-size:14px; display:none;"></span>
 			</div>
 			<div class="mb-10">
 	    		<label>별점: </label>
@@ -67,6 +68,7 @@
 	        		<span class="star" data-value="5">☆</span>
 	    		</div>
 	    		<input type="hidden" name="revRate" id="revRate" value="0">
+				<span id="rate-error" style="color:red; font-size:14px; display:none;"></span>
 			</div>
 			<div class="mb-10">
 				<label>장점</label>
@@ -149,6 +151,36 @@ document.querySelector("#topCategory").addEventListener("change", function(){
                 bottom.appendChild(opt);
             });
         });
+});
+
+document.querySelector("form").addEventListener("submit", function(e) {
+
+    const rate = document.getElementById("revRate").value;
+    const content = document.getElementById("revContent").value.trim();
+
+    let hasError = false;
+
+    // 별점 오류
+    const rateError = document.getElementById("rate-error");
+    if (!rate || rate === "0") {
+        rateError.textContent = "별점을 입력해주세요.";
+        rateError.style.display = "block";
+        hasError = true;
+    } else {
+        rateError.style.display = "none";
+    }
+
+    // 내용 오류
+    const contentError = document.getElementById("content-error");
+    if (!content) {
+        contentError.textContent = "내용을 입력해주세요.";
+        contentError.style.display = "block";
+        hasError = true;
+    } else {
+        contentError.style.display = "none";
+    }
+
+    if (hasError) e.preventDefault();
 });
 
 </script>

@@ -94,6 +94,9 @@ public class CorpMemberController {
 			rttr.addFlashAttribute("msg", "loginSuccess");
 			logger.debug(" 로그인 성공 ");
 			return "redirect:/";
+		}else if(loginVO != null && "D".equals(loginVO.getStatus())){
+			model.addAttribute("msg", "notAllowed");
+			return "/corp/login";
 		}else {
 			logger.debug(" 로그인 실패 ");
 			model.addAttribute("msg", "loginFail");

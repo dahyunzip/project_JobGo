@@ -5,7 +5,9 @@
 $(document).ready(function(){
 	var status = '${msg }';
 	if(status == 'joinSuccess'){
-		alert('회원가입 성공! 환영합니다.');
+		alert('회원가입 성공! 기업회원은 관리자 승인 후 이용 가능합니다.');
+	}else if(status == 'notAllowed'){
+		alert('승인되지 않은 기업회원입니다. 관리자에게 문의해 주세요. 문의번호 : 1599-0024');
 	}else if(status == 'loginFail'){
 		alert('아이디 또는 비밀번호가 올바르지 않거나 탈퇴된 회원입니다.');
 	}else if(status == 'deleteSuccess'){

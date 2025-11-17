@@ -24,13 +24,13 @@
 
         <!-- ====== 학력사항 ====== -->
         <div class="card mb-4 shadow-sm">
-            <div class="card-header bg-primary text-white">
+            <div class="card-header text-white">
                 <h5 class="mb-0"><i class="lni lni-graduation"></i> 학력사항</h5>
             </div>
             <div class="card-body">
                 <c:choose>
                     <c:when test="${not empty resume.educationList}">
-                        <table class="table table-bordered table-hover text-center align-middle">
+                        <table class="table-responsive table-default">
                             <thead class="table-light">
                                 <tr>
                                     <th>학교명</th>
@@ -67,13 +67,13 @@
 
         <!-- ====== 경력사항 ====== -->
         <div class="card mb-4 shadow-sm">
-            <div class="card-header bg-success text-white">
+            <div class="card-header text-white">
                 <h5 class="mb-0"><i class="lni lni-briefcase"></i> 경력사항</h5>
             </div>
             <div class="card-body">
                 <c:choose>
                     <c:when test="${not empty resume.careerList}">
-                        <table class="table table-bordered table-hover text-center align-middle">
+                        <table class="table-responsive table-default">
                             <thead class="table-light">
                                 <tr>
                                     <th>회사명</th>
@@ -103,13 +103,13 @@
 
         <!-- ====== 교육이력 ====== -->
         <div class="card mb-4 shadow-sm">
-            <div class="card-header bg-info text-white">
+            <div class="card-header text-white">
                 <h5 class="mb-0"><i class="lni lni-certificate"></i> 교육이력</h5>
             </div>
             <div class="card-body">
                 <c:choose>
                     <c:when test="${not empty resume.trainingList}">
-                        <table class="table table-bordered table-hover text-center align-middle">
+                        <table class="table-responsive table-default">
                             <thead class="table-light">
                                 <tr>
                                     <th>기관명</th>
@@ -139,13 +139,13 @@
 
         <!-- ====== 자격사항 ====== -->
         <div class="card mb-4 shadow-sm">
-            <div class="card-header bg-warning text-white">
+            <div class="card-header text-white">
                 <h5 class="mb-0"><i class="lni lni-medall"></i> 자격사항</h5>
             </div>
             <div class="card-body">
                 <c:choose>
                     <c:when test="${not empty resume.certificationList}">
-                        <table class="table table-bordered table-hover text-center align-middle">
+                        <table class="table-responsive table-default">
                             <thead class="table-light">
                                 <tr>
                                     <th>자격명</th>
@@ -171,19 +171,19 @@
 
         <!-- ====== 자기소개서 ====== -->
         <div class="card shadow-sm">
-            <div class="card-header bg-dark text-white">
+            <div class="card-header text-white">
                 <h5 class="mb-0"><i class="lni lni-user"></i> 자기소개서</h5>
             </div>
             <div class="card-body">
                 <c:choose>
                     <c:when test="${not empty resume.selfIntro}">
-                        <p><strong>지원동기:</strong><br>${resume.selfIntro.motivation}</p>
+                        <p><strong>지원동기</strong><br>${resume.selfIntro.motivation}</p>
                         <hr>
-                        <p><strong>강점 및 역량:</strong><br>${resume.selfIntro.strengths}</p>
+                        <p><strong>강점 및 역량</strong><br>${resume.selfIntro.strengths}</p>
                         <hr>
-                        <p><strong>성과나 중요한 경험:</strong><br>${resume.selfIntro.keyExperience}</p>
+                        <p><strong>성과나 중요한 경험</strong><br>${resume.selfIntro.keyExperience}</p>
                         <hr>
-                        <p><strong>입사 후 포부:</strong><br>${resume.selfIntro.futurePlan}</p>
+                        <p><strong>입사 후 포부</strong><br>${resume.selfIntro.futurePlan}</p>
                     </c:when>
                     <c:otherwise>
                         <p class="text-muted">등록된 자기소개서 내용이 없습니다.</p>
@@ -192,17 +192,17 @@
             </div>
         </div>
         
-        <div class="mt-3 text-right">
-            <a href="/resume/list?memberId=${resume.memberId}" class="btn btn-outline-secondary btn-sm">
+        <div class="mt-3 text-center button">
+            <a href="/resume/list?memberId=${resume.memberId}" class="btn btn-secondary">
                 <i class="lni lni-arrow-left"></i> 목록으로
             </a>
-            <a href="/resume/edit?resumeId=${resume.resumeId}" class="btn btn-outline-primary btn-sm">
+            <a href="/resume/edit?resumeId=${resume.resumeId}" class="btn btn-warning">
                 <i class="lni lni-pencil"></i> 수정
             </a>
             <form action="/resume/delete" method="post" style="display:inline;">
                 <input type="hidden" name="resumeId" value="${resume.resumeId}">
                 <input type="hidden" name="memberId" value="${resume.memberId}">
-                <button type="submit" class="btn btn-outline-danger btn-sm" onclick="return confirm('정말 삭제하시겠습니까?');">
+                <button type="submit" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?');">
                     <i class="lni lni-trash-can"></i> 삭제
                 </button>
             </form>

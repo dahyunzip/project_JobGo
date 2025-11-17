@@ -13,6 +13,7 @@
 		    cm.company_name as companyName, 
 		    rb.rec_title, 
 		    rb.thumbFileName, 
+		    rb.rec_inputlct, 
 		    rb.rec_regdate, 
 		    rb.rec_viewcnt 
 		from rec_board rb 
@@ -35,7 +36,7 @@
 			or rb.rec_regdate like concat('%',#{search},'%'))
 		</if>
 		order by rb.rec_bno desc 
-		limit #{cri.pageStart},#{cri.pageSize} 
+		limit #{cri.recPageStart},#{cri.recPageSize} 
 	</select>
 	
 	<!-- 메인 페이지 게시판 리스트(최신 등록 순) -->
@@ -180,6 +181,7 @@
 	    SELECT resume_id AS resumeId, resume_title AS resumeTitle
 	    FROM resume
 	    WHERE member_id = #{member_id}
+          AND status = 'FINAL'
 	</select>
 	
 	<!-- 이미 지원했는지 확인 -->

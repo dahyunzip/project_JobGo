@@ -38,20 +38,74 @@ public class ChatGPTController {
 	    return result;
 	}
 	
+	// 커뮤니티 게시글 맞춤법 교정
 	@RequestMapping(value="/comboard/grammarCheck", method=RequestMethod.POST, produces="text/plain; charset=UTF-8")
 	@ResponseBody
 	public String correctCommunityText(@RequestParam("content") String content) throws Exception {
 
 	    logger.info("커뮤니티 맞춤법 요청 도착 : " + content);
 
-	    String systemPrompt = "다음 문장의 맞춤법, 띄어쓰기, 오타만 수정해줘. "
-	            + "문장의 표현 방식, 어투, 감정, 문체는 절대로 바꾸지 마. "
-	            + "단어 선택이나 문장 구조를 바꾸지 말고, 원래 문장을 최대한 유지하면서 오류만 바로잡아줘. "
-	            + "설명 없이 수정된 문장만 출력해줘.";
+	    String systemPrompt = "다음 문장의 맞춤법, 띄어쓰기, 오타를 정확하게 수정해줘. "
+	            + "문장의 말투, 감정, 분위기, 표현 방식은 그대로 유지하되 "
+	            + "잘못된 단어나 비표준어는 올바른 형태로 바꿔줘. "
+	            + "단, 문장 구조를 크게 바꾸지 말고, 문장의 흐름을 해치지 않는 선에서만 최소한으로 수정해줘. "
+	            + "설명 없이 수정된 문장만 출력해줘. ";
 	   
 	    String userPrompt = content;
 
 	    return gptService.askChatGPT(systemPrompt, userPrompt);
+	}
+	
+	// 회사 소개 및 주요 업무 첨삭
+	@RequestMapping(value="/recboard/gpt/maintask", method=RequestMethod.POST, produces="text/plain; charset=UTF-8")
+	@ResponseBody
+	public String rewriteMainTask(@RequestParam("content") String content) throws Exception {
+	    String systemPrompt =
+	        "아래 내용은 회사 소개와 주요 업무가 섞여 있는 문장이다. "
+	        + "이를 채용 공고에 어울리는 형식으로 자연스럽게 정리해줘. "
+	        + "1) 회사 소개는 간단하고 친절한 문장으로 요약하고, "
+	        + "2) 주요 업무는 • 또는 ✔️ 글머리 기호를 사용해 정돈하되, "
+	        + "필요하다면 적절한 이모지를 소량만 사용해도 좋아. "
+	        + "문체는 공고 스타일로 유지하되, 불필요한 표현은 다듬고 전체 의미는 유지해줘. "
+	        + "설명 없이 정리된 결과만 출력해줘.";
+
+	    return gptService.askChatGPT(systemPrompt, content);
+	}
+
+	// 자격 요건
+	@RequestMapping(value="/recboard/gpt/qualification", method=RequestMethod.POST, produces="text/plain; charset=UTF-8")
+	@ResponseBody
+	public String rewriteQualification(@RequestParam("content") String content) throws Exception {
+	    String systemPrompt =
+	        "다음 '자격 요건' 내용을 깔끔하게 정리해줘. "
+	        + "조건을 불릿 포인트로 정리하고, 문장은 간결하게 유지해줘. "
+	        + "설명 없이 결과만 출력.";
+
+	    return gptService.askChatGPT(systemPrompt, content);
+	}
+
+	// 우대 사항
+	@RequestMapping(value="/recboard/gpt/preference", method=RequestMethod.POST, produces="text/plain; charset=UTF-8")
+	@ResponseBody
+	public String rewritePreference(@RequestParam("content") String content) throws Exception {
+	    String systemPrompt =
+	        "다음 '우대 사항' 내용을 정돈해줘. "
+	        + "중복 표현은 줄이고, 보기 좋게 불릿 리스트로 작성해줘. "
+	        + "설명 없이 결과만 출력.";
+
+	    return gptService.askChatGPT(systemPrompt, content);
+	}
+
+	// 복리 후생
+	@RequestMapping(value="/recboard/gpt/benefit", method=RequestMethod.POST, produces="text/plain; charset=UTF-8")
+	@ResponseBody
+	public String rewriteBenefit(@RequestParam("content") String content) throws Exception {
+	    String systemPrompt =
+	        "다음 '복리 후생' 내용을 깔끔하고 보기 좋게 정리해줘. "
+	        + "이모지를 과하지 않게 적절히 사용해도 좋고, 리스트는 간결하게 구성해줘. "
+	        + "설명 없이 결과만 출력.";
+
+	    return gptService.askChatGPT(systemPrompt, content);
 	}
 	
 //	@RequestMapping(value="/ask", method=RequestMethod.GET)

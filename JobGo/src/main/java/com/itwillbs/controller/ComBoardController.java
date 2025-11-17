@@ -229,10 +229,12 @@ public class ComBoardController {
 	// 게시글 보기
 	@GetMapping("/comRead")
 	public String comReadGET(@RequestParam("com_bno") int com_bno,
-			                 @ModelAttribute("page") int page,
+							@RequestParam(value = "page", required = false, defaultValue = "1") int page,
 			                 Model model,
 			                 HttpSession session) throws Exception {
 		logger.debug(" /comboard/comRead -> comReadGET 실행! ");
+		
+		model.addAttribute("page", page);
 		
 		// 일반회원 세션 조회용
 		String loginUserId = (String) session.getAttribute("userid");
@@ -247,8 +249,15 @@ public class ComBoardController {
 		logger.debug(" resultRead: "+resultReadVO);
 		
 		// 세션영역에 저장된 조회수 변경가능 상태정보를 출력
-		boolean incrementStatus = (boolean) session.getAttribute("incrementStatus");
-		logger.debug(" incrementStatus: "+incrementStatus);
+		// boolean incrementStatus = (boolean) session.getAttribute("incrementStatus");
+		// logger.debug(" incrementStatus: "+incrementStatus);
+		
+		// 조회수 증가 여부 읽기
+		Boolean incrementStatus = (Boolean) session.getAttribute("incrementStatus");
+
+		if (incrementStatus == null) {
+		    incrementStatus = true;   // 없으면 true로 초기화
+		}
 		
 		// 조회수 상태변경이 가능할때(true)
 		if(incrementStatus) {
@@ -262,7 +271,6 @@ public class ComBoardController {
 		logger.debug(" 로그인 회원 아이디: "+resultReadVO.getUserid());
 		logger.debug(" 로그인 회원 이름: "+resultReadVO.getWriter());
 		logger.debug(" 로그인 회원 메일 주소: "+resultReadVO.getEmail());
-		
 		return "/comboard/comRead";
 	}
 	

@@ -81,4 +81,9 @@ public class NoticeDAOImpl implements NoticeDAO {
 		
 	}
 	
+	@Override
+    public List<NoticeVO> getRecentNotices() {
+        return sqlSession.selectList(NAMESPACE + ".getRecentNotices");
+    }
+	
 }

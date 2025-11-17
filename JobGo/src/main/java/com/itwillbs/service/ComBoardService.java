@@ -27,4 +27,6 @@ public interface ComBoardService {
 	
 	// 게시판 특정 글 조회수 1증가
 	public void increseViewCnt(int com_bno) throws Exception;
+	
+	public List<ComBoardVO> getRecentCommunityPosts();
 }

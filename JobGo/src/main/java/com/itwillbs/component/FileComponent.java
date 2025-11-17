@@ -110,4 +110,9 @@ public class FileComponent {
     	
     	return new String[] {storedFileName, originalName};
     }
+    
+    public boolean businessLicenseExists(String storedFileName) {
+        File file = new File(saveDirectory + "business_license", storedFileName);
+        return file.exists();
+    }
 }

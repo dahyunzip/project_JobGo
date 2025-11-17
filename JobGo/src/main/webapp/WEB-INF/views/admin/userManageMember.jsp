@@ -3,6 +3,12 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ include file="header.jsp" %>
 
+<style>
+	.row-deleted {
+		opacity: 0.4;
+		color: #888;
+	}
+</style>
 
 <div class="container-fluid">
 	<h2 class="mb-4">일반회원 관리</h2>
@@ -21,7 +27,7 @@
 		</thead>
 		<tbody>
 			<c:forEach var="m" items="${memberList}">
-				<tr>
+				<tr class="${m.deleted ? 'row-deleted' : ''}">
 					<td>${m.id}</td>
 					<td>${m.userid}</td>
 					<td>${m.name}</td>
@@ -29,9 +35,18 @@
 					<td>${m.phone}</td>
 					<td>${m.membertype}</td>
 					<td>
-						<a href="${pageContext.request.contextPath}/admin/deleteMember?id=${m.id}"
-						   onclick="return confirm('정말 삭제하시겠습니까?');"
-						   class="btn btn-sm btn-danger">삭제</a>
+						<c:choose>
+							<c:when test="${m.deleted}">
+								<span class="text-muted">삭제됨</span>
+							</c:when>
+							<c:otherwise>
+								<a href="${pageContext.request.contextPath}/admin/deleteMember?id=${m.id}"
+				   				onclick="return confirm('정말 삭제하시겠습니까?');"
+				   				class="btn btn-sm btn-danger">
+									삭제
+								</a>
+							</c:otherwise>
+						</c:choose>
 					</td>
 				</tr>
 			</c:forEach>

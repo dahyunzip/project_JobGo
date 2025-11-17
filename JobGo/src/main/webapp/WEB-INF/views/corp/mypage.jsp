@@ -15,38 +15,24 @@ $(document).ready(function(){
 </script>
 
 <div class="job-details section" id="mypage">
+	<h2 class="pageTitle">마이페이지</h2>
     <div class="container">
         <div class="row mb-n5">
-            
-            <!-- Sidebar -->
-            <div class="col-lg-4 col-12">
-                <div class="dashbord-sidebar">
-                    <ul>
-                        <li class="heading">마이페이지</li>
-                        <li><a class="active" href="/corp/mypage"><i class="lni lni-user"></i> 내 정보 확인</a></li>
-                        <li><a href="/corp/modify"><i class="lni lni-pencil"></i> 내 정보 수정</a></li>
-                    </ul>
-                </div>
-            </div>
-
             <!-- Main Content -->
-            <div class="col-lg-8 col-12">
+            <div class="col-lg-12 col-12">
                 <div class="job-details-inner box">
-
                     <!-- Header -->
-                    <div class="job-details-head row mx-0 align-items-center">
-                        <div class="user-img col-auto">
-                            <c:set var="corpLogo" value="${empty corpuser.corpProfileStored ? 'default.jpg' : corpuser.corpProfileStored}" />
-                            <div style="border-radius: 4px; overflow: hidden; width:100px; height:100px;">
-                                <img src="/upload/${corpLogo}" style="object-fit:cover;" alt="기업 로고">
-                            </div>
+                    <div class="mb-10 text-center">
+                      	<div class="user-img">
+                            <c:set var="corpLogo" value="${empty corpuser.corpProfileStored ? 'default_image.jpg' : corpuser.corpProfileStored}" />
+                            <img src="/upload/${corpLogo}" style="object-fit:cover;" alt="기업 로고" onerror="this.onerror=null; this.src='/resources/images/default_image.jpg'">
                         </div>
-                        <div class="content col">
+                        <div class="content mt-20">
                             <h5 class="title">${corpuser.managerName} 님 안녕하세요.</h5>
                             <p class="mb-0">${corpuser.companyName}</p>
                         </div>
+		                <hr>
                     </div>
-
                     <!-- Body -->
                     <div class="job-details-body mt-4">
                         <h6 class="mb-3">기업 회원 정보</h6>

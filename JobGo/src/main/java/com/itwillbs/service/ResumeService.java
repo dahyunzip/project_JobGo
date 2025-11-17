@@ -16,4 +16,5 @@ public interface ResumeService {
     public void updateResumeTemp(ResumeVO resume) throws Exception;
     public void updateResumeFinal(ResumeVO resume) throws Exception;
     public void deleteResume(int resumeId) throws Exception;
+    public int getResumeCount(int memberId);
 }

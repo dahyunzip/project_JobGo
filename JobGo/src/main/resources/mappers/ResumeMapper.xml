@@ -22,7 +22,8 @@
 	<!-- [3] 임시저장에서 최종등록으로 변경 (UPDATE) -->
 	<update id="updateResumeToFinal" parameterType="int">
 	    UPDATE resume
-	    SET status = 'FINAL', updated_at = CURRENT_TIMESTAMP
+	    SET status = 'FINAL', updated_at = CURRENT_TIMESTAMP,
+	    resume_title = #{resumeTitle}
 	    WHERE resume_id = #{resumeId}
 	</update>
 	
@@ -36,6 +37,12 @@
 			status
 	     FROM resume
 	     WHERE resume_id = #{resumeId}
+	</select>
+	
+	<select id="countResumeByMember" resultType="int">
+	    SELECT COUNT(*)
+	    FROM resume
+	    WHERE member_id = #{memberId}
 	</select>
 
 	<!-- ========================================================= -->
@@ -216,4 +223,5 @@
 	<delete id="deleteSelfIntro" parameterType="int">
 	    DELETE FROM resume_self_intro WHERE resume_id = #{resumeId}
 	</delete>
+	
 </mapper>

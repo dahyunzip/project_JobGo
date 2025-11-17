@@ -87,7 +87,10 @@ public class ComBoardServiceImpl implements ComBoardService {
 		logger.debug(" increseViewCnt() 끝! ");
 	}
 	
-	
+	@Override
+    public List<ComBoardVO> getRecentCommunityPosts() {
+        return cbDAO.getRecentCommunityPosts();
+    }
 	
 
 }

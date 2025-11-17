@@ -10,6 +10,7 @@ public interface ApplicationService {
 	public void apply(ApplicationVO vo) throws Exception;
 	// 지원내역 개수 확인
 	public int getTotalCount(int member_id) throws Exception;
+	
 	// 지원내역 리스트 확인
 	public List<ApplicationVO> getApplications(int member_id, Criteria cri) throws Exception;
 	// 지원 취소

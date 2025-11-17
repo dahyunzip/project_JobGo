@@ -4,49 +4,28 @@
 <footer class="footer">
 	<!-- Start Middle Top -->
 	<div class="footer-middle">
-		<div class="container">
+		<div class="fix-layout">
 			<div class="row">
 				<div class="col-lg-8 col-md-6 col-12">
 					<!-- Single Widget -->
 					<div class="f-about single-footer">
 						<div class="logo">
-							<a href="/"><img src="${pageContext.request.contextPath }/resources/images/logo/logo.svg"
+							<a href="/"><img src="${pageContext.request.contextPath }/resources/images/logo/logobk.svg"
 								alt="Logo"></a>
 						</div>
-						<p>Start building your creative website with our awesome
-							template Massive.</p>
 						<ul class="contact-address">
-							<li><span>Address:</span> 555 Wall Street, USA, NY</li>
-							<li><span>Email:</span> example@apus.com</li>
-							<li><span>Call:</span> 555-555-1234</li>
+							<li><span>우편번호 </span> 47246</li>
+							<li><span>주소 </span> 부산 부산진구 동천로 109, 삼한골든게이트 7층</li>
 						</ul>
+						<p>Copyright(c) JobGo. All rights reserved.</p>
 					</div>
 					<!-- End Single Widget -->
-				</div>
-				<div class="col-lg-4 col-12">
-					<div class="row">
-						<div class="col-lg-4 col-md-6 col-12">
-							<!-- Single Widget -->
-							<div class="single-footer f-link">
-								<h3>For Candidates</h3>
-								<ul>
-									<li><a href="#">User Dashboard</a></li>
-									<li><a href="#">CV Packages</a></li>
-									<li><a href="#">Jobs Featured</a></li>
-									<li><a href="#">Jobs Urgent</a></li>
-									<li><a href="#">Candidate List</a></li>
-									<li><a href="#">Candidates Grid</a></li>
-								</ul>
-							</div>
-							<!-- End Single Widget -->
-						</div>
-					</div>
 				</div>
 			</div>
 		</div>
 	</div>
 	<!--/ End Footer Middle -->
-	<!-- Start Footer Bottom -->
+	<%-- <!-- Start Footer Bottom -->
 	<div class="footer-bottom">
 		<div class="container">
 			<div class="inner">
@@ -62,7 +41,7 @@
 			</div>
 		</div>
 	</div>
-	<!-- End Footer Middle -->
+	End Footer Middle --%>
 </footer>
 <!--/ End Footer Area -->
 

@@ -27,4 +27,6 @@ public class ReviewVO {
 	private String bottomCategoryName;
 	private String bottomCategoryId;
 	
+	private String originalFileName;
+	private String storedFileName;
 }

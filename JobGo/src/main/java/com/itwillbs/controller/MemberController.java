@@ -72,8 +72,13 @@ public class MemberController {
 	// 로그인
 	// http://localhost:8088/member/login
 	@RequestMapping(value="/login", method=RequestMethod.GET)
-	public String memberLoginGET(@ModelAttribute(value = "oldPath") String oldPath) {
+	public String memberLoginGET(@RequestParam(value = "oldPath", required=false) String oldPath,
+								HttpSession session) {
 		logger.debug(" @@@ oldPath  "+oldPath);
+	    if (oldPath != null && !oldPath.isEmpty()) {
+	        session.setAttribute("oldPath", oldPath);
+	    }
+		
 		return "/member/login";
 	}
 	
@@ -112,6 +117,7 @@ public class MemberController {
 			
 		} else {
 			rttr.addFlashAttribute("msg", "loginFail");
+			
 			return "redirect:/member/login";
 		}
 	}

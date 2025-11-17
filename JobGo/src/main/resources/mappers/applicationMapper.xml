@@ -54,6 +54,12 @@
 	    LIMIT #{cri.pageStart}, #{cri.pageSize}
 	</select>
 
+	<select id="countApplyByMember" resultType="int">
+	    SELECT COUNT(*)
+	    FROM apply
+	    WHERE member_id = #{memberId}
+	</select>
+
     <!-- 지원 취소 -->
     <update id="withdrawApplication">
         UPDATE application

@@ -65,14 +65,17 @@
 											<c:forEach var="rec" items="${recList}">
 												<tr>
 													<td class="text-center">${rec.rec_bno}</td>
-													<td><a href="#">${rec.rec_title}</a></td>
+													<td>
+														<a href="${pageContext.request.contextPath}/recboard/recRead?rec_bno=${rec.rec_bno}">
+															${rec.rec_title}
+														</a>
+													</td>
 													<td>${rec.companyName}</td>
 													<td>${fn:replace(rec.rec_regdate, 'T', ' ')}</td>
 													<td><fmt:formatDate value="${rec.rec_deadline}" pattern="yyyy-MM-dd"/></td>
 													<td class="text-center">${rec.rec_viewcnt}</td>
 													
 													<td class="text-center">
-														<a href="#" class="btn btn-info btn-sm">수정</a>
 														<a href="${pageContext.request.contextPath}/admin/deleteRecBoard?rec_bno=${rec.rec_bno}"
 															class="btn btn-danger btn-sm"
 															onclick="return confirm('정말 삭제하시겠습니까?');">삭제</a>

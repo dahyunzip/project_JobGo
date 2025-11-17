@@ -1,17 +1,17 @@
 <%@ page contentType="text/html; charset=UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ include file="../include/Header.jsp"%>
-<section class="section resume-list-section py-5">
+<section class="section">
+	<h2 class="pageTitle">우리 회사 지원자 현황</h2>
 	<div class="container">
-		<h2>우리 회사 지원자 현황</h2>
-		<table class="table table-bordered text-center">
+		<table class="table-default table-responsive">
 		    <thead>
 		        <tr>
 		            <th>공고명</th>
 		            <th>지원자 이름</th>
 		            <th>이메일</th>
 		            <th>이력서 제목</th>
-		            <th>상태</th>
+		            <!-- <th>상태</th> -->
 		            <th>관리</th>
 		        </tr>
 		    </thead>
@@ -21,8 +21,8 @@
 		                <td>${a.rec_title}</td>
 		                <td>${a.applicant_name}</td>
 		                <td>${a.applicant_email}</td>
-		                <td><a href="/resume/corp/view?resume_id=${a.resume_id}&application_id=${a.application_id}" class="resume-link">${a.resume_title}</a></td>
-		                <td class="status-text">
+		                <td class="text-left"><a href="/resume/corp/view?resume_id=${a.resume_id}&application_id=${a.application_id}" class="resume-link">${a.resume_title}</a></td>
+		                <%-- <td class="status-text">
 		                	<c:choose>
 								<c:when test="${a.status eq 'APPLIED'}">미열람</c:when>
 								<c:when test="${a.status eq 'REVIEWING'}">서류 검토중</c:when>
@@ -30,7 +30,7 @@
 								<c:when test="${a.status eq 'PASSED'}">합격</c:when>
 								<c:when test="${a.status eq 'HIRED'}">채용완료</c:when>
 							</c:choose>
-		                </td>
+		                </td> --%>
 		                <td>
 		                    <select class="statusChange" data-id="${a.application_id}">
 		                        <option value="APPLIED" ${a.status eq 'APPLIED' ? 'selected' : ''}>지원완료</option>
@@ -57,7 +57,7 @@ $(function() {
 	    
 	    // 한글 매핑 객체
 	    const statusMap = {
-	        "APPLIED": "미열람",
+	        "APPLIED": "지원완료",
 	        "REVIEWING": "서류 검토중",
 	        "REJECTED": "불합격",
 	        "PASSED": "합격",

@@ -15,7 +15,8 @@
 	}
 	
 </style>
-<section class="add-resume section" >
+<section class="section" >
+<h2 class="pageTitle">커뮤니티</h2>
 <c:if test="${empty memberLoginInfo }">
 	<script type="text/javascript">
 		alert("로그인 후 이용 가능합니다.");
@@ -26,22 +27,21 @@
 		<div class="row">
 			<div class="col-lg-10 offset-lg-1 col-12">
 			    <div class="add-resume-inner box">
-			        <div id="com_top" class="post-header align-items-center justify-content-center">
+			        <%-- <div id="com_top" class="post-header align-items-center justify-content-center">
 			            <h3 id="title">
 			            	<font dir="auto" style="vertical-align: inherit;">
 			            		<font dir="auto" style="vertical-align: inherit;">${memberLoginInfo.name }</font>
 			            	</font>
 			            </h3>
-			        </div>
-			        <hr>
+			        </div> --%>
 			        <form class="form-ad" method="post" enctype="multipart/form-data">
-			            <h3 class="single-section-title">
+			            <!-- <h3 class="single-section-title">
 			            	<font dir="auto" style="vertical-align: inherit;">
-			            		<font dir="auto" style="vertical-align: inherit;">글 작성</font>
+			            		<font dir="auto" style="vertical-align: inherit;">제목</font>
 			            	</font>
-			            </h3>
+			            </h3> -->
 			            <div class="row">
-			                <div class="col-lg-6 col-12">
+			                <div class="col-lg-12 col-12">
 			                    <div class="form-group">
 			                        <label class="control-label">
 			                        	<font dir="auto" style="vertical-align: inherit;">
@@ -54,7 +54,7 @@
 			                               required >
 			                    </div>
 			                </div>
-			                <div class="col-lg-6 col-12">
+			                <div class="col-lg-12 col-12">
 			                    <div class="form-group">
 			                        <label class="control-label">
 			                        	<font dir="auto" style="vertical-align: inherit;">
@@ -67,7 +67,7 @@
 			                    </div>
 			                </div>
 			            </div>
-			            <div class="form-group">
+			            <%-- <div class="form-group">
 			                <label class="control-label">
 			                	<font dir="auto" style="vertical-align: inherit;">
 			                		<font dir="auto" style="vertical-align: inherit;">E-mail</font>
@@ -76,7 +76,7 @@
 			                <input type="text" class="form-control" 
 			                       value="${memberLoginInfo.email }"
 			                       readonly>
-			            </div>
+			            </div> --%>
 						<div class="form-group">
 						    <label class="control-label">글 내용</label>
 						    <textarea class="form-control" rows="7"
@@ -86,7 +86,7 @@
 						              required></textarea>
 						
 						    <!-- GPT 버튼 -->
-						    <div class="mt-2">
+						    <div class="mt-2 button text-right">
 						        <button type="button" class="btn btn-outline-primary btn-sm" id="gptCheckBtn">
 						            GPT 맞춤법 교정
 						        </button>
@@ -94,15 +94,15 @@
 						
 						    <!-- GPT 결과 박스 -->
 						    <div id="gptResultBox" class="gpt-result mt-3 p-3 border rounded bg-white" style="display:none;">
-						        <h6>GPT 첨삭 결과</h6>
+						        <h6>GPT 교정 결과</h6>
 						        <pre id="gptResultText" style="white-space:pre-wrap;"></pre>
 						        <button type="button" class="btn btn-success btn-sm mt-2" id="applyGptBtn">
-						            첨삭내용 적용하기
+						            교정내용 적용하기
 						        </button>
 						    </div>
 						</div>
 			            <div class="row align-items-center justify-content-center">
-			                <div class="col-lg-6 col-md-5 col-12">
+			                <div class="col-lg-12 col-md-12 col-12">
 			                    <div class="form-group">
 			                        <div class="button-group">
 			                            <div class="action-buttons">
@@ -113,8 +113,9 @@
 											        </label>
 									            </div>	
 			                                    <hr>
-			                                    <div>
-				                                    <input id="cover_img_file_3" type="file" name="storedFileName" accept="image/*"> 첨부파일 ➕ <input type="button" value=" 추가하기" id="addBtn">
+			                                    <div class="text-right">
+													<input type="button" value=" 첨부파일 추가하기" id="addBtn" class="btn-success mb-10 btn">
+				                                    <input id="cover_img_file_3" type="file" name="storedFileName" accept="image/*" class="form-control">
 			                                    </div>
 			                                    <div id="fileDiv">
 			                                    
@@ -124,12 +125,12 @@
 			                        </div>
 			                    </div>
 			                </div>
-			                <div class="col-lg-6 col-md-7 col-12">
-			                    <div class="add-post-btn float-right">
-			                  		<button type="submit" class="btn btn-primary">글쓰기</button>
-			                    </div>
-			                </div>
 			            </div>
+		                <div class="col-12">
+		                    <div class="button text-center mt-20">
+		                  		<button type="submit" class="btn btn-primary">글쓰기</button>
+		                    </div>
+		                </div>
 			        </form>
 			    </div>
 			</div>
@@ -141,7 +142,7 @@
 		var cnt = 1;
 		$("#addBtn").click(function(){
 			// alert("버튼 클릭");
-			$("#fileDiv").append("<div><br><input id='cover_img_file_3' type='file' name='storedFileName"+(cnt++)+"' accept='image/*' ></div>")
+			$("#fileDiv").append("<div><br><input id='cover_img_file_3' type='file' name='storedFileName"+(cnt++)+"' accept='image/*' class='form-control'></div>")
 		});
 		
 		// GPT 맞춤법 교정 요청

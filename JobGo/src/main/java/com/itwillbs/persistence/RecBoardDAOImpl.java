@@ -14,6 +14,7 @@ import org.springframework.stereotype.Repository;
 import com.itwillbs.domain.Criteria;
 import com.itwillbs.domain.RecBoardVO;
 import com.itwillbs.domain.RecBottomCategoryVO;
+import com.itwillbs.domain.RecCriteria;
 import com.itwillbs.domain.RecTopCategoryVO;
 import com.itwillbs.domain.RecTopLocationVO;
 import com.itwillbs.domain.ResumeVO;
@@ -31,7 +32,7 @@ public class RecBoardDAOImpl implements RecBoardDAO {
 
 	// 게시판 리스트
 	@Override
-	public List<RecBoardVO> selectRecBoardList(Criteria cri, Integer toplct_id, Integer topctg_id, Integer btmctg_id, String search) throws Exception {
+	public List<RecBoardVO> selectRecBoardList(RecCriteria cri, Integer toplct_id, Integer topctg_id, Integer btmctg_id, String search) throws Exception {
 		logger.debug(" DAO: selectRecBoardList() 실행! ");
 		
 		Map<String, Object> paramMap = new HashMap<>();

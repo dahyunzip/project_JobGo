@@ -95,164 +95,162 @@
 		background-color: #1d4ed8;
 	}
 </style>
-<section class="add-resume section" >
+<section class="section" >
+	<h2 class="pageTitle">커뮤니티</h2>
 	<div class="container" >
-		<div class="row">
-			<div class="col-lg-10 offset-lg-1 col-12">
-			    <div class="add-resume-inner box">
-			        <div id="com_top" class="post-header align-items-center justify-content-center">
-		            	<form id="readForm" role="form">
-							<input type="hidden" name="com_bno" value="${resultReadVO.com_bno}">
-							<input type="hidden" name="page" value="${page}">
-						</form>
-			            <h3 id="title">
-			            	<font dir="auto" style="vertical-align: inherit;">
-			            		<font dir="auto" style="vertical-align: inherit;">
-			            			커뮤니티 게시판
-			            		</font>
-			            	</font>
-			            </h3>
-			        </div>
-			        <hr>
-		            <h3 class="single-section-title">
-		            	<font dir="auto" style="vertical-align: inherit;">
-		            		<font dir="auto" style="vertical-align: inherit;">
-		            			게시판 본문읽기
-		            		</font>
-		            	</font>
-		            </h3>
-		            <div class="row">
-		                <div class="col-lg-6 col-12">
-		                    <div class="form-group">
-		                        <label class="control-label">
-		                        	<font dir="auto" style="vertical-align: inherit;">
-		                        		<font dir="auto" style="vertical-align: inherit;">
-		                        			글 제목
-		                        		</font>
-		                        	</font>
-		                        </label>
-		                        <input type="text" class="form-control" 
-		                               value="${resultReadVO.com_title }"
-		                               readonly >
-		                    </div>
-		                </div>
-		                <div class="col-lg-6 col-12">
-		                    <div class="form-group">
-		                        <label class="control-label">
-		                        	<font dir="auto" style="vertical-align: inherit;">
-		                        		<font dir="auto" style="vertical-align: inherit;">
-		                        			작성자
-		                        		</font>
-		                        	</font>
-		                        </label>
-		                        <input type="text" class="form-control"
-		                        	   value="${resultReadVO.writer }"
-		                               readonly>
-		                    </div>
-		                </div>
-		            </div>
-		            <div class="form-group">
-		                <label class="control-label">
-		                	<font dir="auto" style="vertical-align: inherit;">
-		                		<font dir="auto" style="vertical-align: inherit;">
-		                			E-mail
-		                		</font>
-		                	</font>
-		                </label>
-		                <input type="text" class="form-control" 
-		                       value="${resultReadVO.email }"
-		                       readonly>
-		            </div>
-		            <div class="form-group">
-		                <label class="control-label">
-		                	<font dir="auto" style="vertical-align: inherit;">
-		                		<font dir="auto" style="vertical-align: inherit;">
-		                			글 내용
-		                		</font>
-		                	</font>
-		                </label>
-		                <textarea class="form-control" rows="7"
-		                		  name="com_content"
-		                          disabled
-		                          required>${resultReadVO.com_content }</textarea>
-		            </div>
-		            <div class="form-group">
-					    <label>첨부파일</label>
-					    <c:choose>
-					        <c:when test="${not empty resultReadVO.storedFileName}">
-					            <select id="fileSelect" class="form-control">
-					                <option value="">-- 첨부파일을 선택하세요 --</option>
-					                <c:forTokens var="file" items="${resultReadVO.storedFileName}" delims=",">
-					                    <option value="${file}">${file}</option>
-					                </c:forTokens>
-					            </select>
-					        </c:when>
-					        <c:otherwise>
-					            <p>첨부된 파일이 없습니다.</p>
-					        </c:otherwise>
-					    </c:choose>
-					</div>
-					<div class="col-12">
-						<div class="button">
-						<c:if test="${loginUserId eq resultReadVO.userid}">
-							<button type="submit" class="btn btn-update">수정</button>
-							<button type="button" class="btn btn-delete">삭제</button>
-						</c:if>
-							<button type="submit" class="btn btn-list">목록으로</button>
-						</div>
-					</div>
-					<hr>
-					<!-- 비동기 댓글 영역 -->
-					<div class="form-group">
-						<h5>댓글 (<span id="rcount">0</span>)</h5>
-						<div id="replyArea">
-							<c:if test="${!empty loginUserId}">
-							<form id="replyForm">
-		                        <input type="text" class="form-control"
-		                               id="reply_content"
-		                               name="reply_content" 
-		                               placeholder="다양한 의견을 작성해 보세요!">
-							</form>
-	                    	</c:if>
-	                    	<c:if test="${empty loginUserId and empty recLoginInfo}">
-	                    		<p><a id="loginLink" href="#">로그인</a> 후 댓글 작성이 가능합니다. </p>
-								<script>
-								  const returnOldPath = "/comboard/comRead?com_bno=${resultReadVO.com_bno}&page=${page}";
-								  const encoded = encodeURIComponent(returnOldPath);
-								  document.getElementById("loginLink").href = "/member/login?oldPath=" + encoded;
-								</script>
-	                    	</c:if>
-	                    	<c:if test="${!empty recLoginInfo}">
-	                    		<p>불편을 드려 죄송합니다 (┬┬﹏┬┬) 일반회원만 댓글 작성이 가능합니다.</p>
-	                    	</c:if>
-	                    </div>
-	                    <hr>
-						<table class="table table-striped" style="word-break: break-word;">
-							<colgroup>
-								<col width="10%">
-								<col width="*">
-								<col width="10%">
-								<col width="12%">
-							</colgroup>
-							<thead>
-								<tr>
-									<th>작성자</th>
-									<th>내용</th>
-									<th>작성일</th>
-									<c:if test="${!empty loginUserId}">									
-										<th>기능</th>
-									</c:if>
-								</tr>
-							</thead>
-							<tbody class="replyList">
-							
-							</tbody>
-						</table>
-					</div>
-					<!-- 비동기 댓글 영역 -->
-			    </div>
+		<div class="boardHeader">
+			<h2>${resultReadVO.com_title }</h2>
+			<div>
+				<p>
+					<b>작성자:</b>${resultReadVO.writer }
+				</p>
 			</div>
 		</div>
+		<div class="boardBody">
+			${resultReadVO.com_content }
+		</div>
+		<dl class="detailView">
+			<dt><label>첨부파일</label></dt>
+			<dd>
+				<c:choose>
+			        <c:when test="${not empty resultReadVO.storedFileName}">
+			            <select id="fileSelect" class="form-control">
+			                <option value="">-- 첨부파일을 선택하세요 --</option>
+			                <c:forTokens var="file" items="${resultReadVO.storedFileName}" delims=",">
+			                    <option value="${file}">${file}</option>
+			                </c:forTokens>
+			            </select>
+			        </c:when>
+			        <c:otherwise>
+			            <p>첨부된 파일이 없습니다.</p>
+			        </c:otherwise>
+			    </c:choose>
+		    </dd>
+		</dl>
+		<hr>
+	    <div class="add-resume-inner box">
+	        <div id="com_top" class="post-header align-items-center justify-content-center">
+            	<form id="readForm" role="form">
+					<input type="hidden" name="com_bno" value="${resultReadVO.com_bno}">
+					<input type="hidden" name="page" value="${page}">
+				</form>
+	        </div>
+            <%-- <div class="form-group">
+                <label class="control-label">
+                	<font dir="auto" style="vertical-align: inherit;">
+                		<font dir="auto" style="vertical-align: inherit;">
+                			E-mail
+                		</font>
+                	</font>
+                </label>
+                <input type="text" class="form-control" 
+                       value="${resultReadVO.email }"
+                       readonly>
+            </div>
+            <div class="form-group">
+                <label class="control-label">
+                	<font dir="auto" style="vertical-align: inherit;">
+                		<font dir="auto" style="vertical-align: inherit;">
+                			글 내용
+                		</font>
+                	</font>
+                </label>
+                <textarea class="form-control" rows="7"
+                		  name="com_content"
+                          disabled
+                          required>${resultReadVO.com_content }</textarea>
+            </div>
+            <div class="form-group">
+			    <label>첨부파일</label>
+			    <c:choose>
+			        <c:when test="${not empty resultReadVO.storedFileName}">
+			            <select id="fileSelect" class="form-control">
+			                <option value="">-- 첨부파일을 선택하세요 --</option>
+			                <c:forTokens var="file" items="${resultReadVO.storedFileName}" delims=",">
+			                    <option value="${file}">${file}</option>
+			                </c:forTokens>
+			            </select>
+			        </c:when>
+			        <c:otherwise>
+			            <p>첨부된 파일이 없습니다.</p>
+			        </c:otherwise>
+			    </c:choose>
+			</div> 
+			<div class="col-12">
+				<div class="button">
+				<c:if test="${loginUserId eq resultReadVO.userid}">
+					<button type="submit" class="btn btn-update">수정</button>
+					<button type="button" class="btn btn-delete">삭제</button>
+				</c:if>
+					<button type="submit" class="btn btn-list">목록으로</button>
+				</div>
+			</div>--%>
+			<!-- 비동기 댓글 영역 -->
+			<div class="form-group mb-20 ">
+				<div class="comment">
+					<h5>댓글 (<span id="rcount">0</span>)</h5>
+					<div id="replyArea">
+						<c:if test="${!empty loginUserId}">
+							<form id="replyForm">
+								<input type="text" class="form-control" id="reply_content"
+									name="reply_content" placeholder="다양한 의견을 작성해 보세요!">
+							</form>
+						</c:if>
+						<c:if test="${empty loginUserId and empty recLoginInfo}">
+							<c:url var="loginUrl" value="/member/login">
+						        <c:param name="oldPath" value="/comboard/comRead?com_bno=${resultReadVO.com_bno}&page=${page}"/>
+						    </c:url>
+							<p>
+								<a href="${loginUrl }">로그인</a> 후 댓글 작성이 가능합니다.
+							</p>
+							<!-- <script>
+							  const returnOldPath = "/comboard/comRead?com_bno=${resultReadVO.com_bno}&page=${page}";
+							  const encoded = encodeURIComponent(returnOldPath);
+							  document.getElementById("loginLink").href = "/member/login?oldPath=" + encoded;
+							</script> -->
+						</c:if>
+						<c:if test="${!empty recLoginInfo}">
+							<p>불편을 드려 죄송합니다 (┬┬﹏┬┬) 일반회원만 댓글 작성이 가능합니다.</p>
+						</c:if>
+					</div>
+					<c:if test="${!empty loginUserId}">
+						<div class="button">
+							<button class="btn">등록</button>
+						</div>
+					</c:if>
+				</div>
+                <hr>
+				<table class="table-default table-responsive" style="word-break: break-word;">
+					<colgroup>
+						<col width="10%">
+						<col width="*">
+						<col width="10%">
+						<col width="12%">
+					</colgroup>
+					<thead>
+						<tr>
+							<th>작성자</th>
+							<th>내용</th>
+							<th>작성일</th>
+							<th><c:if test="${!empty loginUserId}">기능</c:if></th>
+						</tr>
+					</thead>
+					<tbody class="replyList">
+					
+					</tbody>
+				</table>
+			</div>
+			<!-- 비동기 댓글 영역 -->
+			<div class="boardFoot text-right">
+				<div class="button">
+					<c:if test="${loginUserId eq resultReadVO.userid}">
+						<button type="submit" class="btn btn-update">수정</button>
+						<button type="button" class="btn btn-delete">삭제</button>
+					</c:if>
+						<button type="submit" class="btn btn-list">목록으로</button>
+				</div>
+			</div>
+	    </div>
 	</div>
 </section>
 	<!-- 비밀번호 확인 모달 -->
@@ -354,6 +352,10 @@
 		$("#replyForm").on("submit", function(e) {
 			  writeReplySection();
 			  e.preventDefault();
+		});
+		
+		$(".comment .btn").click(function(){
+			$("#replyForm").submit();
 		});
 		
 		// 댓글 추가

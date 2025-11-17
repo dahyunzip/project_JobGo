@@ -33,10 +33,10 @@
 		where notice_id = #{noticeId}
 	</update>
 
-	<update id="deleteNotice">
+	<delete id="deleteNotice">
 		delete from notice_board
 		where notice_id = #{noticeId}
-	</update>
+	</delete>
 
 	<update id="updateViewCnt">
 		update notice_board
@@ -130,5 +130,13 @@
 		</if>
 	</select>
 
-
+	<select id="getRecentNotices" resultType="com.itwillbs.domain.NoticeVO">
+        SELECT notice_id as noticeId, 
+	        notice_title as noticeTitle,
+	        admin_id as adminId,
+	        notice_regdate as noticeRegdate
+        FROM notice_board
+        ORDER BY notice_regdate DESC
+        LIMIT 5
+    </select>
 </mapper>

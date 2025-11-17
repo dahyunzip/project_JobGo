@@ -1,0 +1,232 @@
+@charset "UTF-8";
+
+#main-contents{padding-top:150px}
+
+.job-section {
+	padding: 60px 0;
+	/* background-color: #f8faff; */
+}
+
+.job-card {
+	background: #fff;
+	border-radius: 20px;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+	overflow: hidden;
+	transition: transform 0.25s ease, box-shadow 0.25s ease;
+	cursor: pointer;
+}
+
+.job-card:hover {
+	transform: translateY(-6px);
+	box-shadow: 0 4px 16px rgba(0, 0, 0, 0.12);
+}
+
+.job-thumb {
+	width: 100%;
+	height: 200px;
+	object-fit: cover;
+	background: #e9eefb;
+}
+
+.job-body {
+	padding: 15px 20px;
+}
+
+.job-body h5 {
+	font-size: 18px;
+	color: #121212;
+	font-weight: 700;
+	margin-bottom: 6px;
+}
+
+.job-body p {
+	color: #444;
+	font-size: 14px;
+	margin-bottom: 8px;
+}
+
+.job-info {
+	font-size: 12px;
+	color: #888;
+}
+
+.job-info span {
+	margin-right: 10px;
+}
+
+/* === 섹션 제목 === */
+.section-title {
+	font-size: 40px;
+	font-weight: 700;
+	color: #222;
+	margin-bottom: 10px;
+	padding:0;
+}
+.mtitle{
+	text-align:center; color:#5a5a5a;
+}
+.board-box {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+}
+
+.board-box ul {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.board-box li {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+}
+
+.board-box li a {
+    display: block;
+    width: 70%;
+    color: #333;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+.board-box .date {
+    font-size: 13px;
+    color: #999;
+}
+
+.board-wrapper {
+    margin-bottom: 80px;
+}
+
+/* 리뷰 */
+.boardWrap .score {
+    font-weight: 700;
+    color: #ffc107 !important;
+    text-align:center;
+    display: block;
+    margin-bottom:20px
+}
+
+
+.slide-img {
+  width: 100%;
+  height: 350px;
+  object-fit: cover;
+  border-radius: 12px;
+}
+
+.mainTop .fix-layout{display:flex; justify-content:space-between;}
+.mainTop .banner{width:880px; height:400px; overflow:hidden; border-radius: 20px}
+.mainTop .banner .my-slider{height:400px; border-radius: 24px; overflow:hidden;}
+.mainTop .banner .my-slider .tns-item{height:100%;}
+.mainTop .banner img{width:100%; height:100%; object-fit:cover;}
+.mainTop .tns-nav{display:none}
+.mainTop .tns-outer{position:relative;}
+.mainTop .tns-controls{position:absolute; z-index:10; bottom:20px; right:60px}
+.tns-controls button[data-controls='prev']{border:0; width: 40px; height:40px; border-top-left-radius: 8px; border-bottom-left-radius:8px; background:#fff;}
+.tns-controls button[data-controls='next']{border:0; width: 40px; height:40px; border-top-right-radius: 8px; border-bottom-right-radius:8px; background:#fff; position:absolute; left:40px}
+.tns-controls button i{color:var(--main-color); font-size:24px;}
+
+.mainTop .mypage{width:calc(100% - 920px); background:#f7f7f7; border-radius: 20px; padding:50px 30px}
+.mainTop .mypage h4{padding-bottom:20px; border-bottom:1px solid #e5e5e5; margin-bottom:20px;}
+.mypage .mem{display:flex; justify-content:space-between; margin-bottom:20px; align-items:center;}
+.mypage .mem strong{font-size:24px; cursor:pointer;}
+.mypage .quickMenu{display:flex; justify-content:space-between; }
+.mypage .quickMenu li{width:32%}
+.mypage .quickMenu li a{display:flex; height:80px; flex-direction:column; justify-content:center; background:#fff; border-radius: 12px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); text-align:center; color:#000; font-weight:500;}
+
+.user-dashboard {
+    background: #fff;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+    margin-bottom: 20px;
+}
+
+.user-dashboard h4 {
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+
+.user-dashboard .mem {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 8px;
+}
+
+.user-dashboard.guest {
+    text-align: center;
+}
+
+.user-dashboard.guest p {
+    color: #555;
+    margin: 10px 0 15px;
+}
+
+.login-btn {
+    display: inline-block;
+    background: #0064FF;
+    color: #fff;
+    padding: 8px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 500;
+}
+.login-btn:hover {
+    background: #0050d4;
+    color:#fff;
+}
+
+.jobBoardWrap{display:flex; flex-wrap:wrap; justify-content:space-between;}
+.jobBoardWrap .list{width:31%; margin-bottom:30px;}
+.more .moreBtn{display:block; width:40px; height:40px; border:3px solid var(--main-color); color:#fff; border-radius: 50%; margin:20px auto 50px auto; transition:all .3s ease; transform:rotate(0deg);}
+.more .moreBtn:hover{transform:rotate(-180deg); transition: all .3s ease;}
+.more .moreBtn i{font-size:35px; color:var(--main-color);}
+.rvBoard{display:flex; flex-wrap:wrap; justify-content:space-between}
+.rvBoard li{width:23%;}
+.rvBoard li > a{color:#333; display:block; padding:28px 36px; background:#fff; border-radius: 16px; min-height:308px; transition:all .3s ease;}
+.rvBoard li > a:hover{transition:all .3s ease; transform: translateY(-10px); box-shadow: 0 0 10px 2px rgba(0,0,0,.05)}
+.boardWrap .userProf{width:100px; height:100px; border-radius: 50%; overflow:hidden; margin:0 auto 20px auto; display:block;}
+.boardWrap .userProf img{width:100%; height:100%; object-fit:cover;}
+.boardWrap .title{display:block; font-size:20px; font-weight:600; color:#222; text-align:left; white-space:nowrap; text-overflow:ellipsis; overflow:hidden; margin-bottom:10px}
+.boardWrap .text{font-size:16px; color:#5a5a5a; text-align:left; display:block; display:-webkit-box; -webkit-box-orient:vertical; -webkit-line-clamp:2; text-overflow:ellipsis; overflow:hidden;}
+.listhead{display:flex; justify-content:space-between; padding-bottom:20px; border-bottom:1px solid #555; margin-bottom:30px;}
+.listhead .section-title{font-size:32px;}
+.listhead .more .moreBtn{margin:0; border-color:#e5e5e5}
+.listhead .more .moreBtn i{color:#e5e5e5;}
+#reviewSec{background:#f7fafd; padding:80px 0;}
+
+@media all and (max-width:1400px){
+	.mainTop .banner{width:600px; }
+	.mainTop .mypage{width:calc(100% - 640px)}
+}
+
+@media all and (max-width:1024px){
+	.mainTop .fix-layout{flex-direction:column-reverse; gap:30px}
+	.mainTop .banner{width:100%; margin-bottom:40px}
+	.mainTop .mypage{width:100%;}
+	.rvBoard li{width:48%; margin-bottom:30px;}
+	.section-title{font-size:24px;}
+	.listhead .section-title{font-size:24px;}
+}
+
+@media all and (max-width:991px){
+	#main-contents{padding-top:240px;}
+	.job-section{padding:0;}
+}
+
+@media all and (max-width:768px){
+	.jobBoardWrap .list{width:48%;}
+	.job-thumb{height:50px;}
+}
+
+@media all and (max-width:480px){
+	.mainTop .banner{height:250px;}
+	.mainTop .banner .my-slider{height:250px}
+	.job-thumb{height:150px;}
+	.jobBoardWrap .list{width:100%; }
+	.rvBoard li{width:100%; margin-bottom:20px}
+}

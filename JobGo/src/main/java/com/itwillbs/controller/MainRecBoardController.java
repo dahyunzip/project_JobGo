@@ -22,7 +22,7 @@ public class MainRecBoardController {
 	@Inject private RecBoardService recBoardService;
 	
 	// 메인 페이지 구인 공고 리스트 뿌리기
-	@GetMapping("/")
+	//@GetMapping("/")
 	public String RecMainList(Model model) throws Exception{
 		logger.debug(" RecMainList() 실행! ");
 		

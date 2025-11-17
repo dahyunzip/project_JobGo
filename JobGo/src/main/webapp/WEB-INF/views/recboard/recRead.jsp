@@ -103,144 +103,125 @@
 		background-color: #1d4ed8;
 	}
 </style>
-<section class="add-resume section">
+<section class="section">
+	<h2 class="pageTitle">채용공고</h2>
     <div class="container">
         <div class="row">
-            <div class="col-lg-10 offset-lg-1 col-12">
+            <div class="col-12">
                 <div class="add-resume-inner box">                        
             		<form id="readForm" role="form" >
             			<input type="hidden" name="rec_bno" value="${resultReadVO.rec_bno}">
-                        <input type="hidden" name="page" value="${page != null ? page : 1}">
+                        <input type="hidden" name="recPage" value="${recPage != null ? recPage : 1}">
                     </form>
                     <div id="com_top" class="post-header align-items-center justify-content-center">
-                        <img src="/upload/recfile/${resultReadVO.thumbFileName}" width="100%" height="100px" style="object-fit: cover; display: block;">
+                    	<div class="comTopInfo">
+                    		<h3 class="single-section-title">${resultReadVO.rec_title}</h3>
+                        	<p>소속: ${resultReadVO.companyName} | 모집 담당자: ${resultReadVO.managerName}(${resultReadVO.managerEmail})님</p>
+                    	</div>
+                    	<div class="comTopThumb">
+                    		<c:choose>
+								<c:when test="${empty resultReadVO.thumbFileName}">
+									<img src="/resources/images/default_image.jpg" class="profile-img">
+								</c:when>
+								<c:otherwise>
+									 <img src="/upload/recfile/${resultReadVO.thumbFileName}" onerror="this.onerror=null; this.src='/resources/images/default_image.jpg'">
+								</c:otherwise>
+							</c:choose>
+                    	</div>
                     </div>
-                    
                     <hr>
-
                     <div class="row">
+                    	<h6 class="mb-10">지원하기</h6>
                         <div class="col-lg-12 col-12">
                             <div class="form-group">
-                            	<div>
-			                    	<h3 class="single-section-title">(주)${resultReadVO.companyName} 직원 채용 공고문 | incrementStatus: ${incrementStatus }</h3>
-			                    </div>
-                                <label class="control-label">
-                                    <font dir="auto" style="vertical-align: inherit;">
-                                        <font dir="auto" style="vertical-align: inherit;">
-                                            ${resultReadVO.rec_title} / 모집 담당자: ${resultReadVO.managerName}(${resultReadVO.managerEmail})
-                                        </font>
-                                    </font>
-                                </label>
- 								<c:choose>
-								  <c:when test="${not empty recLoginInfo}">
-								    <p>기업회원 로그인 중입니다: ${resultReadVO.companyName}</p>
-								  </c:when>
-								  
-								  <c:when test="${not empty sessionScope.memberId}">
-								    <c:choose>
-								      <%-- 이미 지원한 경우 --%>
-								      <c:when test="${alreadyApplied}">
-								        <p class="text-danger fw-bold">이미 지원한 채용공고입니다. 지원취소는 <a href="/application/list" class="underline-link">커리어관리 &gt; 지원현황</a>에서 가능합니다.</p>
-								      </c:when>
-								
-								      <%-- 아직 지원 안한 경우 --%>
-								      <c:otherwise>
-								        <form method="post" action="/application/apply">
-								          <input type="hidden" name="rec_bno" value="${resultReadVO.rec_bno}">
-								          <input type="hidden" name="page" value="${page}">
-								          <select name="resume_id">
-								            <c:forEach var="resume" items="${resumeList}">
-								              <option value="${resume.resumeId}">${resume.resumeTitle}</option>
-								            </c:forEach>
-								          </select>
-								          <button type="submit">지원하기</button>
-								        </form>
-								      </c:otherwise>
-								    </c:choose>
-								  </c:when>
-								  
-								  <c:otherwise>
-								    <p>로그인 후 지원이 가능합니다. <a href="/member/login">로그인</a></p>
-								  </c:otherwise>
+								<c:choose>
+									<c:when test="${not empty recLoginInfo}">
+										<p>기업회원 로그인 중입니다: ${resultReadVO.companyName}</p>
+									</c:when>
+
+									<c:when test="${not empty sessionScope.memberId}">
+										<c:choose>
+											<%-- 이미 지원한 경우 --%>
+											<c:when test="${alreadyApplied}">
+												<p class="text-danger fw-bold">
+													이미 지원한 채용공고입니다. 지원취소는 <a href="/application/list" class="underline-link">커리어관리 &gt; 지원현황</a>에서 가능합니다.
+												</p>
+											</c:when>
+											<c:when test="${empty resumeList }">
+												<p>지원가능한 상태의 이력서가 없습니다. 임시저장 상태의 이력서는 지원할 수 없습니다.</p>
+											</c:when>
+											<%-- 아직 지원 안한 경우 --%>
+											<c:otherwise>
+												<form method="post" action="/application/apply">
+													<input type="hidden" name="rec_bno" value="${resultReadVO.rec_bno}">
+													<input type="hidden" name="recPage" value="${recPage}">
+													<div class="applyBtnWrap">
+														<div class="selectBox">
+														<select name="resume_id" class="form-control">
+															<c:forEach var="resume" items="${resumeList}">
+																<option value="${resume.resumeId}">${resume.resumeTitle}</option>
+															</c:forEach>
+														</select>
+														</div>
+														<div class="btns">
+															<button type="submit" class="btn btn-primary">지원하기</button>
+														</div>
+													</div>
+												</form>
+											</c:otherwise>
+										</c:choose>
+									</c:when>
+
+									<c:otherwise>
+										<c:url var="loginUrl" value="/member/login">
+									        <c:param name="oldPath" value="/recboard/recRead?rec_bno=${resultReadVO.rec_bno}&page=${page}"/>
+									    </c:url>
+										<p>
+											로그인 후 지원이 가능합니다. <a href="${loginUrl}">로그인</a>
+										</p>
+										<!-- <script>
+										const returnOldPath = "/recboard/recRead?rec_bno=${resultReadVO.rec_bno}&page=${page}";
+										const encoded = encodeURIComponent(returnOldPath);
+										document.getElementById("loginLink").href = "/member/login?oldPath=" + encoded;
+										</script> -->
+									</c:otherwise>
 								</c:choose>
-                            </div>
+							</div>
                         </div>
                     </div>
                     <hr>
                     <!-- 다음 지도 API 출력 공간 -->
                     <div class="form-group">
-                    	<label class="control-label">
-                            <font dir="auto" style="vertical-align: inherit;">
-                                <font dir="auto" style="vertical-align: inherit;">
-                                    회사 위치
-                                </font>
-                            </font>
-                        </label>
+                    	<h6 class="mb-10"><span>회사 위치</span></h6>
 	                    <div id="map" style="width:100%;height:300px;margin-top:10px;border-radius:10px;">
 	                    
 	                    </div>
                     </div> <br>
-                    <div id="box1">
-	                    <div class="form-group1">
-	                        <label class="control-label">
-	                            <font dir="auto" style="vertical-align: inherit;">
-	                                <font dir="auto" style="vertical-align: inherit;">
-	                                    입사 자격 요건
-	                                </font>
-	                            </font>
-	                        </label>
-	                        <textarea class="form-control" rows="3" name="com_content" disabled required>${resultReadVO.rec_qualification}</textarea>
-	                    </div> <br>
-	                    
-	                    <div class="form-group2">
-	                        <label class="control-label">
-	                            <font dir="auto" style="vertical-align: inherit;">
-	                                <font dir="auto" style="vertical-align: inherit;">
-	                                    채용 우대 사항
-	                                </font>
-	                            </font>
-	                        </label>
-	                        <textarea class="form-control" rows="3" name="com_content" disabled required>${resultReadVO.rec_preference}</textarea>
-	                    </div> 
-                    </div> <br>
-                    
-                    <div class="form-group3">
-                        <label class="control-label">
-                            <font dir="auto" style="vertical-align: inherit;">
-                                <font dir="auto" style="vertical-align: inherit;">
-                                    복리 후생
-                                </font>
-                            </font>
-                        </label>
-                        <textarea class="form-control" rows="7" name="com_content" disabled required>${resultReadVO.rec_benefit}</textarea>
-                    </div> <br>
-                    
-                    <div class="form-group4">
-                        <label class="control-label">
-                            <font dir="auto" style="vertical-align: inherit;">
-                                <font dir="auto" style="vertical-align: inherit;">
-                                    회사 주요 업무 소개
-                                </font>
-                            </font>
-                        </label>
-                        <textarea class="form-control" rows="7" name="com_content" disabled required>${resultReadVO.rec_maintask}</textarea>
-                    </div> <br>
-                    <hr>
-                    <div class="form-group-image">
-                    	<label class="control-label">
-                            <font dir="auto" style="vertical-align: inherit;">
-                                <font dir="auto" style="vertical-align: inherit;">
-                                    회사 전경 및 사내 전경
-                                </font>
-                            </font>
-                        </label>
+                    <div class="cont-head">
+                    	<h6 class="mb-10"><span>입사 자격 요건</span></h6>
+                        <p>${resultReadVO.rec_qualification}</p>
+                    </div>
+                    <div class="cont-head">
+                    	<h6 class="mb-10"><span>채용 우대 사항</span></h6>
+                        <p>${resultReadVO.rec_preference}</p>
+                    </div>
+                    <div class="cont-head">
+                    	<h6 class="mb-10"><span>복리 후생</span></h6>
+                        <p>${resultReadVO.rec_benefit}</p>
+                    </div> 
+                    <div class="cont-head">
+                    	<h6 class="mb-10"><span>회사 주요 업무 소개</span></h6>
+                    	<p>${resultReadVO.rec_maintask}</p>
+                    </div>
+                    <div class="cont-head">
+                    	<h6 class="mb-10"><span>회사 전경 및 사내 전경</span></h6>
                    	    <div class="image-box">
 					        <c:if test="${not empty resultReadVO.attachFileName}">
 					            <c:forEach var="file" items="${fn:split(resultReadVO.attachFileName, ',')}">
 					                <img src="/upload/recfile/${file}" 
 					                     alt="회사 이미지"
 					                     class="company-img"
-					                     style="width: 100%; height: 300px;"> <br><br>
+					                     style="width: 100%; height: auto;" onerror="this.onerror=null; this.src='/resources/images/default_image.jpg'"> <br><br>
 					            </c:forEach>
 					        </c:if>
 					
@@ -249,8 +230,8 @@
 					        </c:if>
 					    </div>
                     </div>
-                    
-                    <div class="col-12">
+                    <hr>
+                    <div class="col-12 text-center">
                         <div class="button">
                             <c:if test="${not empty recLoginInfo and recLoginInfo.corpUserId eq resultReadVO.corpUserId}">
                                 <button type="submit" class="btn btn-update">수정</button>
@@ -259,8 +240,6 @@
                             	<button type="submit" class="btn btn-list">목록으로</button>
                         </div>
                     </div>
-                 
-                    <hr>
                 </div>
             </div>
         </div>
@@ -282,7 +261,7 @@
 	</div>
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f741118517088ca2272cc9689f78f15e&libraries=services"></script>
 <script type="text/javascript">
-	let recBno = null;
+	let recBno = "${resultReadVO.rec_bno}";
 	$(document).ready(function(){
 		var status = '${msg}';
 		if(status == 'applySuccess'){
@@ -299,8 +278,8 @@
 		
 		// 목록 버튼
 		$(".btn-list").click(function(){
-			const page = "${page}" || 1;   // page 값이 없으면 자동으로 1
-		    location.href = "/recboard/recListCri?page=" + page;
+			const recPage = "${recPage}" || 1;
+			location.href = "/recboard/recListCri?recPage=" + recPage;
 		});
 	
 		// 삭제 버튼
@@ -393,7 +372,7 @@
 			}
 		});
 		
-		
+	
 		
 	});
 </script>

@@ -7,6 +7,15 @@
 		align-items: center;
 		margin-bottom: 15px;
 	}
+	
+	#gptPreviewBox .btn-success,
+	#gptPreviewBox .btn-secondary {
+	    height: 40px !important;
+	    line-height: 26px !important;
+	    padding: 6px 18px !important;
+	    font-size: 14px;
+	    margin-right: 8px;
+	}
 </style>
 
 <section class="add-resume section">
@@ -34,7 +43,7 @@
 
 				<!-- 글쓰기 폼 시작 -->
 				<form class="form-ad" method="post" enctype="multipart/form-data">
-					<input type="hidden" name="page" value="${page }">
+					<input type="hidden" name="recPage" value="${recPage}">
 					<input type="hidden" name="rec_bno" value="${resultReadVO.rec_bno}">
 					<h3 class="single-section-title">공고 수정</h3>
 
@@ -71,9 +80,24 @@
 					</div>
 
 					<div class="form-group">
-						<label>주요 업무 내용</label>
+						<label>회사 소개 및 주요 업무</label>
 						<textarea class="form-control" name="rec_maintask"
-								  placeholder="주요 업무를 입력하세요." rows="5">${resultReadVO.rec_maintask }</textarea>
+								  placeholder="주요 업무를 입력하세요." rows="5">${resultReadVO.rec_maintask }
+						</textarea>
+						
+						<button type="button" class="btn btn-outline-primary btn-sm gptBtn"
+						        data-target="rec_maintask" data-api="/recboard/gpt/maintask">
+						    ✨ GPT로 주요 업무 첨삭하기
+						</button>
+						
+						<div class="gptPreviewBox" id="preview_rec_maintask" style="display:none;">
+						    <h5>GPT 미리보기</h5>
+						    <pre class="gptText"></pre>
+						
+						    <button type="button" class="btn btn-success btn-sm applyBtn">적용하기</button>
+						    <button type="button" class="btn btn-secondary btn-sm retryBtn">다시 생성하기</button>
+						</div>
+								  
 					</div>
 
 					<!-- 카테고리 / 지역 선택 -->
@@ -139,19 +163,61 @@
 					<div class="form-group">
 						<label>입사 자격 요건</label>
 						<textarea class="form-control" name="rec_qualification"
-								  placeholder="학력 필요 자격증 등 등.." rows="5">${resultReadVO.rec_qualification}</textarea>
+								  placeholder="예) 무관, 고졸 이상, 4년제 이상 등 주로 최소 학력 입력" rows="5">${resultReadVO.rec_qualification}
+						</textarea>
+						
+						<button type="button" class="btn btn-outline-primary btn-sm gptBtn"
+						        data-target="rec_qualification" data-api="/recboard/gpt/qualification">
+						    ✨ GPT로 자격 요건 첨삭하기
+						</button>
+						
+						<div class="gptPreviewBox" id="preview_rec_maintask" style="display:none;">
+						    <h5>GPT 미리보기</h5>
+						    <pre class="gptText"></pre>
+						
+						    <button type="button" class="btn btn-success btn-sm applyBtn">적용하기</button>
+						    <button type="button" class="btn btn-secondary btn-sm retryBtn">다시 생성하기</button>
+						</div>
 					</div>
 					
 					<div class="form-group">
 						<label>채용 우대 사항</label>
 						<textarea class="form-control" name="rec_preference"
-								  placeholder="경력 및 우대 자격증 등 등.." rows="5">${resultReadVO.rec_preference}</textarea>
+								  placeholder="예) OO관련 전공자 우대, 정보처리기사 우대 등 관련 학력 자격증 입력" rows="5">${resultReadVO.rec_preference}
+						</textarea>
+						
+						<button type="button" class="btn btn-outline-primary btn-sm gptBtn"
+						        data-target="rec_preference" data-api="/recboard/gpt/preference">
+						    ✨ GPT로 우대 사항 첨삭하기
+						</button>
+						
+						<div class="gptPreviewBox" id="preview_rec_maintask" style="display:none;">
+						    <h5>GPT 미리보기</h5>
+						    <pre class="gptText"></pre>
+						
+						    <button type="button" class="btn btn-success btn-sm applyBtn">적용하기</button>
+						    <button type="button" class="btn btn-secondary btn-sm retryBtn">다시 생성하기</button>
+						</div>
 					</div>
 					
 					<div class="form-group">
 						<label>복리 후생</label>
 						<textarea class="form-control" name="rec_benefit"
-								  placeholder="채용시 복지 및 임직원 지원 항목을 작성하세요." rows="5">${resultReadVO.rec_benefit }</textarea>
+								  placeholder="채용시 복지 및 임/직원 지원 항목을 작성하세요." rows="5">${resultReadVO.rec_benefit }
+						</textarea>
+						
+						<button type="button" class="btn btn-outline-primary btn-sm gptBtn"
+						        data-target="rec_benefit" data-api="/recboard/gpt/benefit">
+						    ✨ GPT로 복리 후생 첨삭하기
+						</button>
+						
+						<div class="gptPreviewBox" id="preview_rec_maintask" style="display:none;">
+						    <h5>GPT 미리보기</h5>
+						    <pre class="gptText"></pre>
+						
+						    <button type="button" class="btn btn-success btn-sm applyBtn">적용하기</button>
+						    <button type="button" class="btn btn-secondary btn-sm retryBtn">다시 생성하기</button>
+						</div>
 					</div>
 
 					<!-- 썸네일 업로드 -->
@@ -180,7 +246,7 @@
 						<div class="col-lg-6 col-md-7 col-12">
 							<div class="add-post-btn float-right">
 								<button type="submit" class="btn btn-primary">공고 수정</button>
-								<button type="button" class="btn btn-primary">목록으로</button>
+								<button type="button" class="btn btn-primary listBtn">목록으로</button>
 							</div>
 						</div>
 					</div>
@@ -242,9 +308,57 @@
 	        $("#fileDiv").append("<div><br><input type='file' name='attachFiles' accept='image/*'></div>");
 	    });
 	    
-	    $(".btn-primary").click(function(){
-		    location.href = "/recboard/recListCri?page=${page}";
-		});
+	    $(".listBtn").click(function(){
+	        location.href = "/recboard/recListCri?recPage=${recPage}";
+	    });
+	    
+	 	// GPT 첨삭 버튼
+	    $(".gptBtn").click(function () {
+
+	        const target = $(this).data("target");        
+	        const api = $(this).data("api");               
+	        const textarea = $("textarea[name='"+target+"']");
+	        const text = textarea.val().trim();
+
+	        if (!text) {
+	            alert("내용을 먼저 입력해주세요!");
+	            return;
+	        }
+
+	        const previewBox = $("#preview_" + target);
+	        const previewText = previewBox.find(".gptText");
+
+	        previewText.text("GPT가 내용을 정리하는 중입니다...");
+	        previewBox.show();
+
+	        $.ajax({
+	            url: api,
+	            type: "POST",
+	            data: { content: text },
+	            success: function (result) {
+	                previewText.text(result);
+
+	                // 적용하기
+	                previewBox.find(".applyBtn").off("click").on("click", function () {
+	                    textarea.val(result);
+	                    alert("적용되었습니다!");
+	                });
+
+	                // 다시 생성
+	                previewBox.find(".retryBtn").off("click").on("click", function () {
+	                    previewText.text("GPT가 새로운 버전을 생성 중입니다...");
+	                    $.ajax({
+	                        url: api,
+	                        type: "POST",
+	                        data: { content: textarea.val() },
+	                        success: function (retryResult) {
+	                            previewText.text(retryResult);
+	                        }
+	                    });
+	                });
+	            }
+	        });
+	    });
 	});
 </script>
 

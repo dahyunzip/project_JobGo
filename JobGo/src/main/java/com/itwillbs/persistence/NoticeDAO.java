@@ -33,5 +33,5 @@ public interface NoticeDAO {
 		// 조회수 증가
 		void updateViewCnt(int noticeId) throws Exception;
 		
-
+		public List<NoticeVO> getRecentNotices();
 }

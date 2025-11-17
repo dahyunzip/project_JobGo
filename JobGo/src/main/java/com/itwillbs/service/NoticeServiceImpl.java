@@ -71,4 +71,9 @@ public class NoticeServiceImpl implements NoticeService{
 		
 	}
 	
+	@Override
+    public List<NoticeVO> getRecentNotices() {
+        return nDAO.getRecentNotices();
+    }
+	
 }

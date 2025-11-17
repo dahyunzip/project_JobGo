@@ -19,6 +19,9 @@ public interface ResumeDAO {
     public void updateResumeStatus(ResumeVO resume) throws Exception;
     public void deleteResume(int resumeId) throws Exception;
 
+    // 회원이 작성한 이력서 수
+    public int countResumeByMember(int memberId);
+    
     // 저장 메서드
     public void insertResumeTemp(ResumeVO resume) throws Exception;    // 임시저장
     public void insertResumeFinal(ResumeVO resume) throws Exception;   // 최종등록

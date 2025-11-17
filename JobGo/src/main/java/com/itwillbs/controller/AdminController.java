@@ -224,7 +224,7 @@ public class AdminController {
 	    }
 	    
 	    String storedFileName = corp.getBusinessLicenseUrl();
-	    String filePath = "C:\\upload\\business_license\\" + storedFileName;
+	    String filePath = "/usr/local/tomcat/upload/business_license/" + storedFileName;
 	    File file = new File(filePath);
 	    
 	    if (!file.exists()) {
@@ -272,7 +272,7 @@ public class AdminController {
 	    }
 	    
 	    String storedFileName = corp.getBusinessLicenseUrl();
-	    String filePath = "C:\\upload\\business_license\\" + storedFileName;
+	    String filePath = "/usr/local/tomcat/upload/business_license/" + storedFileName;
 	    File file = new File(filePath);
 	    
 	    if (!file.exists()) {

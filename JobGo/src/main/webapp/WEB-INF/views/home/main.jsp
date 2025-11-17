@@ -107,7 +107,7 @@ $(document).ready(function(){
 									<img src="/resources/images/default_image.jpg" class="job-thumb">
 								</c:when>
 								<c:otherwise>
-									<img src="/upload/${vo.thumbFileName}" alt="${vo.rec_title}" class="job-thumb" onerror="this.onerror=null; this.src='/resources/images/default_image.jpg'">
+									<img src="/upload/recfile/${vo.thumbFileName}" alt="${vo.rec_title}" class="job-thumb" onerror="this.onerror=null; this.src='/resources/images/default_image.jpg'">
 								</c:otherwise>
 							</c:choose>
 	                        <div class="job-body">

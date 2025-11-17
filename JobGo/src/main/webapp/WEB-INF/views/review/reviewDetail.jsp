@@ -59,16 +59,15 @@
 				<dt>기업명</dt>
 				<dd>${companyName}</dd>
 			</dl>
-			<dl>
+			<dl class="w100">
 				<dt>기업 평균 별점</dt>
 				<dd>
 					<span id="avgRateText">${avgRate}</span> / 5
+					<div style="width: 200px;margin-top:20px;display: inline-block; vertical-align: middle;margin-left: 30px;">
+						<canvas id="avgRateChart"></canvas>
+					</div>
 				</dd>
 			</dl>
-
-			<div style="width: 200px; margin-top:20px;">
-				<canvas id="avgRateChart"></canvas>
-			</div>
 			<dl>
 				<dt>별점</dt>
 				<dd class="rvScore">
@@ -145,37 +144,42 @@
 			</c:if>
 			
 			<!-- 작성자 리뷰로 이동 -->
-			<button type="button" class="btn"
+			<button type="button" class="btn btn-info"
     			onclick="location.href='${pageContext.request.contextPath}/review/memberReviewList?memberId=${reviewDetail.memberId}'">
     			작성자 리뷰 보기
 			</button>
 
 			<!-- 기업 리뷰로 이동 -->
-			<button type="button" class="btn"
+			<button type="button" class="btn btn-primary"
 			    onclick="location.href='${pageContext.request.contextPath}/review/corpReviewList?corpId=${reviewDetail.corpId}'">
 			    기업 리뷰 보기
 			</button>
 			
-			<c:if test="${param.origin eq 'member'}">
-    			<button type="button" class="btn"
-    			    onclick="location.href='${pageContext.request.contextPath}/review/memberReviewList?memberId=${param.memberId}'">
-    			    목록으로
-    			</button>
-			</c:if>
-
-			<c:if test="${param.origin eq 'corp'}">
-    			<button type="button" class="btn"
-        			onclick="location.href='${pageContext.request.contextPath}/review/corpReviewList?corpId=${param.corpId}'">
-        			목록으로
-    			</button>
-			</c:if>
-
-			<!-- 기본: 전체 목록 -->
-			<button type="button" class="btn"
-    			onclick="location.href='${pageContext.request.contextPath}/review/reviewList'">
-    			목록으로
-			</button>
+			<c:choose>
+				<%-- 일반회원 리뷰 목록으로 이동 --%>
+			    <c:when test="${param.origin eq 'member'}">
+			        <button type="button" class="btn btn-secondary"
+			            onclick="location.href='${pageContext.request.contextPath}/review/memberReviewList?memberId=${param.memberId}'">
+			            목록으로
+			        </button>
+			    </c:when>
 			
+			    <%-- 기업회원 리뷰 목록으로 이동 --%>
+			    <c:when test="${param.origin eq 'corp'}">
+			        <button type="button" class="btn btn-secondary"
+			            onclick="location.href='${pageContext.request.contextPath}/review/corpReviewList?corpId=${param.corpId}'">
+			            목록으로
+			        </button>
+			    </c:when>
+			
+			    <%-- 기본: 전체 리뷰 목록 --%>
+			    <c:otherwise>
+			        <button type="button" class="btn btn-secondary"
+			            onclick="location.href='${pageContext.request.contextPath}/review/reviewList'">
+			            목록으로
+			        </button>
+			    </c:otherwise>
+			</c:choose>
 		</div>
 		
 		

@@ -292,7 +292,11 @@ public class ReviewController {
  		}
  		
  		String companyName = reviewService.getCompanyNameByCorpId(review.getCorpId());
+ 		
+ 		Double avgRate = reviewService.getAverageRateByCorp(review.getCorpId());
+ 		if (avgRate == null) avgRate = 0.0;
 
+ 		model.addAttribute("avgRate", avgRate);
  		model.addAttribute("reviewDetail", review);
  		model.addAttribute("isOwner", isOwner);
  		model.addAttribute("companyName", companyName);

@@ -53,4 +53,6 @@ public interface ReviewService {
 	void updateViewCnt(int reviewId) throws Exception;
 	
 	public List<ReviewVO> getRecentReviews();
+	
+	Double getAverageRateByCorp(int corpId) throws Exception;
 }

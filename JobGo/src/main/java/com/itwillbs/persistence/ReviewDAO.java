@@ -53,4 +53,6 @@ public interface ReviewDAO {
 	void updateViewCnt(int reviewId);
 	
 	public List<ReviewVO> getRecentReviews();
+	
+	Double getAverageRateByCorp(int corpId) throws Exception;
 }

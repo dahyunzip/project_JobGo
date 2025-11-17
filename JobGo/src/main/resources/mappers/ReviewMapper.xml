@@ -244,4 +244,12 @@
 	    ORDER BY r.rev_regdate DESC
 	    LIMIT 4
     </select>
+    
+    <select id="getAverageRateByCorp" resultType="double">
+		SELECT AVG(rev_rate)
+		FROM review
+		WHERE corp_id = #{corpId}
+	</select>
+
+
 </mapper>

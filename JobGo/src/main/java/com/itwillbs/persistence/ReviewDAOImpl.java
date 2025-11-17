@@ -130,4 +130,9 @@ public class ReviewDAOImpl implements ReviewDAO{
         return sqlSession.selectList(NAMESPACE + ".getRecentReviews");
     }
 	
+	@Override
+	public Double getAverageRateByCorp(int corpId) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getAverageRateByCorp", corpId);
+	}
+	
 }

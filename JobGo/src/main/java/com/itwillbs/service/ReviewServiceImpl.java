@@ -142,4 +142,9 @@ public class ReviewServiceImpl implements ReviewService{
         return reviewDAO.getRecentReviews();
     }
 	
+	@Override
+	public Double getAverageRateByCorp(int corpId) throws Exception {
+		return reviewDAO.getAverageRateByCorp(corpId);
+	}
+	
 }

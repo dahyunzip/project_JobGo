@@ -60,6 +60,16 @@
 				<dd>${companyName}</dd>
 			</dl>
 			<dl>
+				<dt>기업 평균 별점</dt>
+				<dd>
+					<span id="avgRateText">${avgRate}</span> / 5
+				</dd>
+			</dl>
+
+			<div style="width: 200px; margin-top:20px;">
+				<canvas id="avgRateChart"></canvas>
+			</div>
+			<dl>
 				<dt>별점</dt>
 				<dd class="rvScore">
 					<c:forEach begin="1" end="5" var="i">
@@ -234,5 +244,36 @@
 			const modal = document.getElementById("deleteModal");
 			if (e.target === modal) modal.style.display = "none";
 		});
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script>
+	window.addEventListener("DOMContentLoaded", function() {
+	
+		const avg = Number("${avgRate == null ? 0 : avgRate}");
+	
+		const ctx = document.getElementById('avgRateChart');
+	
+		new Chart(ctx, {
+			type: 'bar',
+			data: {
+				labels: ['기업 평균 별점'],
+				datasets: [{
+					label: '평균 별점',
+					data: [avg],
+					backgroundColor: 'rgba(54,162,235,0.5)',
+					borderColor: 'rgba(54,162,235,1)',
+					borderWidth: 1
+				}]
+			},
+			options: {
+				scales: {
+					y: {
+						beginAtZero: true,
+						max: 5
+					}
+				}
+			}
+		});
+	});
 	</script>
 <%@ include file="../include/Footer.jsp"%>

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../include/Header.jsp"%>
 <section class="reviewDetail section">
 	<h2 class="pageTitle">리뷰 상세</h2>
@@ -93,10 +94,7 @@
 		    		</c:choose>
 				</dd>
 			</dl>
-			<dl>
-				<dt>공개 여부</dt>
-				<dd>${reviewDetail.revPublic }</dd>
-			</dl>
+			
 			<dl>
 				<dt>조회수</dt>
 				<dd>${reviewDetail.revViewcnt}</dd>
@@ -131,6 +129,18 @@
 				<!-- 삭제 버튼 -->
 				<button type="button" onclick="openDeleteModal(${reviewDetail.reviewId})" class="btn btn3">삭제</button>
 			</c:if>
+			
+			<!-- 작성자 리뷰로 이동 -->
+			<button type="button" class="btn"
+    			onclick="location.href='${pageContext.request.contextPath}/review/memberReviewList?memberId=${reviewDetail.memberId}'">
+    			작성자 리뷰 보기
+			</button>
+
+			<!-- 기업 리뷰로 이동 -->
+			<button type="button" class="btn"
+			    onclick="location.href='${pageContext.request.contextPath}/review/corpReviewList?corpId=${reviewDetail.corpId}'">
+			    기업 리뷰 보기
+			</button>
 			
 			<c:if test="${param.origin eq 'member'}">
     			<button type="button" class="btn"

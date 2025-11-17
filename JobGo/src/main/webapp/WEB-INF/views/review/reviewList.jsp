@@ -91,7 +91,7 @@
 						</c:forEach>
 					</span>
 					<span class="rvTitle">${review.revTitle}</span>
-					<%-- <span class="rvComp">${review.companyName}</span> --%>
+					<span class="rvComp">${corpNames[review.corpId]}</span>
 					<span class="rvDate"><fmt:formatDate value="${review.revRegdate}" pattern="yyyy-MM-dd HH:mm" /></span>
 				</a>
 			</li>

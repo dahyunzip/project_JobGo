@@ -29,6 +29,7 @@
 		update notice_board
 		set notice_title = #{noticeTitle},
 			notice_content = #{noticeContent},
+			notice_updated = NOW()
 			<if test="storedFileName != null">
         		, storedFileName = #{storedFileName}
     		</if>

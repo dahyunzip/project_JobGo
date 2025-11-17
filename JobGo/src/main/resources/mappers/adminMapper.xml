@@ -255,7 +255,8 @@
 		update notice_board
 		set
 			notice_title = #{noticeTitle},
-			notice_content = #{noticeContent}
+			notice_content = #{noticeContent},
+			notice_updated = now()
 			<if test="storedFileName != null">
 				, storedFileName = #{storedFileName}
 			</if>

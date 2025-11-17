@@ -35,10 +35,6 @@ $(document).ready(function(){
 						<a href="/corp/login" class="">기업회원</a>
 					</div>
 					<form class="form-ad" method="post">
-					<%-- 									    
-						<c:if test="${not empty param.oldPath}">
-					        <input type="hidden" name="oldPath" value="${param.oldPath}">
-					    </c:if> --%>
 						<%-- <input type="hidden" name="oldPath" value="${param.oldPath}"> --%>
 						
 						<div class="row">

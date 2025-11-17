@@ -173,14 +173,17 @@
 									</c:when>
 
 									<c:otherwise>
+										<c:url var="loginUrl" value="/member/login">
+									        <c:param name="oldPath" value="/recboard/recRead?rec_bno=${resultReadVO.rec_bno}&page=${page}"/>
+									    </c:url>
 										<p>
-											로그인 후 지원이 가능합니다. <a id="loginLink">로그인</a>
+											로그인 후 지원이 가능합니다. <a href="${loginUrl}">로그인</a>
 										</p>
-										<script>
+										<!-- <script>
 										const returnOldPath = "/recboard/recRead?rec_bno=${resultReadVO.rec_bno}&page=${page}";
 										const encoded = encodeURIComponent(returnOldPath);
 										document.getElementById("loginLink").href = "/member/login?oldPath=" + encoded;
-										</script>
+										</script> -->
 									</c:otherwise>
 								</c:choose>
 							</div>

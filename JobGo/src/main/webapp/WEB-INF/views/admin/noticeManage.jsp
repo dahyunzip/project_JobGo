@@ -15,7 +15,7 @@
     </div>
 
     <!-- 검색 -->
-    <form action="${pageContext.request.contextPath}/admin/noticelist" method="get" class="form-inline mb-3">
+    <form action="${pageContext.request.contextPath}/admin/noticeManage" method="get" class="form-inline mb-3">
         <input type="text" name="search" value="${pageVO.cri.search}"
                class="form-control form-control-sm mr-2" placeholder="제목 검색">
         <button type="submit" class="btn btn-sm btn-secondary">검색</button>

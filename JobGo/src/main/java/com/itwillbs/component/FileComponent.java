@@ -16,7 +16,7 @@ public class FileComponent {
 
 	private static final Logger logger = LoggerFactory.getLogger(FileComponent.class);
 	
-	private String saveDirectory = "C:\\upload\\";
+	private String saveDirectory = "/usr/local/tomcat/upload/";
 	
 	public FileComponent() {
 		File dir = new File(saveDirectory);

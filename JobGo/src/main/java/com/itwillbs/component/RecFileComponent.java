@@ -13,7 +13,7 @@ import org.springframework.web.multipart.MultipartFile;
 public class RecFileComponent {
 
 	// 업로드 저장 경로
-	private final String recSaveDirectory = "C:\\upload\\recfile";
+	private final String recSaveDirectory = "/usr/local/tomcat/upload/recfile";
 	
 	public RecFileComponent() {
 		File dir = new File(recSaveDirectory);

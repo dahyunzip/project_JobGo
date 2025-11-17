@@ -197,14 +197,17 @@
 							</form>
 						</c:if>
 						<c:if test="${empty loginUserId and empty recLoginInfo}">
+							<c:url var="loginUrl" value="/member/login">
+						        <c:param name="oldPath" value="/comboard/comRead?com_bno=${resultReadVO.com_bno}&page=${page}"/>
+						    </c:url>
 							<p>
-								<a id="loginLink" href="#">로그인</a> 후 댓글 작성이 가능합니다.
+								<a href="${loginUrl }">로그인</a> 후 댓글 작성이 가능합니다.
 							</p>
-							<script>
+							<!-- <script>
 							  const returnOldPath = "/comboard/comRead?com_bno=${resultReadVO.com_bno}&page=${page}";
 							  const encoded = encodeURIComponent(returnOldPath);
 							  document.getElementById("loginLink").href = "/member/login?oldPath=" + encoded;
-							</script>
+							</script> -->
 						</c:if>
 						<c:if test="${!empty recLoginInfo}">
 							<p>불편을 드려 죄송합니다 (┬┬﹏┬┬) 일반회원만 댓글 작성이 가능합니다.</p>

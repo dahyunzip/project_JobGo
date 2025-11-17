@@ -48,9 +48,11 @@ $(document).ready(function(){
 									<input type="password" class="form-control" placeholder="비밀번호를 입력하세요." name="corpUserPw">
 								</div>
 							</div>
-							<div class="col-lg-12 mb-20">
-								<a href="/corp/findId">아이디 찾기</a>
-								<a href="/corp/findPw">| 비밀번호 찾기</a>
+							<div class="col-lg-12 mb-20 loginSmBtn">
+								<div>
+									<a href="/corp/findId">아이디 찾기</a>
+									<a href="/corp/findPw">| 비밀번호 찾기</a>
+								</div>
 								<a href="/corp/join">회원가입</a>
 							</div>
 							<div class="form-group mb-8 button">

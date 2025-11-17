@@ -50,7 +50,7 @@ public class ComBoardController {
 	@Inject private MemberService memberService;
 	
 	// 파일 업로드 경로
-	private static final String UPLOAD_PATH = "c:\\spring\\upload";
+	private static final String UPLOAD_PATH = "/usr/local/tomcat/upload/";
 	
 	@GetMapping("/test")
 	public void test() {

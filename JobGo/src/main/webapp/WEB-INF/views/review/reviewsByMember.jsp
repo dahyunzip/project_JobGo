@@ -11,12 +11,6 @@
 <body>
 <%@ include file="../include/Header.jsp"%>
 	<h2>회원별 리뷰 목록</h2>
-	
-	<form method="get" action="${pageContext.request.contextPath}/review/memberReviewList">
-		<input type="hidden" name="memberId" value="${memberId}">
-		<input type="text" name="search" value="${param.search}" placeholder="검색어 입력">
-		<button type="submit">검색</button>
-	</form>
     
     <c:if test="${empty reviewList}">
         <div>등록한 리뷰가 없습니다.</div>
@@ -47,7 +41,7 @@
 				<span style="margin-left:10px;">조회수: ${review.revViewcnt}</span>
 			</div>
 
-			<div>기업 ID: ${review.corpId}</div>
+			<div>기업명: ${corpNames[review.corpId]}</div>
 		</div>
 	</c:forEach>
 	

@@ -42,6 +42,12 @@ public class ReviewServiceImpl implements ReviewService{
 	}
 	
 	@Override
+	public Integer getCorpIdByName(String companyName) throws Exception {
+		logger.debug("기업명 조회 - 서비스 ");
+		return reviewDAO.getCorpIdByName(companyName);
+	}
+	
+	@Override
 	public void updateReview(ReviewVO review) throws Exception{
 		reviewDAO.updateReview(review);
 		logger.debug(" 리뷰 수정 완료 - 서비스");

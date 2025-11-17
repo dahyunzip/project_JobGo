@@ -17,6 +17,8 @@ public interface ReviewService {
 	// 직무 코드 - 소분류
 	List<Map<String, Object>> getBottomCategoryList(String topId) throws Exception;
 	
+	Integer getCorpIdByName(String companyName) throws Exception;
+	
 	// 리뷰 수정
 	void updateReview(ReviewVO review) throws Exception;
 	

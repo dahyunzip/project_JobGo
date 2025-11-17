@@ -34,6 +34,13 @@
 		where topctg_id = #{topId}
 		order by btmctg_name
 	</select>
+	
+	<select id="getCorpIdByName" parameterType="string" resultType="int">
+    	select corp_id
+    	from corpmember
+    	where company_name = #{companyName}
+    	limit 1
+	</select>
 
 	<!-- 리뷰 수정 -->
 	<update id="updateReview" parameterType="com.itwillbs.domain.ReviewVO">
@@ -47,7 +54,8 @@
 			r.rev_pros = #{revPros},
 			r.rev_cons = #{revCons},
 			r.rev_public = #{revPublic},
-			r.job_code = #{jobCode}  <!-- 선택된 소분류의 ID -->
+			r.job_code = #{jobCode},
+			rev_updatedate = now()
 		where r.review_id = #{reviewId}
 	</update>
 

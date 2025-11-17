@@ -8,15 +8,14 @@
 	<c:choose>
 		<c:when test="${isOwner}">
 		<!-- 본인일 때만 수정 가능  -->
-    	<!-- 실전용 : 로그인 세션 기반으로 본인만 수정 가능 -->
-    	<!-- 테스트 시에는 action만 동일하게 두고 세션 제거 가능 -->
     	<form action="${pageContext.request.contextPath}/review/updateReview" method="post">
         	<input type="hidden" name="reviewId" value="${review.reviewId}" />
 			<!--  <input type="hidden" name="memberId" value="${sessionScope.userid}" /> -->
         	<div class="mb-10">
-            	<label>기업 ID</label>
-            	<input type="text" name="corpId" value="${review.corpId}" readonly class="form-control" />
-        	</div>
+				<label>기업명</label>
+				<input type="text" name="corpName" id="corpName" value="${companyName}" class="form-control"/>
+				<input type="hidden" name="corpId" id="corpId" value="${review.corpId}" />
+			</div>
         	<div class="row mb-10">
 				<div class="col-lg-6 col-xs-12">
 					<label>직무 대분류</label>

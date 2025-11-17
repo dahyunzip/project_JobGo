@@ -223,7 +223,7 @@
 						<div class="col-lg-6 col-md-7 col-12">
 							<div class="add-post-btn float-right">
 								<button type="submit" class="btn btn-primary">글 등록</button>
-								<button type="button" class="btn btn-primary">목록으로</button>
+								<button type="button" class="btn btn-primary goList">목록으로</button>
 							</div>
 						</div>
 					</div>
@@ -282,7 +282,7 @@
 		});
 		
 		// 목록으로
-		$(".btn-primary").click(function(){
+		$(".goList").click(function(){
 		    location.href = "/recboard/recListCri?recPage=${recPage}";
 		});
 		

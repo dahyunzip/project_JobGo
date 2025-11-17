@@ -13,13 +13,6 @@
             <label>제목</label>
             <input type="text" name="noticeTitle" class="form-control" required>
         </div>
-        
-        <label>공지 유형 :</label><br>
-        <select name="corpNotice"
-                style="margin-bottom:15px; padding:6px; border:1px solid #ccc;">
-            <option value="A">일반 공지</option>
-            <option value="corp">기업 공지</option>
-        </select><br>
 
         <div class="form-group">
             <label>내용</label>

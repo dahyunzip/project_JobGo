@@ -8,15 +8,14 @@
 	<c:choose>
 		<c:when test="${isOwner}">
 		<!-- 본인일 때만 수정 가능  -->
-    	<!-- 실전용 : 로그인 세션 기반으로 본인만 수정 가능 -->
-    	<!-- 테스트 시에는 action만 동일하게 두고 세션 제거 가능 -->
     	<form action="${pageContext.request.contextPath}/review/updateReview" method="post">
         	<input type="hidden" name="reviewId" value="${review.reviewId}" />
 			<!--  <input type="hidden" name="memberId" value="${sessionScope.userid}" /> -->
         	<div class="mb-10">
-            	<label>기업 ID</label>
-            	<input type="text" name="corpId" value="${review.corpId}" readonly class="form-control" />
-        	</div>
+				<label>기업명</label>
+				<input type="text" name="corpName" id="corpName" value="${companyName}" class="form-control"/>
+				<input type="hidden" name="corpId" id="corpId" value="${review.corpId}" />
+			</div>
         	<div class="row mb-10">
 				<div class="col-lg-6 col-xs-12">
 					<label>직무 대분류</label>
@@ -67,7 +66,8 @@
 
         	<div class="mb-10">
         	    <label>내용</label>
-        	    <textarea name="revContent" class="form-control">${review.revContent}</textarea>
+        	    <textarea name="revContent" id ="revContent" class="form-control">${review.revContent}</textarea>
+        		<span id="content-error" style="color:red; font-size:14px; display:none;"></span>
         	</div>
 	
 	        <div class="mb-10">
@@ -80,6 +80,7 @@
 	                <span class="star" data-value="5">☆</span>
 	            </div>
 	            <input type="hidden" name="revRate" id="revRate" value="${review.revRate}" class="form-control">
+	        	<span id="rate-error" style="color:red; font-size:14px; display:none;"></span>
 	        </div>
 	
 	        <div class="mb-10">
@@ -147,7 +148,7 @@
     			const opt = document.createElement("option");
     			opt.value = item.id;
     			opt.textContent = item.name;
-    			if (item.id == topIdFromDB) opt.selected = true; // ✅ 기존 대분류 선택
+    			if (item.id == topIdFromDB) opt.selected = true; // 기존 대분류 선택
     			topSelect.appendChild(opt);
     		});
 
@@ -184,6 +185,36 @@
     			});
     		});
     }
+    document.querySelector("form").addEventListener("submit", function(e) {
+
+        const rate = document.getElementById("revRate").value;
+        const content = document.getElementById("revContent").value.trim();
+
+        let hasError = false;
+
+        // 별점 오류
+        const rateError = document.getElementById("rate-error");
+        if (!rate || rate === "0") {
+            rateError.textContent = "별점을 입력해주세요.";
+            rateError.style.display = "block";
+            hasError = true;
+        } else {
+            rateError.style.display = "none";
+        }
+
+        // 내용 오류
+        const contentError = document.getElementById("content-error");
+        if (!content) {
+            contentError.textContent = "내용을 입력해주세요.";
+            contentError.style.display = "block";
+            hasError = true;
+        } else {
+            contentError.style.display = "none";
+        }
+
+        if (hasError) e.preventDefault();
+    });
+
     
 </script>
 <%@ include file="../include/Footer.jsp"%>

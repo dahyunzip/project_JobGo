@@ -37,16 +37,6 @@ public class NoticeServiceImpl implements NoticeService{
 	public int getTotalCount(Criteria cri) throws Exception {
 		return nDAO.getTotalCount(cri);
 	}
-	
-	@Override
-	public List<NoticeVO> getNoticeListAll(Criteria cri) throws Exception {
-		return nDAO.getNoticeListAll(cri);
-	}
-
-	@Override
-	public int getTotalCountAll(Criteria cri) throws Exception {
-		return nDAO.getTotalCountAll(cri);
-	}
 
 	@Override
 	public NoticeVO getNotice(int noticeId) throws Exception{

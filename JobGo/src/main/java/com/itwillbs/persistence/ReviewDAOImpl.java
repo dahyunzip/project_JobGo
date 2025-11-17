@@ -41,6 +41,11 @@ public class ReviewDAOImpl implements ReviewDAO{
 	public List<Map<String, Object>> getBottomCategoryList(String topId) throws Exception{
 	    return sqlSession.selectList(NAMESPACE + ".getBottomCategoryList", topId);
 	}
+	
+	@Override
+	public Integer getCorpIdByName(String companyName) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getCorpIdByName", companyName);
+	}
 
 	// 리뷰 수정
 	@Override
@@ -124,5 +129,10 @@ public class ReviewDAOImpl implements ReviewDAO{
     public List<ReviewVO> getRecentReviews() {
         return sqlSession.selectList(NAMESPACE + ".getRecentReviews");
     }
+	
+	@Override
+	public Double getAverageRateByCorp(int corpId) throws Exception {
+		return sqlSession.selectOne(NAMESPACE + ".getAverageRateByCorp", corpId);
+	}
 	
 }

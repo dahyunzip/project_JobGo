@@ -34,21 +34,29 @@
 		where topctg_id = #{topId}
 		order by btmctg_name
 	</select>
+	
+	<select id="getCorpIdByName" parameterType="string" resultType="int">
+    	select corp_id
+    	from corpmember
+    	where company_name = #{companyName}
+    	limit 1
+	</select>
 
 	<!-- 리뷰 수정 -->
 	<update id="updateReview" parameterType="com.itwillbs.domain.ReviewVO">
-		update review
-		join bottom_category b on r.job_code = b.btmctg_id
-		join top_category t on b.topctg_id = t.topctg_id
-		set 
-			r.rev_title = #{revTitle},
-			r.rev_content = #{revContent},
-			r.rev_rate = #{revRate},
-			r.rev_pros = #{revPros},
-			r.rev_cons = #{revCons},
-			r.rev_public = #{revPublic},
-			r.job_code = #{jobCode}  <!-- 선택된 소분류의 ID -->
-		where r.review_id = #{reviewId}
+	    UPDATE review r
+	    JOIN bottom_category b ON r.job_code = b.btmctg_id
+	    JOIN top_category t ON b.topctg_id = t.topctg_id
+	    SET 
+	        r.rev_title = #{revTitle},
+	        r.rev_content = #{revContent},
+	        r.rev_rate = #{revRate},
+	        r.rev_pros = #{revPros},
+	        r.rev_cons = #{revCons},
+	        r.rev_public = #{revPublic},
+	        r.job_code = #{jobCode},
+	        r.rev_updatedate = NOW()
+	    WHERE r.review_id = #{reviewId}
 	</update>
 
 	<!-- 리뷰 삭제 -->
@@ -236,4 +244,12 @@
 	    ORDER BY r.rev_regdate DESC
 	    LIMIT 4
     </select>
+    
+    <select id="getAverageRateByCorp" resultType="double">
+		SELECT AVG(rev_rate)
+		FROM review
+		WHERE corp_id = #{corpId}
+	</select>
+
+
 </mapper>

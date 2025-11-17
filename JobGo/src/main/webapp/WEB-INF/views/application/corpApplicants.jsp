@@ -42,6 +42,11 @@
 		                </td>
 		            </tr>
 		        </c:forEach>
+		        <c:if test="${empty applicants}">
+		        	<tr>
+		        		<td colspan="5"><p>지원자가 없습니다.</p></td>
+		        	</tr>
+		        </c:if>
 		    </tbody>
 		</table>
 	</div>

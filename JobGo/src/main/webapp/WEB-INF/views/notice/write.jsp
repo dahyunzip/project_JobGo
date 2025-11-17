@@ -11,13 +11,6 @@
 					<!-- 제목 -->
 					<label>제목 :</label><br>
 					<input type="text" id="noticeTitle" name="noticeTitle" class="form-control" required><br>
-	
-					<!-- 공지 유형 선택 (일반 / 기업) -->
-					<label>공지 유형 :</label><br>
-					<select id="noticeType" name="corpNotice" class="form-control" >
-						<option value="A">일반 공지</option>
-						<option value="corp">기업 공지</option>
-					</select><br>
 					
 					내용 : <br>
 					<textarea name="noticeContent" rows="8" cols="50" class="form-control" required></textarea>

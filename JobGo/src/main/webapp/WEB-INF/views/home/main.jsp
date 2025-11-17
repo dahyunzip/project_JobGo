@@ -55,7 +55,7 @@ $(document).ready(function(){
 				<c:choose>
 				    <c:when test="${not empty loginMember}">
 				        <div class="user-dashboard">
-				            <h4>${loginMember.name} 님 환영합니다!</h4>
+				            <h4>${loginMember.name} 님 환영합니다! 👋</h4>
 				            <div class="mem">
 				                <span>📄 등록한 이력서</span>
 				                <span><strong onclick="location.href='/resume/list?memberId=${loginMember.id}'">${resumeCount}</strong> 개</span>
@@ -77,7 +77,20 @@ $(document).ready(function(){
 				        	</li>
 				        </ul>
 				    </c:when>
-				
+			        <c:when test="${not empty corpUserId}">
+			            <div class="user-dashboard">
+			                <h4>${managerName} 님 환영합니다! 👋</h4>
+			            </div>
+			
+			            <ul class="quickMenu">
+			                <li style="width:48%">
+			                    <a href="/application/corp/applicants"><i>📊</i>지원현황(기업)</a>
+			                </li>
+			                <li style="width:48%">
+			                    <a href="/corp/mypage"><i>⚙️</i>마이페이지</a>
+			                </li>
+			            </ul>
+			        </c:when>
 				    <c:otherwise>
 				        <div class="user-dashboard guest">
 				            <h4>반가워요! 👋</h4>
@@ -104,10 +117,10 @@ $(document).ready(function(){
 	                    <div class="job-card" onclick="location.href='/recboard/recRead?rec_bno=${vo.rec_bno}'">
 	                        <c:choose>
 								<c:when test="${empty vo.thumbFileName}">
-									<img src="/resources/images/default_image.jpg" class="profile-img">
+									<img src="/resources/images/default_image.jpg" class="job-thumb">
 								</c:when>
 								<c:otherwise>
-									<img src="/upload/${vo.thumbFileName}" alt="${vo.rec_title}" class="job-thumb" onerror="this.onerror=null; this.src='/resources/images/default_image.jpg'">
+									<img src="/upload/recfile/${vo.thumbFileName}" alt="${vo.rec_title}" class="job-thumb" onerror="this.onerror=null; this.src='/resources/images/default_image.jpg'">
 								</c:otherwise>
 							</c:choose>
 	                        <div class="job-body">
@@ -134,7 +147,7 @@ $(document).ready(function(){
 	                    <div class="job-card" onclick="location.href='/recboard/recRead?rec_bno=${vo.rec_bno}'">
 	                        <c:choose>
 								<c:when test="${empty vo.thumbFileName}">
-									<img src="/resources/images/default_image.jpg" class="profile-img">
+									<img src="/resources/images/default_image.jpg" class="job-thumb">
 								</c:when>
 								<c:otherwise>
 									<img src="/upload/recfile/${vo.thumbFileName}" alt="${vo.rec_title}" class="job-thumb" onerror="this.onerror=null; this.src='/resources/images/default_image.jpg'">
@@ -173,10 +186,10 @@ $(document).ready(function(){
 									<span class="userProf">
 										<c:choose>
 											<c:when test="${empty r.storedFileName}">
-												<img src="/resources/images/default_image.jpg" class="profile-img">
+												<img src="/resources/images/default_image.jpg" class="profile-img" onerror="this.onerror=null; this.src='/resources/images/default_image.jpg'">
 											</c:when>
 											<c:otherwise>
-												<img src="/upload/${r.storedFileName}" class="profile-img">
+												<img src="/upload/${r.storedFileName}" class="profile-img" onerror="this.onerror=null; this.src='/resources/images/default_image.jpg'">
 											</c:otherwise>
 										</c:choose>
 									</span>

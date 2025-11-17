@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ include file="../include/Header.jsp"%>
 <section class="reviewDetail section">
 	<h2 class="pageTitle">리뷰 상세</h2>
@@ -58,6 +59,15 @@
 				<dt>기업명</dt>
 				<dd>${companyName}</dd>
 			</dl>
+			<dl class="w100">
+				<dt>기업 평균 별점</dt>
+				<dd>
+					<span id="avgRateText">${avgRate}</span> / 5
+					<div style="width: 200px;margin-top:20px;display: inline-block; vertical-align: middle;margin-left: 30px;">
+						<canvas id="avgRateChart"></canvas>
+					</div>
+				</dd>
+			</dl>
 			<dl>
 				<dt>별점</dt>
 				<dd class="rvScore">
@@ -93,18 +103,7 @@
 		    		</c:choose>
 				</dd>
 			</dl>
-			<dl>
-				<dt>공개 여부</dt>
-				<dd>${reviewDetail.revPublic }</dd>
-			</dl>
-			<dl>
-				<dt>조회수</dt>
-				<dd>${reviewDetail.revViewcnt}</dd>
-			</dl>
-			<dl class="w100">
-				<dt>작성 일자</dt>
-				<dd><fmt:formatDate value="${reviewDetail.revRegdate}" pattern="yyyy-MM-dd HH:mm" /></dd>
-			</dl>
+			
 			<dl class="w100">
 				<dt>내용</dt>
 				<dd>${reviewDetail.revContent }</dd>
@@ -116,6 +115,18 @@
 			<dl class="w100">
 				<dt>단점</dt>
 				<dd>${reviewDetail.revCons }</dd>
+			</dl>
+			<dl class="w100">
+				<dt>작성 일자</dt>
+				<dd><fmt:formatDate value="${reviewDetail.revRegdate}" pattern="yyyy-MM-dd HH:mm" /></dd>
+			</dl>
+			<dl class="w100">
+				<dt>수정 일자</dt>
+				<dd><fmt:formatDate value="${reviewDetail.revUpdatedate}" pattern="yyyy-MM-dd HH:mm" /></dd>
+			</dl>
+			<dl>
+				<dt>조회수</dt>
+				<dd>${reviewDetail.revViewcnt}</dd>
 			</dl>
 		</div>
 		<div class="button mt-30 text-right">
@@ -132,26 +143,43 @@
 				<button type="button" onclick="openDeleteModal(${reviewDetail.reviewId})" class="btn btn3">삭제</button>
 			</c:if>
 			
-			<c:if test="${param.origin eq 'member'}">
-    			<button type="button" class="btn"
-    			    onclick="location.href='${pageContext.request.contextPath}/review/memberReviewList?memberId=${param.memberId}'">
-    			    목록으로
-    			</button>
-			</c:if>
+			<!-- 작성자 리뷰로 이동 -->
+			<button type="button" class="btn btn-info"
+    			onclick="location.href='${pageContext.request.contextPath}/review/memberReviewList?memberId=${reviewDetail.memberId}'">
+    			작성자 리뷰 보기
+			</button>
 
-			<c:if test="${param.origin eq 'corp'}">
-    			<button type="button" class="btn"
-        			onclick="location.href='${pageContext.request.contextPath}/review/corpReviewList?corpId=${param.corpId}'">
-        			목록으로
-    			</button>
-			</c:if>
-
-			<!-- 기본: 전체 목록 -->
-			<button type="button" class="btn"
-    			onclick="location.href='${pageContext.request.contextPath}/review/reviewList'">
-    			목록으로
+			<!-- 기업 리뷰로 이동 -->
+			<button type="button" class="btn btn-primary"
+			    onclick="location.href='${pageContext.request.contextPath}/review/corpReviewList?corpId=${reviewDetail.corpId}'">
+			    기업 리뷰 보기
 			</button>
 			
+			<c:choose>
+				<%-- 일반회원 리뷰 목록으로 이동 --%>
+			    <c:when test="${param.origin eq 'member'}">
+			        <button type="button" class="btn btn-secondary"
+			            onclick="location.href='${pageContext.request.contextPath}/review/memberReviewList?memberId=${param.memberId}'">
+			            목록으로
+			        </button>
+			    </c:when>
+			
+			    <%-- 기업회원 리뷰 목록으로 이동 --%>
+			    <c:when test="${param.origin eq 'corp'}">
+			        <button type="button" class="btn btn-secondary"
+			            onclick="location.href='${pageContext.request.contextPath}/review/corpReviewList?corpId=${param.corpId}'">
+			            목록으로
+			        </button>
+			    </c:when>
+			
+			    <%-- 기본: 전체 리뷰 목록 --%>
+			    <c:otherwise>
+			        <button type="button" class="btn btn-secondary"
+			            onclick="location.href='${pageContext.request.contextPath}/review/reviewList'">
+			            목록으로
+			        </button>
+			    </c:otherwise>
+			</c:choose>
 		</div>
 		
 		
@@ -220,5 +248,36 @@
 			const modal = document.getElementById("deleteModal");
 			if (e.target === modal) modal.style.display = "none";
 		});
+	</script>
+	<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+	<script>
+	window.addEventListener("DOMContentLoaded", function() {
+	
+		const avg = Number("${avgRate == null ? 0 : avgRate}");
+	
+		const ctx = document.getElementById('avgRateChart');
+	
+		new Chart(ctx, {
+			type: 'bar',
+			data: {
+				labels: ['기업 평균 별점'],
+				datasets: [{
+					label: '평균 별점',
+					data: [avg],
+					backgroundColor: 'rgba(54,162,235,0.5)',
+					borderColor: 'rgba(54,162,235,1)',
+					borderWidth: 1
+				}]
+			},
+			options: {
+				scales: {
+					y: {
+						beginAtZero: true,
+						max: 5
+					}
+				}
+			}
+		});
+	});
 	</script>
 <%@ include file="../include/Footer.jsp"%>

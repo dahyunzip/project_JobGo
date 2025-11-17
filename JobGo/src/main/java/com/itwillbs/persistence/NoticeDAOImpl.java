@@ -44,16 +44,6 @@ public class NoticeDAOImpl implements NoticeDAO {
 	public int getTotalCount(Criteria cri) {
 		return sqlSession.selectOne(NAMESPACE + ".getTotalCount", cri);
 	}
-	
-	@Override
-	public List<NoticeVO> getNoticeListAll(Criteria cri) throws Exception {
-		return sqlSession.selectList(NAMESPACE + ".getNoticeListAll", cri);
-	}
-
-	@Override
-	public int getTotalCountAll(Criteria cri) throws Exception {
-		return sqlSession.selectOne(NAMESPACE + ".getTotalCountAll", cri);
-	}
 
 	@Override
 	public NoticeVO getNotice(int noticeId) throws Exception{

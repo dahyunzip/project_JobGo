@@ -19,7 +19,7 @@
 				</div>
 				<div>
 					<div class="stat-title">전체 회원</div>
-					<div class="stat-value">${totalMembers}명</div>
+					<div class="stat-value">${generalMembers + corpMembers}명</div>
 				</div>
 			</div>
 

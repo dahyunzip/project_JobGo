@@ -60,19 +60,6 @@ $(document).ready(function() {
 			alert('개인정보 수집 및 이용 동의는 필수입니다!');
 			return false;
 		}
-
-		// 선택 항목들 값 설정
-		// 체크되어 있으면 Y, 아니면 N
-		$chkLocation.each(function() {
-			$(this).val($(this).is(':checked') ? 'Y' : 'N');
-		});
-		$chkEmail.each(function() {
-			$(this).val($(this).is(':checked') ? 'Y' : 'N');
-		});
-		$chkSms.each(function() {
-			$(this).val($(this).is(':checked') ? 'Y' : 'N');
-		});
-
 		return true;
 	}
 
@@ -447,7 +434,6 @@ $(document).ready(function() {
 											• 동의하지 않아도 서비스 기본 기능 이용 가능<br>
 											• 단, 위치 기반 혜택 및 추천 서비스 제공이 제한됨
 										</div>
-										<input type="hidden" name="corpAgreeLocation" value="N">
 										<label class="control-label"><input type="checkbox" class="form-check-input" name="corpAgreeLocation" value="Y"> 약관에 동의합니다.</label>
 									</div>
 									<div class="form-group mb-20">
@@ -463,7 +449,6 @@ $(document).ready(function() {
 											수신 거부 안내<br>
 											• 이메일 내 하단의 수신 거부 링크 또는 서비스 내 알림 설정에서 변경 가능
 										</div>
-										<input type="hidden" name="corpAgreeEmail" value="N">
 										<label class="control-label"><input type="checkbox" class="form-check-input" name="corpAgreeEmail" value="Y"> 약관에 동의합니다.</label>
 									</div>
 									<div class="form-group mb-20">
@@ -479,10 +464,9 @@ $(document).ready(function() {
 											수신 거부 안내<br>
 											• 고객센터를 통한 철회 또는 서비스 내 설정에서 변경 가능
 										</div>
-										<input type="hidden" name="corpAgreeSms" value="N">
 										<label class="control-label"><input type="checkbox" class="form-check-input" name="corpAgreeSms" value="Y"> 약관에 동의합니다.</label>
 									</div>
-									<div class="form-group mb-8 button">
+									<div class="form-group mb-8 button text-center">
 										<button type="submit" class="btn ">회원가입</button>
 									</div>
 								</div>

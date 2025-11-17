@@ -6,8 +6,9 @@
 	<div class="container">
 		<form action="${pageContext.request.contextPath}/review/insertReview" method="post">
 			<div class="mb-10">
-				<label>기업 ID</label>
-				<input type="text" name="corpId" class="form-control"/>
+				<label>기업명</label>
+				<input type="text" name="corpName" class="form-control"/>
+				<input type="hidden" name="corpId" id="corpId"/>
 			</div>
 			<div class="row mb-10">
 				<div class="col-lg-6 col-xs-12">
@@ -54,7 +55,8 @@
 			</div>
 			<div class="mb-10">
 				<label>내용</label>
-				<textarea name="revContent" class="form-control"></textarea>
+				<textarea name="revContent" id="revContent" class="form-control"></textarea>
+				<span id="content-error" style="color:red; font-size:14px; display:none;"></span>
 			</div>
 			<div class="mb-10">
 	    		<label>별점: </label>
@@ -66,6 +68,7 @@
 	        		<span class="star" data-value="5">☆</span>
 	    		</div>
 	    		<input type="hidden" name="revRate" id="revRate" value="0">
+				<span id="rate-error" style="color:red; font-size:14px; display:none;"></span>
 			</div>
 			<div class="mb-10">
 				<label>장점</label>
@@ -84,60 +87,101 @@
 <script>
 document.querySelector("#bottomCategory").disabled = true;
 
-		const stars = document.querySelectorAll('#star-rating .star');
-    	const revRateInput = document.getElementById('revRate');
+const stars = document.querySelectorAll('#star-rating .star');
+const revRateInput = document.getElementById('revRate');
 
-	    stars.forEach(star => {
-	        star.addEventListener('click', () => {
-	            const value = parseInt(star.getAttribute('data-value'));
+stars.forEach(star => {
+    star.addEventListener('click', () => {
+        const value = parseInt(star.getAttribute('data-value'));
+        revRateInput.value = value;
 
-	            // 선택된 별점 저장
-    	        revRateInput.value = value;
+        stars.forEach((s, index) => {
+            s.textContent = index < value ? '★' : '☆';
+        });
+    });
+});
 
-	            // 별 채우기/비우기
-	            stars.forEach((s, index) => {
-   	            if (index < value) {
-   	                 s.textContent = '★'; // 채워진 별
-   	            } else {
-   	                 s.textContent = '☆'; // 빈 별
-   	            }
-   	         	});
-    	    });
-    	});
-	    
-	 // 대분류 로드
-	    fetch("${pageContext.request.contextPath}/review/topCategory")
-	    	.then(r => r.json())
-	    	.then(data => {
-	    		const top = document.querySelector("#topCategory");
-	    		data.forEach(item => {
-	    			const opt = document.createElement("option");
-	    			opt.value = item.id || item.TOP_ID;
-	    			opt.textContent = item.name || item.TOP_NAME;
-	    			top.appendChild(opt);
-	    		});
-	    	});
+// 기업명 입력 → corpId 자동 조회
+document.querySelector("input[name='corpName']").addEventListener("blur", function(){
+    const name = this.value.trim();
+    if(name === "") return;
 
-	    // 소분류 로드
-	    document.querySelector("#topCategory").addEventListener("change", function(){
-	    	const topId = this.value;
-	    	console.log("✅ 선택된 topId:", topId);
-	    	const bottom = document.querySelector("#bottomCategory");
-	    	bottom.innerHTML = "<option value=''>선택</option>";
+    fetch("${pageContext.request.contextPath}/review/getCorpIdByName?companyName=" + encodeURIComponent(name))
+        .then(r => r.json())
+        .then(data => {
+            if(data && data.corpId){
+                document.querySelector("#corpId").value = data.corpId;
+                console.log("✔ 기업 찾음:", data.corpId);
+            } else {
+                alert("해당 기업명을 찾을 수 없습니다.");
+                document.querySelector("#corpId").value = "";
+            }
+        });
+});
 
-	    	if (!topId) return;
+// 대분류 로드
+fetch("${pageContext.request.contextPath}/review/topCategory")
+    .then(r => r.json())
+    .then(data => {
+        const top = document.querySelector("#topCategory");
+        data.forEach(item => {
+            const opt = document.createElement("option");
+            opt.value = item.id || item.TOP_ID;
+            opt.textContent = item.name || item.TOP_NAME;
+            top.appendChild(opt);
+        });
+    });
 
-	    	fetch("${pageContext.request.contextPath}/review/bottomCategory?topId=" + topId)
-	    		.then(r => r.json())
-	    		.then(data => {
-	    			bottom.disabled = false;
-	    			data.forEach(item => {
-	    				const opt = document.createElement("option");
-	    				opt.value = item.id || item.BOTTOM_ID;
-	    				opt.textContent = item.name || item.BOTTOM_NAME;
-	    				bottom.appendChild(opt);
-	    			});
-	    		});
-	    });
+// 소분류 로드
+document.querySelector("#topCategory").addEventListener("change", function(){
+    const topId = this.value;
+    const bottom = document.querySelector("#bottomCategory");
+    bottom.innerHTML = "<option value=''>선택</option>";
+
+    if (!topId) return;
+
+    fetch("${pageContext.request.contextPath}/review/bottomCategory?topId=" + topId)
+        .then(r => r.json())
+        .then(data => {
+            bottom.disabled = false;
+            data.forEach(item => {
+                const opt = document.createElement("option");
+                opt.value = item.id || item.BOTTOM_ID;
+                opt.textContent = item.name || item.BOTTOM_NAME;
+                bottom.appendChild(opt);
+            });
+        });
+});
+
+document.querySelector("form").addEventListener("submit", function(e) {
+
+    const rate = document.getElementById("revRate").value;
+    const content = document.getElementById("revContent").value.trim();
+
+    let hasError = false;
+
+    // 별점 오류
+    const rateError = document.getElementById("rate-error");
+    if (!rate || rate === "0") {
+        rateError.textContent = "별점을 입력해주세요.";
+        rateError.style.display = "block";
+        hasError = true;
+    } else {
+        rateError.style.display = "none";
+    }
+
+    // 내용 오류
+    const contentError = document.getElementById("content-error");
+    if (!content) {
+        contentError.textContent = "내용을 입력해주세요.";
+        contentError.style.display = "block";
+        hasError = true;
+    } else {
+        contentError.style.display = "none";
+    }
+
+    if (hasError) e.preventDefault();
+});
+
 </script>
 <%@ include file="../include/Footer.jsp"%>

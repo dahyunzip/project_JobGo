@@ -30,7 +30,7 @@
 .layout-right{display: flex; justify-content:end}
 
 /* mypage */
-#mypage .user-img > a{display: block; width:120px; height:120px; overflow:hidden;}
+#mypage .user-img > a{display: block; width:170px; height:220px; border-radius:4px; overflow:hidden;}
 #mypage .user-img img{width:100%; height:auto;}
 
 .pageTitle{text-align:center; margin-bottom:50px;}
@@ -119,7 +119,7 @@
 .reviewList li{width:48%; border:1px solid #ededed; border-radius: 16px; margin-bottom:30px; transition:all .3s ease;}
 .reviewList li:hover{border-color:#5a5a5a; transition:all .3s ease;}
 .reviewList li a{display:block; padding:24px 36px;}
-.reviewList li a > span{display:block; color:inherit}
+.reviewList li a > span{display:block; color:#333}
 .rvScore{color:#ffc107 !important;}
 .reviewList .rvTitle{font-weight:500; color:#222; font-size:20px; margin:10px 0;}
 .reviewList .rvDate{color:#5a5a5a; font-size:16px;}
@@ -184,5 +184,5 @@
 	#com_top .comTopThumb{width:100%; margin-bottom:10px}
 }
 
-#mypage .user-img{width:150px; height:150px; border-radius: 50%; overflow:hidden; margin:0 auto;}
+#mypage .user-img{ width:170px; height:220px; border-radius:4px; overflow:hidden; margin:30px auto;}
 #mypage .user-img img{width:100%; height:100%; object-fit:cover;}

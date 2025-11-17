@@ -29,7 +29,10 @@
 		update notice_board
 		set notice_title = #{noticeTitle},
 			notice_content = #{noticeContent},
-			storedFileName = #{storedFileName}
+			notice_updated = NOW()
+			<if test="storedFileName != null">
+        		, storedFileName = #{storedFileName}
+    		</if>
 		where notice_id = #{noticeId}
 	</update>
 
@@ -60,7 +63,6 @@
 		where m.userid = #{userid}
 	</insert>
 	
-	<!-- 일반회원/비회원용 -->
 	<select id="getNoticeList"
 		parameterType="com.itwillbs.domain.Criteria"
 		resultType="com.itwillbs.domain.NoticeVO">
@@ -74,60 +76,25 @@
 			notice_regdate   as noticeRegdate,
 			notice_updated   as noticeUpdated
 		from notice_board
-		where
-			notice_title not like '[기업공지]%'
-		<if test="search != null and search != ''">
-			and notice_title like concat('%', #{search}, '%')
-		</if>
+		<where>
+			<if test="search != null and search != ''">
+				and notice_title like concat('%', #{search}, '%')
+			</if>
+		</where>
 		order by notice_id desc
 		limit #{pageStart}, #{pageSize}
 	</select>
-
-	<!-- 일반회원/비회원용 -->
+	
 	<select id="getTotalCount"
 		parameterType="com.itwillbs.domain.Criteria"
 		resultType="int">
 		select count(*)
 		from notice_board
-		where
-			notice_title not like '[기업공지]%'
-		<if test="search != null and search != ''">
-			and notice_title like concat('%', #{search}, '%')
-		</if>
-	</select>
-
-	<!-- 관리자/기업회원용 -->
-	<select id="getNoticeListAll"
-		parameterType="com.itwillbs.domain.Criteria"
-		resultType="com.itwillbs.domain.NoticeVO">
-		select
-			notice_id        as noticeId,
-			admin_id         as adminId,
-			notice_title     as noticeTitle,
-			notice_content   as noticeContent,
-			storedFileName   as storedFileName,
-			notice_viewcnt   as noticeViewCnt,
-			notice_regdate   as noticeRegdate,
-			notice_updated   as noticeUpdated
-		from notice_board
-		where 1=1
-		<if test="search != null and search != ''">
-			and notice_title like concat('%', #{search}, '%')
-		</if>
-		order by notice_id desc
-		limit #{pageStart}, #{pageSize}
-	</select>
-
-	<!-- 관리자/기업회원용 -->
-	<select id="getTotalCountAll"
-		parameterType="com.itwillbs.domain.Criteria"
-		resultType="int">
-		select count(*)
-		from notice_board
-		where 1=1
-		<if test="search != null and search != ''">
-			and notice_title like concat('%', #{search}, '%')
-		</if>
+		<where>
+			<if test="search != null and search != ''">
+				and notice_title like concat('%', #{search}, '%')
+			</if>
+		</where>
 	</select>
 
 	<select id="getRecentNotices" resultType="com.itwillbs.domain.NoticeVO">

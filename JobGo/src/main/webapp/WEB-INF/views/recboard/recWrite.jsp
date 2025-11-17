@@ -21,16 +21,17 @@
 
 <div class="container">
 	<div class="row">
-		<div class="col-lg-10 offset-lg-1 col-12">
+		<div class="col-lg-12 col-12">
 			<div class="add-resume-inner box">
+				<h2 class="pageTitle">채용공고 작성</h2>
 
-				<!-- 상단 헤더 -->
+				<%-- <!-- 상단 헤더 -->
 				<div id="com_top" class="post-header align-items-center justify-content-center">
 					<h3 id="title">
 						<font dir="auto">${recLoginInfo.corpUserId}</font>
 					</h3>
 				</div>
-				<hr>
+				<hr> --%>
 
 				<!-- 글쓰기 폼 시작 -->
 				<form class="form-ad" method="post" enctype="multipart/form-data">
@@ -73,7 +74,7 @@
 								  placeholder="주요 업무를 입력하세요.&#10;예) 백엔드쪽 전반적인 기능개발이랑 서버 문제 생기면 대응하고 고객이 요청한 기능 있으면 분석해서 처리하는 업무 담당함.&#10;Tip) 하단 GPT 첨삭 버튼을 이용하여 깔끔하고 정돈된 문장을 받아 보실 수 있어요!" 
 								  rows="5"></textarea>
 						
-						<button type="button" class="btn btn-outline-primary btn-sm gptBtn"
+						<button type="button" class="btn btn-outline-primary btn-sm gptBtn mt-10"
 						        data-target="rec_maintask" data-api="/recboard/gpt/maintask">
 						    ✨ GPT로 주요 업무 첨삭하기
 						</button>
@@ -140,60 +141,45 @@
 					</div>
 
 					<div class="form-group">
-						<label>입사 자격 요건</label>
-						<textarea class="form-control" name="rec_qualification"
-								  placeholder="예) 무관, 고졸 이상, 4년제 이상 등 주로 최소 학력 입력" rows="5"></textarea>
-						
-						<button type="button" class="btn btn-outline-primary btn-sm gptBtn"
-						        data-target="rec_qualification" data-api="/recboard/gpt/qualification">
-						    ✨ GPT로 자격 요건 첨삭하기
-						</button>
-						
-						<div class="gptPreviewBox" id="preview_rec_qualification" style="display:none;">
-						    <h5>GPT 미리보기</h5>
-						    <pre class="gptText"></pre>
-						
-						    <button type="button" class="btn btn-success btn-sm applyBtn">적용하기</button>
-						    <button type="button" class="btn btn-secondary btn-sm retryBtn">다시 생성하기</button>
-						</div>
+					    <label>입사 자격 요건</label>
+					    <textarea class="form-control" name="rec_qualification" placeholder="예) 무관, 고졸 이상, 4년제 이상 등 주로 최소 학력 입력" rows="5">${resultReadVO.rec_qualification}</textarea>
+					    <button type="button" class="btn btn-outline-primary btn-sm gptBtn mt-10" data-target="rec_qualification" data-api="/recboard/gpt/qualification">
+					        ✨ GPT로 자격 요건 첨삭하기
+					    </button>
+					    <div class="gptPreviewBox" id="preview_rec_qualification" style="display:none;">
+					        <h5>GPT 미리보기</h5>
+					        <pre class="gptText"></pre>
+					        <button type="button" class="btn btn-success btn-sm applyBtn">적용하기</button>
+					        <button type="button" class="btn btn-secondary btn-sm retryBtn">다시 생성하기</button>
+					    </div>
 					</div>
 					
 					<div class="form-group">
-						<label>채용 우대 사항</label>
-						<textarea class="form-control" name="rec_preference"
-								  placeholder="예) OO관련 전공자 우대, 정보처리기사 우대 등 관련 학력 자격증 입력" rows="5"></textarea>
-					
-						<button type="button" class="btn btn-outline-primary btn-sm gptBtn"
-						        data-target="rec_preference" data-api="/recboard/gpt/preference">
-						    ✨ GPT로 우대 사항 첨삭하기
-						</button>
-						
-						<div class="gptPreviewBox" id="preview_rec_preference" style="display:none;">
-						    <h5>GPT 미리보기</h5>
-						    <pre class="gptText"></pre>
-						
-						    <button type="button" class="btn btn-success btn-sm applyBtn">적용하기</button>
-						    <button type="button" class="btn btn-secondary btn-sm retryBtn">다시 생성하기</button>
-						</div>
+					    <label>채용 우대 사항</label>
+					    <textarea class="form-control" name="rec_preference" placeholder="예) OO관련 전공자 우대, 정보처리기사 우대 등 관련 학력 자격증 입력" rows="5">${resultReadVO.rec_preference}</textarea>
+					    <button type="button" class="btn btn-outline-primary btn-sm gptBtn mt-10" data-target="rec_preference" data-api="/recboard/gpt/preference">
+					        ✨ GPT로 우대 사항 첨삭하기
+					    </button>
+					    <div class="gptPreviewBox" id="preview_rec_preference" style="display:none;">
+					        <h5>GPT 미리보기</h5>
+					        <pre class="gptText"></pre>
+					        <button type="button" class="btn btn-success btn-sm applyBtn">적용하기</button>
+					        <button type="button" class="btn btn-secondary btn-sm retryBtn">다시 생성하기</button>
+					    </div>
 					</div>
 					
 					<div class="form-group">
-						<label>복리 후생</label>
-						<textarea class="form-control" name="rec_benefit"
-								  placeholder="채용시 복지 및 임/직원 지원 항목을 작성하세요." rows="5"></textarea>
-					
-						<button type="button" class="btn btn-outline-primary btn-sm gptBtn"
-						        data-target="rec_benefit" data-api="/recboard/gpt/benefit">
-						    ✨ GPT로 복리 후생 첨삭하기
-						</button>
-						
-						<div class="gptPreviewBox" id="preview_rec_benefit" style="display:none;">
-						    <h5>GPT 미리보기</h5>
-						    <pre class="gptText"></pre>
-						
-						    <button type="button" class="btn btn-success btn-sm applyBtn">적용하기</button>
-						    <button type="button" class="btn btn-secondary btn-sm retryBtn">다시 생성하기</button>
-						</div>
+					    <label>복리 후생</label>
+					    <textarea class="form-control" name="rec_benefit" placeholder="채용시 복지 및 임/직원 지원 항목을 작성하세요." rows="5">${resultReadVO.rec_benefit}</textarea>
+					    <button type="button" class="btn btn-outline-primary btn-sm gptBtn mt-10" data-target="rec_benefit" data-api="/recboard/gpt/benefit">
+					        ✨ GPT로 복리 후생 첨삭하기
+					    </button>
+					    <div class="gptPreviewBox" id="preview_rec_benefit" style="display:none;">
+					        <h5>GPT 미리보기</h5>
+					        <pre class="gptText"></pre>
+					        <button type="button" class="btn btn-success btn-sm applyBtn">적용하기</button>
+					        <button type="button" class="btn btn-secondary btn-sm retryBtn">다시 생성하기</button>
+					    </div>
 					</div>
 
 					<!-- 썸네일 업로드 -->
@@ -222,7 +208,7 @@
 						<div class="col-lg-6 col-md-7 col-12">
 							<div class="add-post-btn float-right">
 								<button type="submit" class="btn btn-primary">글 등록</button>
-								<button type="button" class="btn btn-primary">목록으로</button>
+								<button type="button" class="btn btn-primary goList">목록으로</button>
 							</div>
 						</div>
 					</div>
@@ -281,7 +267,7 @@
 		});
 		
 		// 목록으로
-		$(".btn-primary").click(function(){
+		$(".goList").click(function(){
 		    location.href = "/recboard/recListCri?recPage=${recPage}";
 		});
 		

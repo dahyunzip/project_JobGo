@@ -1,5 +1,6 @@
 package com.itwillbs.controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -50,6 +51,17 @@ public class ReviewController {
     @ResponseBody
     public List<Map<String, Object>> bottomCategory(@RequestParam("topId") String topId) throws Exception{
         return reviewService.getBottomCategoryList(topId);
+    }
+    
+    // 기업명 조회용
+    @RequestMapping("/getCorpIdByName")
+    @ResponseBody
+    public Map<String, Object> getCorpIdByName(@RequestParam("companyName") String companyName) throws Exception {
+    	Integer corpId = reviewService.getCorpIdByName(companyName);
+
+    	Map<String, Object> result = new HashMap<>();
+    	result.put("corpId", corpId);
+    	return result;
     }
 
     // 리뷰 작성 폼
@@ -141,6 +153,9 @@ public class ReviewController {
  		if (!Objects.equals(review.getMemberId(), loginUserId)) {
  			return "error/403";
  		}
+ 		
+ 		String companyName = reviewService.getCompanyNameByCorpId(review.getCorpId());
+ 		model.addAttribute("companyName", companyName);
 
  		model.addAttribute("review", review);
  		model.addAttribute("isOwner", true);
@@ -150,20 +165,22 @@ public class ReviewController {
  	// 리뷰 수정 처리
  	@RequestMapping(value = "/updateReview", method = RequestMethod.POST)
  	public String updateReview(ReviewVO review, HttpSession session) throws Exception{
- 		if (session.getAttribute("id") == null) {
- 			return "redirect:/member/login";
- 		}
 
- 		Integer loginUserId = (Integer) session.getAttribute("id");
- 		ReviewVO original = reviewService.reviewDetail(review.getReviewId());
+ 		String loginUserid = (String) session.getAttribute("userid");
+ 	    if (loginUserid == null) {
+ 	        return "redirect:/member/login";
+ 	    }
+ 	    
+ 	    Integer loginUserId = reviewService.getMemberIdByUserid(loginUserid);
 
- 		if (original == null) {
- 			return "error/404";
- 		}
+ 	    ReviewVO original = reviewService.reviewDetail(review.getReviewId());
+ 	    if (original == null) {
+ 	        return "error/404";
+ 	    }
 
- 		if (original.getMemberId() != loginUserId) {
- 			return "error/403";
- 		}
+ 	    if (!Objects.equals(original.getMemberId(), loginUserId)) {
+ 	        return "error/403";
+ 	    }
 
  		review.setMemberId(loginUserId);
  		reviewService.updateReview(review);
@@ -239,6 +256,12 @@ public class ReviewController {
 		pageVO.setCri(cri);
 		pageVO.setTotalCount(total);
 		model.addAttribute("pageVO", pageVO);
+		
+		Map<Integer, String> corpNames = new HashMap<>();
+		for (ReviewVO r : reviewList) {
+			corpNames.put(r.getCorpId(), reviewService.getCompanyNameByCorpId(r.getCorpId()));
+		}
+		model.addAttribute("corpNames", corpNames);
 
 		logger.debug(" 리뷰 전체 목록 조회 완료");
 
@@ -269,7 +292,11 @@ public class ReviewController {
  		}
  		
  		String companyName = reviewService.getCompanyNameByCorpId(review.getCorpId());
+ 		
+ 		Double avgRate = reviewService.getAverageRateByCorp(review.getCorpId());
+ 		if (avgRate == null) avgRate = 0.0;
 
+ 		model.addAttribute("avgRate", avgRate);
  		model.addAttribute("reviewDetail", review);
  		model.addAttribute("isOwner", isOwner);
  		model.addAttribute("companyName", companyName);
@@ -288,7 +315,13 @@ public class ReviewController {
         PageVO pageVO = new PageVO();
         pageVO.setCri(cri);
         pageVO.setTotalCount(total);
-
+        
+        Map<Integer, String> corpNames = new HashMap<>();
+        for (ReviewVO r : reviewList) {
+            corpNames.put(r.getReviewId(), reviewService.getCompanyNameByCorpId(r.getCorpId()));
+        }
+        
+        model.addAttribute("corpNames", corpNames);
         model.addAttribute("pageVO", pageVO);
         model.addAttribute("memberId", memberId);
 
@@ -310,8 +343,25 @@ public class ReviewController {
 
         model.addAttribute("pageVO", pageVO);
         model.addAttribute("corpId", corpId);
+        
+        String corpName = reviewService.getCompanyNameByCorpId(corpId);
+        model.addAttribute("corpName", corpName);
 
 		logger.debug(" 기업별 리뷰 목록 조회 완료 - 총 {}개", total);
         return "review/reviewsByCorp";
     }
+    
+    @RequestMapping(value="/searchCorpAndMove", method=RequestMethod.GET)
+    public String searchCorpAndMove(@RequestParam("search") String name) throws Exception {
+
+        Integer corpId = reviewService.getCorpIdByName(name);
+
+        if(corpId == null) {
+            return "redirect:/error/noCorp";
+        }
+
+        return "redirect:/review/corpReviewList?corpId=" + corpId;
+    }
+    
+    
 }

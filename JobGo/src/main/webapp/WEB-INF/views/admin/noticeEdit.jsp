@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <%@ include file="header.jsp" %>
 
 <div class="container-fluid">
@@ -27,14 +28,16 @@
             <label>현재 파일</label><br>
             <c:choose>
                 <c:when test="${not empty notice.storedFileName}">
-                    <a href="${pageContext.request.contextPath}/resources/upload/${notice.storedFileName}"
-                       download="${notice.storedFileName}">
-                        ${notice.storedFileName}
-                    </a>
+	                <c:forEach var="file" items="${fn:split(notice.storedFileName, ',')}">
+    	                <a href="${pageContext.request.contextPath}/resources/upload/${notice.storedFileName}"
+        	               download="${notice.storedFileName}">
+            	            ${notice.storedFileName}
+                	    </a><br>
+                	</c:forEach>
                 </c:when>
-                <c:otherwise>
-                    없음
-                </c:otherwise>
+                	<c:otherwise>
+                	    없음
+                	</c:otherwise>
             </c:choose>
         </div>
 

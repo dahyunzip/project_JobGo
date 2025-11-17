@@ -49,7 +49,6 @@ public class NoticeController {
 	@RequestMapping(value = "/write", method=RequestMethod.POST)
 	public String insertNotice(NoticeVO vo,
 		@RequestParam(value="file", required=false) MultipartFile file,
-		@RequestParam(value="corpNotice", required=false, defaultValue="A") String corpNotice,
 		HttpSession session) throws Exception {
 		
 		if(!isAdmin(session)) {
@@ -68,10 +67,6 @@ public class NoticeController {
 			String fileName = System.currentTimeMillis() + "_" + origin;
 			file.transferTo(new File(uploadPath, fileName));
 			vo.setStoredFileName(fileName);
-		}
-		
-		if ("corp".equals(corpNotice) && !vo.getNoticeTitle().startsWith("[기업공지]")) {
-			vo.setNoticeTitle("[기업공지] " + vo.getNoticeTitle());
 		}
 		
 		Map<String, Object> noticeData = new HashMap<>();
@@ -113,16 +108,7 @@ public class NoticeController {
 	public String getNotice(@RequestParam("noticeId") int noticeId, Model model, HttpSession session) throws Exception{
 		
 		NoticeVO notice = nService.getNotice(noticeId);
-		String memberType = (String) session.getAttribute("membertype");
-		String userType = (String) session.getAttribute("userType");
 		
-		boolean isCorpNotice = notice.getNoticeTitle() != null && notice.getNoticeTitle().contains("[기업공지]");
-
-		// 일반회원(G) 또는 비회원이고 userType도 corp이 아니면 차단
-		if (isCorpNotice && (memberType == null && userType == null ||
-				!( "A".equals(memberType) || "corp".equals(userType) ))) {
-				return "redirect:/error/403";
-			}
 
 		nService.updateViewCnt(noticeId);
 		model.addAttribute("notice", notice);
@@ -135,23 +121,9 @@ public class NoticeController {
 			HttpSession session,
 			Model model) throws Exception {
 		cri.setSearch(search);
-		
-		String memberType = (String) session.getAttribute("membertype");	// 예: "A"
-		String corpSession = (String) session.getAttribute("corpSession");	// 기업 로그인 여부
-
-		boolean isAdmin = "A".equals(memberType);
-		boolean isCorp = (corpSession != null);
 
 		List<NoticeVO> noticeList = nService.getNoticeList(cri);
 		int totalCount = nService.getTotalCount(cri);
-		
-		if (isAdmin || isCorp) {
-			noticeList = nService.getNoticeListAll(cri);
-			totalCount = nService.getTotalCountAll(cri);
-		} else {
-			noticeList = nService.getNoticeList(cri);
-			totalCount = nService.getTotalCount(cri);
-		}
 		
 		PageVO pageVO = new PageVO();
 		pageVO.setCri(cri);

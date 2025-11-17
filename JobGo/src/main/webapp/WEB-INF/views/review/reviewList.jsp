@@ -139,7 +139,7 @@
 
 <script>
 $(document).ready(function(){
-	$('.searchSub .btn').click(function(){
+	$('#subSearch .btn').click(function(){
 		$('#searchForm').submit();
 	})
 })

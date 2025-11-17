@@ -11,12 +11,6 @@
 <body>
 <%@ include file="../include/Header.jsp"%>
 <h2>기업별 리뷰 목록</h2>
-
-<form method="get" action="${pageContext.request.contextPath}/review/searchCorpAndMove">
-	<input type="hidden" name="corpId" value="${corpId}">
-	<input type="text" name="search" value="${param.search}" placeholder="검색어 입력">
-	<button type="submit">검색</button>
-</form>
     
     <c:if test="${empty reviewList}">
         <div>등록된 리뷰가 없습니다.</div>

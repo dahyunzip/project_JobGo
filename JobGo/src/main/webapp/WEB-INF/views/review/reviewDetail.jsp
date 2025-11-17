@@ -95,14 +95,6 @@
 				</dd>
 			</dl>
 			
-			<dl>
-				<dt>조회수</dt>
-				<dd>${reviewDetail.revViewcnt}</dd>
-			</dl>
-			<dl class="w100">
-				<dt>작성 일자</dt>
-				<dd><fmt:formatDate value="${reviewDetail.revRegdate}" pattern="yyyy-MM-dd HH:mm" /></dd>
-			</dl>
 			<dl class="w100">
 				<dt>내용</dt>
 				<dd>${reviewDetail.revContent }</dd>
@@ -114,6 +106,18 @@
 			<dl class="w100">
 				<dt>단점</dt>
 				<dd>${reviewDetail.revCons }</dd>
+			</dl>
+			<dl class="w100">
+				<dt>작성 일자</dt>
+				<dd><fmt:formatDate value="${reviewDetail.revRegdate}" pattern="yyyy-MM-dd HH:mm" /></dd>
+			</dl>
+			<dl class="w100">
+				<dt>수정 일자</dt>
+				<dd><fmt:formatDate value="${reviewDetail.revUpdatedate}" pattern="yyyy-MM-dd HH:mm" /></dd>
+			</dl>
+			<dl>
+				<dt>조회수</dt>
+				<dd>${reviewDetail.revViewcnt}</dd>
 			</dl>
 		</div>
 		<div class="button mt-30 text-right">

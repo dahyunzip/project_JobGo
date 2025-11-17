@@ -104,7 +104,7 @@ $(document).ready(function(){
 	                    <div class="job-card" onclick="location.href='/recboard/recRead?rec_bno=${vo.rec_bno}'">
 	                        <c:choose>
 								<c:when test="${empty vo.thumbFileName}">
-									<img src="/resources/images/default_image.jpg" class="profile-img">
+									<img src="/resources/images/default_image.jpg" class="job-thumb">
 								</c:when>
 								<c:otherwise>
 									<img src="/upload/${vo.thumbFileName}" alt="${vo.rec_title}" class="job-thumb" onerror="this.onerror=null; this.src='/resources/images/default_image.jpg'">
@@ -173,10 +173,10 @@ $(document).ready(function(){
 									<span class="userProf">
 										<c:choose>
 											<c:when test="${empty r.storedFileName}">
-												<img src="/resources/images/default_image.jpg" class="profile-img">
+												<img src="/resources/images/default_image.jpg" class="profile-img" onerror="this.onerror=null; this.src='/resources/images/default_image.jpg'">
 											</c:when>
 											<c:otherwise>
-												<img src="/upload/${r.storedFileName}" class="profile-img">
+												<img src="/upload/${r.storedFileName}" class="profile-img" onerror="this.onerror=null; this.src='/resources/images/default_image.jpg'">
 											</c:otherwise>
 										</c:choose>
 									</span>

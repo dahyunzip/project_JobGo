@@ -29,17 +29,18 @@
 </c:if>
 
 <div class="container">
-	<div class="row">
-		<div class="col-lg-10 offset-lg-1 col-12">
-			<div class="add-resume-inner box">
 
+	<div class="row">
+		<div class="col-lg-12 col-12">
+			<div class="add-resume-inner box">
+				<h2 class="pageTitle">채용공고 수정</h2>
 				<!-- 상단 헤더 -->
-				<div id="com_top" class="post-header align-items-center justify-content-center">
+				<%-- <div id="com_top" class="post-header align-items-center justify-content-center">
 					<h3 id="title">
 						<font dir="auto">${recLoginInfo.corpUserId}</font>
 					</h3>
 				</div>
-				<hr>
+				<hr> --%>
 
 				<!-- 글쓰기 폼 시작 -->
 				<form class="form-ad" method="post" enctype="multipart/form-data">
@@ -85,7 +86,7 @@
 								  placeholder="주요 업무를 입력하세요." rows="5">${resultReadVO.rec_maintask }
 						</textarea>
 						
-						<button type="button" class="btn btn-outline-primary btn-sm gptBtn"
+						<button type="button" class="btn btn-outline-primary btn-sm gptBtn mt-10"
 						        data-target="rec_maintask" data-api="/recboard/gpt/maintask">
 						    ✨ GPT로 주요 업무 첨삭하기
 						</button>
@@ -166,7 +167,7 @@
 								  placeholder="예) 무관, 고졸 이상, 4년제 이상 등 주로 최소 학력 입력" rows="5">${resultReadVO.rec_qualification}
 						</textarea>
 						
-						<button type="button" class="btn btn-outline-primary btn-sm gptBtn"
+						<button type="button" class="btn btn-outline-primary btn-sm gptBtn mt-10"
 						        data-target="rec_qualification" data-api="/recboard/gpt/qualification">
 						    ✨ GPT로 자격 요건 첨삭하기
 						</button>
@@ -186,7 +187,7 @@
 								  placeholder="예) OO관련 전공자 우대, 정보처리기사 우대 등 관련 학력 자격증 입력" rows="5">${resultReadVO.rec_preference}
 						</textarea>
 						
-						<button type="button" class="btn btn-outline-primary btn-sm gptBtn"
+						<button type="button" class="btn btn-outline-primary btn-sm gptBtn mt-10"
 						        data-target="rec_preference" data-api="/recboard/gpt/preference">
 						    ✨ GPT로 우대 사항 첨삭하기
 						</button>
@@ -206,7 +207,7 @@
 								  placeholder="채용시 복지 및 임/직원 지원 항목을 작성하세요." rows="5">${resultReadVO.rec_benefit }
 						</textarea>
 						
-						<button type="button" class="btn btn-outline-primary btn-sm gptBtn"
+						<button type="button" class="btn btn-outline-primary btn-sm gptBtn mt-10"
 						        data-target="rec_benefit" data-api="/recboard/gpt/benefit">
 						    ✨ GPT로 복리 후생 첨삭하기
 						</button>
@@ -229,9 +230,9 @@
 				
 				    <!-- 첨부파일 업로드 -->
 				    <div class="form-group">
-				        <label>회사 정경 이미지 (다중 업로드 가능)</label>
+				        <label>회사 전경 이미지 (다중 업로드 가능)</label>
 				        <input type="file" name="attachFiles" class="form-control" accept="image/*">
-				        <button type="button" id="addBtn" class="btn btn-sm btn-secondary mt-2">➕ 추가하기</button>
+				        <button type="button" id="addBtn" class="btn btn-sm btn-secondary mt-2"><i class="lni lni-plus"></i> 추가하기</button>
 				    </div>
                     <div id="fileDiv">
 			                                    
@@ -243,10 +244,10 @@
 								<label><input type="checkbox" required> 내용을 한번 더 확인했습니다.</label>
 							</div>
 						</div>
-						<div class="col-lg-6 col-md-7 col-12">
-							<div class="add-post-btn float-right">
+						<div class="col-lg-6 col-md-7 col-12 mt-20">
+							<div class="add-post-btn float-right button">
 								<button type="submit" class="btn btn-primary">공고 수정</button>
-								<button type="button" class="btn btn-primary listBtn">목록으로</button>
+								<button type="button" class="btn btn-secondary listBtn">목록으로</button>
 							</div>
 						</div>
 					</div>
@@ -305,7 +306,7 @@
 	
 	    // 파일 추가 버튼
 	    $("#addBtn").click(function() {
-	        $("#fileDiv").append("<div><br><input type='file' name='attachFiles' accept='image/*'></div>");
+	        $("#fileDiv").append("<div><input type='file' name='attachFiles' accept='image/*' class='form-control mb-10'></div>");
 	    });
 	    
 	    $(".listBtn").click(function(){

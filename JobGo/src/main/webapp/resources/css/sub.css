@@ -15,7 +15,8 @@
 #login .button .btn{width:100%;}
 #login .section-title{margin-bottom:50px; padding:0;}
 #login .loginBox{max-width:460px; margin: 0 auto;}
-
+#login .loginSmBtn{display:flex; justify-content:space-between;}
+#login .loginSmBtn a{color:#5a5a5a}
 /* 회원가입 /join */
 .form-join{ padding:0 30px; background:#fff;}
 .agree-box{border-radius: .25em; border:1px solid #ced4da; padding:.375rem .75rem; max-height:250px; overflow-y:scroll}

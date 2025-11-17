@@ -4500,14 +4500,14 @@ blockquote .shape {
   color: #081828;
 }
 
-.add-resume .add-resume-inner .form-ad .form-group input {
+/* .add-resume .add-resume-inner .form-ad .form-group input {
   height: 50px;
   width: 100%;
   padding: 0px 20px;
   border: 1px solid #eee;
   border-radius: 4px;
   font-size: 14px;
-}
+} */
 
 .add-resume .add-resume-inner .form-ad .form-group textarea {
   height: 200px;

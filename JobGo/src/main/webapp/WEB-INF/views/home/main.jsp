@@ -55,7 +55,7 @@ $(document).ready(function(){
 				<c:choose>
 				    <c:when test="${not empty loginMember}">
 				        <div class="user-dashboard">
-				            <h4>${loginMember.name} 님 환영합니다!</h4>
+				            <h4>${loginMember.name} 님 환영합니다! 👋</h4>
 				            <div class="mem">
 				                <span>📄 등록한 이력서</span>
 				                <span><strong onclick="location.href='/resume/list?memberId=${loginMember.id}'">${resumeCount}</strong> 개</span>
@@ -79,7 +79,7 @@ $(document).ready(function(){
 				    </c:when>
 			        <c:when test="${not empty corpUserId}">
 			            <div class="user-dashboard">
-			                <h4>${managerName} 님 환영합니다!</h4>
+			                <h4>${managerName} 님 환영합니다! 👋</h4>
 			            </div>
 			
 			            <ul class="quickMenu">

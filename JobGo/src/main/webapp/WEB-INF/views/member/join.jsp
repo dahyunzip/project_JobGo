@@ -429,7 +429,7 @@
 										<input type="checkbox" class="form-check-input" name="agreeSms" value="Y">
 											약관에 동의합니다.</label>
 									</div>
-									<div class="form-group mb-8 button">
+									<div class="form-group mb-8 button text-center">
 										<button type="submit" class="btn ">회원가입</button>
 									</div>
 								</div>

@@ -10,17 +10,19 @@
         #{email}, #{memberType}, #{verificationCode}, #{createdAt}, #{expiresAt}, #{verified})
     </insert>
     
-    <!-- 가장 최신 인증레코드 조회 -->
-    <select id="selectLatestByEmail" resultType="EmailVerificationVO">
-      SELECT
-        verification_id AS verificationId, email, member_type AS memberType,
-        verification_code AS verificationCode, created_at AS createdAt, expires_at AS expiresAt, verified
-      FROM email_verification
-      WHERE email = #{email}
-      AND member_type = #{memberType}
-      ORDER BY created_at DESC
-      LIMIT 1
-    </select>
+    <!-- 만료되지 않은 최신 인증코드만 조회하도록 개선 -->
+	<select id="selectLatestByEmail" resultType="EmailVerificationVO">
+	  SELECT
+	    verification_id AS verificationId, email, member_type AS memberType,
+	    verification_code AS verificationCode, created_at AS createdAt, 
+	    expires_at AS expiresAt, verified
+	  FROM email_verification
+	  WHERE email = #{email}
+	  AND member_type = #{memberType}
+	  AND expires_at > NOW()  <!-- 만료되지 않은 것만 -->
+	  ORDER BY created_at DESC
+	  LIMIT 1
+	</select>
     
     <!-- 인증완료 상태 업데이트 -->
     <update id="updateVerifiedStatus" >

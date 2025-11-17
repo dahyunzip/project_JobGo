@@ -513,7 +513,7 @@ public class AdminController {
 		if (session.getAttribute("adminSession") == null) {
 			return "redirect:/admin/login";
 		}
-
+		
 		NoticeVO notice = adminService.getNotice(noticeId);
 		model.addAttribute("notice", notice);
 

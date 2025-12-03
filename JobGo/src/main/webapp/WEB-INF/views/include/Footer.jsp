@@ -25,7 +25,7 @@
 		</div>
 	</div>
 	<!--/ End Footer Middle -->
-	<%-- <!-- Start Footer Bottom -->
+	<!-- Start Footer Bottom -->
 	<div class="footer-bottom">
 		<div class="container">
 			<div class="inner">
@@ -41,7 +41,6 @@
 			</div>
 		</div>
 	</div>
-	End Footer Middle --%>
 </footer>
 <!--/ End Footer Area -->
 

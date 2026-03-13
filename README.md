@@ -29,7 +29,6 @@
 - `OpenAI API (ChatGPT)` : 구인 공고 생성 및 맞춤법 교정
 - `Kakao Map / Local API` : 위치 기반 정보 시각화
 - `Naver Login API` : 소셜 로그인 기반 인증
-- `금융결제원 오픈 API` : [핀테크 기능 짧게 설명, 예: 결제 연동]
 
 <br>
 
